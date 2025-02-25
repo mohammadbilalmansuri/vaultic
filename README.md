@@ -15,7 +15,7 @@ Vaultic is a secure, web-based cryptocurrency wallet designed for **Solana and E
 ## Tech Stack
 
 - **Frontend:** Next.js (React)
-- **Styling:** Tailwind CSS v4
+- **Styling:** Tailwind CSS
 - **State Management:** React Context, Zustand (for wallet state)
 - **Data Fetching:** React Query
 - **Blockchain Interaction:** Alchemy RPC (Solana & Ethereum)
