@@ -8,20 +8,12 @@ export default {
   ],
   darkMode: "class",
   theme: {
-    extend: {
-      colors: {
-        primary: {
-          100: "#0e0f14",
-          75: "#14151b",
-          50: "#202127",
-        },
-        secondary: {
-          100: "#969faf",
-          75: "#75798a",
-          50: "#f4f4f6",
-        },
-      },
+    screens: {
+      xs: "480px",
+      sm: "660px",
+      md: "840px",
+      lg: "1024px",
     },
+    extend: {},
   },
-  plugins: [],
 } satisfies Config;
