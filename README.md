@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vaultic – Your Crypto, Fortified.
 
-## Getting Started
+Vaultic is a secure, web-based cryptocurrency wallet designed for **Solana and Ethereum**. Built with **Next.js** and powered by **Alchemy RPC**, Vaultic enables users to **create and manage multiple wallets, send and receive funds, and recover accounts using seed phrases**—all without relying on a backend.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **HD Wallet Support** – Create and manage multiple Solana and Ethereum wallets.
+- **Seed Phrase Recovery** – Securely import existing wallets using a mnemonic phrase.
+- **New Wallet Creation** – Generate fresh Solana and Ethereum wallets instantly.
+- **Balance Display** – View real-time balances for all connected wallets.
+- **Send & Receive Transactions** – Effortlessly transfer assets across supported chains.
+- **Non-Custodial & Secure** – Users retain full control over their private keys.
+- **No Backend Required** – Directly interacts with the blockchain via Alchemy RPC.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend:** Next.js (React)
+- **Styling:** Tailwind CSS v4
+- **State Management:** React Context, Zustand (for wallet state)
+- **Data Fetching:** React Query
+- **Blockchain Interaction:** Alchemy RPC (Solana & Ethereum)
+- **Wallet Management:** Solana Wallet Adapter, ethers.js, bip39 for HD wallets
