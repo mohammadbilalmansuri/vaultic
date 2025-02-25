@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Ubuntu } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider, Header } from "@/components";
+import { ThemeProvider, Header, Footer } from "@/components";
 
 const ubuntu = Ubuntu({
   weight: ["300", "400", "500", "700"],
@@ -29,11 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${ubuntu.className} antialiased w-full relative flex flex-col items-center dark:bg-zinc-900 dark:text-zinc-100 bg-zinc-100 text-zinc-900`}
+        className={`${ubuntu.className} antialiased w-full min-h-dvh relative flex flex-col items-center dark:bg-zinc-900 dark:text-zinc-100 bg-zinc-100 text-zinc-900`}
       >
         <ThemeProvider>
           <Header />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

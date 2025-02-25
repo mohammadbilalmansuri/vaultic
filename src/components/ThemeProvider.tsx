@@ -21,5 +21,9 @@ export default function ThemeProvider({
 
   if (!hydrated) return null;
 
-  return <>{children}</>;
+  return (
+    <div className="size-full min-h-dvh relative flex flex-col items-center justify-between">
+      {children}
+    </div>
+  );
 }
