@@ -14,6 +14,10 @@ export default {
       md: "840px",
       lg: "1024px",
     },
-    extend: {},
+    extend: {
+      borderWidth: {
+        1.5: "1.5px",
+      },
+    },
   },
 } satisfies Config;
