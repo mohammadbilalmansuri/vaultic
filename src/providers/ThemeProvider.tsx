@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import useThemeStore from "@/store/themeStore";
+import useThemeStore from "@/store/theme";
 
 export default function ThemeProvider({
   children,
@@ -22,7 +22,7 @@ export default function ThemeProvider({
   if (!hydrated) return null;
 
   return (
-    <div className="size-full min-h-dvh relative flex flex-col items-center justify-between">
+    <div className="w-full min-h-dvh relative flex flex-col items-center justify-between">
       {children}
     </div>
   );
