@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Welcome,
   SelectNetwork,
@@ -9,21 +10,37 @@ import {
   CreatePassword,
   Completion,
 } from "@/components";
-import { useOnboardingStore } from "@/store/onboarding";
 import cn from "@/utils/cn";
 
+export type TStep = 1 | 2 | 3 | 4 | 5 | 6;
+export type TPath = "create" | "import" | null;
+export type TNetwork = "solana" | "ethereum" | null;
+
 export default function Page() {
-  const { step, path } = useOnboardingStore();
+  const [step, setStep] = useState<TStep>(1);
+  const [path, setPath] = useState<TPath>(null);
+  const [network, setNetwork] = useState<TNetwork>(null);
+
   const stepsArray = path === "create" ? [1, 2, 3, 4, 5, 6] : [1, 2, 3, 4, 5];
 
   const renderStepComponent = () => {
     switch (step) {
       case 1:
-        return <Welcome />;
+        return <Welcome setStep={setStep} setPath={setPath} />;
       case 2:
-        return <SelectNetwork />;
+        return (
+          <SelectNetwork
+            path={path}
+            setStep={setStep}
+            setNetwork={setNetwork}
+          />
+        );
       case 3:
-        return path === "create" ? <Agreement /> : <ImportWallet />;
+        return path === "create" ? (
+          <Agreement setStep={setStep} />
+        ) : (
+          <ImportWallet />
+        );
       case 4:
         return path === "create" ? <GenerateWallet /> : null;
       case 5:
