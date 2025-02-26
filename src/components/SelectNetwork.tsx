@@ -24,8 +24,10 @@ export default function SelectNetwork({
       exit={{ scale: 0.8, opacity: 0 }}
       className="w-full relative max-w-lg flex flex-col items-center text-center gap-4 border-1.5 border-color rounded-2xl p-16"
     >
-      <h1 className="text-4xl font-medium -mt-1">Select Network</h1>
-      <p className="text-lg dark:text-zinc-400 text-zinc-500 pb-3">
+      <h1 className="text-4xl font-medium heading-color -mt-1">
+        Select Network
+      </h1>
+      <p className="text-lg pb-3">
         Vaultic supports both Solana and Ethereum networks. Which one would you
         like to use? You can add more later.
       </p>
