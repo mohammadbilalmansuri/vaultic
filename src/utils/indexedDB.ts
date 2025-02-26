@@ -1,68 +1,80 @@
-export const openDB = (): Promise<IDBDatabase> => {
+const DB_NAME = "walletDB";
+const STORE_NAME = "walletStore";
+
+export interface WalletData {
+  id: string;
+  encryptedMnemonic: string;
+  wallets: {
+    ethereum: number;
+    solana: number;
+  };
+  hashedPassword: string;
+}
+
+let dbInstance: IDBDatabase | null = null;
+
+async function initDB(): Promise<IDBDatabase> {
+  if (dbInstance) return dbInstance;
+
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open("cryptoWalletDB", 1);
+    const request = indexedDB.open(DB_NAME, 1);
 
     request.onupgradeneeded = (event) => {
       const db = (event.target as IDBOpenDBRequest).result;
-
-      if (!db.objectStoreNames.contains("walletStore")) {
-        db.createObjectStore("walletStore");
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME);
       }
     };
 
-    request.onsuccess = () => resolve(request.result);
+    request.onsuccess = () => {
+      dbInstance = request.result;
+      resolve(dbInstance);
+    };
+
     request.onerror = () => reject(request.error);
   });
-};
+}
 
-// Store data in IndexedDB
-export const setItem = async <T>(key: string, value: T): Promise<void> => {
-  try {
-    const db = await openDB();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction("walletStore", "readwrite");
-      const store = tx.objectStore("walletStore");
-      store.put(value, key);
+export async function saveWalletData(data: WalletData): Promise<void> {
+  const db = await initDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.put(data, "walletData");
 
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-    });
-  } catch (error) {
-    console.error("IndexedDB setItem Error:", error);
-  }
-};
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+}
 
-// Retrieve data from IndexedDB
-export const getItem = async <T>(key: string): Promise<T | null> => {
-  try {
-    const db = await openDB();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction("walletStore", "readonly");
-      const store = tx.objectStore("walletStore");
-      const request = store.get(key);
+export async function getWalletData(): Promise<WalletData | null> {
+  const db = await initDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readonly");
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.get("walletData");
 
-      request.onsuccess = () => resolve(request.result as T | null);
-      request.onerror = () => reject(request.error);
-    });
-  } catch (error) {
-    console.error("IndexedDB getItem Error:", error);
-    return null;
-  }
-};
+    request.onsuccess = () => resolve(request.result || null);
+    request.onerror = () => reject(request.error);
+  });
+}
 
-// Delete data from IndexedDB
-export const deleteItem = async (key: string): Promise<void> => {
-  try {
-    const db = await openDB();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction("walletStore", "readwrite");
-      const store = tx.objectStore("walletStore");
-      store.delete(key);
+export async function deleteWalletData(): Promise<void> {
+  const db = await initDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
+    const request = store.delete("walletData");
 
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-    });
-  } catch (error) {
-    console.error("IndexedDB deleteItem Error:", error);
-  }
-};
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+}
+
+export async function clearIndexedDB(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.deleteDatabase(DB_NAME);
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+}

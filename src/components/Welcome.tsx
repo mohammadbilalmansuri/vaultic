@@ -1,12 +1,16 @@
 "use client";
 
+import { Dispatch, SetStateAction } from "react";
 import { motion } from "framer-motion";
 import Button from "./ui/button";
-import { useOnboardingStore } from "@/store/onboarding";
+import { TStep, TPath } from "@/app/page";
 
-export default function Welcome() {
-  const { setStep, setPath } = useOnboardingStore();
+type WelcomeProps = {
+  setPath: Dispatch<SetStateAction<TPath>>;
+  setStep: Dispatch<SetStateAction<TStep>>;
+};
 
+export default function Welcome({ setPath, setStep }: WelcomeProps) {
   return (
     <motion.div
       initial={{ scale: 0.9, opacity: 0 }}

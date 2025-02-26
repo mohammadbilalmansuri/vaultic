@@ -1,12 +1,21 @@
 "use client";
 
+import { Dispatch, SetStateAction } from "react";
 import { motion } from "framer-motion";
 import Button from "./ui/button";
-import { useOnboardingStore } from "@/store/onboarding";
+import { TStep, TPath, TNetwork } from "@/app/page";
 
-export default function SelectNetwork() {
-  const { setNetwork, setStep, path } = useOnboardingStore();
+type SelectNetworkProps = {
+  path: TPath;
+  setStep: Dispatch<SetStateAction<TStep>>;
+  setNetwork: Dispatch<SetStateAction<TNetwork>>;
+};
 
+export default function SelectNetwork({
+  path,
+  setStep,
+  setNetwork,
+}: SelectNetworkProps) {
   return (
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}

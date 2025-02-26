@@ -1,14 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import cn from "@/utils/cn";
 import { motion } from "framer-motion";
 import Button from "./ui/button";
 import Switch from "./ui/switch";
-import { useOnboardingStore } from "@/store/onboarding";
+import { TStep } from "@/app/page";
 
-export default function Agreement() {
-  const { setStep } = useOnboardingStore();
+type AgreementProps = {
+  setStep: Dispatch<SetStateAction<TStep>>;
+};
+
+export default function Agreement({ setStep }: AgreementProps) {
   const [agree, setAgree] = useState(false);
 
   return (
