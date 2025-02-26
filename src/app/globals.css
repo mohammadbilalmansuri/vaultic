@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  ::selection {
+    @apply bg-teal-500 text-zinc-100;
+  }
+}
+
 @layer components {
   .border-color {
     @apply border-zinc-300 dark:border-zinc-700;
