@@ -1,17 +1,19 @@
-export type TArg =
+export type TArgs =
   | string
   | Record<string, boolean>
   | Array<string | Record<string, boolean>>;
 
-const cn = (...args: TArg[]): string =>
+const cn = (...args: TArgs[]): string =>
   args
     .flat(Infinity)
-    .filter(Boolean)
     .flatMap((item) =>
       typeof item === "object" && !Array.isArray(item)
-        ? Object.keys(item).filter((key) => item[key as keyof typeof item])
+        ? Object.entries(item)
+            .filter(([, value]) => Boolean(value))
+            .map(([key]) => key)
         : item
     )
+    .filter(Boolean)
     .join(" ");
 
 export default cn;
