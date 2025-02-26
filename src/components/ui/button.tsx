@@ -25,10 +25,13 @@ export default function Button({
   ...props
 }: ButtonProps): JSX.Element {
   const classes = cn(
-    "tracking-[0.01em] px-6 py-4 leading-none rounded-xl transition-all duration-200 border-1.5 relative hover:scale-[0.98] active:scale-100",
-    variant === "secondary"
-      ? "dark:bg-zinc-800 bg-zinc-200 text-zinc-900 dark:text-zinc-100 dark:border-zinc-700 border-zinc-300"
-      : "bg-teal-500 text-zinc-900 dark:border-teal-300 border-teal-600",
+    "tracking-[0.01em] px-5 py-4 leading-none rounded-xl transition-all duration-200 border-[1.5px] relative hover:scale-[0.98] active:scale-[1.02]",
+    {
+      "dark:bg-zinc-800 bg-zinc-200 text-zinc-900 dark:text-zinc-100 dark:border-zinc-700 border-zinc-300":
+        variant === "secondary",
+      "bg-teal-500 text-zinc-900 dark:border-teal-300 border-teal-600":
+        variant !== "secondary",
+    },
     className
   );
 
