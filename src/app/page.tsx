@@ -1,37 +1,423 @@
-import { Button } from "@/components";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+import { Button } from "@/components";
+import { motion } from "framer-motion";
+import cn from "@/utils/cn";
+
+export default function page() {
+  const [path, setPath] = useState<"create" | "import" | null>(null);
+  const [step, setStep] = useState(1);
+  const [network, setNetwork] = useState<"solana" | "ethereum" | null>(null);
+
   return (
-    <div className="w-full relative max-w-lg flex flex-col items-center text-center gap-4 border-1.5 border-color rounded-2xl p-16">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 448 512"
-        className="size-20 fill-teal-500 -mt-1"
-      >
-        <path d="M156.8 126.8c37.6 60.6 64.2 113.1 84.3 162.5-8.3 33.8-18.8 66.5-31.3 98.3-13.2-52.3-26.5-101.3-56-148.5 6.5-36.4 2.3-73.6 3-112.3zM109.3 200H16.1c-6.5 0-10.5 7.5-6.5 12.7C51.8 267 81.3 330.5 101.3 400h103.5c-16.2-69.7-38.7-133.7-82.5-193.5-3-4-8-6.5-13-6.5zm47.8-88c68.5 108 130 234.5 138.2 368H409c-12-138-68.4-265-143.2-368H157.1zm251.8-68.5c-1.8-6.8-8.2-11.5-15.2-11.5h-88.3c-5.3 0-9 5-7.8 10.3 13.2 46.5 22.3 95.5 26.5 146 48.2 86.2 79.7 178.3 90.6 270.8 15.8-60.5 25.3-133.5 25.3-203 0-73.6-12.1-145.1-31.1-212.6z" />
-      </svg>
-      <h3 className="text-lg text-teal-500">Welcome to Vaultic</h3>
-      <h1 className="text-4xl font-medium">Let's get started</h1>
-      <p className="text-lg dark:text-zinc-400 text-zinc-500 pb-4">
-        Vaultic is a secure, web-based cryptocurrency wallet supporting Solana
-        and Ethereum.
-      </p>
-      <Button
-        as="link"
-        href="/create-wallet"
-        variant="primary"
-        className="w-2/3"
-      >
-        Create a new wallet
-      </Button>
-      <Button
-        as="link"
-        href="/import-wallet"
-        variant="secondary"
-        className="w-2/3"
-      >
-        Import wallet
-      </Button>
+    <div className="flex flex-col items-center gap-8">
+      {step === 1 && (
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+          className="w-full relative max-w-lg flex flex-col items-center text-center gap-4 border-1.5 border-color rounded-2xl p-16"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+            className="size-20 fill-teal-500 -mt-1"
+          >
+            <path d="M156.8 126.8c37.6 60.6 64.2 113.1 84.3 162.5-8.3 33.8-18.8 66.5-31.3 98.3-13.2-52.3-26.5-101.3-56-148.5 6.5-36.4 2.3-73.6 3-112.3zM109.3 200H16.1c-6.5 0-10.5 7.5-6.5 12.7C51.8 267 81.3 330.5 101.3 400h103.5c-16.2-69.7-38.7-133.7-82.5-193.5-3-4-8-6.5-13-6.5zm47.8-88c68.5 108 130 234.5 138.2 368H409c-12-138-68.4-265-143.2-368H157.1zm251.8-68.5c-1.8-6.8-8.2-11.5-15.2-11.5h-88.3c-5.3 0-9 5-7.8 10.3 13.2 46.5 22.3 95.5 26.5 146 48.2 86.2 79.7 178.3 90.6 270.8 15.8-60.5 25.3-133.5 25.3-203 0-73.6-12.1-145.1-31.1-212.6z" />
+          </svg>
+          <h3 className="text-lg text-teal-500">Welcome to Vaultic</h3>
+          <h1 className="text-4xl font-medium">Let's get started</h1>
+          <p className="text-lg dark:text-zinc-400 text-zinc-500 pb-4">
+            Vaultic is a secure, web-based cryptocurrency wallet supporting
+            Solana and Ethereum.
+          </p>
+          <Button
+            variant="primary"
+            className="w-64"
+            onClick={() => {
+              setPath("create");
+              setStep(2);
+            }}
+          >
+            Create a new wallet
+          </Button>
+          <Button
+            variant="secondary"
+            className="w-64"
+            onClick={() => {
+              setPath("import");
+              setStep(2);
+            }}
+          >
+            Import wallet
+          </Button>
+        </motion.div>
+      )}
+
+      {step === 2 && (
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+          className="w-full relative max-w-lg flex flex-col items-center text-center gap-4 border-1.5 border-color rounded-2xl p-16"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+            className="size-20 fill-teal-500 -mt-1"
+          >
+            <path d="M156.8 126.8c37.6 60.6 64.2 113.1 84.3 162.5-8.3 33.8-18.8 66.5-31.3 98.3-13.2-52.3-26.5-101.3-56-148.5 6.5-36.4 2.3-73.6 3-112.3zM109.3 200H16.1c-6.5 0-10.5 7.5-6.5 12.7C51.8 267 81.3 330.5 101.3 400h103.5c-16.2-69.7-38.7-133.7-82.5-193.5-3-4-8-6.5-13-6.5zm47.8-88c68.5 108 130 234.5 138.2 368H409c-12-138-68.4-265-143.2-368H157.1zm251.8-68.5c-1.8-6.8-8.2-11.5-15.2-11.5h-88.3c-5.3 0-9 5-7.8 10.3 13.2 46.5 22.3 95.5 26.5 146 48.2 86.2 79.7 178.3 90.6 270.8 15.8-60.5 25.3-133.5 25.3-203 0-73.6-12.1-145.1-31.1-212.6z" />
+          </svg>
+          <h1 className="text-4xl font-medium">Select Network</h1>
+          <p className="text-lg dark:text-zinc-400 text-zinc-500 pb-4">
+            Vaultic supports both Solana and Ethereum networks. Which one would
+            you like to use? You can add more later.
+          </p>
+
+          <div className="flex items-center gap-4">
+            <Button
+              variant="secondary"
+              className="flex items-center gap-2.5"
+              onClick={() => setNetwork("solana")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 101 88"
+                className="size-5"
+              >
+                <path
+                  d="M100.48 69.3817L83.8068 86.8015C83.4444 87.1799 83.0058 87.4816 82.5185 87.6878C82.0312 87.894 81.5055 88.0003 80.9743 88H1.93563C1.55849 88 1.18957 87.8926 0.874202 87.6912C0.558829 87.4897 0.31074 87.2029 0.160416 86.8659C0.0100923 86.529 -0.0359181 86.1566 0.0280382 85.7945C0.0919944 85.4324 0.263131 85.0964 0.520422 84.8278L17.2061 67.408C17.5676 67.0306 18.0047 66.7295 18.4904 66.5234C18.9762 66.3172 19.5002 66.2104 20.0301 66.2095H99.0644C99.4415 66.2095 99.8104 66.3169 100.126 66.5183C100.441 66.7198 100.689 67.0067 100.84 67.3436C100.99 67.6806 101.036 68.0529 100.972 68.415C100.908 68.7771 100.737 69.1131 100.48 69.3817ZM83.8068 34.3032C83.4444 33.9248 83.0058 33.6231 82.5185 33.4169C82.0312 33.2108 81.5055 33.1045 80.9743 33.1048H1.93563C1.55849 33.1048 1.18957 33.2121 0.874202 33.4136C0.558829 33.6151 0.31074 33.9019 0.160416 34.2388C0.0100923 34.5758 -0.0359181 34.9482 0.0280382 35.3103C0.0919944 35.6723 0.263131 36.0083 0.520422 36.277L17.2061 53.6968C17.5676 54.0742 18.0047 54.3752 18.4904 54.5814C18.9762 54.7875 19.5002 54.8944 20.0301 54.8952H99.0644C99.4415 54.8952 99.8104 54.7879 100.126 54.5864C100.441 54.3849 100.689 54.0981 100.84 53.7612C100.99 53.4242 101.036 53.0518 100.972 52.6897C100.908 52.3277 100.737 51.9917 100.48 51.723L83.8068 34.3032ZM1.93563 21.7905H80.9743C81.5055 21.7907 82.0312 21.6845 82.5185 21.4783C83.0058 21.2721 83.4444 20.9704 83.8068 20.592L100.48 3.17219C100.737 2.90357 100.908 2.56758 100.972 2.2055C101.036 1.84342 100.99 1.47103 100.84 1.13408C100.689 0.79713 100.441 0.510296 100.126 0.308823C99.8104 0.107349 99.4415 1.24074e-05 99.0644 0L20.0301 0C19.5002 0.000878397 18.9762 0.107699 18.4904 0.313848C18.0047 0.519998 17.5676 0.821087 17.2061 1.19848L0.524723 18.6183C0.267681 18.8866 0.0966198 19.2223 0.0325185 19.5839C-0.0315829 19.9456 0.0140624 20.3177 0.163856 20.6545C0.31365 20.9913 0.561081 21.2781 0.875804 21.4799C1.19053 21.6817 1.55886 21.7896 1.93563 21.7905Z"
+                  fill="url(#paint0_linear_174_4403)"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_174_4403"
+                    x1="8.52558"
+                    y1="90.0973"
+                    x2="88.9933"
+                    y2="-3.01622"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop offset="0.08" stopColor="#9945FF" />
+                    <stop offset="0.3" stopColor="#8752F3" />
+                    <stop offset="0.5" stopColor="#5497D5" />
+                    <stop offset="0.6" stopColor="#43B4CA" />
+                    <stop offset="0.72" stopColor="#28E0B9" />
+                    <stop offset="0.97" stopColor="#19FB9B" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <span className="mt-px">Solana</span>
+            </Button>
+
+            <Button
+              variant="secondary"
+              className="flex items-center gap-2"
+              onClick={() => setNetwork("ethereum")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 115 182"
+                className="size-5 -ml-0.5"
+              >
+                <path
+                  fill="#F0CDC2"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M57.505 181v-45.16L1.641 103.171z"
+                />
+                <path
+                  fill="#C9B3F5"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M57.69 181v-45.16l55.865-32.669z"
+                />
+                <path
+                  fill="#88AAF1"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M57.506 124.615V66.979L1 92.28z"
+                />
+                <path
+                  fill="#C9B3F5"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M57.69 124.615V66.979l56.506 25.302z"
+                />
+                <path
+                  fill="#F0CDC2"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M1 92.281 57.505 1v65.979z"
+                />
+                <path
+                  fill="#B8FAF6"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M114.196 92.281 57.691 1v65.979z"
+                />
+              </svg>
+              <span className="mt-px">Ethereum</span>
+            </Button>
+          </div>
+        </motion.div>
+      )}
+
+      {step === 3 && path === "create" && (
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+          className="w-full relative max-w-lg flex flex-col items-center text-center gap-4 border-1.5 border-color rounded-2xl p-16"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+            className="size-20 fill-teal-500 -mt-1"
+          >
+            <path d="M156.8 126.8c37.6 60.6 64.2 113.1 84.3 162.5-8.3 33.8-18.8 66.5-31.3 98.3-13.2-52.3-26.5-101.3-56-148.5 6.5-36.4 2.3-73.6 3-112.3zM109.3 200H16.1c-6.5 0-10.5 7.5-6.5 12.7C51.8 267 81.3 330.5 101.3 400h103.5c-16.2-69.7-38.7-133.7-82.5-193.5-3-4-8-6.5-13-6.5zm47.8-88c68.5 108 130 234.5 138.2 368H409c-12-138-68.4-265-143.2-368H157.1zm251.8-68.5c-1.8-6.8-8.2-11.5-15.2-11.5h-88.3c-5.3 0-9 5-7.8 10.3 13.2 46.5 22.3 95.5 26.5 146 48.2 86.2 79.7 178.3 90.6 270.8 15.8-60.5 25.3-133.5 25.3-203 0-73.6-12.1-145.1-31.1-212.6z" />
+          </svg>
+          <h1 className="text-4xl font-medium">Select Network</h1>
+          <p className="text-lg dark:text-zinc-400 text-zinc-500 pb-4">
+            Vaultic supports both Solana and Ethereum networks. Which one would
+            you like to use? You can add more later.
+          </p>
+
+          <div className="flex items-center gap-4">
+            <Button
+              variant="secondary"
+              className="flex items-center gap-2.5"
+              onClick={() => setNetwork("solana")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 101 88"
+                className="size-5"
+              >
+                <path
+                  d="M100.48 69.3817L83.8068 86.8015C83.4444 87.1799 83.0058 87.4816 82.5185 87.6878C82.0312 87.894 81.5055 88.0003 80.9743 88H1.93563C1.55849 88 1.18957 87.8926 0.874202 87.6912C0.558829 87.4897 0.31074 87.2029 0.160416 86.8659C0.0100923 86.529 -0.0359181 86.1566 0.0280382 85.7945C0.0919944 85.4324 0.263131 85.0964 0.520422 84.8278L17.2061 67.408C17.5676 67.0306 18.0047 66.7295 18.4904 66.5234C18.9762 66.3172 19.5002 66.2104 20.0301 66.2095H99.0644C99.4415 66.2095 99.8104 66.3169 100.126 66.5183C100.441 66.7198 100.689 67.0067 100.84 67.3436C100.99 67.6806 101.036 68.0529 100.972 68.415C100.908 68.7771 100.737 69.1131 100.48 69.3817ZM83.8068 34.3032C83.4444 33.9248 83.0058 33.6231 82.5185 33.4169C82.0312 33.2108 81.5055 33.1045 80.9743 33.1048H1.93563C1.55849 33.1048 1.18957 33.2121 0.874202 33.4136C0.558829 33.6151 0.31074 33.9019 0.160416 34.2388C0.0100923 34.5758 -0.0359181 34.9482 0.0280382 35.3103C0.0919944 35.6723 0.263131 36.0083 0.520422 36.277L17.2061 53.6968C17.5676 54.0742 18.0047 54.3752 18.4904 54.5814C18.9762 54.7875 19.5002 54.8944 20.0301 54.8952H99.0644C99.4415 54.8952 99.8104 54.7879 100.126 54.5864C100.441 54.3849 100.689 54.0981 100.84 53.7612C100.99 53.4242 101.036 53.0518 100.972 52.6897C100.908 52.3277 100.737 51.9917 100.48 51.723L83.8068 34.3032ZM1.93563 21.7905H80.9743C81.5055 21.7907 82.0312 21.6845 82.5185 21.4783C83.0058 21.2721 83.4444 20.9704 83.8068 20.592L100.48 3.17219C100.737 2.90357 100.908 2.56758 100.972 2.2055C101.036 1.84342 100.99 1.47103 100.84 1.13408C100.689 0.79713 100.441 0.510296 100.126 0.308823C99.8104 0.107349 99.4415 1.24074e-05 99.0644 0L20.0301 0C19.5002 0.000878397 18.9762 0.107699 18.4904 0.313848C18.0047 0.519998 17.5676 0.821087 17.2061 1.19848L0.524723 18.6183C0.267681 18.8866 0.0966198 19.2223 0.0325185 19.5839C-0.0315829 19.9456 0.0140624 20.3177 0.163856 20.6545C0.31365 20.9913 0.561081 21.2781 0.875804 21.4799C1.19053 21.6817 1.55886 21.7896 1.93563 21.7905Z"
+                  fill="url(#paint0_linear_174_4403)"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_174_4403"
+                    x1="8.52558"
+                    y1="90.0973"
+                    x2="88.9933"
+                    y2="-3.01622"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop offset="0.08" stopColor="#9945FF" />
+                    <stop offset="0.3" stopColor="#8752F3" />
+                    <stop offset="0.5" stopColor="#5497D5" />
+                    <stop offset="0.6" stopColor="#43B4CA" />
+                    <stop offset="0.72" stopColor="#28E0B9" />
+                    <stop offset="0.97" stopColor="#19FB9B" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <span className="mt-px">Solana</span>
+            </Button>
+
+            <Button
+              variant="secondary"
+              className="flex items-center gap-2"
+              onClick={() => setNetwork("ethereum")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 115 182"
+                className="size-5 -ml-0.5"
+              >
+                <path
+                  fill="#F0CDC2"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M57.505 181v-45.16L1.641 103.171z"
+                />
+                <path
+                  fill="#C9B3F5"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M57.69 181v-45.16l55.865-32.669z"
+                />
+                <path
+                  fill="#88AAF1"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M57.506 124.615V66.979L1 92.28z"
+                />
+                <path
+                  fill="#C9B3F5"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M57.69 124.615V66.979l56.506 25.302z"
+                />
+                <path
+                  fill="#F0CDC2"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M1 92.281 57.505 1v65.979z"
+                />
+                <path
+                  fill="#B8FAF6"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M114.196 92.281 57.691 1v65.979z"
+                />
+              </svg>
+              <span className="mt-px">Ethereum</span>
+            </Button>
+          </div>
+        </motion.div>
+      )}
+
+      {step === 3 && path === "import" && (
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          exit={{ scale: 0.8, opacity: 0 }}
+          className="w-full relative max-w-lg flex flex-col items-center text-center gap-4 border-1.5 border-color rounded-2xl p-16"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+            className="size-20 fill-teal-500 -mt-1"
+          >
+            <path d="M156.8 126.8c37.6 60.6 64.2 113.1 84.3 162.5-8.3 33.8-18.8 66.5-31.3 98.3-13.2-52.3-26.5-101.3-56-148.5 6.5-36.4 2.3-73.6 3-112.3zM109.3 200H16.1c-6.5 0-10.5 7.5-6.5 12.7C51.8 267 81.3 330.5 101.3 400h103.5c-16.2-69.7-38.7-133.7-82.5-193.5-3-4-8-6.5-13-6.5zm47.8-88c68.5 108 130 234.5 138.2 368H409c-12-138-68.4-265-143.2-368H157.1zm251.8-68.5c-1.8-6.8-8.2-11.5-15.2-11.5h-88.3c-5.3 0-9 5-7.8 10.3 13.2 46.5 22.3 95.5 26.5 146 48.2 86.2 79.7 178.3 90.6 270.8 15.8-60.5 25.3-133.5 25.3-203 0-73.6-12.1-145.1-31.1-212.6z" />
+          </svg>
+          <h1 className="text-4xl font-medium">Select Network</h1>
+          <p className="text-lg dark:text-zinc-400 text-zinc-500 pb-4">
+            Vaultic supports both Solana and Ethereum networks. Which one would
+            you like to use? You can add more later.
+          </p>
+
+          <div className="flex items-center gap-4">
+            <Button
+              variant="secondary"
+              className="flex items-center gap-2.5"
+              onClick={() => setNetwork("solana")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 101 88"
+                className="size-5"
+              >
+                <path
+                  d="M100.48 69.3817L83.8068 86.8015C83.4444 87.1799 83.0058 87.4816 82.5185 87.6878C82.0312 87.894 81.5055 88.0003 80.9743 88H1.93563C1.55849 88 1.18957 87.8926 0.874202 87.6912C0.558829 87.4897 0.31074 87.2029 0.160416 86.8659C0.0100923 86.529 -0.0359181 86.1566 0.0280382 85.7945C0.0919944 85.4324 0.263131 85.0964 0.520422 84.8278L17.2061 67.408C17.5676 67.0306 18.0047 66.7295 18.4904 66.5234C18.9762 66.3172 19.5002 66.2104 20.0301 66.2095H99.0644C99.4415 66.2095 99.8104 66.3169 100.126 66.5183C100.441 66.7198 100.689 67.0067 100.84 67.3436C100.99 67.6806 101.036 68.0529 100.972 68.415C100.908 68.7771 100.737 69.1131 100.48 69.3817ZM83.8068 34.3032C83.4444 33.9248 83.0058 33.6231 82.5185 33.4169C82.0312 33.2108 81.5055 33.1045 80.9743 33.1048H1.93563C1.55849 33.1048 1.18957 33.2121 0.874202 33.4136C0.558829 33.6151 0.31074 33.9019 0.160416 34.2388C0.0100923 34.5758 -0.0359181 34.9482 0.0280382 35.3103C0.0919944 35.6723 0.263131 36.0083 0.520422 36.277L17.2061 53.6968C17.5676 54.0742 18.0047 54.3752 18.4904 54.5814C18.9762 54.7875 19.5002 54.8944 20.0301 54.8952H99.0644C99.4415 54.8952 99.8104 54.7879 100.126 54.5864C100.441 54.3849 100.689 54.0981 100.84 53.7612C100.99 53.4242 101.036 53.0518 100.972 52.6897C100.908 52.3277 100.737 51.9917 100.48 51.723L83.8068 34.3032ZM1.93563 21.7905H80.9743C81.5055 21.7907 82.0312 21.6845 82.5185 21.4783C83.0058 21.2721 83.4444 20.9704 83.8068 20.592L100.48 3.17219C100.737 2.90357 100.908 2.56758 100.972 2.2055C101.036 1.84342 100.99 1.47103 100.84 1.13408C100.689 0.79713 100.441 0.510296 100.126 0.308823C99.8104 0.107349 99.4415 1.24074e-05 99.0644 0L20.0301 0C19.5002 0.000878397 18.9762 0.107699 18.4904 0.313848C18.0047 0.519998 17.5676 0.821087 17.2061 1.19848L0.524723 18.6183C0.267681 18.8866 0.0966198 19.2223 0.0325185 19.5839C-0.0315829 19.9456 0.0140624 20.3177 0.163856 20.6545C0.31365 20.9913 0.561081 21.2781 0.875804 21.4799C1.19053 21.6817 1.55886 21.7896 1.93563 21.7905Z"
+                  fill="url(#paint0_linear_174_4403)"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_174_4403"
+                    x1="8.52558"
+                    y1="90.0973"
+                    x2="88.9933"
+                    y2="-3.01622"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop offset="0.08" stopColor="#9945FF" />
+                    <stop offset="0.3" stopColor="#8752F3" />
+                    <stop offset="0.5" stopColor="#5497D5" />
+                    <stop offset="0.6" stopColor="#43B4CA" />
+                    <stop offset="0.72" stopColor="#28E0B9" />
+                    <stop offset="0.97" stopColor="#19FB9B" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <span className="mt-px">Solana</span>
+            </Button>
+
+            <Button
+              variant="secondary"
+              className="flex items-center gap-2"
+              onClick={() => setNetwork("ethereum")}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 115 182"
+                className="size-5 -ml-0.5"
+              >
+                <path
+                  fill="#F0CDC2"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M57.505 181v-45.16L1.641 103.171z"
+                />
+                <path
+                  fill="#C9B3F5"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M57.69 181v-45.16l55.865-32.669z"
+                />
+                <path
+                  fill="#88AAF1"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M57.506 124.615V66.979L1 92.28z"
+                />
+                <path
+                  fill="#C9B3F5"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M57.69 124.615V66.979l56.506 25.302z"
+                />
+                <path
+                  fill="#F0CDC2"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M1 92.281 57.505 1v65.979z"
+                />
+                <path
+                  fill="#B8FAF6"
+                  stroke="#1616B4"
+                  strokeLinejoin="round"
+                  d="M114.196 92.281 57.691 1v65.979z"
+                />
+              </svg>
+              <span className="mt-px">Ethereum</span>
+            </Button>
+          </div>
+        </motion.div>
+      )}
+
+      <div className="flex items-center gap-2">
+        <span
+          className={cn("size-3.5 rounded-full", {
+            "bg-zinc-900/25 dark:bg-zinc-100/25": step !== 1,
+            "bg-teal-500": step === 1,
+          })}
+        ></span>
+        <span
+          className={cn("size-3.5 rounded-full", {
+            "bg-zinc-900/25 dark:bg-zinc-100/25": step !== 2,
+            "bg-teal-500": step === 2,
+          })}
+        ></span>
+        <span
+          className={cn("size-3.5 rounded-full", {
+            "bg-zinc-900/25 dark:bg-zinc-100/25": step !== 3,
+            "bg-teal-500": step === 3,
+          })}
+        ></span>
+        <span
+          className={cn("size-3.5 rounded-full", {
+            "bg-zinc-900/25 dark:bg-zinc-100/25": step !== 3,
+            "bg-teal-500": step === 3,
+          })}
+        ></span>
+        <span
+          className={cn("size-3.5 rounded-full", {
+            "bg-zinc-900/25 dark:bg-zinc-100/25": step !== 3,
+            "bg-teal-500": step === 3,
+          })}
+        ></span>
+      </div>
     </div>
   );
 }
