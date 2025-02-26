@@ -17,8 +17,8 @@ export type TPath = "create" | "import" | null;
 export type TNetwork = "solana" | "ethereum" | null;
 
 export default function Page() {
-  const [step, setStep] = useState<TStep>(1);
-  const [path, setPath] = useState<TPath>(null);
+  const [step, setStep] = useState<TStep>(4);
+  const [path, setPath] = useState<TPath>("create");
   const [network, setNetwork] = useState<TNetwork>(null);
 
   const stepsArray = path === "create" ? [1, 2, 3, 4, 5, 6] : [1, 2, 3, 4, 5];
@@ -42,7 +42,7 @@ export default function Page() {
           <ImportWallet />
         );
       case 4:
-        return path === "create" ? <GenerateWallet /> : null;
+        return path === "create" ? <GenerateWallet setStep={setStep} /> : null;
       case 5:
         return <CreatePassword />;
       case 6:
@@ -53,7 +53,7 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full max-w-fit flex flex-col items-center gap-8">
+    <div className="w-full max-w-screen-lg relative flex flex-col items-center gap-8">
       {renderStepComponent()}
 
       <div className="flex items-center gap-2">
