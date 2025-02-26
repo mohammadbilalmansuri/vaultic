@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${ubuntu.className} antialiased w-full min-h-dvh relative bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400`}
+        className={`${ubuntu.className} antialiased w-full min-h-dvh relative bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 tracking-[0.01em]`}
       >
         <ThemeProvider>
           <Header />
