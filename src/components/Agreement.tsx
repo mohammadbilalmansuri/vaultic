@@ -61,7 +61,11 @@ export default function Agreement({ setStep }: AgreementProps) {
 
       <div className="flex items-center gap-4 text-left py-2">
         <div className="min-w-fit">
-          <Switch state={agree} onClick={() => setAgree((prev) => !prev)} />
+          <Switch
+            state={agree}
+            isStateDependentColor={true}
+            onClick={() => setAgree((prev) => !prev)}
+          />
         </div>
         <p className="dark:text-zinc-400 text-zinc-500">
           I understand that I am responsible for saving my secret recovery
