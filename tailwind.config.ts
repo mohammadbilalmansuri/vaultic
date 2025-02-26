@@ -15,8 +15,8 @@ export default {
       lg: "1024px",
     },
     extend: {
-      borderWidth: {
-        1.5: "1.5px",
+      height: {
+        13: "3.25rem",
       },
     },
   },

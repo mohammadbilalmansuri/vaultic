@@ -1,13 +1,8 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import useThemeStore from "@/store/theme";
 
-export default function ThemeProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const { theme, isHydrated } = useThemeStore();
   const [hydrated, setHydrated] = useState(false);
 
@@ -26,4 +21,6 @@ export default function ThemeProvider({
       {children}
     </div>
   );
-}
+};
+
+export default ThemeProvider;

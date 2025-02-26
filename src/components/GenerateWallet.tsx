@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, Dispatch, SetStateAction } from "react";
 import cn from "@/utils/cn";
 import { motion } from "framer-motion";
@@ -11,7 +10,7 @@ type GenerateWalletProps = {
   setStep: Dispatch<SetStateAction<TStep>>;
 };
 
-export default function GenerateWallet({ setStep }: GenerateWalletProps) {
+const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
   const [saved, setSaved] = useState(false);
   const [copy, setCopy] = useState(false);
   const [hide, setHide] = useState(true);
@@ -50,12 +49,12 @@ export default function GenerateWallet({ setStep }: GenerateWalletProps) {
       exit={{ scale: 0.8, opacity: 0 }}
       className="w-full relative max-w-2xl flex flex-col items-center text-center gap-4 border-1.5 border-color rounded-2xl p-16"
     >
-      <h1 className="text-4xl font-medium heading-color">
+      <h1 className="text-3xl font-medium heading-color">
         Secret Recovery Phrase
       </h1>
-      <p className="text-lg">Save these words in a safe place.</p>
+      <p className="text-lg text-teal-500">Save these words in a safe place.</p>
 
-      <div className="w-full flex items-center justify-between gap-4 pt-1">
+      <div className="w-full flex items-center justify-between gap-4 pt-2">
         <button
           onClick={() => setHide((prev) => !prev)}
           className="flex items-center gap-2.5"
@@ -160,7 +159,7 @@ export default function GenerateWallet({ setStep }: GenerateWalletProps) {
         onClick={() => setSaved((prev) => !prev)}
       >
         <div className="min-w-fit">
-          <Switch state={saved} isStateDependentColor={true} />
+          <Switch state={saved} />
         </div>
         <p>I saved my secret recovery phrase.</p>
       </div>
@@ -185,4 +184,6 @@ export default function GenerateWallet({ setStep }: GenerateWalletProps) {
       </div>
     </motion.div>
   );
-}
+};
+
+export default GenerateWallet;

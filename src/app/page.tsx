@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import {
   Welcome,
@@ -16,9 +15,9 @@ export type TStep = 1 | 2 | 3 | 4 | 5 | 6;
 export type TPath = "create" | "import" | null;
 export type TNetwork = "solana" | "ethereum" | null;
 
-export default function Page() {
-  const [step, setStep] = useState<TStep>(4);
-  const [path, setPath] = useState<TPath>("create");
+const Page = () => {
+  const [step, setStep] = useState<TStep>(1);
+  const [path, setPath] = useState<TPath>(null);
   const [network, setNetwork] = useState<TNetwork>(null);
 
   const stepsArray = path === "create" ? [1, 2, 3, 4, 5, 6] : [1, 2, 3, 4, 5];
@@ -36,10 +35,10 @@ export default function Page() {
           />
         );
       case 3:
-        return path === "create" ? (
-          <Agreement setStep={setStep} />
-        ) : (
+        return path === "import" ? (
           <ImportWallet />
+        ) : (
+          <Agreement setStep={setStep} />
         );
       case 4:
         return path === "create" ? <GenerateWallet setStep={setStep} /> : null;
@@ -60,7 +59,7 @@ export default function Page() {
         {stepsArray.map((index) => (
           <span
             key={index}
-            className={cn("size-3.5 rounded-full", {
+            className={cn("size-3 rounded-full", {
               "bg-zinc-900/10 dark:bg-zinc-100/10": step < index,
               "bg-teal-500/40": step > index,
               "bg-teal-500": step === index,
@@ -70,4 +69,6 @@ export default function Page() {
       </div>
     </div>
   );
-}
+};
+
+export default Page;
