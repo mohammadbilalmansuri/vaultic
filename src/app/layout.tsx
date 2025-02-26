@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${ubuntu.className} antialiased w-full min-h-dvh relative flex flex-col items-center dark:bg-zinc-900 dark:text-zinc-100 bg-zinc-100 text-zinc-900`}
+        className={`${ubuntu.className} antialiased w-full min-h-dvh relative dark:bg-zinc-900 bg-zinc-100 dark:text-zinc-400 text-zinc-500 flex flex-col items-center`}
       >
         <ThemeProvider>
           <Header />

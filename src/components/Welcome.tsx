@@ -28,8 +28,8 @@ export default function Welcome({ setPath, setStep }: WelcomeProps) {
       </svg>
 
       <h3 className="text-lg text-teal-500">Welcome to Vaultic</h3>
-      <h1 className="text-4xl font-medium">Let's get started</h1>
-      <p className="text-lg dark:text-zinc-400 text-zinc-500 pb-4">
+      <h1 className="text-4xl font-medium heading-color">Let's get started</h1>
+      <p className="text-lg pb-4">
         Vaultic is a secure, web-based cryptocurrency wallet supporting Solana
         and Ethereum.
       </p>
