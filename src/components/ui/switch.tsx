@@ -14,7 +14,10 @@ export default function Switch({ state, ...props }: SwitchProps): JSX.Element {
       <span
         className={cn(
           "size-4 block bg-teal-500 rounded-full transition-transform duration-200 ease-in-out transform",
-          state ? "translate-x-6" : "translate-x-0"
+          {
+            "translate-x-6": state,
+            "translate-x-0": !state,
+          }
         )}
       ></span>
     </button>
