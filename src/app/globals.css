@@ -10,10 +10,22 @@
 
 @layer components {
   .border-color {
-    @apply border-zinc-300 dark:border-zinc-700;
+    @apply border-zinc-300/80 dark:border-zinc-700/80;
   }
 
   .heading-color {
     @apply text-zinc-900 dark:text-zinc-100;
+  }
+
+  .btn-base {
+    @apply tracking-[0.01em] px-5 py-3.5 h-13 leading-none rounded-xl transition-all duration-200 border-2 active:scale-[0.98];
+  }
+
+  .btn-zinc {
+    @apply text-zinc-900 bg-zinc-200 hover:bg-zinc-300/80 border-zinc-300/80 dark:text-zinc-100 dark:bg-zinc-800 dark:hover:bg-zinc-700/60 dark:border-zinc-700/60;
+  }
+
+  .btn-teal {
+    @apply text-zinc-900 bg-teal-500 hover:bg-teal-600/80 border-teal-600/60 dark:hover:bg-teal-400 dark:border-teal-300;
   }
 }
