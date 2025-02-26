@@ -27,8 +27,8 @@ export default function Button({
   const classes = cn(
     "btn-base",
     {
+      "btn-teal": variant === "primary",
       "btn-zinc": variant === "secondary",
-      "btn-teal": variant !== "secondary",
     },
     className
   );
