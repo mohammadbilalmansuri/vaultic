@@ -1,44 +1,34 @@
 "use client";
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState, Dispatch, SetStateAction, use } from "react";
 import cn from "@/utils/cn";
 import { motion } from "motion/react";
 import { Button, Switch } from "@/components/ui";
 import { TStep } from "@/app/page";
+import { useCopy } from "@/hooks";
 
 type GenerateWalletProps = {
   setStep: Dispatch<SetStateAction<TStep>>;
 };
 
 const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
+  const { copied, copyToClipboard } = useCopy();
   const [saved, setSaved] = useState(false);
-  const [copy, setCopy] = useState(false);
   const [hide, setHide] = useState(true);
 
   const mnemonic = [
-    "mohammadbil",
-    "mohammadbil",
-    "mohammadbil",
-    "mohammadbil",
-    "mohammadbil",
-    "mohammadbil",
-    "mohammadbil",
-    "mohammadbil",
-    "mohammadbil",
-    "mohammadbil",
-    "mohammadbil",
-    "mohammadbil",
+    "mohammadbi",
+    "mohammadbi",
+    "mohammadbi",
+    "mohammadbi",
+    "mohammadbi",
+    "mohammadbi",
+    "mohammadbi",
+    "mohammadbi",
+    "mohammadbi",
+    "mohammadbi",
+    "mohammadbi",
+    "mohammadbi",
   ];
-
-  const copyToClipboard = async () => {
-    if (copy) return;
-    try {
-      await navigator.clipboard.writeText(mnemonic.join(" "));
-      setCopy(true);
-      setTimeout(() => setCopy(false), 3000);
-    } catch (error) {
-      console.error("Failed to copy mnemonic:", error);
-    }
-  };
 
   return (
     <motion.div
@@ -46,7 +36,7 @@ const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.5 }}
       exit={{ scale: 0.8, opacity: 0 }}
-      className="w-full relative max-w-2xl flex flex-col items-center text-center gap-4 border-1.5 border-color rounded-2xl p-16"
+      className="box max-w-xl"
     >
       <h1 className="text-3xl font-medium heading-color">
         Secret Recovery Phrase
@@ -75,19 +65,19 @@ const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
         </button>
 
         <button
-          onClick={copyToClipboard}
+          onClick={() => copyToClipboard(mnemonic.join(" "))}
           className="flex items-center gap-2"
-          disabled={copy}
+          disabled={copied}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             className={cn("size-5", {
-              "fill-zinc-600 dark:fill-zinc-400": !copy,
-              "fill-teal-500": copy,
+              "fill-zinc-600 dark:fill-zinc-400": !copied,
+              "fill-teal-500": copied,
             })}
           >
-            {copy ? (
+            {copied ? (
               <>
                 <path
                   fillRule="evenodd"
@@ -112,13 +102,13 @@ const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
               </>
             )}
           </svg>
-          <span>{copy ? "Copied" : "Copy to clipboard"}</span>
+          <span>{copied ? "Copied" : "Copy to clipboard"}</span>
         </button>
       </div>
 
       <div
         className="w-full border-1.5 border-color rounded-xl cursor-pointer"
-        onClick={copyToClipboard}
+        onClick={() => copyToClipboard(mnemonic.join(" "))}
       >
         <table className="w-full">
           <tbody className="divide-y-[1.5px] divide-zinc-400 dark:divide-zinc-600">
