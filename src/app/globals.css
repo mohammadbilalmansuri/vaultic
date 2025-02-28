@@ -1,39 +1,71 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 660px;
+  --breakpoint-md: 840px;
+  --breakpoint-lg: 1024px;
+  --height-13: 3.25rem;
+}
+
+@utility border-color {
+  @apply border-zinc-300/80 dark:border-zinc-700/80;
+}
+
+@utility heading-color {
+  @apply text-zinc-900 dark:text-zinc-100;
+}
+
+@utility text-color {
+  @apply text-zinc-500 dark:text-zinc-400;
+}
+
+@utility text-teal {
+  @apply text-teal-500 dark:text-teal-500;
+}
+
+@utility btn-base {
+  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-xl transition-all duration-200 border-2 active:scale-[0.98];
+}
+
+@utility btn-zinc {
+  @apply text-zinc-900 dark:text-zinc-100 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60 border-zinc-300/80 dark:border-zinc-700/60;
+}
+
+@utility btn-teal {
+  @apply text-zinc-900 bg-teal-500 hover:bg-teal-600/80 border-teal-600/60 dark:hover:bg-teal-400 dark:border-teal-300;
+}
+
+@utility h1 {
+  @apply text-3xl font-medium heading-color;
+}
+
+@utility box {
+  @apply w-full max-w-md relative flex flex-col items-center text-center gap-5 border-2 border-color rounded-2xl p-12;
+}
 
 @layer base {
   ::selection {
     @apply bg-teal-500 text-zinc-900;
   }
-}
 
-@layer components {
-  .border-color {
-    @apply border-zinc-300/80 dark:border-zinc-700/80;
+  body {
+    font-family: var(--font-ubuntu-sans);
+    @apply bg-zinc-100 dark:bg-zinc-900 text-color w-full min-h-dvh relative tracking-[0.01em] box-border overflow-x-hidden;
   }
 
-  .heading-color {
-    @apply text-zinc-900 dark:text-zinc-100;
+  .root {
+    @apply w-full min-h-dvh relative flex flex-col items-center justify-between;
   }
 
-  .btn-base {
-    @apply px-5 py-3 h-13 flex flex-col items-center justify-center leading-none rounded-xl transition-all duration-200 border-2 active:scale-[0.98];
+  main {
+    @apply w-full relative flex flex-col items-center px-4;
   }
 
-  .btn-zinc {
-    @apply text-zinc-900 dark:text-zinc-100 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60 border-zinc-300/80 dark:border-zinc-700/60;
-  }
-
-  .btn-teal {
-    @apply dark:font-medium text-zinc-900 bg-teal-500 hover:bg-teal-600/80 border-teal-600/60 dark:hover:bg-teal-400 dark:border-teal-300;
-  }
-
-  .box {
-    @apply w-full max-w-md relative flex flex-col items-center text-center gap-5 border-2 border-color rounded-2xl p-12;
-  }
-
-  .h1 {
-    @apply text-3xl font-medium heading-color;
+  button,
+  a {
+    cursor: pointer;
   }
 }

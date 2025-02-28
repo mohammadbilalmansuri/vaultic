@@ -1,11 +1,3 @@
-export { default as Switch } from "./ui/switch";
+export { default as ThemeProvider } from "./ThemeProvider";
 export { default as Header } from "./Header";
 export { default as Footer } from "./Footer";
-export { default as Button } from "./ui/button";
-export { default as Welcome } from "./Welcome";
-export { default as SelectNetwork } from "./SelectNetwork";
-export { default as Agreement } from "./Agreement";
-export { default as GenerateWallet } from "./GenerateWallet";
-export { default as ImportWallet } from "./ImportWallet";
-export { default as CreatePassword } from "./CreatePassword";
-export { default as Completion } from "./Completion";
