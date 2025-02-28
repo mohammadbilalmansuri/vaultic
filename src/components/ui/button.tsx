@@ -8,7 +8,7 @@ import {
 import Link, { LinkProps } from "next/link";
 import cn from "@/utils/cn";
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   as?: "button" | "link";
   variant?: "primary" | "secondary";
