@@ -1,4 +1,4 @@
-export type TArgs =
+type TArgs =
   | string
   | Record<string, boolean>
   | Array<string | Record<string, boolean>>;

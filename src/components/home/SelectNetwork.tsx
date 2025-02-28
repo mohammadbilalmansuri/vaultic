@@ -19,7 +19,7 @@ const SelectNetwork = ({ path, setStep, setNetwork }: SelectNetworkProps) => {
       exit={{ scale: 0.8, opacity: 0 }}
       className="box"
     >
-      <h1 className="h1 -mt-1">Select Network</h1>
+      <h1 className="-mt-1">Select Network</h1>
       <p>
         Vaultic supports both the Solana and Ethereum networks. Which one would
         you like to use? You can add more wallets later on another network.

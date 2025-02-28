@@ -20,7 +20,7 @@ const Agreement = ({ setStep }: AgreementProps) => {
       exit={{ scale: 0.8, opacity: 0 }}
       className="box max-w-xl"
     >
-      <h1 className="h1 -mt-1">Secret Recovery Phrase Warning</h1>
+      <h1 className="-mt-1">Secret Recovery Phrase Warning</h1>
       <p className="max-w-sm">
         On the next page, you will receive your secret recovery phrase.
       </p>

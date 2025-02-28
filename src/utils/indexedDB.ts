@@ -1,7 +1,7 @@
 const DB_NAME = "walletDB";
 const STORE_NAME = "walletStore";
 
-export interface WalletData {
+interface WalletData {
   id: string;
   encryptedMnemonic: string;
   wallets: {
