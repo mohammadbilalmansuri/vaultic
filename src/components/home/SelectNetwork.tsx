@@ -1,7 +1,7 @@
 "use client";
 import { Dispatch, SetStateAction } from "react";
-import { motion } from "framer-motion";
-import Button from "./ui/button";
+import { motion } from "motion/react";
+import { Button } from "@/components/ui";
 import { TStep, TPath, TNetwork } from "@/app/page";
 
 type SelectNetworkProps = {
@@ -28,7 +28,7 @@ const SelectNetwork = ({ path, setStep, setNetwork }: SelectNetworkProps) => {
       <div className="flex items-center gap-4 pt-2">
         <Button
           variant="secondary"
-          className="flex items-center gap-2.5"
+          className="gap-2.5"
           onClick={() => {
             setNetwork("solana");
             setStep(path === "create" ? 3 : 4);
@@ -66,7 +66,7 @@ const SelectNetwork = ({ path, setStep, setNetwork }: SelectNetworkProps) => {
 
         <Button
           variant="secondary"
-          className="flex items-center gap-2.5"
+          className="gap-2.5"
           onClick={() => {
             setNetwork("ethereum");
             setStep(path === "create" ? 3 : 4);

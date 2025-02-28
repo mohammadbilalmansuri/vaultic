@@ -8,7 +8,7 @@ import {
   ImportWallet,
   CreatePassword,
   Completion,
-} from "@/components";
+} from "@/components/home";
 import cn from "@/utils/cn";
 
 export type TStep = 1 | 2 | 3 | 4 | 5 | 6;
@@ -16,8 +16,8 @@ export type TPath = "create" | "import" | null;
 export type TNetwork = "solana" | "ethereum" | null;
 
 const Page = () => {
-  const [step, setStep] = useState<TStep>(1);
-  const [path, setPath] = useState<TPath>(null);
+  const [step, setStep] = useState<TStep>(4);
+  const [path, setPath] = useState<TPath>("create");
   const [network, setNetwork] = useState<TNetwork>(null);
 
   const stepsArray = path === "create" ? [1, 2, 3, 4, 5, 6] : [1, 2, 3, 4, 5];

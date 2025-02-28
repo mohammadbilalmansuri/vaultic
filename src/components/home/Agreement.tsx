@@ -1,9 +1,8 @@
 "use client";
 import { useState, Dispatch, SetStateAction } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import cn from "@/utils/cn";
-import Button from "./ui/button";
-import Switch from "./ui/switch";
+import { Button, Switch } from "@/components/ui";
 import { TStep } from "@/app/page";
 
 type AgreementProps = {

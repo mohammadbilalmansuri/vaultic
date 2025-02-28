@@ -16,11 +16,7 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
 
   if (!hydrated) return null;
 
-  return (
-    <div className="w-full min-h-dvh relative flex flex-col items-center justify-between">
-      {children}
-    </div>
-  );
+  return <div className="root">{children}</div>;
 };
 
 export default ThemeProvider;

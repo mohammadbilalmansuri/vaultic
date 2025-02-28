@@ -1,9 +1,8 @@
 "use client";
 import { useState, Dispatch, SetStateAction } from "react";
 import cn from "@/utils/cn";
-import { motion } from "framer-motion";
-import Button from "./ui/button";
-import Switch from "./ui/switch";
+import { motion } from "motion/react";
+import { Button, Switch } from "@/components/ui";
 import { TStep } from "@/app/page";
 
 type GenerateWalletProps = {
@@ -52,7 +51,7 @@ const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
       <h1 className="text-3xl font-medium heading-color">
         Secret Recovery Phrase
       </h1>
-      <p className="text-lg text-teal-500">Save these words in a safe place.</p>
+      <p className="text-lg text-teal">Save these words in a safe place.</p>
 
       <div className="w-full flex items-center justify-between gap-4 pt-2">
         <button
@@ -140,8 +139,8 @@ const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
                       </span>
                       <input
                         type={hide ? "password" : "text"}
-                        name={`word-${index + 1}`}
-                        id={`word-${index + 1}`}
+                        name={`${rowIndex * 3 + index + 1}`}
+                        id={`${rowIndex * 3 + index + 1}`}
                         readOnly
                         value={word}
                         className="lowercase bg-transparent outline-none flex-1 w-full text-left cursor-pointer"

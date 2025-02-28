@@ -1,7 +1,32 @@
 {
   "name": "vaultic",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "description": "Vaultic is a secure, web-based cryptocurrency wallet designed for Solana and Ethereum. Built with Next.js and powered by Alchemy RPC, Vaultic enables users to create and manage multiple wallets, send and receive funds, and recover accounts using seed phrases—all without relying on a backend.",
+  "keywords": [
+    "vaultic",
+    "vaultic wallet",
+    "vaultic web wallet",
+    "vaultic web3 wallet",
+    "vaultic solana wallet",
+    "vaultic ethereum wallet",
+    "solana",
+    "ethereum",
+    "wallet",
+    "web3",
+    "cryptocurrency",
+    "blockchain",
+    "crypto wallet",
+    "web wallet",
+    "web-based wallet",
+    "web3 wallet",
+    "solana wallet",
+    "ethereum wallet"
+  ],
+  "author": {
+    "name": "Mohammad Bilal Mansuri",
+    "url": "https://www.linkedin.com/in/mohammadbilalmansuri"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -9,23 +34,29 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@solana/web3.js": "^1.98.0",
+    "alchemy-sdk": "^3.5.3",
     "bip39": "^3.1.0",
-    "framer-motion": "^12.4.7",
-    "next": "15.1.7",
+    "bs58": "^6.0.0",
+    "ed25519-hd-key": "^1.3.0",
+    "ethers": "^6.13.5",
+    "motion": "^12.4.7",
+    "next": "15.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-toastify": "^11.0.5",
+    "tweetnacl": "^1.0.3",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.1.7",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "eslint-config-next": "15.2.0",
+    "tailwindcss": "^4",
     "typescript": "^5"
   }
 }

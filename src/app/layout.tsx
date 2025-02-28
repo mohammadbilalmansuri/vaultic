@@ -1,12 +1,12 @@
+import { ReactNode } from "react";
 import type { Metadata } from "next";
-import { Ubuntu } from "next/font/google";
+import { Ubuntu_Sans } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/providers";
-import { Header, Footer } from "@/components";
+import { ThemeProvider, Header, Footer } from "@/components";
 
-const ubuntu = Ubuntu({
-  weight: ["300", "400", "500", "700"],
-  display: "swap",
+const ubuntuSans = Ubuntu_Sans({
+  variable: "--font-ubuntu-sans",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -20,23 +20,39 @@ export const metadata: Metadata = {
       type: "image/svg+xml",
     },
   ],
+  keywords: [
+    "vaultic",
+    "vaultic wallet",
+    "vaultic web wallet",
+    "vaultic web3 wallet",
+    "vaultic solana wallet",
+    "vaultic ethereum wallet",
+    "solana",
+    "ethereum",
+    "wallet",
+    "web3",
+    "cryptocurrency",
+    "blockchain",
+    "crypto wallet",
+    "web wallet",
+    "web-based wallet",
+    "web3 wallet",
+    "solana wallet",
+    "ethereum wallet",
+  ],
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${ubuntu.className} antialiased w-full min-h-dvh relative bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 tracking-[0.01em]`}
-      >
+      <body className={`${ubuntuSans.variable} antialiased`}>
         <ThemeProvider>
           <Header />
-          <main className="w-full relative flex flex-col items-center px-4">
-            {children}
-          </main>
+          <main>{children}</main>
           <Footer />
         </ThemeProvider>
       </body>
