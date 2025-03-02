@@ -16,11 +16,9 @@ export type TPath = "create" | "import" | null;
 export type TNetwork = "solana" | "ethereum" | null;
 
 const Page = () => {
-  const [step, setStep] = useState<TStep>(4);
+  const [step, setStep] = useState<TStep>(1);
   const [path, setPath] = useState<TPath>("create");
   const [network, setNetwork] = useState<TNetwork>(null);
-
-  const stepsArray = path === "create" ? [1, 2, 3, 4, 5, 6] : [1, 2, 3, 4, 5];
 
   const renderStepComponent = () => {
     switch (step) {
@@ -41,7 +39,9 @@ const Page = () => {
           <Agreement setStep={setStep} />
         );
       case 4:
-        return path === "create" ? <GenerateWallet setStep={setStep} /> : null;
+        return path === "create" ? (
+          <GenerateWallet setStep={setStep} network={network} />
+        ) : null;
       case 5:
         return <CreatePassword />;
       case 6:
@@ -56,13 +56,13 @@ const Page = () => {
       {renderStepComponent()}
 
       <div className="flex items-center gap-2">
-        {stepsArray.map((index) => (
+        {Array.from({ length: path === "create" ? 6 : 5 }, (_, index) => (
           <span
             key={index}
             className={cn("size-3 rounded-full", {
-              "bg-zinc-900/10 dark:bg-zinc-100/10": step < index,
-              "bg-teal-500/40": step > index,
-              "bg-teal-500": step === index,
+              "bg-zinc-900/10 dark:bg-zinc-100/10": step < index + 1,
+              "bg-teal-500/40": step > index + 1,
+              "bg-teal-500": step === index + 1,
             })}
           ></span>
         ))}
