@@ -1,10 +1,11 @@
 "use client";
-import { useState, Dispatch, SetStateAction, use } from "react";
+import { useState, Dispatch, SetStateAction, useEffect } from "react";
 import cn from "@/utils/cn";
 import { motion } from "motion/react";
 import { Button, Switch, Copy, Hide } from "@/components/ui";
 import { TStep } from "@/app/page";
 import { useCopy } from "@/hooks";
+import { generateMnemonic } from "bip39";
 
 type GenerateWalletProps = {
   setStep: Dispatch<SetStateAction<TStep>>;
@@ -13,22 +14,13 @@ type GenerateWalletProps = {
 const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
   const { copied, copyToClipboard } = useCopy();
   const [saved, setSaved] = useState(false);
-  const [hide, setHide] = useState(true);
+  const [hidden, setHidden] = useState(true);
+  const [mnemonic, setMnemonic] = useState<string>("");
 
-  const mnemonic = [
-    "mohammadbi",
-    "mohammadbi",
-    "mohammadbi",
-    "mohammadbi",
-    "mohammadbi",
-    "mohammadbi",
-    "mohammadbi",
-    "mohammadbi",
-    "mohammadbi",
-    "mohammadbi",
-    "mohammadbi",
-    "mohammadbi",
-  ];
+  useEffect(() => {
+    const words = generateMnemonic();
+    setMnemonic(words);
+  }, []);
 
   return (
     <motion.div
@@ -43,54 +35,42 @@ const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
 
       <div className="w-full flex items-center justify-between gap-4 pt-2">
         <Hide
-          hidden={hide}
+          hidden={hidden}
           withText={true}
-          onClick={() => setHide((prev) => !prev)}
+          onClick={() => setHidden((prev) => !prev)}
         />
 
         <Copy
           copied={copied}
           withText={true}
-          onClick={() => copyToClipboard(mnemonic.join(" "))}
+          text={{ copied: "Copied", copy: "Copy to clipboard" }}
+          onClick={() => copyToClipboard(mnemonic)}
           disabled={copied}
         />
       </div>
 
       <div
-        className="w-full border-1.5 border-color rounded-xl cursor-pointer"
-        onClick={() => copyToClipboard(mnemonic.join(" "))}
+        className={cn(
+          "w-full grid gap-2.5 grid-cols-2 xs:grid-cols-3 cursor-pointer",
+          {
+            "pointer-events-none": copied,
+          }
+        )}
+        onClick={() => copyToClipboard(mnemonic)}
       >
-        <table className="w-full">
-          <tbody className="divide-y-[1.5px] divide-zinc-400 dark:divide-zinc-600">
-            {Array.from({ length: 4 }).map((_, rowIndex) => (
-              <tr
-                key={rowIndex}
-                className="divide-x-[1.5px] divide-zinc-400 dark:divide-zinc-600 w-full grid grid-cols-3"
-              >
-                {mnemonic
-                  .slice(rowIndex * 3, rowIndex * 3 + 3)
-                  .map((word, index) => (
-                    <td
-                      key={index}
-                      className="px-4 py-2 flex items-center gap-1.5"
-                    >
-                      <span className="opacity-70">
-                        {rowIndex * 3 + index + 1}.
-                      </span>
-                      <input
-                        type={hide ? "password" : "text"}
-                        name={`${rowIndex * 3 + index + 1}`}
-                        id={`${rowIndex * 3 + index + 1}`}
-                        readOnly
-                        value={word}
-                        className="lowercase bg-transparent outline-none flex-1 w-full text-left cursor-pointer"
-                      />
-                    </td>
-                  ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {mnemonic.split(" ").map((word, index) => (
+          <div
+            key={index}
+            className="px-3 py-2 flex items-center gap-2 bg-zinc-200/50 dark:bg-zinc-800/50 rounded-lg"
+          >
+            <span className="opacity-60">{index + 1}.</span>
+            <span className="lowercase heading-color">
+              {hidden
+                ? Array.from({ length: word.length }, () => "●").join("")
+                : word}
+            </span>
+          </div>
+        ))}
       </div>
 
       <div
