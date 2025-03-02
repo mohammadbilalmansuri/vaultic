@@ -4,9 +4,21 @@ import { ButtonHTMLAttributes } from "react";
 interface HideProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   hidden: boolean;
   withText?: boolean;
+  text?: {
+    show: string;
+    hide: string;
+  };
 }
 
-const Hide = ({ hidden, withText = false, ...props }: HideProps) => {
+const Hide = ({
+  hidden,
+  withText = false,
+  text = {
+    show: "Show seed phrase",
+    hide: "Hide seed phrase",
+  },
+  ...props
+}: HideProps) => {
   return (
     <button className="flex items-center gap-2" {...props}>
       <svg
@@ -23,9 +35,7 @@ const Hide = ({ hidden, withText = false, ...props }: HideProps) => {
         />
       </svg>
 
-      {withText && (
-        <span>{hidden ? "Show seed phrase" : "Hide seed phrase"}</span>
-      )}
+      {withText && <span>{hidden ? text.show : text.hide}</span>}
     </button>
   );
 };

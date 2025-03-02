@@ -5,9 +5,21 @@ import cn from "@/utils/cn";
 interface CopyProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   copied: boolean;
   withText?: boolean;
+  text?: {
+    copied: string;
+    copy: string;
+  };
 }
 
-const Copy = ({ copied, withText = false, ...props }: CopyProps) => {
+const Copy = ({
+  copied,
+  withText = false,
+  text = {
+    copied: "Copied",
+    copy: "Copy",
+  },
+  ...props
+}: CopyProps) => {
   return (
     <button
       className="flex items-center gap-2"
@@ -49,7 +61,11 @@ const Copy = ({ copied, withText = false, ...props }: CopyProps) => {
         )}
       </svg>
 
-      {withText && <span>{copied ? "Copied" : "Copy to clipboard"}</span>}
+      {withText && (
+        <span className={cn({ "text-teal": copied })}>
+          {copied ? text.copied : text.copy}
+        </span>
+      )}
     </button>
   );
 };
