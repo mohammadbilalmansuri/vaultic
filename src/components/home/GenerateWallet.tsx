@@ -51,7 +51,7 @@ const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
 
       <div
         className={cn(
-          "w-full grid gap-2.5 grid-cols-2 xs:grid-cols-3 cursor-pointer",
+          "w-full grid gap-2 grid-cols-2 xs:grid-cols-3 cursor-pointer",
           {
             "pointer-events-none": copied,
           }
@@ -61,7 +61,7 @@ const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
         {mnemonic.split(" ").map((word, index) => (
           <div
             key={index}
-            className="px-3 py-2 flex items-center gap-2 bg-zinc-200/50 dark:bg-zinc-800/50 rounded-lg"
+            className="px-3 py-2 flex items-center gap-2 bg-zinc-200/50 dark:bg-zinc-800/50 rounded-lg border-2 border-zinc-200 dark:border-zinc-800"
           >
             <span className="opacity-60">{index + 1}.</span>
             <span className="lowercase heading-color">
