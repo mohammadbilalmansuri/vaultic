@@ -4,6 +4,8 @@ import { motion } from "motion/react";
 import cn from "@/utils/cn";
 import { Button, Switch } from "@/components/ui";
 import { TStep } from "@/app/page";
+import { generateMnemonic } from "bip39";
+import { useUserStore } from "@/store/user";
 
 type AgreementProps = {
   setStep: Dispatch<SetStateAction<TStep>>;
@@ -11,6 +13,13 @@ type AgreementProps = {
 
 const Agreement = ({ setStep }: AgreementProps) => {
   const [agree, setAgree] = useState(false);
+  const setMnemonic = useUserStore((state) => state.setMnemonic);
+
+  const handleNext = () => {
+    const mnemonic = generateMnemonic();
+    setMnemonic(mnemonic);
+    setStep(4);
+  };
 
   return (
     <motion.div
@@ -70,7 +79,7 @@ const Agreement = ({ setStep }: AgreementProps) => {
         className={cn("w-full", {
           "opacity-60 pointer-events-none": !agree,
         })}
-        onClick={() => setStep(4)}
+        onClick={handleNext}
         disabled={!agree}
       >
         Next

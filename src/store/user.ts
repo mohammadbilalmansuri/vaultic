@@ -2,10 +2,13 @@ import { create } from "zustand";
 
 interface UserState {
   isAuthenticated: boolean;
-  mnemonic: string | null;
-  walletCounts: { eth: number; sol: number } | null;
+  password: string;
+  mnemonic: string;
+  walletCounts: { eth: number; sol: number };
+  setMnemonic: (mnemonic: string) => void;
   setUser: (
     mnemonic: string,
+    password: string,
     walletCounts: { eth: number; sol: number }
   ) => void;
   logout: () => void;
@@ -13,12 +16,20 @@ interface UserState {
 
 export const useUserStore = create<UserState>((set) => ({
   isAuthenticated: false,
-  mnemonic: null,
-  walletCounts: null,
+  password: "",
+  mnemonic: "",
+  walletCounts: { eth: 0, sol: 0 },
 
-  setUser: (mnemonic, walletCounts) =>
-    set({ isAuthenticated: true, mnemonic, walletCounts }),
+  setMnemonic: (mnemonic) => set({ mnemonic }),
+
+  setUser: (mnemonic, password, walletCounts) =>
+    set({ isAuthenticated: true, mnemonic, password, walletCounts }),
 
   logout: () =>
-    set({ isAuthenticated: false, mnemonic: null, walletCounts: null }),
+    set({
+      isAuthenticated: false,
+      password: "",
+      mnemonic: "",
+      walletCounts: { eth: 0, sol: 0 },
+    }),
 }));

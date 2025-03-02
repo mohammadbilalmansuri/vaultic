@@ -1,26 +1,22 @@
 "use client";
-import { useState, Dispatch, SetStateAction, useEffect } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import cn from "@/utils/cn";
 import { motion } from "motion/react";
 import { Button, Switch, Copy, Hide } from "@/components/ui";
-import { TStep } from "@/app/page";
+import { TStep, TNetwork } from "@/app/page";
 import { useCopy } from "@/hooks";
-import { generateMnemonic } from "bip39";
+import { useUserStore } from "@/store/user";
 
 type GenerateWalletProps = {
   setStep: Dispatch<SetStateAction<TStep>>;
+  network: TNetwork;
 };
 
-const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
+const GenerateWallet = ({ setStep, network }: GenerateWalletProps) => {
   const { copied, copyToClipboard } = useCopy();
   const [saved, setSaved] = useState(false);
   const [hidden, setHidden] = useState(true);
-  const [mnemonic, setMnemonic] = useState<string>("");
-
-  useEffect(() => {
-    const words = generateMnemonic();
-    setMnemonic(words);
-  }, []);
+  const mnemonic = useUserStore((state) => state.mnemonic);
 
   return (
     <motion.div
@@ -31,9 +27,11 @@ const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
       className="box max-w-xl"
     >
       <h1>Secret Recovery Phrase</h1>
-      <p className="text-lg text-teal">Save these words in a safe place.</p>
+      <p className="text-lg text-teal -mt-1">
+        Save these words in a safe place.
+      </p>
 
-      <div className="w-full flex items-center justify-between gap-4 pt-2">
+      <div className="w-full flex items-center justify-between gap-4 -mb-1">
         <Hide
           hidden={hidden}
           withText={true}
@@ -61,7 +59,7 @@ const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
         {mnemonic.split(" ").map((word, index) => (
           <div
             key={index}
-            className="px-3 py-2 flex items-center gap-2 bg-zinc-200/50 dark:bg-zinc-800/50 rounded-lg border-2 border-zinc-200 dark:border-zinc-800"
+            className="px-3 py-2 flex items-center gap-2 bg-zinc-200/50 dark:bg-zinc-800/50 rounded-lg border-[1.5px] border-zinc-200 dark:border-zinc-800"
           >
             <span className="opacity-60">{index + 1}.</span>
             <span className="lowercase heading-color">
