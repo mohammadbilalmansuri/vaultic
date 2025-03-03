@@ -4,7 +4,7 @@ import {
   Welcome,
   SelectNetwork,
   Agreement,
-  GenerateWallet,
+  GenerateMnemonic,
   ImportWallet,
   CreatePassword,
   Completion,
@@ -13,25 +13,17 @@ import cn from "@/utils/cn";
 
 export type TStep = 1 | 2 | 3 | 4 | 5 | 6;
 export type TPath = "create" | "import" | null;
-export type TNetwork = "solana" | "ethereum" | null;
 
 const Page = () => {
   const [step, setStep] = useState<TStep>(1);
   const [path, setPath] = useState<TPath>("create");
-  const [network, setNetwork] = useState<TNetwork>(null);
 
   const renderStepComponent = () => {
     switch (step) {
       case 1:
         return <Welcome setStep={setStep} setPath={setPath} />;
       case 2:
-        return (
-          <SelectNetwork
-            path={path}
-            setStep={setStep}
-            setNetwork={setNetwork}
-          />
-        );
+        return <SelectNetwork path={path} setStep={setStep} />;
       case 3:
         return path === "import" ? (
           <ImportWallet />
@@ -40,10 +32,10 @@ const Page = () => {
         );
       case 4:
         return path === "create" ? (
-          <GenerateWallet setStep={setStep} network={network} />
+          <GenerateMnemonic setStep={setStep} />
         ) : null;
       case 5:
-        return <CreatePassword />;
+        return <CreatePassword setStep={setStep} />;
       case 6:
         return <Completion />;
       default:
@@ -60,8 +52,8 @@ const Page = () => {
           <span
             key={index}
             className={cn("size-3 rounded-full", {
-              "bg-zinc-900/10 dark:bg-zinc-100/10": step < index + 1,
-              "bg-teal-500/40": step > index + 1,
+              "bg-zinc-300 dark:bg-zinc-700": step < index + 1,
+              "bg-teal-500/50": step > index + 1,
               "bg-teal-500": step === index + 1,
             })}
           ></span>

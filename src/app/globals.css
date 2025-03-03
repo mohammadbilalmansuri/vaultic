@@ -11,7 +11,7 @@
 }
 
 @utility border-color {
-  @apply border-zinc-300/80 dark:border-zinc-700/80;
+  @apply border-zinc-300 dark:border-zinc-700;
 }
 
 @utility heading-color {
@@ -27,15 +27,15 @@
 }
 
 @utility btn-base {
-  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-xl transition-all duration-200 border-2 active:scale-[0.98];
+  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-xl transition-all duration-200 active:scale-[0.98];
 }
 
 @utility btn-zinc {
-  @apply text-zinc-900 dark:text-zinc-100 bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60 border-zinc-300/80 dark:border-zinc-700/60;
+  @apply btn-base heading-color bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60;
 }
 
 @utility btn-teal {
-  @apply text-zinc-900 bg-teal-500 hover:bg-teal-600/80 border-teal-600/60 dark:hover:bg-teal-400 dark:border-teal-300;
+  @apply btn-base text-zinc-900 bg-teal-500 hover:bg-teal-600/80 dark:hover:bg-teal-400;
 }
 
 @utility box {
@@ -67,5 +67,9 @@
 
   h1 {
     @apply text-3xl font-medium heading-color;
+  }
+
+  input {
+    @apply placeholder:text-color heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-xl outline-none transition-all duration-200 bg-zinc-200/60 dark:bg-zinc-800/60 focus:bg-zinc-200 dark:focus:bg-zinc-800;
   }
 }
