@@ -13,11 +13,11 @@ type AgreementProps = {
 
 const Agreement = ({ setStep }: AgreementProps) => {
   const [agree, setAgree] = useState(false);
-  const setMnemonic = useUserStore((state) => state.setMnemonic);
+  const setState = useUserStore((state) => state.setState);
 
   const handleNext = () => {
     const mnemonic = generateMnemonic();
-    setMnemonic(mnemonic);
+    setState({ mnemonic });
     setStep(4);
   };
 
@@ -30,11 +30,11 @@ const Agreement = ({ setStep }: AgreementProps) => {
       className="box max-w-xl"
     >
       <h1 className="-mt-1">Secret Recovery Phrase Warning</h1>
-      <p className="max-w-sm">
+      <p className="max-w-sm -mt-1">
         On the next page, you will receive your secret recovery phrase.
       </p>
 
-      <div className="mt-2 w-full flex items-center gap-4 text-left px-5 py-4 rounded-2xl bg-zinc-200 dark:bg-zinc-800 border-2 border-zinc-300/80 dark:border-zinc-700/60">
+      <div className="w-full flex items-center gap-4 text-left px-5 py-4 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/60">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
@@ -48,7 +48,7 @@ const Agreement = ({ setStep }: AgreementProps) => {
         </p>
       </div>
 
-      <div className="-mt-1 w-full flex items-center gap-4 text-left px-5 py-4 rounded-2xl bg-zinc-200 dark:bg-zinc-800 border-2 border-zinc-300/80 dark:border-zinc-700/60">
+      <div className="-mt-1 w-full flex items-center gap-4 text-left px-5 py-4 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/60">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 448 512"
@@ -63,7 +63,7 @@ const Agreement = ({ setStep }: AgreementProps) => {
       </div>
 
       <div
-        className="flex items-center gap-4 text-left py-1 cursor-pointer select-none"
+        className="flex items-center gap-4 text-left cursor-pointer select-none"
         onClick={() => setAgree((prev) => !prev)}
       >
         <div className="min-w-fit">

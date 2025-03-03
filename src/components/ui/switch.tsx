@@ -14,7 +14,7 @@ const Switch = ({
 }: SwitchProps) => {
   return (
     <button
-      className="p-1 bg-zinc-200 dark:bg-zinc-800 rounded-full h-6 w-12 relative flex items-center transition-colors duration-200"
+      className="p-1 rounded-full h-6 w-12 relative flex items-center transition-colors duration-200 bg-zinc-200 dark:bg-zinc-800"
       {...props}
     >
       <span

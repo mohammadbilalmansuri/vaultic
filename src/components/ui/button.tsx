@@ -26,7 +26,6 @@ export default function Button({
   ...props
 }: ButtonProps): JSX.Element {
   const classes = cn(
-    "btn-base",
     {
       "btn-teal": variant === "primary",
       "btn-zinc": variant === "secondary",

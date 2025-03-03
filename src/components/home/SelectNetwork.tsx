@@ -2,15 +2,28 @@
 import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui";
-import { TStep, TPath, TNetwork } from "@/app/page";
+import { TStep, TPath } from "@/app/page";
+import { useUserStore, TNetwork } from "@/store/user";
 
 type SelectNetworkProps = {
   path: TPath;
   setStep: Dispatch<SetStateAction<TStep>>;
-  setNetwork: Dispatch<SetStateAction<TNetwork>>;
 };
 
-const SelectNetwork = ({ path, setStep, setNetwork }: SelectNetworkProps) => {
+const SelectNetwork = ({ path, setStep }: SelectNetworkProps) => {
+  const walletCounts = useUserStore((state) => state.walletCounts);
+  const setState = useUserStore((state) => state.setState);
+
+  const setNetwork = (network: TNetwork) => {
+    setState({
+      walletCounts: {
+        ...walletCounts,
+        [network]: 1,
+      },
+    });
+    setStep(path === "create" ? 3 : 4);
+  };
+
   return (
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
@@ -29,10 +42,7 @@ const SelectNetwork = ({ path, setStep, setNetwork }: SelectNetworkProps) => {
         <Button
           variant="secondary"
           className="gap-2.5"
-          onClick={() => {
-            setNetwork("solana");
-            setStep(path === "create" ? 3 : 4);
-          }}
+          onClick={() => setNetwork("sol")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -67,10 +77,7 @@ const SelectNetwork = ({ path, setStep, setNetwork }: SelectNetworkProps) => {
         <Button
           variant="secondary"
           className="gap-2.5"
-          onClick={() => {
-            setNetwork("ethereum");
-            setStep(path === "create" ? 3 : 4);
-          }}
+          onClick={() => setNetwork("eth")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
