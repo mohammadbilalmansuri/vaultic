@@ -6,13 +6,15 @@ import { useForm } from "react-hook-form";
 import { Button, PasswordInput } from "@/components/ui";
 import { passwordSchema, PasswordFormData } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUserStore } from "@/store/user";
+import { TNetwork, useUserStore } from "@/stores/userStore";
+import useWallet from "@/hooks/useWallet";
 
 type CreatePasswordProps = {
+  network: TNetwork;
   setStep: Dispatch<SetStateAction<TStep>>;
 };
 
-const CreatePassword = ({ setStep }: CreatePasswordProps) => {
+const CreatePassword = ({ network, setStep }: CreatePasswordProps) => {
   const {
     register,
     handleSubmit,
@@ -22,6 +24,8 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
     mode: "onChange",
   });
 
+  const { createWallet } = useWallet();
+
   const setState = useUserStore((state) => state.setState);
 
   const onSubmit = (data: PasswordFormData) => {
@@ -29,8 +33,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
       status: true,
       password: data.password,
     });
-    // Create a wallet
-    // save user data in indexedDB
+    createWallet(network);
     setStep(6);
   };
 

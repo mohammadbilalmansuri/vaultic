@@ -3,24 +3,17 @@ import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui";
 import { TStep, TPath } from "@/app/page";
-import { useUserStore, TNetwork } from "@/store/user";
+import { TNetwork } from "@/stores/userStore";
 
 type SelectNetworkProps = {
   path: TPath;
+  setNetwork: Dispatch<SetStateAction<TNetwork>>;
   setStep: Dispatch<SetStateAction<TStep>>;
 };
 
-const SelectNetwork = ({ path, setStep }: SelectNetworkProps) => {
-  const walletCounts = useUserStore((state) => state.walletCounts);
-  const setState = useUserStore((state) => state.setState);
-
-  const setNetwork = (network: TNetwork) => {
-    setState({
-      walletCounts: {
-        ...walletCounts,
-        [network]: 1,
-      },
-    });
+const SelectNetwork = ({ path, setNetwork, setStep }: SelectNetworkProps) => {
+  const setState = (network: TNetwork) => {
+    setNetwork(network);
     setStep(path === "create" ? 3 : 4);
   };
 
@@ -42,7 +35,7 @@ const SelectNetwork = ({ path, setStep }: SelectNetworkProps) => {
         <Button
           variant="secondary"
           className="gap-2.5"
-          onClick={() => setNetwork("sol")}
+          onClick={() => setState("sol")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +70,7 @@ const SelectNetwork = ({ path, setStep }: SelectNetworkProps) => {
         <Button
           variant="secondary"
           className="gap-2.5"
-          onClick={() => setNetwork("eth")}
+          onClick={() => setState("eth")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

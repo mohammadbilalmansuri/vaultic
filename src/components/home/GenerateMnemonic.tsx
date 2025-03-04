@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import { Button, Switch } from "@/components/ui";
 import { TStep } from "@/app/page";
 import { useCopy } from "@/hooks";
-import { useUserStore } from "@/store/user";
+import { useUserStore } from "@/stores/userStore";
 
 type GenerateWalletProps = {
   setStep: Dispatch<SetStateAction<TStep>>;

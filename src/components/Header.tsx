@@ -1,5 +1,5 @@
 "use client";
-import useThemeStore from "@/store/theme";
+import useThemeStore from "@/stores/themeStore";
 import { Switch } from "@/components/ui";
 import cn from "@/utils/cn";
 
