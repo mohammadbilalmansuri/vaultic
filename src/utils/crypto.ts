@@ -1,65 +1,129 @@
-import crypto from "crypto";
-import argon2 from "argon2";
-
-const ALGORITHM = "aes-256-gcm";
+const ALGORITHM = "AES-GCM";
 const IV_LENGTH = 16;
 const SALT_LENGTH = 16;
 const KEY_LENGTH = 32;
+const PBKDF2_ITERATIONS = 100000;
 
-// Hash password
 export async function hashPassword(password: string): Promise<string> {
-  return await argon2.hash(password, { type: argon2.argon2id });
+  const salt = crypto.getRandomValues(new Uint8Array(SALT_LENGTH));
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(password),
+    { name: "PBKDF2" },
+    false,
+    ["deriveBits"]
+  );
+
+  const hashBuffer = await crypto.subtle.deriveBits(
+    {
+      name: "PBKDF2",
+      salt,
+      iterations: PBKDF2_ITERATIONS,
+      hash: "SHA-256",
+    },
+    keyMaterial,
+    256
+  );
+
+  return `${Buffer.from(salt).toString("hex")}:${Buffer.from(
+    hashBuffer
+  ).toString("hex")}`;
 }
 
-// Verify password
 export async function verifyPassword(
   password: string,
-  hashedPassword: string
+  storedHash: string
 ): Promise<boolean> {
-  return await argon2.verify(hashedPassword, password);
+  const [saltHex, storedHashHex] = storedHash.split(":");
+  const salt = new Uint8Array(Buffer.from(saltHex, "hex"));
+  const storedHashBuffer = Buffer.from(storedHashHex, "hex");
+
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(password),
+    { name: "PBKDF2" },
+    false,
+    ["deriveBits"]
+  );
+
+  const computedHashBuffer = await crypto.subtle.deriveBits(
+    {
+      name: "PBKDF2",
+      salt,
+      iterations: PBKDF2_ITERATIONS,
+      hash: "SHA-256",
+    },
+    keyMaterial,
+    256
+  );
+
+  return Buffer.from(computedHashBuffer).toString("hex") === storedHashHex;
 }
 
-// Derive encryption key from password
-function deriveKey(password: string, salt: Buffer): Buffer {
-  return crypto.scryptSync(password, salt, KEY_LENGTH);
+async function deriveKey(
+  password: string,
+  salt: Uint8Array
+): Promise<CryptoKey> {
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(password),
+    { name: "PBKDF2" },
+    false,
+    ["deriveKey"]
+  );
+
+  return await crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt,
+      iterations: PBKDF2_ITERATIONS,
+      hash: "SHA-256",
+    },
+    keyMaterial,
+    { name: ALGORITHM, length: 256 },
+    true,
+    ["encrypt", "decrypt"]
+  );
 }
 
-// Encrypt mnemonic
-export function encryptMnemonic(mnemonic: string, password: string): string {
-  const salt = crypto.randomBytes(SALT_LENGTH);
-  const iv = crypto.randomBytes(IV_LENGTH);
-  const key = deriveKey(password, salt);
-  const cipher = crypto.createCipheriv(ALGORITHM, key, iv);
+export async function encryptMnemonic(
+  mnemonic: string,
+  password: string
+): Promise<string> {
+  const salt = crypto.getRandomValues(new Uint8Array(SALT_LENGTH));
+  const iv = crypto.getRandomValues(new Uint8Array(IV_LENGTH));
+  const key = await deriveKey(password, salt);
 
-  let encrypted = cipher.update(mnemonic, "utf8", "hex");
-  encrypted += cipher.final("hex");
-  const authTag = cipher.getAuthTag().toString("hex");
+  const encryptedBuffer = await crypto.subtle.encrypt(
+    { name: ALGORITHM, iv },
+    key,
+    new TextEncoder().encode(mnemonic)
+  );
 
-  return `${salt.toString("hex")}:${iv.toString(
+  return `${Buffer.from(salt).toString("hex")}:${Buffer.from(iv).toString(
     "hex"
-  )}:${authTag}:${encrypted}`;
+  )}:${Buffer.from(encryptedBuffer).toString("hex")}`;
 }
 
-// Decrypt mnemonic
-export function decryptMnemonic(
+export async function decryptMnemonic(
   encryptedMnemonic: string,
   password: string
-): string | null {
+): Promise<string> {
   try {
-    const [saltHex, ivHex, authTagHex, encrypted] =
-      encryptedMnemonic.split(":");
-    const salt = Buffer.from(saltHex, "hex");
-    const iv = Buffer.from(ivHex, "hex");
-    const authTag = Buffer.from(authTagHex, "hex");
-    const key = deriveKey(password, salt);
-    const decipher = crypto.createDecipheriv(ALGORITHM, key, iv);
-    decipher.setAuthTag(authTag);
+    const [saltHex, ivHex, encryptedHex] = encryptedMnemonic.split(":");
+    const salt = new Uint8Array(Buffer.from(saltHex, "hex"));
+    const iv = new Uint8Array(Buffer.from(ivHex, "hex"));
+    const encryptedBuffer = Buffer.from(encryptedHex, "hex");
 
-    let decrypted = decipher.update(encrypted, "hex", "utf8");
-    decrypted += decipher.final("utf8");
+    const key = await deriveKey(password, salt);
+    const decryptedBuffer = await crypto.subtle.decrypt(
+      { name: ALGORITHM, iv },
+      key,
+      encryptedBuffer
+    );
 
-    return decrypted;
+    return new TextDecoder().decode(decryptedBuffer);
   } catch (error) {
-    return null;
+    return "";
   }
 }
