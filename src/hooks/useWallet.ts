@@ -1,4 +1,3 @@
-import { generateMnemonic as bip39Generate } from "bip39";
 import { useUserStore, TNetwork } from "@/stores/userStore";
 import { useWalletStore } from "@/stores/walletStore";
 import useStorage from "./useStorage";
@@ -6,38 +5,33 @@ import deriveEthereumWallet from "@/utils/deriveEthereumWallet";
 import deriveSolanaWallet from "@/utils/deriveSolanaWallet";
 
 const useWallet = () => {
-  const { status, mnemonic, walletCounts, setState } = useUserStore(
-    (state) => ({
-      status: state.status,
-      mnemonic: state.mnemonic,
-      walletCounts: state.walletCounts,
-      setState: state.setState,
-    })
-  );
+  const status = useUserStore((state) => state.status);
+  const mnemonic = useUserStore((state) => state.mnemonic);
+  const walletCounts = useUserStore((state) => state.walletCounts);
+  const setState = useUserStore((state) => state.setState);
 
-  const { addWallet, removeWallet, setWallets } = useWalletStore((state) => ({
-    addWallet: state.addWallet,
-    removeWallet: state.removeWallet,
-    setWallets: state.setWallets,
-  }));
+  const addWallet = useWalletStore((state) => state.addWallet);
+  const removeWallet = useWalletStore((state) => state.removeWallet);
+  const setWallets = useWalletStore((state) => state.setWallets);
 
   const { saveUser } = useStorage();
 
   const createWallet = async (network: TNetwork) => {
-    const index = walletCounts[network];
+    const index = walletCounts[network] || 0;
     const wallet =
       network === "eth"
         ? await deriveEthereumWallet(mnemonic, index)
         : await deriveSolanaWallet(mnemonic, index);
 
-    setState({
-      walletCounts: { ...walletCounts, [network]: index + 1 },
-    });
+    const newWallet = {
+      index,
+      ...wallet,
+      network,
+      balance: 0,
+    };
 
-    // addWallet(wallet);
+    addWallet(newWallet);
     // await saveUser();
-
-    console.log("Wallet created:", wallet);
   };
 
   // Remove wallet by index
@@ -47,20 +41,25 @@ const useWallet = () => {
   };
 
   // Load all wallets from mnemonic
-  const loadWallets = () => {
+  const loadWallets = async () => {
     if (!status || !mnemonic) return;
 
-    const wallets = [];
-    for (let i = 0; i < walletCounts.eth; i++) {
-      wallets.push(deriveEthereumWallet(mnemonic, i));
-    }
-    for (let i = 0; i < walletCounts.sol; i++) {
-      wallets.push(deriveSolanaWallet(mnemonic, i));
-    }
+    const ethWallets = await Promise.all(
+      Array.from({ length: walletCounts.eth || 0 }, (_, i) =>
+        deriveEthereumWallet(mnemonic, i)
+      )
+    );
 
-    console.log("Wallets loaded:", wallets);
+    const solWallets = await Promise.all(
+      Array.from({ length: walletCounts.sol || 0 }, (_, i) =>
+        deriveSolanaWallet(mnemonic, i)
+      )
+    );
 
-    // setWallets(wallets);
+    const allWallets = [...ethWallets, ...solWallets];
+
+    // setWallets(allWallets);
+    console.log("Wallets loaded:", allWallets);
   };
 
   return { createWallet, deleteWallet, loadWallets };
