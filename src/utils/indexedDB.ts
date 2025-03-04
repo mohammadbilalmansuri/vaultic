@@ -1,5 +1,13 @@
-const DB_NAME = "cryptoWalletDB";
-const STORE_NAME = "userData";
+import { TWalletCounts } from "@/stores/userStore";
+
+export interface ISavedUserData {
+  hashedPassword: string;
+  encryptedMnemonic: string;
+  walletCounts: TWalletCounts;
+}
+
+const DB_NAME = "vaultic_db";
+const STORE_NAME = "vaultic_store";
 
 let dbInstance: IDBDatabase | null = null;
 
@@ -21,44 +29,36 @@ async function openDB(): Promise<IDBDatabase> {
       resolve(dbInstance);
     };
 
-    request.onerror = (event) =>
-      reject((event.target as IDBOpenDBRequest).error);
+    request.onerror = () => reject(request.error);
   });
 }
 
-export async function setUserData(id: string, value: any): Promise<void> {
+export async function setUserData(
+  id: string,
+  value: ISavedUserData
+): Promise<void> {
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, "readwrite");
     const store = tx.objectStore(STORE_NAME);
     const request = store.put({ id, value });
 
-    request.onsuccess = () => resolve();
-    request.onerror = (event) => reject(event);
+    tx.oncomplete = () => resolve();
+    request.onerror = () => reject(request.error);
   });
 }
 
-export async function getUserData(id: string): Promise<any> {
+export async function getUserData(id: string): Promise<ISavedUserData | null> {
   const db = await openDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, "readonly");
     const store = tx.objectStore(STORE_NAME);
     const request = store.get(id);
 
-    request.onsuccess = () => resolve(request.result?.value);
-    request.onerror = (event) => reject(event);
-  });
-}
-
-export async function removeUserData(id: string): Promise<void> {
-  const db = await openDB();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE_NAME, "readwrite");
-    const store = tx.objectStore(STORE_NAME);
-    const request = store.delete(id);
-
-    request.onsuccess = () => resolve();
-    request.onerror = (event) => reject(event);
+    request.onsuccess = () => {
+      resolve(request.result?.value ?? null);
+    };
+    request.onerror = () => reject(request.error);
   });
 }
 
@@ -69,7 +69,7 @@ export async function clearUserData(): Promise<void> {
     const store = tx.objectStore(STORE_NAME);
     const request = store.clear();
 
-    request.onsuccess = () => resolve();
-    request.onerror = (event) => reject(event);
+    tx.oncomplete = () => resolve();
+    request.onerror = () => reject(request.error);
   });
 }
