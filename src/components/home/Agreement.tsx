@@ -5,7 +5,7 @@ import cn from "@/utils/cn";
 import { Button, Switch } from "@/components/ui";
 import { TStep } from "@/app/page";
 import { generateMnemonic } from "bip39";
-import { useUserStore } from "@/store/user";
+import { useUserStore } from "@/stores/userStore";
 
 type AgreementProps = {
   setStep: Dispatch<SetStateAction<TStep>>;

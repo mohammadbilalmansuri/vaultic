@@ -9,6 +9,7 @@ import {
   CreatePassword,
   Completion,
 } from "@/components/home";
+import { TNetwork } from "@/stores/userStore";
 import cn from "@/utils/cn";
 
 export type TStep = 1 | 2 | 3 | 4 | 5 | 6;
@@ -22,13 +23,14 @@ const TOTAL_STEPS = {
 const Page = () => {
   const [step, setStep] = useState<TStep>(1);
   const [path, setPath] = useState<TPath>("create");
+  const [network, setNetwork] = useState<TNetwork>("sol");
 
   const stepComponents: Record<TStep, JSX.Element | null> = {
     1: <Welcome setStep={setStep} setPath={setPath} />,
-    2: <SelectNetwork path={path} setStep={setStep} />,
+    2: <SelectNetwork setNetwork={setNetwork} path={path} setStep={setStep} />,
     3: path === "import" ? <ImportWallet /> : <Agreement setStep={setStep} />,
     4: path === "create" ? <GenerateMnemonic setStep={setStep} /> : null,
-    5: <CreatePassword setStep={setStep} />,
+    5: <CreatePassword network={network} setStep={setStep} />,
     6: <Completion />,
   };
 

@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 export type TNetwork = "eth" | "sol";
 
-type WalletCounts = {
+export type TWalletCounts = {
   [K in TNetwork]: number;
 };
 
@@ -10,8 +10,8 @@ interface UserState {
   status: boolean;
   password: string;
   mnemonic: string;
-  walletCounts: WalletCounts;
-  setState: (updates: Partial<Omit<UserState, "setState">>) => void;
+  walletCounts: TWalletCounts;
+  setState: (updates: Partial<Omit<UserState, "setState" | "logout">>) => void;
   logout: () => void;
   initUser: (data: Partial<UserState>) => void;
 }
@@ -35,6 +35,9 @@ export const useUserStore = create<UserState>((set) => ({
   initUser: (data) =>
     set((state) => ({
       ...state,
-      ...data,
+      status: data.status ?? state.status,
+      password: data.password ?? state.password,
+      mnemonic: data.mnemonic ?? state.mnemonic,
+      walletCounts: data.walletCounts ?? state.walletCounts,
     })),
 }));
