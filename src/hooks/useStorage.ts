@@ -36,14 +36,10 @@ const useStorage = () => {
   };
 
   const saveUser = async (): Promise<void> => {
-    const { status, password, mnemonic, walletCounts } = useUserStore(
-      (state) => ({
-        status: state.status,
-        password: state.password,
-        mnemonic: state.mnemonic,
-        walletCounts: state.walletCounts,
-      })
-    );
+    const status = useUserStore((state) => state.status);
+    const password = useUserStore((state) => state.password);
+    const mnemonic = useUserStore((state) => state.mnemonic);
+    const walletCounts = useUserStore((state) => state.walletCounts);
 
     if (!status || !password || !mnemonic)
       throw new Error("User not authenticated");
