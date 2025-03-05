@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type TNetwork = "eth" | "sol";
+export type TNetwork = "ethereum" | "solana";
 
 export type TWalletCounts = {
   [K in TNetwork]: number;
@@ -20,7 +20,7 @@ export const useUserStore = create<UserState>((set) => ({
   status: false,
   password: "",
   mnemonic: "",
-  walletCounts: { eth: 0, sol: 0 },
+  walletCounts: { ethereum: 0, solana: 0 },
 
   setState: (updates) => set((state) => ({ ...state, ...updates })),
 
@@ -29,7 +29,7 @@ export const useUserStore = create<UserState>((set) => ({
       status: false,
       password: "",
       mnemonic: "",
-      walletCounts: { eth: 0, sol: 0 },
+      walletCounts: { ethereum: 0, solana: 0 },
     }),
 
   initUser: (data) =>

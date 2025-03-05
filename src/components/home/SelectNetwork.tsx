@@ -35,7 +35,7 @@ const SelectNetwork = ({ path, setNetwork, setStep }: SelectNetworkProps) => {
         <Button
           variant="secondary"
           className="gap-2.5"
-          onClick={() => setState("sol")}
+          onClick={() => setState("solana")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +70,7 @@ const SelectNetwork = ({ path, setNetwork, setStep }: SelectNetworkProps) => {
         <Button
           variant="secondary"
           className="gap-2.5"
-          onClick={() => setState("eth")}
+          onClick={() => setState("ethereum")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

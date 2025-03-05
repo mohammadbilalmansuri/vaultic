@@ -23,7 +23,7 @@ const TOTAL_STEPS = {
 const Page = () => {
   const [step, setStep] = useState<TStep>(1);
   const [path, setPath] = useState<TPath>("create");
-  const [network, setNetwork] = useState<TNetwork>("sol");
+  const [network, setNetwork] = useState<TNetwork>("solana");
 
   const stepComponents: Record<TStep, JSX.Element | null> = {
     1: <Welcome setStep={setStep} setPath={setPath} />,
