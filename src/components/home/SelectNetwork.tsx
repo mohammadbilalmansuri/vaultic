@@ -6,22 +6,21 @@ import { TStep, TPath } from "@/app/page";
 import { TNetwork } from "@/stores/userStore";
 
 type SelectNetworkProps = {
-  path: TPath;
   setNetwork: Dispatch<SetStateAction<TNetwork>>;
   setStep: Dispatch<SetStateAction<TStep>>;
 };
 
-const SelectNetwork = ({ path, setNetwork, setStep }: SelectNetworkProps) => {
+const SelectNetwork = ({ setNetwork, setStep }: SelectNetworkProps) => {
   const setState = (network: TNetwork) => {
     setNetwork(network);
-    setStep(path === "create" ? 3 : 4);
+    setStep(3);
   };
 
   return (
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}
       exit={{ scale: 0.8, opacity: 0 }}
       className="box"
     >

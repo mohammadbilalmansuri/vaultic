@@ -10,12 +10,17 @@ type WelcomeProps = {
 };
 
 const Welcome = ({ setPath, setStep }: WelcomeProps) => {
+  const setState = (path: TPath) => {
+    setPath(path);
+    setStep(2);
+  };
+
   return (
     <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
+      initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.4, ease: "easeInOut" }}
+      exit={{ scale: 0.8, opacity: 0 }}
       className="box"
     >
       <svg
@@ -37,20 +42,14 @@ const Welcome = ({ setPath, setStep }: WelcomeProps) => {
         <Button
           variant="primary"
           className="w-full"
-          onClick={() => {
-            setPath("create");
-            setStep(2);
-          }}
+          onClick={() => setState("create")}
         >
           Create a new wallet
         </Button>
         <Button
           variant="secondary"
           className="w-full"
-          onClick={() => {
-            setPath("import");
-            setStep(2);
-          }}
+          onClick={() => setState("import")}
         >
           Import wallet
         </Button>
