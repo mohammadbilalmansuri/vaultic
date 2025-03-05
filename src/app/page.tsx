@@ -21,16 +21,33 @@ const TOTAL_STEPS = {
 };
 
 const Page = () => {
-  const [step, setStep] = useState<TStep>(1);
-  const [path, setPath] = useState<TPath>("create");
+  const [step, setStep] = useState<TStep>(3);
+  const [path, setPath] = useState<TPath>("import");
   const [network, setNetwork] = useState<TNetwork>("solana");
 
-  const stepComponents: Record<TStep, JSX.Element | null> = {
+  const totalSteps = path ? TOTAL_STEPS[path] : 6;
+
+  const stepComponents: Record<TStep, JSX.Element> = {
     1: <Welcome setStep={setStep} setPath={setPath} />,
-    2: <SelectNetwork setNetwork={setNetwork} path={path} setStep={setStep} />,
-    3: path === "import" ? <ImportWallet /> : <Agreement setStep={setStep} />,
-    4: path === "create" ? <GenerateMnemonic setStep={setStep} /> : null,
-    5: <CreatePassword network={network} setStep={setStep} />,
+    2: <SelectNetwork setNetwork={setNetwork} setStep={setStep} />,
+    3:
+      path === "create" ? (
+        <Agreement setStep={setStep} />
+      ) : (
+        <ImportWallet setStep={setStep} />
+      ),
+    4:
+      path === "create" ? (
+        <GenerateMnemonic setStep={setStep} />
+      ) : (
+        <CreatePassword network={network} setStep={setStep} />
+      ),
+    5:
+      path === "create" ? (
+        <CreatePassword network={network} setStep={setStep} />
+      ) : (
+        <Completion />
+      ),
     6: <Completion />,
   };
 
@@ -39,18 +56,20 @@ const Page = () => {
       {stepComponents[step]}
 
       {/* Step Indicator */}
-      <div className="flex items-center gap-2">
-        {Array.from({ length: TOTAL_STEPS[path ?? "create"] }, (_, index) => (
-          <span
-            key={index}
-            className={cn("size-3 rounded-full", {
-              "bg-zinc-300 dark:bg-zinc-700": step < index + 1,
-              "bg-teal-500/50": step > index + 1,
-              "bg-teal-500": step === index + 1,
-            })}
-          />
-        ))}
-      </div>
+      {path && (
+        <div className="flex items-center gap-2">
+          {Array.from({ length: totalSteps }, (_, index) => (
+            <span
+              key={index}
+              className={cn("size-3 rounded-full", {
+                "bg-zinc-300 dark:bg-zinc-700": step < index + 1,
+                "bg-teal-500/50": step > index + 1,
+                "bg-teal-500": step === index + 1,
+              })}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
