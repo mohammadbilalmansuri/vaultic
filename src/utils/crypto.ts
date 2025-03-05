@@ -1,129 +1,160 @@
-const ALGORITHM = "AES-GCM";
-const IV_LENGTH = 16;
-const SALT_LENGTH = 16;
-const KEY_LENGTH = 32;
-const PBKDF2_ITERATIONS = 100000;
+const cryptoLib: SubtleCrypto = globalThis.crypto.subtle;
 
-export async function hashPassword(password: string): Promise<string> {
-  const salt = crypto.getRandomValues(new Uint8Array(SALT_LENGTH));
-  const keyMaterial = await crypto.subtle.importKey(
+async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const keyMaterial = await cryptoLib.importKey(
     "raw",
-    new TextEncoder().encode(password),
+    encoder.encode(password),
     { name: "PBKDF2" },
     false,
     ["deriveBits"]
   );
-
-  const hashBuffer = await crypto.subtle.deriveBits(
+  const derivedKey = await cryptoLib.deriveBits(
     {
       name: "PBKDF2",
       salt,
-      iterations: PBKDF2_ITERATIONS,
+      iterations: 100000,
       hash: "SHA-256",
     },
     keyMaterial,
     256
   );
 
-  return `${Buffer.from(salt).toString("hex")}:${Buffer.from(
-    hashBuffer
-  ).toString("hex")}`;
+  const hashHex = Array.from(new Uint8Array(derivedKey))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+  const saltHex = Array.from(salt)
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+
+  return `${saltHex}:${hashHex}`;
 }
 
-export async function verifyPassword(
+async function verifyPassword(
   password: string,
   storedHash: string
 ): Promise<boolean> {
-  const [saltHex, storedHashHex] = storedHash.split(":");
-  const salt = new Uint8Array(Buffer.from(saltHex, "hex"));
-  const storedHashBuffer = Buffer.from(storedHashHex, "hex");
+  const [saltHex, hashHex] = storedHash.split(":");
+  const salt = new Uint8Array(
+    saltHex.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16))
+  );
 
-  const keyMaterial = await crypto.subtle.importKey(
+  const encoder = new TextEncoder();
+  const keyMaterial = await cryptoLib.importKey(
     "raw",
-    new TextEncoder().encode(password),
+    encoder.encode(password),
     { name: "PBKDF2" },
     false,
     ["deriveBits"]
   );
-
-  const computedHashBuffer = await crypto.subtle.deriveBits(
+  const derivedKey = await cryptoLib.deriveBits(
     {
       name: "PBKDF2",
       salt,
-      iterations: PBKDF2_ITERATIONS,
+      iterations: 100000,
       hash: "SHA-256",
     },
     keyMaterial,
     256
   );
 
-  return Buffer.from(computedHashBuffer).toString("hex") === storedHashHex;
+  const computedHashHex = Array.from(new Uint8Array(derivedKey))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+
+  return computedHashHex === hashHex;
 }
 
-async function deriveKey(
-  password: string,
-  salt: Uint8Array
-): Promise<CryptoKey> {
-  const keyMaterial = await crypto.subtle.importKey(
+async function encryptMnemonic(
+  mnemonic: string,
+  password: string
+): Promise<string> {
+  const encoder = new TextEncoder();
+  const keyMaterial = await cryptoLib.importKey(
     "raw",
-    new TextEncoder().encode(password),
+    encoder.encode(password),
     { name: "PBKDF2" },
     false,
     ["deriveKey"]
   );
-
-  return await crypto.subtle.deriveKey(
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key = await cryptoLib.deriveKey(
     {
       name: "PBKDF2",
       salt,
-      iterations: PBKDF2_ITERATIONS,
+      iterations: 100000,
       hash: "SHA-256",
     },
     keyMaterial,
-    { name: ALGORITHM, length: 256 },
-    true,
-    ["encrypt", "decrypt"]
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["encrypt"]
   );
-}
-
-export async function encryptMnemonic(
-  mnemonic: string,
-  password: string
-): Promise<string> {
-  const salt = crypto.getRandomValues(new Uint8Array(SALT_LENGTH));
-  const iv = crypto.getRandomValues(new Uint8Array(IV_LENGTH));
-  const key = await deriveKey(password, salt);
-
-  const encryptedBuffer = await crypto.subtle.encrypt(
-    { name: ALGORITHM, iv },
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const encryptedData = await cryptoLib.encrypt(
+    { name: "AES-GCM", iv },
     key,
-    new TextEncoder().encode(mnemonic)
+    encoder.encode(mnemonic)
   );
 
-  return `${Buffer.from(salt).toString("hex")}:${Buffer.from(iv).toString(
-    "hex"
-  )}:${Buffer.from(encryptedBuffer).toString("hex")}`;
+  return `${btoa(String.fromCharCode(...salt))}:${btoa(
+    String.fromCharCode(...iv)
+  )}:${btoa(String.fromCharCode(...new Uint8Array(encryptedData)))}`;
 }
 
-export async function decryptMnemonic(
+async function decryptMnemonic(
   encryptedMnemonic: string,
   password: string
-): Promise<string> {
+): Promise<string | null> {
+  const [saltB64, ivB64, encryptedB64] = encryptedMnemonic.split(":");
+  const salt = new Uint8Array(
+    atob(saltB64)
+      .split("")
+      .map((c) => c.charCodeAt(0))
+  );
+  const iv = new Uint8Array(
+    atob(ivB64)
+      .split("")
+      .map((c) => c.charCodeAt(0))
+  );
+  const encryptedData = new Uint8Array(
+    atob(encryptedB64)
+      .split("")
+      .map((c) => c.charCodeAt(0))
+  );
+
+  const encoder = new TextEncoder();
+  const keyMaterial = await cryptoLib.importKey(
+    "raw",
+    encoder.encode(password),
+    { name: "PBKDF2" },
+    false,
+    ["deriveKey"]
+  );
+  const key = await cryptoLib.deriveKey(
+    {
+      name: "PBKDF2",
+      salt,
+      iterations: 100000,
+      hash: "SHA-256",
+    },
+    keyMaterial,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["decrypt"]
+  );
   try {
-    const [saltHex, ivHex, encryptedHex] = encryptedMnemonic.split(":");
-    const salt = new Uint8Array(Buffer.from(saltHex, "hex"));
-    const iv = new Uint8Array(Buffer.from(ivHex, "hex"));
-    const encryptedBuffer = Buffer.from(encryptedHex, "hex");
-
-    const key = await deriveKey(password, salt);
-    const decryptedBuffer = await crypto.subtle.decrypt(
-      { name: ALGORITHM, iv },
+    const decryptedData = await cryptoLib.decrypt(
+      { name: "AES-GCM", iv },
       key,
-      encryptedBuffer
+      encryptedData
     );
-
-    return new TextDecoder().decode(decryptedBuffer);
+    return new TextDecoder().decode(decryptedData);
   } catch (error) {
-    return "";
+    console.error("Decryption failed", error);
+    return null;
   }
 }
+
+export { hashPassword, verifyPassword, encryptMnemonic, decryptMnemonic };

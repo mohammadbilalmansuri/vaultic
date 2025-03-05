@@ -5,7 +5,7 @@ interface Wallet {
   index: number;
   address: string;
   privateKey: string;
-  balance: number;
+  balance?: number;
   network: TNetwork;
 }
 
@@ -15,6 +15,7 @@ interface WalletState {
   addWallet: (wallet: Wallet) => void;
   removeWallet: (index: number) => void;
   clearWallets: () => void;
+  updateWalletBalance: (index: number, balance: number) => void;
 }
 
 export const useWalletStore = create<WalletState>((set, get) => ({
@@ -28,7 +29,7 @@ export const useWalletStore = create<WalletState>((set, get) => ({
     set((state) => {
       const newWallets = [...state.wallets, wallet];
       return { wallets: newWallets };
-    }, false), // Prevent re-render until updateWalletCounts is called
+    }, false),
 
   removeWallet: (index) =>
     set((state) => {
@@ -36,8 +37,13 @@ export const useWalletStore = create<WalletState>((set, get) => ({
       return { wallets: newWallets };
     }, false),
 
-  clearWallets: () =>
-    set(() => {
-      return { wallets: [] };
+  clearWallets: () => set(() => ({ wallets: [] }), false),
+
+  updateWalletBalance: (index, balance) =>
+    set((state) => {
+      const newWallets = state.wallets.map((w) =>
+        w.index === index ? { ...w, balance } : w
+      );
+      return { wallets: newWallets };
     }, false),
 }));

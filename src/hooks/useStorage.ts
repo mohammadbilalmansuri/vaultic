@@ -9,6 +9,10 @@ import { useUserStore } from "@/stores/userStore";
 import { useWalletStore } from "@/stores/walletStore";
 
 const useStorage = () => {
+  const initUser = useUserStore((state) => state.initUser);
+  const logout = useUserStore((state) => state.logout);
+  const clearWallets = useWalletStore((state) => state.clearWallets);
+
   const isUser = async (): Promise<boolean> => {
     const userData = await getUserData("user");
     return !!userData;
@@ -21,13 +25,13 @@ const useStorage = () => {
     const isValid = await verifyPassword(password, userData.hashedPassword);
     if (!isValid) throw new Error("Invalid password");
 
-    const decryptedMnemonic = decryptMnemonic(
+    const decryptedMnemonic = await decryptMnemonic(
       userData.encryptedMnemonic,
       password
     );
     if (!decryptedMnemonic) throw new Error("Decryption failed");
 
-    useUserStore.getState().initUser({
+    initUser({
       status: true,
       password,
       mnemonic: decryptedMnemonic,
@@ -49,7 +53,7 @@ const useStorage = () => {
       ? { ...existingData, walletCounts }
       : {
           hashedPassword: await hashPassword(password),
-          encryptedMnemonic: encryptMnemonic(mnemonic, password),
+          encryptedMnemonic: await encryptMnemonic(mnemonic, password),
           walletCounts,
         };
 
@@ -58,8 +62,8 @@ const useStorage = () => {
 
   const deleteUser = async (): Promise<void> => {
     await clearUserData();
-    useUserStore.getState().logout();
-    useWalletStore.getState().clearWallets();
+    logout();
+    clearWallets();
   };
 
   return { isUser, loadUser, saveUser, deleteUser };
