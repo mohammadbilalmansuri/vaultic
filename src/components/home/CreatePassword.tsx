@@ -30,7 +30,6 @@ const CreatePassword = ({ network, setStep }: CreatePasswordProps) => {
 
   const onSubmit = (data: PasswordFormData) => {
     setState({
-      status: true,
       password: data.password,
     });
     createWallet(network);

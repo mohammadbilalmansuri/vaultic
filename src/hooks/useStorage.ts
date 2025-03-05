@@ -32,7 +32,6 @@ const useStorage = () => {
     if (!decryptedMnemonic) throw new Error("Decryption failed");
 
     initUser({
-      status: true,
       password,
       mnemonic: decryptedMnemonic,
       walletCounts: userData.walletCounts,
@@ -40,15 +39,12 @@ const useStorage = () => {
   };
 
   const saveUser = async (): Promise<void> => {
-    const status = useUserStore((state) => state.status);
-    const password = useUserStore((state) => state.password);
-    const mnemonic = useUserStore((state) => state.mnemonic);
-    const walletCounts = useUserStore((state) => state.walletCounts);
-
-    if (!status || !password || !mnemonic)
-      throw new Error("User not authenticated");
+    const password = useUserStore.getState().password;
+    const mnemonic = useUserStore.getState().mnemonic;
+    const walletCounts = useUserStore.getState().walletCounts;
 
     const existingData = await getUserData("user");
+
     const newData = existingData
       ? { ...existingData, walletCounts }
       : {
