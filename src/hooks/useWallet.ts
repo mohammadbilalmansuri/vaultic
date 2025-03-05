@@ -6,7 +6,6 @@ import deriveWallet from "@/utils/deriveWallet";
 const useWallet = () => {
   const { saveUser } = useStorage();
 
-  const status = useUserStore((state) => state.status);
   const mnemonic = useUserStore((state) => state.mnemonic);
   const walletCounts = useUserStore((state) => state.walletCounts);
   const setState = useUserStore((state) => state.setState);
@@ -43,7 +42,7 @@ const useWallet = () => {
 
   // Load all wallets from mnemonic
   const loadWallets = async () => {
-    if (!status || !mnemonic) return;
+    if (!mnemonic) return;
 
     const ethWallets = await Promise.all(
       Array.from({ length: walletCounts.ethereum || 0 }, (_, i) =>
@@ -63,6 +62,8 @@ const useWallet = () => {
     setState({
       walletCounts: { ethereum: ethWallets.length, solana: solWallets.length },
     });
+
+    console.log(allWallets);
   };
 
   return { createWallet, deleteWallet, loadWallets, changeWalletBalance };
