@@ -3,8 +3,8 @@ import { useState, JSX } from "react";
 import {
   Welcome,
   SelectNetwork,
-  Agreement,
-  GenerateMnemonic,
+  SecretRecoveryWarning,
+  GenerateWallet,
   ImportWallet,
   CreatePassword,
   Completion,
@@ -21,8 +21,8 @@ const TOTAL_STEPS = {
 };
 
 const Page = () => {
-  const [step, setStep] = useState<TStep>(3);
-  const [path, setPath] = useState<TPath>("import");
+  const [step, setStep] = useState<TStep>(1);
+  const [path, setPath] = useState<TPath>(null);
   const [network, setNetwork] = useState<TNetwork>("solana");
 
   const totalSteps = path ? TOTAL_STEPS[path] : 6;
@@ -32,22 +32,18 @@ const Page = () => {
     2: <SelectNetwork setNetwork={setNetwork} setStep={setStep} />,
     3:
       path === "create" ? (
-        <Agreement setStep={setStep} />
+        <SecretRecoveryWarning setStep={setStep} />
       ) : (
         <ImportWallet setStep={setStep} />
       ),
     4:
       path === "create" ? (
-        <GenerateMnemonic setStep={setStep} />
+        <GenerateWallet network={network} setStep={setStep} />
       ) : (
-        <CreatePassword network={network} setStep={setStep} />
+        <CreatePassword setStep={setStep} />
       ),
     5:
-      path === "create" ? (
-        <CreatePassword network={network} setStep={setStep} />
-      ) : (
-        <Completion />
-      ),
+      path === "create" ? <CreatePassword setStep={setStep} /> : <Completion />,
     6: <Completion />,
   };
 
