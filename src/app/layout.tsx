@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Ubuntu_Sans } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider, Header, Footer } from "@/components";
+import { ThemeProvider, Protected, Header, Footer } from "@/components";
 
 const ubuntuSans = Ubuntu_Sans({
   variable: "--font-ubuntu-sans",
@@ -50,11 +50,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${ubuntuSans.variable} antialiased`}>
-        <ThemeProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </ThemeProvider>
+        <div className="root">
+          <ThemeProvider>
+            <Protected>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+            </Protected>
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   );
