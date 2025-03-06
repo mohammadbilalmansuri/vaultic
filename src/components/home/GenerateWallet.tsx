@@ -1,20 +1,37 @@
 "use client";
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import cn from "@/utils/cn";
 import { motion } from "motion/react";
 import { Button, Switch } from "@/components/ui";
 import { TStep } from "@/app/page";
 import { useCopy } from "@/hooks";
-import { useUserStore } from "@/stores/userStore";
+import { generateMnemonic } from "bip39";
+import { useUserStore, TNetwork } from "@/stores/userStore";
+import useWallet from "@/hooks/useWallet";
 
 type GenerateWalletProps = {
+  network: TNetwork;
   setStep: Dispatch<SetStateAction<TStep>>;
 };
 
-const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
+const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
   const { copied, copyToClipboard } = useCopy();
   const [saved, setSaved] = useState(false);
+  const { createWallet } = useWallet();
   const mnemonic = useUserStore((state) => state.mnemonic);
+  const setState = useUserStore((state) => state.setState);
+
+  useEffect(() => {
+    if (!mnemonic) {
+      const newMnemonic = generateMnemonic();
+      setState({ mnemonic: newMnemonic });
+    }
+  }, []);
+
+  const handleNext = async () => {
+    await createWallet(network);
+    setStep(5);
+  };
 
   return (
     <motion.div
@@ -70,7 +87,7 @@ const GenerateWallet = ({ setStep }: GenerateWalletProps) => {
             "opacity-60 pointer-events-none": !saved,
           })}
           disabled={!saved}
-          onClick={() => setStep(5)}
+          onClick={handleNext}
         >
           Next
         </Button>
