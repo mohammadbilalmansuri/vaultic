@@ -1,6 +1,6 @@
 "use client";
 import { useState, Dispatch, SetStateAction, ClipboardEvent } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui";
 import { TStep } from "@/app/page";
@@ -31,24 +31,35 @@ const ImportWallet = ({ setStep }: ImportWalletProps) => {
 
   const [mnemonicErrors, setMnemonicErrors] = useState<string>("");
 
-  const onPaste = (event: ClipboardEvent<HTMLInputElement>) => {
+  const onPaste = async (event: ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
     const text = event.clipboardData.getData("text").trim();
-    const words = text.split(/\s+/);
-    if (words.length === 12 || words.length === 24) {
-      setIs24Words(words.length === 24);
-      words.forEach((word, index) =>
-        setValue(`mnemonic.${index}`, word, { shouldValidate: true })
-      );
+    const words = text.split(/\s+/).filter(Boolean);
+    const wordCount = words.length;
+
+    if (wordCount === 12 || wordCount === 24) {
+      if (wordCount !== (is24Words ? 24 : 12)) {
+        setIs24Words(wordCount === 24);
+      }
+      setTimeout(() => {
+        words.forEach((word, index) =>
+          setValue(`mnemonic.${index}`, word, { shouldValidate: true })
+        );
+      }, 0);
+    } else {
+      setMnemonicErrors("Phrase must be 12 or 24 words.");
+      setTimeout(() => setMnemonicErrors(""), 3000);
     }
   };
 
   const onSubmit = (data: MnemonicForm) => {
-    const phrase = data.mnemonic.join(" ").trim();
+    const phrase = data.mnemonic.map((word) => word.trim()).join(" ");
     if (validateMnemonic(phrase)) {
       setState({ mnemonic: phrase });
       setStep(4);
-    } else setMnemonicErrors("Invalid mnemonic phrase.");
+    } else {
+      setMnemonicErrors("Invalid mnemonic phrase.");
+    }
   };
 
   return (
@@ -69,51 +80,24 @@ const ImportWallet = ({ setStep }: ImportWalletProps) => {
         className="w-full flex flex-col gap-4 mt-2"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <motion.div
-          key={is24Words ? "24" : "12"}
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
-          className="overflow-hidden"
-        >
-          <motion.div
-            className="w-full grid grid-cols-2 xs:grid-cols-3 gap-2.5"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: { staggerChildren: 0.05, ease: "easeOut" },
-              },
-            }}
-          >
-            <AnimatePresence>
-              {Array(is24Words ? 24 : 12)
-                .fill("")
-                .map((_, index) => (
-                  <motion.div
-                    key={index}
-                    layout
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
-                    className="w-full flex items-center gap-2 p-3 rounded-lg transition-all duration-200 bg-zinc-200/60 dark:bg-zinc-800/60 focus-within:bg-zinc-200 dark:focus-within:bg-zinc-800"
-                  >
-                    <span className="opacity-80">{index + 1}.</span>
-                    <input
-                      type="text"
-                      {...register(`mnemonic.${index}`, { required: true })}
-                      onPaste={index === 0 ? onPaste : undefined}
-                      className="w-full bg-transparent outline-none heading-color"
-                    />
-                  </motion.div>
-                ))}
-            </AnimatePresence>
-          </motion.div>
-        </motion.div>
+        <div className="w-full grid grid-cols-2 xs:grid-cols-3 gap-2.5">
+          {Array(is24Words ? 24 : 12)
+            .fill("")
+            .map((_, index) => (
+              <div
+                key={index}
+                className="w-full flex items-center gap-2 p-3 rounded-lg transition-all duration-200 bg-zinc-200/60 dark:bg-zinc-800/60 focus-within:bg-zinc-200 dark:focus-within:bg-zinc-800"
+              >
+                <span className="opacity-80">{index + 1}.</span>
+                <input
+                  type="text"
+                  {...register(`mnemonic.${index}`, { required: true })}
+                  onPaste={index === 0 ? onPaste : undefined}
+                  className="w-full bg-transparent outline-none heading-color"
+                />
+              </div>
+            ))}
+        </div>
 
         {mnemonicErrors && (
           <p className="py-1 text-yellow-500 text-sm">{mnemonicErrors}</p>
@@ -123,7 +107,7 @@ const ImportWallet = ({ setStep }: ImportWalletProps) => {
           <Button
             variant="secondary"
             className="w-1/2"
-            onClick={() => setIs24Words(!is24Words)}
+            onClick={() => setIs24Words((prev) => !prev)}
           >
             {is24Words ? "Use 12 words" : "Use 24 words"}
           </Button>
