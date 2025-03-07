@@ -2,7 +2,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui";
-import { TStep, TPath } from "@/app/page";
+import { TStep } from "@/app/page";
 import { TNetwork } from "@/stores/userStore";
 
 type SelectNetworkProps = {
