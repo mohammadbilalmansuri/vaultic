@@ -4,11 +4,13 @@ import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui";
 import { TStep } from "@/app/page";
-import { useUserStore } from "@/stores/userStore";
+import { useUserStore, TNetwork } from "@/stores/userStore";
 import { validateMnemonic } from "bip39";
 import cn from "@/utils/cn";
+import { useWallet } from "@/hooks";
 
 type ImportWalletProps = {
+  network: TNetwork;
   setStep: Dispatch<SetStateAction<TStep>>;
 };
 
@@ -16,7 +18,7 @@ type MnemonicForm = {
   mnemonic: string[];
 };
 
-const ImportWallet = ({ setStep }: ImportWalletProps) => {
+const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
   const [is24Words, setIs24Words] = useState(false);
   const setState = useUserStore((state) => state.setState);
   const {
@@ -30,6 +32,7 @@ const ImportWallet = ({ setStep }: ImportWalletProps) => {
   });
 
   const [mnemonicErrors, setMnemonicErrors] = useState<string>("");
+  const { createWallet } = useWallet();
 
   const onPaste = async (event: ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -52,10 +55,11 @@ const ImportWallet = ({ setStep }: ImportWalletProps) => {
     }
   };
 
-  const onSubmit = (data: MnemonicForm) => {
+  const onSubmit = async (data: MnemonicForm) => {
     const phrase = data.mnemonic.map((word) => word.trim()).join(" ");
     if (validateMnemonic(phrase)) {
       setState({ mnemonic: phrase });
+      await createWallet(network);
       setStep(4);
     } else {
       setMnemonicErrors("Invalid mnemonic phrase.");
