@@ -7,6 +7,7 @@ import { Button, PasswordInput } from "@/components/ui";
 import { passwordSchema, PasswordFormData } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserStore } from "@/stores/userStore";
+import { useStorage } from "@/hooks";
 
 type CreatePasswordProps = {
   setStep: Dispatch<SetStateAction<TStep>>;
@@ -24,8 +25,11 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
 
   const setState = useUserStore((state) => state.setState);
 
-  const onSubmit = ({ password }: PasswordFormData) => {
-    setState({ password });
+  const { saveUser } = useStorage();
+
+  const onSubmit = async ({ password }: PasswordFormData) => {
+    setState({ password, authenticated: true });
+    await saveUser();
     setStep(6);
   };
 
