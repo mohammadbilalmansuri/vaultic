@@ -50,15 +50,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${ubuntuSans.variable} antialiased`}>
-        <div className="root">
-          <ThemeProvider>
-            <Protected>
-              <Header />
-              <main>{children}</main>
-              <Footer />
-            </Protected>
-          </ThemeProvider>
-        </div>
+        <ThemeProvider>
+          <Header />
+          <Protected>
+            <main>{children}</main>
+          </Protected>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
