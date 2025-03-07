@@ -7,6 +7,7 @@ export type TWalletCounts = {
 };
 
 interface UserState {
+  authenticated: boolean;
   password: string;
   mnemonic: string;
   walletCounts: TWalletCounts;
@@ -16,6 +17,7 @@ interface UserState {
 }
 
 export const useUserStore = create<UserState>((set) => ({
+  authenticated: false,
   password: "",
   mnemonic: "",
   walletCounts: { ethereum: 0, solana: 0 },
@@ -24,16 +26,18 @@ export const useUserStore = create<UserState>((set) => ({
 
   logout: () =>
     set({
+      authenticated: false,
       password: "",
       mnemonic: "",
       walletCounts: { ethereum: 0, solana: 0 },
     }),
 
-  initUser: (data) =>
+  initUser: ({ password, mnemonic, walletCounts }) =>
     set((state) => ({
       ...state,
-      password: data.password ?? state.password,
-      mnemonic: data.mnemonic ?? state.mnemonic,
-      walletCounts: data.walletCounts ?? state.walletCounts,
+      authenticated: true,
+      password: password ?? state.password,
+      mnemonic: mnemonic ?? state.mnemonic,
+      walletCounts: walletCounts ?? state.walletCounts,
     })),
 }));
