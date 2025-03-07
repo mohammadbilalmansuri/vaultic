@@ -1,11 +1,8 @@
 import { useUserStore, TNetwork } from "@/stores/userStore";
 import { useWalletStore } from "@/stores/walletStore";
-import useStorage from "./useStorage";
 import deriveWallet from "@/utils/deriveWallet";
 
 const useWallet = () => {
-  const { saveUser } = useStorage();
-
   const mnemonic = useUserStore((state) => state.mnemonic);
   const walletCounts = useUserStore((state) => state.walletCounts);
   const setState = useUserStore((state) => state.setState);
@@ -28,19 +25,13 @@ const useWallet = () => {
 
     addWallet(newWallet);
     setState({ walletCounts: { ...walletCounts, [network]: index + 1 } });
-    await saveUser();
   };
 
-  // Remove wallet by index
-  const deleteWallet = async (index: number) => {
-    removeWallet(index);
-    await saveUser();
-  };
+  const deleteWallet = async (index: number) => removeWallet(index);
 
   const changeWalletBalance = async (index: number, balance: number) =>
     updateWalletBalance(index, balance);
 
-  // Load all wallets from mnemonic
   const loadWallets = async () => {
     if (!mnemonic) return;
 
@@ -59,11 +50,6 @@ const useWallet = () => {
     const allWallets = [...ethWallets, ...solWallets];
 
     setWallets(allWallets);
-    setState({
-      walletCounts: { ethereum: ethWallets.length, solana: solWallets.length },
-    });
-
-    console.log(allWallets);
   };
 
   return { createWallet, deleteWallet, loadWallets, changeWalletBalance };
