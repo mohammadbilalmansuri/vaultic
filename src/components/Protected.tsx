@@ -40,6 +40,8 @@ const Protected = ({ children }: { children: ReactNode }) => {
       } else if (!isUserExists && protectedRoutes.has(pathname)) {
         router.replace("/");
       } else {
+        if (isUserExists) await loadUser("16126662"); // For Development
+
         setChecked(true);
       }
     };
@@ -68,35 +70,37 @@ const Protected = ({ children }: { children: ReactNode }) => {
 
   if (!checked) return null;
 
-  if (protectedRoutes.has(pathname) && !authenticated) {
-    return (
-      <motion.form
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.4, ease: "easeInOut" }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        className="box"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <h1 className="-mt-1">Enter Your Password</h1>
+  // Commented for Development
 
-        <PasswordInput {...register("password")} />
+  // if (protectedRoutes.has(pathname) && !authenticated) {
+  //   return (
+  //     <motion.form
+  //       initial={{ scale: 0.8, opacity: 0 }}
+  //       animate={{ scale: 1, opacity: 1 }}
+  //       transition={{ duration: 0.4, ease: "easeInOut" }}
+  //       exit={{ scale: 0.8, opacity: 0 }}
+  //       className="box"
+  //       onSubmit={handleSubmit(onSubmit)}
+  //     >
+  //       <h1 className="-mt-1">Enter Your Password</h1>
 
-        {renderFormError()}
+  //       <PasswordInput {...register("password")} />
 
-        <Button className="w-full" type="submit">
-          Unlock
-        </Button>
+  //       {renderFormError()}
 
-        <Link
-          href="/forgot-password"
-          className="border-b hover:border-teal-500 hover:text-teal transition-all duration-200"
-        >
-          Forgot Password
-        </Link>
-      </motion.form>
-    );
-  }
+  //       <Button className="w-full" type="submit">
+  //         Unlock
+  //       </Button>
+
+  //       <Link
+  //         href="/forgot-password"
+  //         className="border-b hover:border-teal-500 hover:text-teal transition-all duration-200"
+  //       >
+  //         Forgot Password
+  //       </Link>
+  //     </motion.form>
+  //   );
+  // }
 
   return <>{children}</>;
 };
