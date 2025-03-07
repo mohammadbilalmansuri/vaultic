@@ -7,13 +7,14 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const isHydrated = useThemeStore((state) => state.isHydrated);
 
   useEffect(() => {
-    if (!isHydrated) return;
-    document.documentElement.className = theme;
-  }, []);
+    if (isHydrated) {
+      document.documentElement.className = theme;
+    }
+  }, [isHydrated, theme]);
 
   if (!isHydrated) return null;
 
-  return <>{children}</>;
+  return <div className="root">{children}</div>;
 };
 
 export default ThemeProvider;
