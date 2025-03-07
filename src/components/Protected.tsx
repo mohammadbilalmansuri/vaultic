@@ -40,8 +40,8 @@ const Protected = ({ children }: { children: ReactNode }) => {
       } else if (!isUserExists && protectedRoutes.has(pathname)) {
         router.replace("/");
       } else {
+        if (authenticated) return setChecked(true);
         if (isUserExists) await loadUser("16126662"); // For Development
-
         setChecked(true);
       }
     };
