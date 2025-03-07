@@ -34,7 +34,7 @@ const Page = () => {
       path === "create" ? (
         <SecretRecoveryWarning setStep={setStep} />
       ) : (
-        <ImportWallet setStep={setStep} />
+        <ImportWallet network={network} setStep={setStep} />
       ),
     4:
       path === "create" ? (
