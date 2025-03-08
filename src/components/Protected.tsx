@@ -3,13 +3,14 @@ import { useEffect, useState, ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import { Button, PasswordInput } from "@/components/ui";
+import { Button, PasswordInput, Loader } from "@/components/ui";
 import {
   verifyPasswordSchema,
   VerifyPasswordFormData,
 } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useStorage } from "@/hooks";
+import { useUserStore } from "@/stores/userStore";
 import Link from "next/link";
 
 const protectedRoutes = new Set(["/dashboard", "/account", "/reset-password"]);
@@ -20,6 +21,7 @@ const Protected = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
+  const authenticated = useUserStore((state) => state.authenticated);
 
   const {
     register,
@@ -31,13 +33,8 @@ const Protected = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
-    let isMounted = true;
-
     const checkUser = async () => {
-      if (!isMounted) return;
-
       const isUserExists = await isUser();
-      if (!isMounted) return;
 
       if (!isUserExists) {
         if (protectedRoutes.has(pathname)) {
@@ -48,21 +45,17 @@ const Protected = ({ children }: { children: ReactNode }) => {
       }
 
       try {
-        await loadUser("123456"); // DEVELOPMENT ONLY
+        await loadUser("12345678"); // DEVELOPMENT ONLY
       } catch (error) {
         console.error("Failed to auto-load user:", error);
       }
 
       if (pathname === "/") router.replace("/dashboard");
-      if (isMounted) setChecking(false);
+      setChecking(false);
     };
 
     checkUser();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [isUser, loadUser, pathname, router]);
+  }, [isUser, pathname, router]);
 
   const onSubmit = async ({
     password: inputPassword,
@@ -83,6 +76,8 @@ const Protected = ({ children }: { children: ReactNode }) => {
       <p className="text-yellow-500 text-sm">{errorMessage}</p>
     ) : null;
   };
+
+  if (checking) return <Loader />;
 
   // if (protectedRoutes.has(pathname) && !authenticated) {
   //   return (
@@ -110,7 +105,7 @@ const Protected = ({ children }: { children: ReactNode }) => {
   //   );
   // }
 
-  return checking ? null : <>{children}</>;
+  return <>{children}</>;
 };
 
 export default Protected;
