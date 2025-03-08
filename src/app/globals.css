@@ -60,6 +60,10 @@
     @apply w-full min-h-dvh relative flex flex-col items-center;
   }
 
+  main {
+    @apply w-full relative flex flex-col items-center justify-center flex-1 px-4;
+  }
+
   button,
   a {
     cursor: pointer;
