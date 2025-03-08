@@ -25,7 +25,7 @@ const SecretRecoveryWarning = ({ setStep }: SecretRecoveryWarningProps) => {
         On the next page, you will receive your secret recovery phrase.
       </p>
 
-      <div className="w-full flex items-center gap-4 text-left px-5 py-4 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/60">
+      <div className="mt-1 w-full flex items-center gap-4 text-left px-5 py-4 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/60">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
