@@ -42,7 +42,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
       className="box max-w-xl"
     >
       <h1 className="-mt-1">Secret Recovery Phrase</h1>
-      <p className="text-lg text-teal -mt-1.5">
+      <p className="text-lg text-teal-500 -mt-1.5">
         Save these words in a safe place.
       </p>
 

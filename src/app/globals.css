@@ -19,11 +19,7 @@
 }
 
 @utility text-color {
-  @apply text-zinc-500 dark:text-zinc-400;
-}
-
-@utility text-teal {
-  @apply text-teal-500 dark:text-teal-500;
+  @apply text-zinc-600 dark:text-zinc-400;
 }
 
 @utility btn-base {
@@ -61,11 +57,7 @@
   }
 
   .root {
-    @apply w-full min-h-dvh relative flex flex-col items-center justify-between;
-  }
-
-  main {
-    @apply w-full relative flex flex-col items-center px-4;
+    @apply w-full min-h-dvh relative flex flex-col items-center;
   }
 
   button,
