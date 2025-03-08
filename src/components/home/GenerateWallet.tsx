@@ -47,7 +47,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
       </p>
 
       <div
-        className="w-full bg-zinc-200/60 dark:bg-zinc-800/60 hover:bg-zinc-200/90 dark:hover:bg-zinc-800/80 rounded-xl flex flex-col px-4 pt-4 gap-4 mt-1 cursor-pointer transition-all duration-200"
+        className="w-full bg-zinc-200/60 dark:bg-zinc-800/60 hover:bg-zinc-200/90 dark:hover:bg-zinc-800/80 rounded-lg flex flex-col px-4 pt-4 gap-4 mt-1 cursor-pointer transition-all duration-200"
         onClick={() => copyToClipboard(mnemonic)}
       >
         <div className="w-full grid grid-cols-2 xs:grid-cols-3 gap-4">
