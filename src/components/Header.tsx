@@ -7,8 +7,8 @@ const Header = () => {
   const { theme, toggleTheme } = useThemeStore();
 
   return (
-    <header className="w-full relative flex flex-col items-center px-4 min-h-fit">
-      <div className="w-full max-w-screen-lg relative flex items-center justify-between py-4">
+    <header className="w-full relative flex flex-col items-center px-5 min-h-fit">
+      <div className="w-full max-w-screen-lg relative flex items-center justify-between py-5">
         <div className="flex items-center gap-2 cursor-default select-none">
           <svg
             xmlns="http://www.w3.org/2000/svg"
