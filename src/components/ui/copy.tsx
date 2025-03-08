@@ -62,7 +62,7 @@ const Copy = ({
       </svg>
 
       {withText && (
-        <span className={cn({ "text-teal": copied })}>
+        <span className={cn({ "text-teal-500": copied })}>
           {copied ? text.copied : text.copy}
         </span>
       )}
