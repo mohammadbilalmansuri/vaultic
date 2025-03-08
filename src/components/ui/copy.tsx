@@ -1,23 +1,18 @@
 "use client";
 import { ButtonHTMLAttributes } from "react";
 import cn from "@/utils/cn";
+import { useCopy } from "@/hooks";
 
 interface CopyProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   copied: boolean;
   withText?: boolean;
-  text?: {
-    copied: string;
-    copy: string;
-  };
+  lable?: string;
 }
 
 const Copy = ({
   copied,
   withText = false,
-  text = {
-    copied: "Copied",
-    copy: "Copy",
-  },
+  lable = "Copy to clipboard",
   ...props
 }: CopyProps) => {
   return (
@@ -63,7 +58,7 @@ const Copy = ({
 
       {withText && (
         <span className={cn({ "text-teal-500": copied })}>
-          {copied ? text.copied : text.copy}
+          {copied ? "Copied" : lable}
         </span>
       )}
     </button>
