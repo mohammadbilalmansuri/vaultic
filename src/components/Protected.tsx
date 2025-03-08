@@ -9,7 +9,7 @@ import {
   VerifyPasswordFormData,
 } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useStorage } from "@/hooks";
+import { useStorage, useWallet } from "@/hooks";
 import { useUserStore } from "@/stores/userStore";
 import Link from "next/link";
 
@@ -17,11 +17,13 @@ const protectedRoutes = new Set(["/dashboard", "/account", "/reset-password"]);
 
 const Protected = ({ children }: { children: ReactNode }) => {
   const { isUser, loadUser } = useStorage();
+  const { loadWallets } = useWallet();
   const router = useRouter();
   const pathname = usePathname();
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
   const authenticated = useUserStore((state) => state.authenticated);
+  const mnemonic = useUserStore((state) => state.mnemonic);
 
   const {
     register,
@@ -32,30 +34,28 @@ const Protected = ({ children }: { children: ReactNode }) => {
     mode: "onChange",
   });
 
-  useEffect(() => {
-    const checkUser = async () => {
-      const isUserExists = await isUser();
+  const checkUser = async () => {
+    setChecking(true);
+    const isUserExists = await isUser();
 
-      if (!isUserExists) {
-        if (protectedRoutes.has(pathname)) {
-          router.replace("/");
-        }
-        setChecking(false);
-        return;
-      }
-
-      try {
-        await loadUser("12345678"); // DEVELOPMENT ONLY
-      } catch (error) {
-        console.error("Failed to auto-load user:", error);
-      }
-
-      if (pathname === "/") router.replace("/dashboard");
+    if (!isUserExists) {
+      if (protectedRoutes.has(pathname)) router.replace("/");
       setChecking(false);
-    };
+      return;
+    }
 
+    await loadUser("12345678");
+    if (pathname === "/") router.replace("/dashboard");
+    setChecking(false);
+  };
+
+  useEffect(() => {
     checkUser();
-  }, [isUser, pathname, router]);
+  }, [pathname, router]);
+
+  useEffect(() => {
+    if (mnemonic) loadWallets();
+  }, [mnemonic]);
 
   const onSubmit = async ({
     password: inputPassword,
