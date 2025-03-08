@@ -51,7 +51,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
       className="box"
     >
       <h1 className="-mt-1">Create a Password</h1>
-      <p className="-mt-1.5">
+      <p className="-mt-1">
         It should be at least 8 characters.
         <br />
         You'll need this to unlock Vaultic.
@@ -59,7 +59,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full flex flex-col gap-4 pt-1"
+        className="w-full flex flex-col gap-4 pt-2"
       >
         <PasswordInput {...register("password")} />
         <PasswordInput

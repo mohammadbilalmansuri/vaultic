@@ -81,10 +81,10 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
       </p>
 
       <form
-        className="w-full flex flex-col gap-4 mt-2"
+        className="w-full flex flex-col gap-4.5 pt-2"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="w-full grid grid-cols-2 xs:grid-cols-3 gap-2.5">
+        <div className="w-full grid grid-cols-2 xs:grid-cols-3 gap-3">
           {Array(is24Words ? 24 : 12)
             .fill("")
             .map((_, index) => (

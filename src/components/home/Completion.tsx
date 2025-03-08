@@ -20,14 +20,14 @@ const Completion = () => {
       </svg>
 
       <h3 className="text-lg text-teal-500">Congratulations</h3>
-      <h1 className="-mt-0.5">You're all good!</h1>
-      <p className="max-w-xs pb-2 -mt-0.5">
+      <h1>You're all good!</h1>
+      <p className="max-w-xs">
         Keep a reminder of your Secret Recovery Phrase somewhere safe. If you
         lose it, no one can help you get it back. Even worse, you won't be able
         to access your wallet ever again.
       </p>
 
-      <Button as="link" href="/dashboard">
+      <Button as="link" href="/dashboard" className="mt-2">
         Open Vaultic
       </Button>
     </motion.div>
