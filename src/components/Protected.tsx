@@ -13,8 +13,6 @@ import { useStorage, useWallet } from "@/hooks";
 import { useUserStore } from "@/stores/userStore";
 import Link from "next/link";
 
-const protectedRoutes = new Set(["/dashboard", "/account", "/reset-password"]);
-
 const Protected = ({ children }: { children: ReactNode }) => {
   const { isUser, loadUser } = useStorage();
   const { loadWallets } = useWallet();
@@ -39,7 +37,7 @@ const Protected = ({ children }: { children: ReactNode }) => {
     const isUserExists = await isUser();
 
     if (!isUserExists) {
-      if (protectedRoutes.has(pathname)) router.replace("/");
+      if (pathname === "/dashboard") router.replace("/");
       setChecking(false);
       return;
     }
@@ -79,7 +77,7 @@ const Protected = ({ children }: { children: ReactNode }) => {
 
   if (checking) return <Loader />;
 
-  // if (protectedRoutes.has(pathname) && !authenticated) {
+  // if (pathname === "/dashboard" && !authenticated) {
   //   return (
   //     <motion.form
   //       initial={{ scale: 0.8, opacity: 0 }}
