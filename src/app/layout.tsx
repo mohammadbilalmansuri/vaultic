@@ -52,7 +52,9 @@ export default function RootLayout({
       <body className={`${ubuntuSans.variable} antialiased`}>
         <ThemeProvider>
           <Header />
-          <Protected>{children}</Protected>
+          <main className="w-full relative flex flex-col items-center justify-center flex-1 px-4">
+            <Protected>{children}</Protected>
+          </main>
           <Footer />
         </ThemeProvider>
       </body>
