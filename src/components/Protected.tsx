@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useStorage } from "@/hooks";
 import Link from "next/link";
 
-const protectedRoutes = new Set(["/dashboard", "/profile", "/settings"]);
+const protectedRoutes = new Set(["/dashboard", "/account", "/reset-password"]);
 
 const Protected = ({ children }: { children: ReactNode }) => {
   const { isUser, loadUser } = useStorage();
@@ -48,7 +48,7 @@ const Protected = ({ children }: { children: ReactNode }) => {
       }
 
       try {
-        await loadUser("16126662"); // DEVELOPMENT ONLY
+        await loadUser("123456"); // DEVELOPMENT ONLY
       } catch (error) {
         console.error("Failed to auto-load user:", error);
       }
