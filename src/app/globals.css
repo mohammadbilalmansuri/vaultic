@@ -11,7 +11,7 @@
 }
 
 @utility border-color {
-  @apply border-zinc-300 dark:border-zinc-700;
+  @apply border-zinc-200 dark:border-zinc-800;
 }
 
 @utility heading-color {
@@ -23,7 +23,7 @@
 }
 
 @utility btn-base {
-  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-xl transition-all duration-200 active:scale-[0.98];
+  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-lg transition-all duration-200 active:scale-[0.98];
 }
 
 @utility btn-zinc {
@@ -35,7 +35,7 @@
 }
 
 @utility box {
-  @apply w-full max-w-md relative flex flex-col items-center text-center gap-5 border-2 border-color rounded-2xl p-12;
+  @apply w-full max-w-md relative flex flex-col items-center text-center gap-5 border-2 border-color rounded-lg p-12;
 }
 
 @utility webkit-autofil-color-for-dark {
@@ -44,6 +44,14 @@
 
 @utility webkit-autofil-color-for-light {
   -webkit-text-fill-color: #18181b;
+}
+
+@utility word-spacing-1 {
+  word-spacing: 4px;
+}
+
+@utility word-spacing-2 {
+  word-spacing: 8px;
 }
 
 @layer base {
@@ -74,7 +82,11 @@
   }
 
   .input {
-    @apply placeholder:text-color heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-xl outline-none transition-all duration-200 bg-zinc-200/60 dark:bg-zinc-800/60 focus:bg-zinc-200 dark:focus:bg-zinc-800;
+    @apply placeholder:text-color heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-lg outline-none transition-all duration-200 bg-zinc-200/60 dark:bg-zinc-800/60 focus:bg-zinc-200 dark:focus:bg-zinc-800;
+  }
+
+  .icon {
+    @apply p-2 size-8 rounded-lg flex flex-col items-center justify-center bg-zinc-200/60 dark:bg-zinc-800/60 hover:bg-zinc-200 dark:hover:bg-zinc-800 fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-900 dark:hover:fill-zinc-100 transition-all duration-200;
   }
 
   input:autofill,
