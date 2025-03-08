@@ -59,13 +59,13 @@ const useStorage = () => {
     await setUserData("user", newData);
   };
 
-  const deleteUser = async (): Promise<void> => {
+  const removeUser = async (): Promise<void> => {
     await clearUserData();
     logout();
     clearWallets();
   };
 
-  return { isUser, loadUser, saveUser, deleteUser };
+  return { isUser, loadUser, saveUser, removeUser };
 };
 
 export default useStorage;
