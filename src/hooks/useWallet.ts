@@ -14,7 +14,7 @@ const useWallet = () => {
     (state) => state.updateWalletBalance
   );
 
-  const createWallet = async (network: TNetwork) => {
+  const createWallet = async (network: TNetwork): Promise<void> => {
     const index = walletCounts[network] || 0;
     const wallet = await deriveWallet(mnemonic, index, network);
 
@@ -27,12 +27,15 @@ const useWallet = () => {
     setState({ walletCounts: { ...walletCounts, [network]: index + 1 } });
   };
 
-  const deleteWallet = async (index: number) => removeWallet(index);
+  const deleteWallet = async (index: number): Promise<void> =>
+    removeWallet(index);
 
-  const changeWalletBalance = async (index: number, balance: number) =>
-    updateWalletBalance(index, balance);
+  const changeWalletBalance = async (
+    index: number,
+    balance: number
+  ): Promise<void> => updateWalletBalance(index, balance);
 
-  const loadWallets = async () => {
+  const loadWallets = async (): Promise<void> => {
     if (!mnemonic) return;
 
     const ethWallets = await Promise.all(
@@ -48,7 +51,6 @@ const useWallet = () => {
     );
 
     const allWallets = [...ethWallets, ...solWallets];
-
     setWallets(allWallets);
   };
 
