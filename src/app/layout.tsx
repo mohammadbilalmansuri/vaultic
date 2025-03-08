@@ -52,9 +52,7 @@ export default function RootLayout({
       <body className={`${ubuntuSans.variable} antialiased`}>
         <ThemeProvider>
           <Header />
-          <Protected>
-            <main>{children}</main>
-          </Protected>
+          <Protected>{children}</Protected>
           <Footer />
         </ThemeProvider>
       </body>
