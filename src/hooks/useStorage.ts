@@ -31,10 +31,13 @@ const useStorage = () => {
     );
     if (!decryptedMnemonic) throw new Error("Decryption failed");
 
-    initUser({
-      password,
-      mnemonic: decryptedMnemonic,
-      walletCounts: userData.walletCounts,
+    return new Promise((resolve) => {
+      initUser({
+        password,
+        mnemonic: decryptedMnemonic,
+        walletCounts: userData.walletCounts,
+      });
+      resolve();
     });
   };
 
