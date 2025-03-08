@@ -9,7 +9,6 @@ import {
   VerifyPasswordFormData,
 } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUserStore } from "@/stores/userStore";
 import { useStorage } from "@/hooks";
 import Link from "next/link";
 
@@ -19,9 +18,8 @@ const Protected = ({ children }: { children: ReactNode }) => {
   const { isUser, loadUser } = useStorage();
   const router = useRouter();
   const pathname = usePathname();
-  const [checked, setChecked] = useState(false);
+  const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
-  const authenticated = useUserStore((state) => state.authenticated);
 
   const {
     register,
@@ -33,20 +31,38 @@ const Protected = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
+    let isMounted = true;
+
     const checkUser = async () => {
+      if (!isMounted) return;
+
       const isUserExists = await isUser();
-      if (isUserExists && pathname === "/") {
-        router.replace("/dashboard");
-      } else if (!isUserExists && protectedRoutes.has(pathname)) {
-        router.replace("/");
-      } else {
-        if (authenticated) return setChecked(true);
-        if (isUserExists) await loadUser("16126662"); // For Development
-        setChecked(true);
+      if (!isMounted) return;
+
+      if (!isUserExists) {
+        if (protectedRoutes.has(pathname)) {
+          router.replace("/");
+        }
+        setChecking(false);
+        return;
       }
+
+      try {
+        await loadUser("16126662"); // DEVELOPMENT ONLY
+      } catch (error) {
+        console.error("Failed to auto-load user:", error);
+      }
+
+      if (pathname === "/") router.replace("/dashboard");
+      if (isMounted) setChecking(false);
     };
+
     checkUser();
-  }, [isUser, pathname, router]);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [isUser, loadUser, pathname, router]);
 
   const onSubmit = async ({
     password: inputPassword,
@@ -54,23 +70,19 @@ const Protected = ({ children }: { children: ReactNode }) => {
     try {
       await loadUser(inputPassword);
     } catch (error) {
-      if (error instanceof Error) setError(error.message);
-      else setError("An unknown error occurred");
+      setError(
+        error instanceof Error ? error.message : "An unknown error occurred"
+      );
       setTimeout(() => setError(""), 3000);
     }
   };
 
   const renderFormError = () => {
     const errorMessage = errors.password?.message || error;
-
     return errorMessage ? (
       <p className="text-yellow-500 text-sm">{errorMessage}</p>
     ) : null;
   };
-
-  if (!checked) return null;
-
-  // Commented for Development
 
   // if (protectedRoutes.has(pathname) && !authenticated) {
   //   return (
@@ -83,18 +95,14 @@ const Protected = ({ children }: { children: ReactNode }) => {
   //       onSubmit={handleSubmit(onSubmit)}
   //     >
   //       <h1 className="-mt-1">Enter Your Password</h1>
-
   //       <PasswordInput {...register("password")} />
-
   //       {renderFormError()}
-
   //       <Button className="w-full" type="submit">
   //         Unlock
   //       </Button>
-
   //       <Link
   //         href="/forgot-password"
-  //         className="border-b hover:border-teal-500 hover:text-teal transition-all duration-200"
+  //         className="border-b hover:border-teal-500 hover:text-teal-500 transition-all duration-200"
   //       >
   //         Forgot Password
   //       </Link>
@@ -102,7 +110,7 @@ const Protected = ({ children }: { children: ReactNode }) => {
   //   );
   // }
 
-  return <>{children}</>;
+  return checking ? null : <>{children}</>;
 };
 
 export default Protected;
