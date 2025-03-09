@@ -37,13 +37,19 @@ const Protected = ({ children }: { children: ReactNode }) => {
     const isUserExists = await isUser();
 
     if (!isUserExists) {
-      if (pathname === "/dashboard") router.replace("/");
+      if (pathname === "/dashboard") {
+        router.replace("/");
+        return;
+      }
       setChecking(false);
       return;
     }
 
     await loadUser("12345678");
-    if (pathname === "/") router.replace("/dashboard");
+    if (pathname === "/") {
+      router.replace("/dashboard");
+      return;
+    }
     setChecking(false);
   };
 
