@@ -24,7 +24,7 @@ const AccountSettings = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="w-full border-2 border-color rounded-lg relative p-6 flex flex-col cursor-pointer"
+      className="w-full border-2 border-color rounded-lg relative xs:p-6 p-5 flex flex-col cursor-pointer"
       onClick={() => setExpanded((prev) => !prev)}
     >
       <div className="w-full flex items-center justify-between">
@@ -101,10 +101,17 @@ const AccountSettings = () => {
             </div>
 
             <p
-              className="w-full flex items-center gap-3 bg-zinc-200/60 dark:bg-zinc-800/60 p-4 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all duration-200 word-spacing-2"
+              className="w-full grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-6 xs:gap-3 gap-2 group"
               onClick={onCopy}
             >
-              {mnemonic}
+              {mnemonic.split(" ").map((word, index) => (
+                <span
+                  key={index}
+                  className="bg-zinc-200/60 dark:bg-zinc-800/60 rounded-lg group-hover:bg-zinc-200 dark:group-hover:bg-zinc-800 transition-all duration-200 leading-non xs:text-base text-sm py-2 px-3"
+                >
+                  {word}
+                </span>
+              ))}
             </p>
           </motion.div>
         )}
