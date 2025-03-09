@@ -86,7 +86,11 @@
   }
 
   .icon {
-    @apply p-2 size-8 rounded-lg flex flex-col items-center justify-center bg-zinc-200/60 dark:bg-zinc-800/60 hover:bg-zinc-200 dark:hover:bg-zinc-800 fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-900 dark:hover:fill-zinc-100 transition-all duration-200;
+    @apply p-2 size-8 rounded-lg flex flex-col items-center justify-center bg-zinc-200/60 dark:bg-zinc-800/60 hover:bg-zinc-200 dark:hover:bg-zinc-800 fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-900 dark:hover:fill-zinc-100 active:scale-95 transition-all duration-200;
+
+    svg {
+      @apply size-5;
+    }
   }
 
   input:autofill,
