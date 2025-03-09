@@ -55,7 +55,10 @@ const AccountSettings = () => {
                 onClick={(e) => {
                   e.stopPropagation();
                   router.push("/");
-                  removeUser();
+
+                  setTimeout(() => {
+                    removeUser();
+                  }, 200);
                 }}
               >
                 <svg
