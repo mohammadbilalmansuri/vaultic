@@ -82,7 +82,7 @@
   }
 
   .input {
-    @apply placeholder:text-color heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-lg outline-none transition-all duration-200 bg-zinc-200/60 dark:bg-zinc-800/60 focus:bg-zinc-200 dark:focus:bg-zinc-800;
+    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-lg outline-none transition-all duration-200 bg-zinc-200/60 dark:bg-zinc-800/60 focus:bg-zinc-200 dark:focus:bg-zinc-800;
   }
 
   .icon {
