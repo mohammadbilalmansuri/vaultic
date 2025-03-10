@@ -1,49 +1,50 @@
 import { create } from "zustand";
 import { TNetwork } from "./userStore";
 
-interface Wallet {
+export interface IWallet {
   index: number;
+  network: TNetwork;
   address: string;
   privateKey: string;
-  balance?: number;
-  network: TNetwork;
+  balance: number;
 }
 
 interface WalletState {
-  wallets: Wallet[];
-  setWallets: (wallets: Wallet[]) => void;
-  addWallet: (wallet: Wallet) => void;
-  removeWallet: (index: number) => void;
+  wallets: IWallet[];
+  setWallets: (wallets: IWallet[]) => void;
+  addWallet: (wallet: IWallet) => void;
+  removeWallet: (index: number, network: TNetwork) => void;
   clearWallets: () => void;
-  updateWalletBalance: (index: number, balance: number) => void;
+  updateWalletBalance: (
+    index: number,
+    network: TNetwork,
+    balance: number
+  ) => void;
 }
 
-export const useWalletStore = create<WalletState>((set, get) => ({
+export const useWalletStore = create<WalletState>((set) => ({
   wallets: [],
 
-  setWallets: (wallets) => {
-    set({ wallets });
-  },
+  setWallets: (wallets) => set({ wallets }),
 
   addWallet: (wallet) =>
-    set((state) => {
-      const newWallets = [...state.wallets, wallet];
-      return { wallets: newWallets };
-    }, false),
+    set((state) => ({
+      wallets: [...state.wallets, wallet],
+    })),
 
-  removeWallet: (index) =>
-    set((state) => {
-      const newWallets = state.wallets.filter((w) => w.index !== index);
-      return { wallets: newWallets };
-    }, false),
+  removeWallet: (index, network) =>
+    set((state) => ({
+      wallets: state.wallets.filter(
+        (w) => !(w.index === index && w.network === network)
+      ),
+    })),
 
-  clearWallets: () => set(() => ({ wallets: [] }), false),
+  clearWallets: () => set({ wallets: [] }),
 
-  updateWalletBalance: (index, balance) =>
-    set((state) => {
-      const newWallets = state.wallets.map((w) =>
-        w.index === index ? { ...w, balance } : w
-      );
-      return { wallets: newWallets };
-    }, false),
+  updateWalletBalance: (index, network, balance) =>
+    set((state) => ({
+      wallets: state.wallets.map((w) =>
+        w.index === index && w.network === network ? { ...w, balance } : w
+      ),
+    })),
 }));
