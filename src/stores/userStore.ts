@@ -2,16 +2,17 @@ import { create } from "zustand";
 
 export type TNetwork = "ethereum" | "solana";
 
-export type TWalletCounts = {
-  [K in TNetwork]: number;
-};
+export type TIndexes = {
+  network: TNetwork;
+  index: number;
+}[];
 
 interface UserState {
   authenticated: boolean;
   password: string;
   mnemonic: string;
-  walletCounts: TWalletCounts;
-  setState: (updates: Partial<Omit<UserState, "setState" | "logout">>) => void;
+  indexes: TIndexes;
+  setState: (updates: Partial<UserState>) => void;
   logout: () => void;
   initUser: (data: Partial<UserState>) => void;
 }
@@ -20,7 +21,7 @@ export const useUserStore = create<UserState>((set) => ({
   authenticated: false,
   password: "",
   mnemonic: "",
-  walletCounts: { ethereum: 0, solana: 0 },
+  indexes: [],
 
   setState: (updates) => set((state) => ({ ...state, ...updates })),
 
@@ -29,15 +30,15 @@ export const useUserStore = create<UserState>((set) => ({
       authenticated: false,
       password: "",
       mnemonic: "",
-      walletCounts: { ethereum: 0, solana: 0 },
+      indexes: [],
     }),
 
-  initUser: ({ password, mnemonic, walletCounts }) =>
+  initUser: ({ password, mnemonic, indexes }) =>
     set((state) => ({
       ...state,
       authenticated: true,
       password: password ?? state.password,
       mnemonic: mnemonic ?? state.mnemonic,
-      walletCounts: walletCounts ?? state.walletCounts,
+      indexes: indexes ?? state.indexes,
     })),
 }));
