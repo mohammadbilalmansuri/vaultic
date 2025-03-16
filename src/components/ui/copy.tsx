@@ -12,13 +12,21 @@ const Copy = ({
   copied,
   withText = false,
   lable = "Copy to clipboard",
+  className = "",
   ...props
 }: CopyProps) => {
   return (
     <button
-      className="flex items-center gap-2"
-      aria-label={copied ? "Copied" : "Copy to clipboard"}
-      title={copied ? "Copied" : "Copy to clipboard"}
+      className={cn(
+        "transition-all duration-200",
+        {
+          "flex items-center gap-2": withText,
+          "stroke-zinc-600 dark:stroke-zinc-400 hover:stroke-zinc-900 dark:hover:stroke-zinc-100":
+            !copied,
+          "stroke-teal-500": copied,
+        },
+        className
+      )}
       {...props}
     >
       <svg
@@ -28,10 +36,7 @@ const Copy = ({
         strokeLinecap="round"
         strokeLinejoin="round"
         fill="none"
-        className={cn("size-5", {
-          "stroke-zinc-600 dark:stroke-zinc-400": !copied,
-          "stroke-teal-500": copied,
-        })}
+        className="size-5"
       >
         {copied ? (
           <>
