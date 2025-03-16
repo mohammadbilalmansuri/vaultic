@@ -1,10 +1,12 @@
 "use client";
-import { AccountSettings } from "@/components/dashboard";
+import { AccountSettings, Send, Wallets } from "@/components/dashboard";
 
 const Page = () => {
   return (
-    <div className="w-full max-w-screen-lg relative flex flex-col items-center flex-1 gap-8 py-2">
+    <div className="w-full max-w-screen-lg relative flex flex-col items-center flex-1 gap-5 py-2">
       <AccountSettings />
+      <Send />
+      <Wallets />
     </div>
   );
 };
