@@ -1,10 +1,10 @@
 import { useUserStore, TNetwork } from "@/stores/userStore";
 import { useWalletStore } from "@/stores/walletStore";
-import deriveWallet from "@/utils/deriveWallet";
+import deriveWallet from "@/services/deriveWallet";
 
 const useWallet = () => {
   const mnemonic = useUserStore((state) => state.mnemonic);
-  const walletCounts = useUserStore((state) => state.walletCounts);
+  const indexes = useUserStore((state) => state.indexes);
   const setState = useUserStore((state) => state.setState);
 
   const addWallet = useWalletStore((state) => state.addWallet);
@@ -15,46 +15,46 @@ const useWallet = () => {
   );
 
   const createWallet = async (network: TNetwork): Promise<void> => {
-    const index = walletCounts[network] || 0;
-    const wallet = await deriveWallet(mnemonic, index, network);
+    const lastIndex =
+      indexes
+        .filter((w) => w.network === network)
+        .reduce((max, w) => Math.max(max, w.index), -1) + 1;
 
-    const newWallet = {
-      ...wallet,
-      balance: 0,
-    };
+    const wallet = await deriveWallet(mnemonic, lastIndex, network);
 
-    addWallet(newWallet);
-    setState({ walletCounts: { ...walletCounts, [network]: index + 1 } });
+    addWallet({ ...wallet, balance: 0 });
+
+    setState({
+      indexes: [...indexes, { network, index: lastIndex }],
+    });
   };
 
-  const deleteWallet = async (index: number): Promise<void> =>
-    removeWallet(index);
-
-  const changeWalletBalance = async (
+  const deleteWallet = async (
     index: number,
-    balance: number
-  ): Promise<void> => updateWalletBalance(index, balance);
+    network: TNetwork
+  ): Promise<void> => {
+    removeWallet(index, network);
+    setState({
+      indexes: indexes.filter(
+        (w) => !(w.network === network && w.index === index)
+      ),
+    });
+  };
 
   const loadWallets = async (): Promise<void> => {
     if (!mnemonic) return;
 
-    const ethWallets = await Promise.all(
-      Array.from({ length: walletCounts.ethereum || 0 }, (_, i) =>
-        deriveWallet(mnemonic, i, "ethereum")
-      )
+    const wallets = await Promise.all(
+      indexes.map(async ({ network, index }) => {
+        const wallet = await deriveWallet(mnemonic, index, network);
+        return { ...wallet, balance: 0 };
+      })
     );
 
-    const solWallets = await Promise.all(
-      Array.from({ length: walletCounts.solana || 0 }, (_, i) =>
-        deriveWallet(mnemonic, i, "solana")
-      )
-    );
-
-    const allWallets = [...ethWallets, ...solWallets];
-    setWallets(allWallets);
+    setWallets(wallets);
   };
 
-  return { createWallet, deleteWallet, loadWallets, changeWalletBalance };
+  return { createWallet, deleteWallet, loadWallets, updateWalletBalance };
 };
 
 export default useWallet;
