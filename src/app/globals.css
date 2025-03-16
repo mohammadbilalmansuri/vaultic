@@ -55,6 +55,10 @@
 }
 
 @layer base {
+  .dark {
+    color-scheme: dark;
+  }
+
   ::selection {
     @apply bg-teal-500 text-zinc-900;
   }
