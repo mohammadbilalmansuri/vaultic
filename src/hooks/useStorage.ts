@@ -1,4 +1,4 @@
-import { getUserData, setUserData, clearUserData } from "@/utils/indexedDB";
+import { getUserData, setUserData, clearUserData } from "@/services/indexedDB";
 import {
   hashPassword,
   verifyPassword,
@@ -35,25 +35,23 @@ const useStorage = () => {
       initUser({
         password,
         mnemonic: decryptedMnemonic,
-        walletCounts: userData.walletCounts,
+        indexes: userData.indexes || [],
       });
       resolve();
     });
   };
 
   const saveUser = async (): Promise<void> => {
-    const password = useUserStore.getState().password;
-    const mnemonic = useUserStore.getState().mnemonic;
-    const walletCounts = useUserStore.getState().walletCounts;
+    const { password, mnemonic, indexes } = useUserStore.getState();
 
     const existingData = await getUserData("user");
 
     const newData = existingData
-      ? { ...existingData, walletCounts }
+      ? { ...existingData, indexes }
       : {
           hashedPassword: await hashPassword(password),
           encryptedMnemonic: await encryptMnemonic(mnemonic, password),
-          walletCounts,
+          indexes,
         };
 
     await setUserData("user", newData);
