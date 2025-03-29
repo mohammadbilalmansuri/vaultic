@@ -1,3 +1,4 @@
+"use client";
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Controller } from "react-hook-form";
