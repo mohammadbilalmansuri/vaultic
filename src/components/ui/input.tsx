@@ -1,3 +1,4 @@
+"use client";
 import { forwardRef, useState, ComponentProps } from "react";
 import cn from "@/utils/cn";
 
