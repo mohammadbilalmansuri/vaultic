@@ -27,7 +27,7 @@ const Completion = () => {
         to access your wallet ever again.
       </p>
 
-      <Button as="link" href="/dashboard" className="mt-2">
+      <Button as="link" href="/wallets" className="mt-2">
         Open Vaultic
       </Button>
     </motion.div>
