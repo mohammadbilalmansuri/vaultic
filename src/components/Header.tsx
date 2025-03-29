@@ -1,10 +1,12 @@
 "use client";
 import useThemeStore from "@/stores/themeStore";
-import { Switch } from "@/components/ui";
+import { Switch, NavLink } from "@/components/ui";
 import cn from "@/utils/cn";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const { theme, toggleTheme } = useThemeStore();
+  const pathname = usePathname();
 
   return (
     <header className="w-full relative flex flex-col items-center px-5 min-h-fit">
@@ -22,51 +24,63 @@ const Header = () => {
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={cn("size-5", {
-              "stroke-zinc-900": theme === "light",
-              "stroke-zinc-400": theme === "dark",
-            })}
-          >
-            <circle cx="12" cy="12" r="4" />
-            <path d="M12 2v2" />
-            <path d="M12 20v2" />
-            <path d="m4.93 4.93 1.41 1.41" />
-            <path d="m17.66 17.66 1.41 1.41" />
-            <path d="M2 12h2" />
-            <path d="M20 12h2" />
-            <path d="m6.34 17.66-1.41 1.41" />
-            <path d="m19.07 4.93-1.41 1.41" />
-          </svg>
+        <nav className="flex items-center gap-8">
+          <NavLink href="/wallets" active={pathname === "/wallets"}>
+            Wallets
+          </NavLink>
+          <NavLink href="/send" active={pathname === "/send"}>
+            Send
+          </NavLink>
+          <NavLink href="/account" active={pathname === "/account"}>
+            Account
+          </NavLink>
 
-          <Switch
-            state={theme === "dark"}
-            colorDependsOnState={false}
-            onClick={toggleTheme}
-          />
+          <div className="flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={cn("size-5", {
+                "stroke-zinc-900": theme === "light",
+                "stroke-zinc-400": theme === "dark",
+              })}
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2" />
+              <path d="M12 20v2" />
+              <path d="m4.93 4.93 1.41 1.41" />
+              <path d="m17.66 17.66 1.41 1.41" />
+              <path d="M2 12h2" />
+              <path d="M20 12h2" />
+              <path d="m6.34 17.66-1.41 1.41" />
+              <path d="m19.07 4.93-1.41 1.41" />
+            </svg>
 
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={cn("size-5", {
-              "stroke-zinc-100": theme === "dark",
-              "stroke-zinc-400": theme === "light",
-            })}
-          >
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-          </svg>
-        </div>
+            <Switch
+              state={theme === "dark"}
+              colorDependsOnState={false}
+              onClick={toggleTheme}
+            />
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={cn("size-5", {
+                "stroke-zinc-100": theme === "dark",
+                "stroke-zinc-400": theme === "light",
+              })}
+            >
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </svg>
+          </div>
+        </nav>
       </div>
     </header>
   );
