@@ -20,7 +20,7 @@ const TOTAL_STEPS = {
   import: 5,
 };
 
-const Page = () => {
+const Home = () => {
   const [step, setStep] = useState<TStep>(1);
   const [path, setPath] = useState<TPath>(null);
   const [network, setNetwork] = useState<TNetwork>("solana");
@@ -70,4 +70,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Home;
