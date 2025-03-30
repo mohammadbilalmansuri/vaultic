@@ -23,19 +23,19 @@
 }
 
 @utility btn-base {
-  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-lg transition-all duration-200 active:scale-[0.98];
+  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-xl transition-all duration-200 active:scale-[0.98] border-2;
 }
 
 @utility btn-zinc {
-  @apply btn-base heading-color bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60;
+  @apply btn-base heading-color bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60 border-zinc-300/80 dark:border-zinc-700/60;
 }
 
 @utility btn-teal {
-  @apply btn-base text-zinc-900 bg-teal-500 hover:bg-teal-600/80 dark:hover:bg-teal-400;
+  @apply btn-base text-zinc-900 bg-teal-500 hover:bg-teal-600/80 dark:hover:bg-teal-400 border-teal-600/80 dark:border-teal-300;
 }
 
 @utility box {
-  @apply w-full max-w-md relative flex flex-col items-center text-center gap-5 border-2 border-color rounded-lg p-12;
+  @apply w-full max-w-md relative flex flex-col items-center text-center gap-5 border-2 border-color rounded-2xl p-12;
 }
 
 @utility webkit-autofil-color-for-dark {
@@ -86,11 +86,11 @@
   }
 
   .input {
-    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-lg outline-none transition-all duration-200 bg-zinc-200/60 dark:bg-zinc-800/60 focus:bg-zinc-200 dark:focus:bg-zinc-800;
+    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-xl outline-none transition-all duration-200 bg-zinc-200/60 dark:bg-zinc-800/60 focus:bg-zinc-200 dark:focus:bg-zinc-800;
   }
 
   .icon {
-    @apply p-2 size-8 rounded-lg flex flex-col items-center justify-center bg-zinc-200/60 dark:bg-zinc-800/60 hover:bg-zinc-200 dark:hover:bg-zinc-800 fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-900 dark:hover:fill-zinc-100 active:scale-95 transition-all duration-200;
+    @apply p-2 size-8 rounded-xl flex flex-col items-center justify-center bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-900 dark:hover:fill-zinc-100 active:scale-95 transition-all duration-200;
 
     svg {
       @apply size-5;
