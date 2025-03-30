@@ -1,10 +1,6 @@
-import { FC } from "react";
+import { FC, SVGProps } from "react";
 
-interface MoonProps {
-  className?: string;
-}
-
-const Moon: FC<MoonProps> = ({ className = "" }) => {
+const Moon: FC<SVGProps<SVGSVGElement>> = ({ className = "", ...props }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,6 +10,7 @@ const Moon: FC<MoonProps> = ({ className = "" }) => {
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
+      {...props}
     >
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
     </svg>

@@ -1,6 +1,6 @@
-import { SVGProps } from "react";
+import { FC, SVGProps } from "react";
 
-const SolanaIcon = ({ className = "", ...props }: SVGProps<SVGSVGElement>) => {
+const Solana: FC<SVGProps<SVGSVGElement>> = ({ className = "", ...props }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -33,4 +33,4 @@ const SolanaIcon = ({ className = "", ...props }: SVGProps<SVGSVGElement>) => {
   );
 };
 
-export default SolanaIcon;
+export default Solana;

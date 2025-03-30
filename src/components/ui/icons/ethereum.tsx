@@ -1,9 +1,9 @@
-import { SVGProps } from "react";
+import { FC, SVGProps } from "react";
 
-const EthereumIcon = ({
+const Ethereum: FC<SVGProps<SVGSVGElement>> = ({
   className = "",
   ...props
-}: SVGProps<SVGSVGElement>) => {
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -51,4 +51,4 @@ const EthereumIcon = ({
   );
 };
 
-export default EthereumIcon;
+export default Ethereum;
