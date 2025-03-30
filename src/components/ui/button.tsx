@@ -11,7 +11,7 @@ import cn from "@/utils/cn";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   as?: "button" | "link";
-  variant?: "primary" | "secondary";
+  variant?: "teal" | "zinc";
   href?: LinkProps["href"];
   className?: string;
 }
@@ -20,15 +20,15 @@ export default function Button({
   children,
   as = "button",
   type = "button",
-  variant = "primary",
+  variant = "teal",
   href,
   className = "",
   ...props
 }: ButtonProps): JSX.Element {
   const classes = cn(
     {
-      "btn-teal": variant === "primary",
-      "btn-zinc": variant === "secondary",
+      "btn-teal": variant === "teal",
+      "btn-zinc": variant === "zinc",
     },
     className
   );
