@@ -9,6 +9,7 @@ interface HideProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Hide = ({ hidden, className = "", ...props }: HideProps) => {
   return (
     <button
+      type="button"
       className={cn(
         "fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 transition-all duration-400 active:scale-90",
         className
@@ -18,7 +19,7 @@ const Hide = ({ hidden, className = "", ...props }: HideProps) => {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox={`0 0 ${hidden ? 576 : 640} 512`}
-        className="size-5"
+        className="w-5"
       >
         <path
           d={
