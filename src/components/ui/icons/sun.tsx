@@ -1,10 +1,6 @@
-import { FC } from "react";
+import { FC, SVGProps } from "react";
 
-interface SunProps {
-  className?: string;
-}
-
-const Sun: FC<SunProps> = ({ className = "" }) => {
+const Sun: FC<SVGProps<SVGSVGElement>> = ({ className = "", ...props }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,6 +10,7 @@ const Sun: FC<SunProps> = ({ className = "" }) => {
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
+      {...props}
     >
       <circle cx="12" cy="12" r="4" />
       <path d="M12 2v2" />

@@ -1,16 +1,16 @@
 "use client";
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, FC } from "react";
 import cn from "@/utils/cn";
 
 interface HideProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   hidden: boolean;
 }
 
-const Hide = ({ hidden, className = "", ...props }: HideProps) => {
+const Hide: FC<HideProps> = ({ hidden, className = "", ...props }) => {
   return (
     <button
       className={cn(
-        "fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 transition-all duration-200 active:scale-90",
+        "fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 transition-all duration-400 active:scale-90",
         className
       )}
       {...props}
