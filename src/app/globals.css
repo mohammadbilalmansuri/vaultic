@@ -31,11 +31,11 @@
 }
 
 @utility btn-teal {
-  @apply btn-base text-zinc-900 bg-teal-500 hover:bg-teal-600/80 dark:hover:bg-teal-400 border-teal-600/80 dark:border-teal-300;
+  @apply btn-base text-zinc-900 bg-teal-500 hover:bg-teal-600/80 dark:hover:bg-teal-400 border-teal-600/60 dark:border-teal-300/80;
 }
 
 @utility box {
-  @apply w-full max-w-md relative flex flex-col items-center text-center gap-5 border-2 border-color rounded-2xl p-12;
+  @apply w-full max-w-md relative flex flex-col items-center text-center gap-5 border-2 border-color rounded-3xl p-12;
 }
 
 @utility webkit-autofil-color-for-dark {
