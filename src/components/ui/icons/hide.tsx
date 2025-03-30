@@ -1,12 +1,12 @@
 "use client";
-import { ButtonHTMLAttributes, FC } from "react";
+import { ButtonHTMLAttributes } from "react";
 import cn from "@/utils/cn";
 
 interface HideProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   hidden: boolean;
 }
 
-const Hide: FC<HideProps> = ({ hidden, className = "", ...props }) => {
+const Hide = ({ hidden, className = "", ...props }: HideProps) => {
   return (
     <button
       className={cn(

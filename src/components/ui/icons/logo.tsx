@@ -1,18 +1,17 @@
-import { FC, SVGProps } from "react";
+import { SVGProps } from "react";
 import cn from "@/utils/cn";
 
 interface LogoProps extends SVGProps<SVGSVGElement> {
   size?: "sm" | "lg";
   color?: "teal" | "zinc";
-  className?: string;
 }
 
-const Logo: FC<LogoProps> = ({
+const Logo = ({
   color = "teal",
   size = "sm",
   className = "",
   ...props
-}) => {
+}: LogoProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

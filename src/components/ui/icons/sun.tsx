@@ -1,6 +1,6 @@
-import { FC, SVGProps } from "react";
+import { SVGProps } from "react";
 
-const Sun: FC<SVGProps<SVGSVGElement>> = ({ className = "", ...props }) => {
+const Sun = ({ className = "", ...props }: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
