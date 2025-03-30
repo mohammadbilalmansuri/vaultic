@@ -14,12 +14,12 @@ const Switch = ({
 }: SwitchProps) => {
   return (
     <button
-      className="p-1 rounded-full h-6 w-12 relative flex items-center transition-colors duration-200 bg-zinc-200 dark:bg-zinc-800"
+      className="p-1 rounded-full h-6 w-12 relative flex items-center transition-colors duration-400 bg-zinc-200 dark:bg-zinc-800"
       {...props}
     >
       <span
         className={cn(
-          "size-4 block rounded-full transition-transform duration-200 ease-in-out transform",
+          "size-4 block rounded-full transition-transform duration-400 ease-in-out transform",
           {
             "translate-x-6": state,
             "translate-x-0": !state,
