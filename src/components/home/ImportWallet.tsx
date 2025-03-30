@@ -90,7 +90,7 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
             .map((_, index) => (
               <div
                 key={index}
-                className="w-full flex items-center gap-2 p-3 rounded-lg transition-all duration-200 bg-zinc-200/60 dark:bg-zinc-800/60 focus-within:bg-zinc-200 dark:focus-within:bg-zinc-800"
+                className="w-full flex items-center gap-2 p-3 rounded-xl transition-all duration-400 bg-zinc-200/60 dark:bg-zinc-800/60 focus-within:bg-zinc-200 dark:focus-within:bg-zinc-800"
               >
                 <span className="opacity-80">{index + 1}.</span>
                 <input
@@ -109,7 +109,7 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
 
         <div className="w-full flex items-center gap-4">
           <Button
-            variant="secondary"
+            variant="zinc"
             className="w-1/2"
             onClick={() => setIs24Words((prev) => !prev)}
           >
