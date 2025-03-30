@@ -47,7 +47,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
       </p>
 
       <div
-        className="w-full bg-zinc-200/60 dark:bg-zinc-800/60 hover:bg-zinc-200/90 dark:hover:bg-zinc-800/80 rounded-lg flex flex-col px-4 pt-4 gap-4 mt-1 cursor-pointer transition-all duration-200"
+        className="w-full bg-zinc-200/60 dark:bg-zinc-800/60 hover:bg-zinc-200/90 dark:hover:bg-zinc-800/80 rounded-xl flex flex-col px-4 pt-4 gap-4 mt-1 cursor-pointer transition-all duration-400"
         onClick={() => copyToClipboard(mnemonic)}
       >
         <div className="w-full grid grid-cols-2 xs:grid-cols-3 gap-4">
@@ -59,7 +59,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
           ))}
         </div>
 
-        <p className="text-sm leading-none py-3 border-t border-color">
+        <p className="text-sm leading-none py-3 border-t border-zinc-300/80 dark:border-zinc-700/60 text-center">
           {copied ? "Copied" : "Click anywhere on this card to copy"}
         </p>
       </div>
@@ -75,11 +75,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
       </div>
 
       <div className="w-full flex items-center gap-4">
-        <Button
-          variant="secondary"
-          className="w-1/2"
-          onClick={() => setStep(3)}
-        >
+        <Button variant="zinc" className="w-1/2" onClick={() => setStep(3)}>
           Read the warning again
         </Button>
         <Button
