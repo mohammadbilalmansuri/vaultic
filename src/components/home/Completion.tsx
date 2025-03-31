@@ -9,7 +9,6 @@ const Completion = () => {
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
-      exit={{ scale: 0.8, opacity: 0 }}
       className="box"
     >
       <Logo size="lg" className="-mt-1" />

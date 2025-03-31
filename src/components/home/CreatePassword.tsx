@@ -47,7 +47,6 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
-      exit={{ scale: 0.8, opacity: 0 }}
       className="box"
     >
       <h1 className="-mt-1">Create a Password</h1>

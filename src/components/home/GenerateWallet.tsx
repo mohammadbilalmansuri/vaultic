@@ -38,7 +38,6 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.4, ease: "easeInOut" }}
-      exit={{ scale: 0.8, opacity: 0 }}
       className="box max-w-xl"
     >
       <h1 className="-mt-1">Secret Recovery Phrase</h1>
