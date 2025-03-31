@@ -9,31 +9,31 @@ const IS_DEV = process.env.NODE_ENV === "development";
 const DEV_PASSWORD = "12345678";
 
 const useAuth = () => {
-  const { isUser, loadUser } = useStorage();
+  const { isUser, loadUser, removeUser } = useStorage();
   const { loadWallets } = useWallet();
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
   const authenticated = useUserStore((state) => state.authenticated);
-  const mnemonic = useUserStore((state) => state.mnemonic);
   const router = useRouter();
 
   const checkUser = async (pathname: string) => {
     setChecking(true);
     try {
-      const isUserExists = await isUser();
-      if (!isUserExists) {
+      const userExists = await isUser();
+
+      if (!userExists) {
         if (AUTHENTICATED_ROUTES.has(pathname) && pathname !== "/") {
           router.replace("/");
         }
-        return;
-      }
+      } else {
+        if (IS_DEV && !authenticated) {
+          await loadUser(DEV_PASSWORD);
+          await loadWallets();
+        }
 
-      if (IS_DEV) {
-        await loadUser(DEV_PASSWORD);
-      }
-
-      if (pathname === "/") {
-        router.replace("/wallets");
+        if (pathname === "/") {
+          router.replace("/wallets");
+        }
       }
     } catch (error) {
       console.error("Error checking user:", error);
@@ -45,10 +45,11 @@ const useAuth = () => {
   const handlePasswordSubmit = async ({ password }: VerifyPasswordFormData) => {
     try {
       await loadUser(password);
+      await loadWallets();
     } catch (error) {
-      setError(
-        error instanceof Error ? error.message : "An unknown error occurred"
-      );
+      const errorMessage =
+        error instanceof Error ? error.message : "An unknown error occurred";
+      setError(errorMessage);
       setTimeout(() => setError(""), 3000);
     }
   };
