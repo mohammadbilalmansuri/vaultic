@@ -1,4 +1,3 @@
-"use client";
 import { ReactNode } from "react";
 import Link, { LinkProps } from "next/link";
 import cn from "@/utils/cn";
@@ -8,17 +7,17 @@ interface NavLinkProps extends LinkProps {
   active: boolean;
 }
 
-const NavLink = ({ children, href, active, ...rest }: NavLinkProps) => {
+const NavLink = ({ children, href, active, ...props }: NavLinkProps) => {
   return (
     <Link
       href={href}
       className={cn(
-        "leading-none hover:heading-color transition-all duration-200",
+        "leading-none hover:heading-color transition-all duration-400",
         {
           "pointer-events-none heading-color": active,
         }
       )}
-      {...rest}
+      {...props}
     >
       {children}
     </Link>
