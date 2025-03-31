@@ -17,8 +17,9 @@ const Copy = ({
 }: CopyProps) => {
   return (
     <button
+      type="button"
       className={cn(
-        "transition-all duration-200",
+        "transition-all duration-400",
         {
           "flex items-center gap-2": withText,
           "stroke-zinc-600 dark:stroke-zinc-400 hover:stroke-zinc-900 dark:hover:stroke-zinc-100":
