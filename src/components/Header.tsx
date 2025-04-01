@@ -20,11 +20,11 @@ const Header = () => {
         </div>
 
         <nav className="flex items-center gap-8">
+          <NavLink href="/dashboard" active={pathname === "/dashboard"}>
+            Dashboard
+          </NavLink>
           <NavLink href="/wallets" active={pathname === "/wallets"}>
             Wallets
-          </NavLink>
-          <NavLink href="/send" active={pathname === "/send"}>
-            Send
           </NavLink>
           <NavLink href="/account" active={pathname === "/account"}>
             Account
@@ -33,7 +33,7 @@ const Header = () => {
           <div className="flex items-center gap-2">
             <Sun
               className={cn("size-5", {
-                "stroke-zinc-900": theme === "light",
+                "stroke-zinc-800": theme === "light",
                 "stroke-zinc-400": theme === "dark",
               })}
             />
@@ -44,7 +44,7 @@ const Header = () => {
             />
             <Moon
               className={cn("size-5", {
-                "stroke-zinc-100": theme === "dark",
+                "stroke-zinc-200": theme === "dark",
                 "stroke-zinc-400": theme === "light",
               })}
             />
