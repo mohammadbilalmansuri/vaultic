@@ -4,6 +4,7 @@ export interface ISavedUserData {
   hashedPassword: string;
   encryptedMnemonic: string;
   indexes: TIndexes;
+  deletedIndexes: TIndexes;
 }
 
 const DB_NAME = "vaultic_db";
