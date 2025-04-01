@@ -19,14 +19,33 @@ const useWallet = () => {
     isProcessingRef.current = true;
 
     try {
-      const { mnemonic, indexes } = useUserStore.getState();
-      const lastIndex =
-        indexes
-          .filter((w) => w.network === network)
-          .reduce((max, w) => Math.max(max, w.index), -1) + 1;
+      const { mnemonic, indexes, deletedIndexes } = useUserStore.getState();
+
+      const deletedSet = new Set(
+        deletedIndexes
+          .filter((entry) => entry.network === network)
+          .map((entry) => entry.index)
+      );
+
+      const networkIndexes = indexes
+        .filter((entry) => entry.network === network)
+        .map((entry) => entry.index);
+
+      let lastIndex =
+        networkIndexes.length > 0 ? Math.max(...networkIndexes) + 1 : 0;
+
+      if (networkIndexes.length === 0 && deletedSet.size > 0) {
+        lastIndex = Math.max(...deletedSet) + 1;
+      }
+
+      while (deletedSet.has(lastIndex)) {
+        lastIndex += 1;
+      }
+
+      console.log(network, lastIndex, deletedSet, networkIndexes);
 
       const wallet = await deriveWallet(mnemonic, lastIndex, network);
-      if (!wallet) throw new Error("Failed to derive wallet.");
+      if (!wallet) throw new Error("Failed to derive wallet");
 
       addWallet({ ...wallet, balance: 0 });
 
@@ -48,12 +67,20 @@ const useWallet = () => {
     isProcessingRef.current = true;
 
     try {
-      const { indexes } = useUserStore.getState();
+      const { indexes, deletedIndexes } = useUserStore.getState();
+
+      if (indexes.length === 1) {
+        throw new Error(
+          "Cannot delete the last remaining wallet. You must have at least one wallet."
+        );
+      }
+
       removeWallet(index, network);
       setState({
         indexes: indexes.filter(
           (w) => !(w.network === network && w.index === index)
         ),
+        deletedIndexes: [...deletedIndexes, { network, index }],
       });
     } catch (error) {
       console.error("Error deleting wallet:", error);
@@ -68,14 +95,27 @@ const useWallet = () => {
 
     try {
       const { mnemonic, indexes } = useUserStore.getState();
+
       const wallets = await Promise.all(
         indexes.map(async ({ network, index }) => {
-          const wallet = await deriveWallet(mnemonic, index, network);
-          if (!wallet) throw new Error("Wallet derivation failed.");
-          return { ...wallet, balance: 0 };
+          try {
+            const wallet = await deriveWallet(mnemonic, index, network);
+            if (!wallet)
+              throw new Error(
+                `Wallet derivation failed for ${network} index ${index}`
+              );
+            return { ...wallet, balance: 0 };
+          } catch (error) {
+            console.warn(
+              `Skipped wallet ${network}-${index} due to error:`,
+              error
+            );
+            return null;
+          }
         })
       );
-      setWallets(wallets);
+
+      setWallets(wallets.filter((w) => w !== null));
     } catch (error) {
       console.error("Error loading wallets:", error);
     } finally {
