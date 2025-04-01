@@ -4,7 +4,7 @@ import { useUserStore } from "@/stores/userStore";
 import { VerifyPasswordFormData } from "@/utils/validation";
 import { useRouter } from "next/navigation";
 
-const AUTHENTICATED_ROUTES = new Set(["/wallets", "/send", "/account"]);
+const AUTHENTICATED_ROUTES = new Set(["/dashboard", "/wallets", "/account"]);
 const IS_DEV = process.env.NODE_ENV === "development";
 const DEV_PASSWORD = "12345678";
 
