@@ -14,8 +14,8 @@ const Send = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.3, ease: "easeOut" }}
-        className="w-full border-2 border-color rounded-lg relative p-5 flex flex-col cursor-pointer"
+        transition={{ duration: 0.4, delay: 0.3, ease: "easeOut" }}
+        className="w-full border-2 border-color rounded-xl relative p-5 flex flex-col cursor-pointer"
         onClick={() => {
           if (expanded) return;
           setExpanded(true);
@@ -29,7 +29,7 @@ const Send = () => {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 512 512"
               animate={{ rotate: expanded ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.4 }}
             >
               <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
             </motion.svg>
@@ -42,7 +42,7 @@ const Send = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
               className="overflow-hidden w-full relative flex flex-col gap-3"
             >
               <FormProvider {...methods}>

@@ -49,7 +49,7 @@ const Account = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
                 animate={{ rotate: expanded ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4 }}
               >
                 <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
               </motion.svg>
@@ -63,7 +63,7 @@ const Account = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
               className="overflow-hidden w-full flex flex-col gap-3"
             >
               <div className="w-full flex items-center justify-between gap-4 mt-6">
@@ -82,11 +82,11 @@ const Account = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     transition={{
-                      duration: 0.3,
+                      duration: 0.4,
                       delay: 0.03 * index,
                       ease: "easeInOut",
                     }}
-                    className="bg-zinc-200/60 dark:bg-zinc-800/60 rounded-lg leading-none xs:text-base text-sm p-3"
+                    className="bg-zinc-200/60 dark:bg-zinc-800/60 rounded-xl leading-none xs:text-base text-sm p-3"
                   >
                     {word}
                   </motion.span>
