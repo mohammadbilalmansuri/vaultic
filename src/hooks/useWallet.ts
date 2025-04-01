@@ -42,8 +42,6 @@ const useWallet = () => {
         lastIndex += 1;
       }
 
-      console.log(network, lastIndex, deletedSet, networkIndexes);
-
       const wallet = await deriveWallet(mnemonic, lastIndex, network);
       if (!wallet) throw new Error("Failed to derive wallet");
 
