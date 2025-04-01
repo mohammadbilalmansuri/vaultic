@@ -25,7 +25,7 @@ const SecretRecoveryWarning = ({ setStep }: SecretRecoveryWarningProps) => {
         On the next page, you will receive your secret recovery phrase.
       </p>
 
-      <div className="mt-1 w-full flex items-center gap-4 text-left px-5 py-4 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/60">
+      <div className="mt-1 w-full flex items-center gap-4 text-left px-5 py-4 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/50">
         <Warning className="size-5 fill-yellow-500 min-w-fit" />
         <p>
           This is the <span className="heading-color">ONLY</span> way to recover
@@ -33,7 +33,7 @@ const SecretRecoveryWarning = ({ setStep }: SecretRecoveryWarningProps) => {
         </p>
       </div>
 
-      <div className="-mt-1 w-full flex items-center gap-4 text-left px-5 py-4 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/60">
+      <div className="-mt-1 w-full flex items-center gap-4 text-left px-5 py-4 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/50">
         <Lock className="size-5 fill-teal-500 min-w-fit" />
         <p>
           Write it down, store it in a safe place, and{" "}
