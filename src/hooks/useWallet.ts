@@ -1,7 +1,6 @@
 import { useUserStore, TNetwork } from "@/stores/userStore";
 import { useWalletStore } from "@/stores/walletStore";
 import deriveWallet from "@/services/deriveWallet";
-import { useRef } from "react";
 
 const useWallet = () => {
   const addWallet = useWalletStore((state) => state.addWallet);
@@ -12,11 +11,11 @@ const useWallet = () => {
   );
 
   const setState = useUserStore((state) => state.setState);
-  const isProcessingRef = useRef(false);
+  let isProcessing = false;
 
   const createWallet = async (network: TNetwork): Promise<void> => {
-    if (isProcessingRef.current) return;
-    isProcessingRef.current = true;
+    if (isProcessing) return;
+    isProcessing = true;
 
     try {
       const { mnemonic, indexes, deletedIndexes } = useUserStore.getState();
@@ -53,7 +52,7 @@ const useWallet = () => {
     } catch (error) {
       console.error("Error creating wallet:", error);
     } finally {
-      isProcessingRef.current = false;
+      isProcessing = false;
     }
   };
 
@@ -61,8 +60,8 @@ const useWallet = () => {
     index: number,
     network: TNetwork
   ): Promise<void> => {
-    if (isProcessingRef.current) return;
-    isProcessingRef.current = true;
+    if (isProcessing) return;
+    isProcessing = true;
 
     try {
       const { indexes, deletedIndexes } = useUserStore.getState();
@@ -83,13 +82,13 @@ const useWallet = () => {
     } catch (error) {
       console.error("Error deleting wallet:", error);
     } finally {
-      isProcessingRef.current = false;
+      isProcessing = false;
     }
   };
 
   const loadWallets = async (): Promise<void> => {
-    if (isProcessingRef.current) return;
-    isProcessingRef.current = true;
+    if (isProcessing) return;
+    isProcessing = true;
 
     try {
       const { mnemonic, indexes } = useUserStore.getState();
@@ -117,7 +116,7 @@ const useWallet = () => {
     } catch (error) {
       console.error("Error loading wallets:", error);
     } finally {
-      isProcessingRef.current = false;
+      isProcessing = false;
     }
   };
 
