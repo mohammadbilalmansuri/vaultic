@@ -12,6 +12,7 @@ interface UserState {
   password: string;
   mnemonic: string;
   indexes: TIndexes;
+  deletedIndexes: TIndexes;
   setState: (updates: Partial<UserState>) => void;
   logout: () => void;
   initUser: (data: Partial<UserState>) => void;
@@ -22,6 +23,7 @@ export const useUserStore = create<UserState>((set) => ({
   password: "",
   mnemonic: "",
   indexes: [],
+  deletedIndexes: [],
 
   setState: (updates) => set((state) => ({ ...state, ...updates })),
 
@@ -31,6 +33,7 @@ export const useUserStore = create<UserState>((set) => ({
       password: "",
       mnemonic: "",
       indexes: [],
+      deletedIndexes: [],
     }),
 
   initUser: ({ password, mnemonic, indexes }) =>
@@ -40,5 +43,6 @@ export const useUserStore = create<UserState>((set) => ({
       password: password ?? state.password,
       mnemonic: mnemonic ?? state.mnemonic,
       indexes: indexes ?? state.indexes,
+      deletedIndexes: state.deletedIndexes,
     })),
 }));
