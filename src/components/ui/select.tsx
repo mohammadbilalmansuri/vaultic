@@ -32,7 +32,7 @@ export const Select = ({
   return (
     <div
       className={cn(
-        "relative w-full min-w-40 bg-zinc-200/60 dark:bg-zinc-800/60 focus:bg-zinc-200 dark:focus:bg-zinc-800 rounded-xl cursor-pointer px-4 py-3 h-13 flex items-center justify-between",
+        "relative w-full min-w-40 bg-zinc-200/60 dark:bg-zinc-800/50 focus:bg-zinc-200 dark:focus:bg-zinc-800 rounded-xl cursor-pointer px-4 py-3 h-13 flex items-center justify-between",
         className
       )}
       onClick={() => setIsOpen((prev) => !prev)}
@@ -40,7 +40,7 @@ export const Select = ({
     >
       <span>{selectedOption ? selectedOption.label : placeholder}</span>
 
-      <button className="fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-900 dark:hover:fill-zinc-100 transition-all duration-400">
+      <button className="fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 transition-all duration-400">
         <motion.svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
