@@ -1,3 +1,4 @@
+"use client";
 import { SVGProps } from "react";
 
 const Ethereum = ({ className = "", ...props }: SVGProps<SVGSVGElement>) => {

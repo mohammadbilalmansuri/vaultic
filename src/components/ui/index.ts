@@ -7,3 +7,5 @@ export { default as Loader } from "./loader";
 export { PasswordInput, Input } from "./input";
 export { Select, RHFSelect } from "./select";
 export { default as Wallet } from "./wallet";
+export { default as Expand } from "./expand";
+export { default as Delete } from "./delete";
