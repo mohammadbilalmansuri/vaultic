@@ -48,6 +48,7 @@ const useStorage = () => {
         password,
         mnemonic: decryptedMnemonic,
         indexes: userData.indexes || [],
+        deletedIndexes: userData.deletedIndexes || [],
       });
     } catch (error) {
       console.error("Error loading user:", error);
@@ -57,7 +58,8 @@ const useStorage = () => {
 
   const saveUser = async (): Promise<void> => {
     try {
-      const { password, mnemonic, indexes } = useUserStore.getState();
+      const { password, mnemonic, indexes, deletedIndexes } =
+        useUserStore.getState();
       if (!mnemonic) throw new Error("Mnemonic is missing");
 
       const existingData = await getUserData("user");
@@ -74,7 +76,12 @@ const useStorage = () => {
         throw new Error("Encryption failed");
       }
 
-      await setUserData("user", { hashedPassword, encryptedMnemonic, indexes });
+      await setUserData("user", {
+        hashedPassword,
+        encryptedMnemonic,
+        indexes,
+        deletedIndexes,
+      });
     } catch (error) {
       console.error("Error saving user:", error);
       throw error;
