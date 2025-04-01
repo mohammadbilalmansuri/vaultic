@@ -6,6 +6,7 @@ interface CopyProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   copied: boolean;
   withText?: boolean;
   lable?: string;
+  iconSize?: "sm" | "md" | "lg";
 }
 
 const Copy = ({
@@ -13,6 +14,7 @@ const Copy = ({
   withText = false,
   lable = "Copy to clipboard",
   className = "",
+  iconSize = "lg",
   ...props
 }: CopyProps) => {
   return (
@@ -22,7 +24,7 @@ const Copy = ({
         "transition-all duration-400",
         {
           "flex items-center gap-2": withText,
-          "stroke-zinc-600 dark:stroke-zinc-400 hover:stroke-zinc-900 dark:hover:stroke-zinc-100":
+          "stroke-zinc-600 dark:stroke-zinc-400 hover:stroke-zinc-800 dark:hover:stroke-zinc-200":
             !copied,
           "stroke-teal-500": copied,
         },
@@ -37,7 +39,11 @@ const Copy = ({
         strokeLinecap="round"
         strokeLinejoin="round"
         fill="none"
-        className="size-5"
+        className={cn({
+          "size-4": iconSize === "sm",
+          "size-4.5": iconSize === "md",
+          "size-5": iconSize === "lg",
+        })}
       >
         {copied ? (
           <>
