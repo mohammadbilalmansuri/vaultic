@@ -2,7 +2,7 @@
 import { ReactNode, useEffect } from "react";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import { Button, PasswordInput, Loader } from "@/components/ui";
+import { Button, PasswordInput, Loader } from "@/components/common";
 import {
   verifyPasswordSchema,
   VerifyPasswordFormData,

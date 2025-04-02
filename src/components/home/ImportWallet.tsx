@@ -2,7 +2,7 @@
 import { useState, Dispatch, SetStateAction, ClipboardEvent } from "react";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui";
+import { Button } from "@/components/common";
 import { TStep } from "@/app/page";
 import { useUserStore, TNetwork } from "@/stores/userStore";
 import { validateMnemonic } from "bip39";

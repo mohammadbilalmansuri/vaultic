@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
-import { Button, Switch } from "@/components/ui";
+import { Button, Switch } from "@/components/common";
 import { TStep } from "@/app/page";
 import { useCopy } from "@/hooks";
 import { generateMnemonic } from "bip39";

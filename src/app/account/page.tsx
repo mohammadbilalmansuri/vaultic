@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui";
+import { Button } from "@/components/common";
 import { useStorage, useCopy } from "@/hooks";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/stores/userStore";

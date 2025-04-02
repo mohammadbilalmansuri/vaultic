@@ -10,7 +10,7 @@ const Loader = ({ size = "lg", color = "teal" }: LoaderProps) => {
   return (
     <svg
       viewBox="0 0 24 24"
-      className={cn("animate-spin duration-400", {
+      className={cn("animate-spin duration-300", {
         "w-4 h-4": size === "xs",
         "w-6 h-6": size === "sm",
         "w-8 h-8": size === "md",

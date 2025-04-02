@@ -17,7 +17,7 @@ interface SelectProps {
   className?: string;
 }
 
-export const Select = ({
+const Select = ({
   options,
   value,
   onChange,
@@ -40,13 +40,13 @@ export const Select = ({
     >
       <span>{selectedOption ? selectedOption.label : placeholder}</span>
 
-      <button className="fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 transition-all duration-400">
+      <button className="fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 transition-all duration-300">
         <motion.svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
           className="size-4"
           animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.3 }}
         >
           <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
         </motion.svg>
@@ -80,6 +80,8 @@ export const Select = ({
     </div>
   );
 };
+
+export default Select;
 
 export const RHFSelect = ({ control, name, options, placeholder }: any) => {
   return (

@@ -1,7 +1,8 @@
 "use client";
 import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
-import { Button, Solana, Ethereum } from "@/components/ui";
+import { Button } from "@/components/common";
+import { Solana, Ethereum } from "@/components/icons";
 import { TStep } from "@/app/page";
 import { TNetwork } from "@/stores/userStore";
 

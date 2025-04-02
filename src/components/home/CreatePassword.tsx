@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 import { TStep } from "@/app/page";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import { Button, PasswordInput } from "@/components/ui";
+import { Button, PasswordInput } from "@/components/common";
 import { passwordSchema, PasswordFormData } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserStore } from "@/stores/userStore";
