@@ -65,9 +65,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
           {...register("confirmPassword")}
           placeholder="Confirm Password"
         />
-
         {renderFormError()}
-
         <Button className="w-full" type="submit">
           Next
         </Button>

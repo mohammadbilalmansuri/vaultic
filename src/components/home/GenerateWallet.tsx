@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import cn from "@/utils/cn";
 import { motion } from "motion/react";
 import { Button, Switch } from "@/components/ui";
 import { TStep } from "@/app/page";
@@ -8,6 +7,7 @@ import { useCopy } from "@/hooks";
 import { generateMnemonic } from "bip39";
 import { useUserStore, TNetwork } from "@/stores/userStore";
 import useWallet from "@/hooks/useWallet";
+import cn from "@/utils/cn";
 
 type GenerateWalletProps = {
   network: TNetwork;

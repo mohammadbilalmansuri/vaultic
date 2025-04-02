@@ -6,8 +6,8 @@ import { Button } from "@/components/ui";
 import { TStep } from "@/app/page";
 import { useUserStore, TNetwork } from "@/stores/userStore";
 import { validateMnemonic } from "bip39";
-import cn from "@/utils/cn";
 import { useWallet } from "@/hooks";
+import cn from "@/utils/cn";
 
 type ImportWalletProps = {
   network: TNetwork;

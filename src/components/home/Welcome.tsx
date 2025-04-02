@@ -1,8 +1,7 @@
 "use client";
 import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
-import { Button } from "@/components/ui";
-import { Logo } from "../ui/icons";
+import { Logo, Button } from "@/components/ui";
 import { TStep, TPath } from "@/app/page";
 
 type WelcomeProps = {
