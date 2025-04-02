@@ -2,7 +2,13 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Ubuntu_Sans } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider, Protected, Header, Footer } from "@/components/layout";
+import {
+  ThemeProvider,
+  Protected,
+  Header,
+  Footer,
+  NotificationProvider,
+} from "@/components/layout";
 
 const ubuntuSans = Ubuntu_Sans({
   variable: "--font-ubuntu-sans",
@@ -56,6 +62,7 @@ export default function RootLayout({
             <Protected>{children}</Protected>
           </main>
           <Footer />
+          <NotificationProvider />
         </ThemeProvider>
       </body>
     </html>

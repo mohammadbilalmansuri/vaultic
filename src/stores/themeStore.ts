@@ -8,7 +8,7 @@ interface ThemeState {
   toggleTheme: () => void;
 }
 
-const useThemeStore = create<ThemeState>()(
+export const useThemeStore = create<ThemeState>()(
   persist(
     (set, get) => ({
       theme: "dark",
@@ -27,5 +27,3 @@ const useThemeStore = create<ThemeState>()(
     }
   )
 );
-
-export default useThemeStore;
