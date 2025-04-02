@@ -1,10 +1,9 @@
 "use client";
 import { useState, Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
-import cn from "@/utils/cn";
-import { Button, Switch } from "@/components/ui";
-import { Warning, Lock } from "@/components/ui/icons";
+import { Button, Switch, Warning, Lock } from "@/components/ui";
 import { TStep } from "@/app/page";
+import cn from "@/utils/cn";
 
 type SecretRecoveryWarningProps = {
   setStep: Dispatch<SetStateAction<TStep>>;
@@ -28,7 +27,7 @@ const SecretRecoveryWarning = ({ setStep }: SecretRecoveryWarningProps) => {
       <div className="mt-1 w-full flex items-center gap-4 text-left px-5 py-4 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/50">
         <Warning className="size-5 fill-yellow-500 min-w-fit" />
         <p>
-          This is the <span className="heading-color">ONLY</span> way to recover
+          This is the<span className="heading-color"> ONLY </span>way to recover
           your account if you lose access to your device or password.
         </p>
       </div>
@@ -36,8 +35,8 @@ const SecretRecoveryWarning = ({ setStep }: SecretRecoveryWarningProps) => {
       <div className="-mt-1 w-full flex items-center gap-4 text-left px-5 py-4 rounded-xl bg-zinc-200/60 dark:bg-zinc-800/50">
         <Lock className="size-5 fill-teal-500 min-w-fit" />
         <p>
-          Write it down, store it in a safe place, and{" "}
-          <span className="heading-color">NEVER</span> share it with anyone.
+          Write it down, store it in a safe place, and
+          <span className="heading-color"> NEVER </span>share it with anyone.
         </p>
       </div>
 
