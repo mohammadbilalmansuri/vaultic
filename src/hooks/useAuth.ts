@@ -4,12 +4,12 @@ import { useUserStore } from "@/stores/userStore";
 import { VerifyPasswordFormData } from "@/utils/validation";
 import { useRouter } from "next/navigation";
 
-const AUTHENTICATED_ROUTES = new Set(["/dashboard", "/wallets", "/account"]);
+const AUTHENTICATED_ROUTES = new Set(["/dashboard", "/account"]);
 const IS_DEV = process.env.NODE_ENV === "development";
 const DEV_PASSWORD = "12345678";
 
 const useAuth = () => {
-  const { isUser, loadUser, removeUser } = useStorage();
+  const { isUser, loadUser } = useStorage();
   const { loadWallets } = useWallet();
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
@@ -31,9 +31,7 @@ const useAuth = () => {
           await loadWallets();
         }
 
-        if (pathname === "/") {
-          router.replace("/wallets");
-        }
+        if (pathname === "/") router.replace("/dashboard");
       }
     } catch (error) {
       console.error("Error checking user:", error);
