@@ -23,7 +23,7 @@
 }
 
 @utility btn-base {
-  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-xl transition-all duration-400 active:scale-[0.98];
+  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-xl transition-all duration-300 active:scale-[0.98];
 }
 
 @utility btn-zinc {
@@ -86,11 +86,11 @@
   }
 
   .input {
-    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-xl outline-none transition-all duration-400 bg-zinc-200/60 dark:bg-zinc-800/50 focus:bg-zinc-200 dark:focus:bg-zinc-800;
+    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-xl outline-none transition-all duration-300 bg-zinc-200/60 dark:bg-zinc-800/50 focus:bg-zinc-200 dark:focus:bg-zinc-800;
   }
 
   .icon {
-    @apply p-2 size-8 rounded-xl flex flex-col items-center justify-center bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60 fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 active:scale-95 transition-all duration-400;
+    @apply p-2 size-8 rounded-xl flex flex-col items-center justify-center bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60 fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 active:scale-95 transition-all duration-300;
 
     svg {
       @apply size-5;
