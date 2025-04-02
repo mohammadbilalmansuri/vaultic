@@ -63,7 +63,7 @@ const Protected = ({ children }: { children: ReactNode }) => {
         </Button>
         <Link
           href="/forgot-password"
-          className="leading-none hover:heading-color transition-all duration-400"
+          className="leading-none hover:heading-color transition-all duration-300"
         >
           Forgot Password
         </Link>
