@@ -1,11 +1,17 @@
 "use client";
-import { useForm, FormProvider } from "react-hook-form";
 import { useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
 import { AnimatePresence, motion } from "motion/react";
-import { Button, Wallet, Input } from "@/components/ui";
+import {
+  Button,
+  Wallet,
+  Input,
+  Solana,
+  Ethereum,
+  Cancle,
+} from "@/components/ui";
 import { useWallet, useStorage } from "@/hooks";
 import { useWalletStore } from "@/stores/walletStore";
-import { Solana, Ethereum, Cancle } from "@/components/ui";
 import { TNetwork } from "@/stores/userStore";
 
 const Send = () => {
@@ -69,7 +75,7 @@ const Send = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    duration: 0.3,
+                    duration: 0.4,
                     delay: index * 0.1,
                   }}
                   className="w-full"
