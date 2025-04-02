@@ -1,10 +1,9 @@
 "use client";
 import useThemeStore from "@/stores/themeStore";
-import { Switch, NavLink } from "@/components/ui";
-import { Logo, Moon, Sun } from "./ui/icons";
-import cn from "@/utils/cn";
+import { Switch, NavLink, Logo, Moon, Sun } from "@/components/ui";
 import { usePathname } from "next/navigation";
 import { useUserStore } from "@/stores/userStore";
+import cn from "@/utils/cn";
 
 const Header = () => {
   const { theme, toggleTheme } = useThemeStore();
