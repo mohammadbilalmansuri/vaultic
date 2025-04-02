@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "motion/react";
-import { Button, Logo } from "@/components/ui";
+import { Button } from "@/components/common";
+import { Logo } from "@/components/icons";
 
 const Completion = () => {
   return (

@@ -1,10 +1,22 @@
 "use client";
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Copy, Hide, Expand, Delete } from ".";
-import { Solana, Ethereum } from "./icons";
+import {
+  Solana,
+  Ethereum,
+  Copy,
+  Hide,
+  Expand,
+  Delete,
+} from "@/components/icons";
 import { useCopy, useWallet, useStorage } from "@/hooks";
 import { IWallet } from "@/stores/walletStore";
+
+interface WalletProps extends IWallet {
+  name: string;
+  isSingle: boolean;
+  setSendingFrom: Dispatch<SetStateAction<string>>;
+}
 
 const Wallet = ({
   name,
@@ -14,7 +26,8 @@ const Wallet = ({
   privateKey,
   balance,
   isSingle,
-}: IWallet & { name: string; isSingle: boolean }) => {
+  setSendingFrom,
+}: WalletProps) => {
   const { deleteWallet } = useWallet();
   const { saveUser } = useStorage();
   const { copyToClipboard, copied } = useCopy();
@@ -31,7 +44,7 @@ const Wallet = ({
   };
 
   return (
-    <div className="w-full rounded-2xl relative p-5 flex flex-col transition-all duration-400 bg-zinc-200/60 dark:bg-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-800">
+    <div className="w-full rounded-2xl relative p-5 flex flex-col transition-all duration-300 bg-zinc-200/60 dark:bg-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-800">
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center gap-4">
           {network === "solana" ? (
@@ -50,6 +63,7 @@ const Wallet = ({
           <p className="heading-color leading-none">
             {balance} {network === "solana" ? "SOL" : "ETH"}
           </p>
+          <button onClick={() => setSendingFrom(address)}>Send</button>
           {!isSingle && expanded && <Delete onClick={removeWallet} />}
           <Expand
             expanded={expanded}
@@ -64,7 +78,7 @@ const Wallet = ({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden w-full flex flex-col gap-2"
           >
             <h4 className="pt-6 heading-color text-lg leading-none">
@@ -73,7 +87,7 @@ const Wallet = ({
 
             <div className="w-full flex items-center justify-between gap-4 cursor-pointer">
               <p
-                className="hover:heading-color transition-all duration-400"
+                className="hover:heading-color transition-all duration-300"
                 onClick={() => copyToClipboard(privateKey)}
               >
                 {hidden ? (
@@ -90,10 +104,7 @@ const Wallet = ({
                   hidden={hidden}
                   onClick={() => setHidden((prev) => !prev)}
                 />
-                <Copy
-                  copied={copied}
-                  onClick={() => copyToClipboard(privateKey)}
-                />
+                <Copy toCopy={privateKey} />
               </div>
             </div>
           </motion.div>

@@ -1,35 +1,29 @@
 "use client";
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, SVGProps } from "react";
+import { useCopy } from "@/hooks";
 import cn from "@/utils/cn";
 
 interface CopyProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  copied: boolean;
-  withText?: boolean;
-  lable?: string;
-  iconSize?: "sm" | "md" | "lg";
+  toCopy: string;
+  svgProps?: SVGProps<SVGSVGElement>;
 }
 
-const Copy = ({
-  copied,
-  withText = false,
-  lable = "Copy to clipboard",
-  className = "",
-  iconSize = "lg",
-  ...props
-}: CopyProps) => {
+const Copy = ({ className = "", toCopy, svgProps, ...props }: CopyProps) => {
+  const { copied, copyToClipboard } = useCopy();
+
   return (
     <button
       type="button"
       className={cn(
-        "transition-all duration-400",
+        "transition-all duration-300",
         {
-          "flex items-center gap-2": withText,
           "stroke-zinc-600 dark:stroke-zinc-400 hover:stroke-zinc-800 dark:hover:stroke-zinc-200":
             !copied,
           "stroke-teal-500": copied,
         },
         className
       )}
+      onClick={() => copyToClipboard(toCopy)}
       {...props}
     >
       <svg
@@ -39,11 +33,7 @@ const Copy = ({
         strokeLinecap="round"
         strokeLinejoin="round"
         fill="none"
-        className={cn({
-          "size-4": iconSize === "sm",
-          "size-4.5": iconSize === "md",
-          "size-5": iconSize === "lg",
-        })}
+        {...svgProps}
       >
         {copied ? (
           <>
@@ -58,12 +48,6 @@ const Copy = ({
           </>
         )}
       </svg>
-
-      {withText && (
-        <span className={cn({ "text-teal-500": copied })}>
-          {copied ? "Copied" : lable}
-        </span>
-      )}
     </button>
   );
 };

@@ -2,14 +2,9 @@
 import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { AnimatePresence, motion } from "motion/react";
-import {
-  Button,
-  Wallet,
-  Input,
-  Solana,
-  Ethereum,
-  Cancle,
-} from "@/components/ui";
+import { Button, Input } from "@/components/common";
+import { Solana, Ethereum, Cancel } from "@/components/icons";
+import { Wallet } from "@/components/dashboard";
 import { useWallet, useStorage } from "@/hooks";
 import { useWalletStore } from "@/stores/walletStore";
 import { TNetwork } from "@/stores/userStore";
@@ -43,7 +38,7 @@ const Send = () => {
             <div className="flex items-center gap-3">
               {isAddingNewWallet ? (
                 <>
-                  <Cancle
+                  <Cancel
                     className="size-10 cursor-pointer icon"
                     onClick={() => setIsAddingNewWallet(false)}
                   />

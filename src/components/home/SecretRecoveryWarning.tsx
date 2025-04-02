@@ -1,7 +1,8 @@
 "use client";
 import { useState, Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
-import { Button, Switch, Warning, Lock } from "@/components/ui";
+import { Button, Switch } from "@/components/common";
+import { Warning, Lock } from "@/components/icons";
 import { TStep } from "@/app/page";
 import cn from "@/utils/cn";
 

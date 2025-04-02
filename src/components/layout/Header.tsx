@@ -1,6 +1,7 @@
 "use client";
 import useThemeStore from "@/stores/themeStore";
-import { Switch, NavLink, Logo, Moon, Sun } from "@/components/ui";
+import { Switch, NavLink } from "@/components/common";
+import { Logo, Moon, Sun } from "@/components/icons";
 import { usePathname } from "next/navigation";
 import { useUserStore } from "@/stores/userStore";
 import cn from "@/utils/cn";

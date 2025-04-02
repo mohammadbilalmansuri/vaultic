@@ -1,10 +1,5 @@
 "use client";
-import {
-  JSX,
-  ReactNode,
-  ButtonHTMLAttributes,
-  AnchorHTMLAttributes,
-} from "react";
+import { ReactNode, ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
 import Link, { LinkProps } from "next/link";
 import cn from "@/utils/cn";
 
@@ -16,7 +11,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
 }
 
-export default function Button({
+const Button = ({
   children,
   as = "button",
   type = "button",
@@ -24,7 +19,7 @@ export default function Button({
   href,
   className = "",
   ...props
-}: ButtonProps): JSX.Element {
+}: ButtonProps) => {
   const classes = cn(
     {
       "btn-teal": variant === "teal",
@@ -50,4 +45,6 @@ export default function Button({
       {children}
     </button>
   );
-}
+};
+
+export default Button;

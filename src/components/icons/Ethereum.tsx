@@ -1,14 +1,8 @@
-"use client";
 import { SVGProps } from "react";
 
-const Ethereum = ({ className = "", ...props }: SVGProps<SVGSVGElement>) => {
+const Ethereum = ({ ...props }: SVGProps<SVGSVGElement>) => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 115 182"
-      className={className}
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 182" {...props}>
       <path
         fill="#F0CDC2"
         stroke="#1616B4"
