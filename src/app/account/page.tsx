@@ -1,11 +1,6 @@
 "use client";
-import { useState, MouseEvent } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { Button, Wallet, Copy, Expand } from "@/components/ui";
-import { useWallet, useStorage, useCopy } from "@/hooks";
-import { useWalletStore } from "@/stores/walletStore";
-import { Solana, Ethereum, Cancle } from "@/components/ui/icons";
-import { TNetwork } from "@/stores/userStore";
+import { Button } from "@/components/ui";
+import { useStorage, useCopy } from "@/hooks";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/stores/userStore";
 import cn from "@/utils/cn";
@@ -16,9 +11,14 @@ const Account = () => {
   const { removeUser } = useStorage();
   const router = useRouter();
 
-  const onCopy = (e: MouseEvent<HTMLDivElement | HTMLButtonElement>) => {
-    e.stopPropagation();
-    copyToClipboard(mnemonic);
+  const logout = async () => {
+    try {
+      router.push("/");
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      await removeUser();
+    } catch (error) {
+      console.error("Error removing user:", error);
+    }
   };
 
   return (
@@ -27,13 +27,13 @@ const Account = () => {
         <div className="w-full flex items-center justify-between">
           <h2 className="text-2xl heading-color">Your Secret Phrase</h2>
 
-          <Button className="h-10 px-5" onClick={removeUser}>
+          <Button className="h-10 px-5" onClick={logout}>
             Logout
           </Button>
         </div>
 
         <div
-          className="w-full bg-zinc-200/60 dark:bg-zinc-800/50 hover:bg-zinc-200/90 dark:hover:bg-zinc-800/80 rounded-2xl flex flex-col px-5 pt-5 gap-5 cursor-pointer transition-all duration-400"
+          className="w-full bg-zinc-200/60 dark:bg-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-2xl flex flex-col px-5 pt-5 gap-5 cursor-pointer transition-all duration-300"
           onClick={() => copyToClipboard(mnemonic)}
         >
           <div className="w-full grid grid-cols-6 gap-4">
