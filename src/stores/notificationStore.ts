@@ -18,7 +18,7 @@ export const useNotificationStore = create<NotificationStore>((set, get) => {
 
   const startTimer = () => {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => get().closeNotification(), 400000);
+    timeoutId = setTimeout(() => get().closeNotification(), 4000);
   };
 
   return {
