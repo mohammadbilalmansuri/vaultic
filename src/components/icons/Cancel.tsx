@@ -5,7 +5,7 @@ interface CancelProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   svgProps?: SVGProps<SVGSVGElement>;
 }
 
-const Cancle = ({ svgProps, ...props }: CancelProps) => {
+const Cancel = ({ svgProps, ...props }: CancelProps) => {
   return (
     <button {...props}>
       <svg
@@ -19,4 +19,4 @@ const Cancle = ({ svgProps, ...props }: CancelProps) => {
   );
 };
 
-export default Cancle;
+export default Cancel;
