@@ -1,60 +1,50 @@
 import { create } from "zustand";
 
-export interface INotification {
-  id: number;
-  type: "info" | "success" | "warning" | "error";
+interface Notification {
   message: string;
-  timeoutId?: NodeJS.Timeout;
+  type: "info" | "success" | "error";
 }
 
-export type Position =
-  | "top-left"
-  | "top-right"
-  | "bottom-left"
-  | "bottom-right";
-
-interface NotificationState {
-  notifications: INotification[];
-  position: Position;
-  setPosition: (position: Position) => void;
-  addNotification: (message: string, type?: INotification["type"]) => void;
-  removeNotification: (id: number) => void;
-  clearNotifications: () => void;
+interface NotificationStore {
+  opened: boolean;
+  type: Notification["type"];
+  message: string;
+  notify: (message: string, type?: Notification["type"]) => void;
+  closeNotification: () => void;
 }
 
-export const useNotificationStore = create<NotificationState>((set) => ({
-  notifications: [],
-  position: "bottom-right",
+export const useNotificationStore = create<NotificationStore>((set, get) => {
+  let timeoutId: NodeJS.Timeout | null = null;
 
-  setPosition: (position) => set({ position }),
+  const startTimer = () => {
+    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => get().closeNotification(), 400000);
+  };
 
-  addNotification: (message, type = "info") => {
-    const id = Date.now();
-    const timeoutId = setTimeout(() => {
-      set((state) => ({
-        notifications: state.notifications.filter((n) => n.id !== id),
-      }));
-    }, 5000);
+  return {
+    opened: false,
+    type: "info",
+    message: "",
 
-    set((state) => ({
-      notifications: [...state.notifications, { id, type, message, timeoutId }],
-    }));
-  },
+    notify: (message, type = "info") => {
+      const { opened } = get();
 
-  removeNotification: (id) =>
-    set((state) => {
-      const notification = state.notifications.find((n) => n.id === id);
-      if (notification?.timeoutId) clearTimeout(notification.timeoutId);
-      return {
-        notifications: state.notifications.filter((n) => n.id !== id),
-      };
-    }),
+      if (opened) {
+        set({ opened: false });
 
-  clearNotifications: () =>
-    set((state) => {
-      state.notifications.forEach(
-        (n) => n.timeoutId && clearTimeout(n.timeoutId)
-      );
-      return { notifications: [] };
-    }),
-}));
+        setTimeout(() => {
+          set({ opened: true, message, type });
+          startTimer();
+        }, 400);
+      } else {
+        set({ opened: true, message, type });
+        startTimer();
+      }
+    },
+
+    closeNotification: () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      set({ opened: false, message: "", type: "info" });
+    },
+  };
+});
