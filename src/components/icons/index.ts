@@ -1,12 +1,15 @@
 export { default as Cancel } from "./Cancel";
 export { default as Copy } from "./Copy";
 export { default as Delete } from "./Delete";
+export { default as Error } from "./Error";
 export { default as Ethereum } from "./Ethereum";
 export { default as Expand } from "./Expand";
 export { default as Hide } from "./Hide";
+export { default as Info } from "./Info";
 export { default as Lock } from "./Lock";
 export { default as Logo } from "./Logo";
 export { default as Moon } from "./Moon";
 export { default as Solana } from "./Solana";
+export { default as Success } from "./Success";
 export { default as Sun } from "./Sun";
 export { default as Warning } from "./Warning";
