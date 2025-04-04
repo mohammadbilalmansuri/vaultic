@@ -22,6 +22,11 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
   } = useForm<PasswordFormData>({
     resolver: zodResolver(passwordSchema),
     mode: "onChange",
+    // For Development Only
+    values: {
+      password: "12345678",
+      confirmPassword: "12345678",
+    },
   });
 
   const setState = useUserStore((state) => state.setState);
