@@ -24,6 +24,7 @@ const useAuth = () => {
       if (!userExists) {
         if (AUTHENTICATED_ROUTES.has(pathname) && pathname !== "/") {
           router.replace("/");
+          return;
         }
       } else {
         if (IS_DEV && !authenticated) {
@@ -31,13 +32,15 @@ const useAuth = () => {
           await loadWallets();
         }
 
-        if (pathname === "/") router.replace("/dashboard");
+        if (pathname === "/") {
+          router.replace("/dashboard");
+          return;
+        }
       }
     } catch (error) {
       console.error("Error checking user:", error);
-    } finally {
-      setChecking(false);
     }
+    setChecking(false);
   };
 
   const handlePasswordSubmit = async ({ password }: VerifyPasswordFormData) => {

@@ -33,7 +33,11 @@ const Protected = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     (async () => {
-      await checkUser(pathname);
+      try {
+        await checkUser(pathname);
+      } catch (error) {
+        console.error("Error checking user:", error);
+      }
     })();
   }, [pathname]);
 
@@ -44,7 +48,9 @@ const Protected = ({ children }: { children: ReactNode }) => {
     ) : null;
   };
 
-  if (checking) return <Loader />;
+  if (checking) {
+    return <Loader />;
+  }
 
   if (!authenticated && !IS_DEV) {
     return (
