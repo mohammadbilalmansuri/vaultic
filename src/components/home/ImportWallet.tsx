@@ -8,6 +8,7 @@ import { useUserStore, TNetwork } from "@/stores/userStore";
 import { validateMnemonic } from "bip39";
 import { useWallet } from "@/hooks";
 import cn from "@/utils/cn";
+import { useNotificationStore } from "@/stores/notificationStore";
 
 type ImportWalletProps = {
   network: TNetwork;
@@ -33,6 +34,7 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
 
   const [mnemonicErrors, setMnemonicErrors] = useState<string>("");
   const { createWallet } = useWallet();
+  const notify = useNotificationStore((state) => state.notify);
 
   const onPaste = async (event: ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -50,8 +52,10 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
         );
       }, 0);
     } else {
-      setMnemonicErrors("Phrase must be 12 or 24 words.");
-      setTimeout(() => setMnemonicErrors(""), 3000);
+      setMnemonicErrors(
+        "The recovery phrase must contain exactly 12 or 24 words"
+      );
+      setTimeout(() => setMnemonicErrors(""), 4000);
     }
   };
 
@@ -60,9 +64,10 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
     if (validateMnemonic(phrase)) {
       setState({ mnemonic: phrase });
       await createWallet(network);
+      notify("Wallet imported successfully!", "success");
       setStep(4);
     } else {
-      setMnemonicErrors("Invalid mnemonic phrase.");
+      setMnemonicErrors("Invalid recovery phrase");
     }
   };
 
