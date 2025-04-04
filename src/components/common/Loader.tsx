@@ -3,7 +3,7 @@ import cn from "@/utils/cn";
 
 interface LoaderProps {
   size?: "xs" | "sm" | "md" | "lg";
-  color?: "teal" | "zinc";
+  color?: "teal" | "zinc" | "black";
 }
 
 const Loader = ({ size = "lg", color = "teal" }: LoaderProps) => {
@@ -17,6 +17,7 @@ const Loader = ({ size = "lg", color = "teal" }: LoaderProps) => {
         "w-10 h-10": size === "lg",
         "fill-zinc-600 dark:fill-zinc-400": color === "zinc",
         "fill-teal-500": color === "teal",
+        "fill-zinc-800": color === "black",
       })}
     >
       <path
