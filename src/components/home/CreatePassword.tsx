@@ -8,6 +8,7 @@ import { passwordSchema, PasswordFormData } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUserStore } from "@/stores/userStore";
 import { useStorage } from "@/hooks";
+import { useNotificationStore } from "@/stores/notificationStore";
 
 type CreatePasswordProps = {
   setStep: Dispatch<SetStateAction<TStep>>;
@@ -25,11 +26,18 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
 
   const setState = useUserStore((state) => state.setState);
   const { saveUser } = useStorage();
+  const notify = useNotificationStore((state) => state.notify);
 
   const onSubmit = async ({ password }: PasswordFormData) => {
-    setState({ password, authenticated: true });
-    await saveUser();
-    setStep(6);
+    try {
+      setState({ password, authenticated: true });
+      await saveUser();
+      notify("User saved successfully!", "success");
+      setStep(6);
+    } catch (error) {
+      console.error("Error saving user:", error);
+      notify("Failed to save user", "error");
+    }
   };
 
   const renderFormError = () => {
