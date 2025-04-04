@@ -35,7 +35,7 @@ export const useNotificationStore = create<NotificationStore>((set, get) => {
         setTimeout(() => {
           set({ opened: true, message, type });
           startTimer();
-        }, 400);
+        }, 200);
       } else {
         set({ opened: true, message, type });
         startTimer();
