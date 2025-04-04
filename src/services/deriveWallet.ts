@@ -11,41 +11,46 @@ const deriveWallet = async (
   index: number,
   network: TNetwork
 ) => {
-  const seed = await mnemonicToSeed(mnemonic);
+  try {
+    const seed = await mnemonicToSeed(mnemonic);
 
-  switch (network) {
-    case "ethereum": {
-      const derivationPath = `m/44'/60'/${index}'/0/0`;
-      const hdNode = HDNodeWallet.fromSeed(seed);
-      const child = hdNode.derivePath(derivationPath);
+    switch (network) {
+      case "ethereum": {
+        const derivationPath = `m/44'/60'/${index}'/0/0`;
+        const hdNode = HDNodeWallet.fromSeed(seed);
+        const child = hdNode.derivePath(derivationPath);
 
-      return {
-        index,
-        network,
-        address: child.address,
-        privateKey: child.privateKey,
-      };
+        return {
+          index,
+          network,
+          address: child.address,
+          privateKey: child.privateKey,
+        };
+      }
+
+      case "solana": {
+        const derivationPath = `m/44'/501'/${index}'/0'`;
+        const { key: derivedSeed } = derivePath(
+          derivationPath,
+          seed.toString("hex")
+        );
+        const { secretKey } = nacl.sign.keyPair.fromSeed(derivedSeed);
+        const keypair = Keypair.fromSecretKey(secretKey);
+
+        return {
+          index,
+          network,
+          address: keypair.publicKey.toBase58(),
+          privateKey: bs58.encode(keypair.secretKey),
+        };
+      }
+
+      default:
+        throw new Error("Unsupported network");
     }
-
-    case "solana": {
-      const derivationPath = `m/44'/501'/${index}'/0'`;
-      const { key: derivedSeed } = derivePath(
-        derivationPath,
-        seed.toString("hex")
-      );
-      const { secretKey } = nacl.sign.keyPair.fromSeed(derivedSeed);
-      const keypair = Keypair.fromSecretKey(secretKey);
-
-      return {
-        index,
-        network,
-        address: keypair.publicKey.toBase58(),
-        privateKey: bs58.encode(keypair.secretKey),
-      };
-    }
-
-    default:
-      throw new Error("Unsupported network");
+  } catch (error) {
+    console.error("Wallet derivation failed:", error);
+    return null;
   }
 };
 

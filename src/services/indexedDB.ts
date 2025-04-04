@@ -57,7 +57,7 @@ async function withTransaction<T>(
       reject(new Error(`Transaction failed: ${request.error?.message}`));
 
     tx.oncomplete = () => {
-      // Avoid closing dbInstance (reuse for performance)
+      // dbInstance is reused for performance
     };
   });
 }
@@ -67,17 +67,29 @@ export async function setUserData(
   id: string,
   value: ISavedUserData
 ): Promise<void> {
-  await withTransaction("readwrite", (store) => store.put({ id, value }));
+  try {
+    await withTransaction("readwrite", (store) => store.put({ id, value }));
+  } catch (error) {
+    console.error("Failed to set user data:", error);
+  }
 }
 
 // Retrieves user data from IndexedDB.
 export async function getUserData(id: string): Promise<ISavedUserData | null> {
-  return await withTransaction("readonly", (store) => store.get(id)).then(
-    (result) => result?.value ?? null
-  );
+  try {
+    const result = await withTransaction("readonly", (store) => store.get(id));
+    return result?.value ?? null;
+  } catch (error) {
+    console.error("Failed to get user data:", error);
+    return null;
+  }
 }
 
 // Clears all user data.
 export async function clearUserData(): Promise<void> {
-  await withTransaction("readwrite", (store) => store.clear());
+  try {
+    await withTransaction("readwrite", (store) => store.clear());
+  } catch (error) {
+    console.error("Failed to clear user data:", error);
+  }
 }
