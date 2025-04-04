@@ -24,7 +24,6 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
   });
 
   const setState = useUserStore((state) => state.setState);
-
   const { saveUser } = useStorage();
 
   const onSubmit = async ({ password }: PasswordFormData) => {
