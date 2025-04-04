@@ -14,7 +14,7 @@ const NotificationProvider = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -50 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           className="max-w-sm fixed bottom-8 right-8 z-50 bg-zinc-200 dark:bg-zinc-800 heading-color p-5 rounded-2xl flex items-center gap-4 leading-tight"
         >
           <div className="flex items-center gap-2">
