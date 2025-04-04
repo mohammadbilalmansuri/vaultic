@@ -2,8 +2,13 @@
 import { motion } from "motion/react";
 import { Button } from "@/components/common";
 import { Logo } from "@/components/icons";
+import { useRouter } from "next/navigation";
+import { useNotificationStore } from "@/stores/notificationStore";
 
 const Completion = () => {
+  const router = useRouter();
+  const notify = useNotificationStore((state) => state.notify);
+
   return (
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
@@ -15,13 +20,18 @@ const Completion = () => {
       <h3 className="text-lg text-teal-500">Congratulations</h3>
       <h1>You're all good!</h1>
       <p className="max-w-xs">
-        Keep a reminder of your Secret Recovery Phrase somewhere safe. If you
-        lose it, no one can help you get it back. Even worse, you won't be able
-        to access your wallet ever again.
+        Keep your Secret Recovery Phrase in a safe place. If you lose it, no one
+        can recover it for you, and you will permanently lose access to your
+        wallet.
       </p>
-
-      <Button as="link" href="/dashboard" className="mt-2">
-        Open Vaultic
+      <Button
+        className="mt-3"
+        onClick={() => {
+          notify("Wallet setup completed successfully!", "success");
+          router.push("/dashboard");
+        }}
+      >
+        Go to Dashboard
       </Button>
     </motion.div>
   );

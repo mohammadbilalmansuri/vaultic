@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { Button } from "@/components/common";
 import { Logo } from "@/components/icons";
 import { TStep, TPath } from "@/app/page";
+import { useNotificationStore } from "@/stores/notificationStore";
 
 type WelcomeProps = {
   setPath: Dispatch<SetStateAction<TPath>>;
@@ -11,8 +12,16 @@ type WelcomeProps = {
 };
 
 const Welcome = ({ setPath, setStep }: WelcomeProps) => {
+  const notify = useNotificationStore((state) => state.notify);
+
   const setState = (path: TPath) => {
     setPath(path);
+    notify(
+      `You're about to ${
+        path === "create" ? "create a new wallet" : "import an existing wallet"
+      }!`,
+      "info"
+    );
     setStep(2);
   };
 

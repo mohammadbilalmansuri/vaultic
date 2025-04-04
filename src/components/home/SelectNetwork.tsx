@@ -5,6 +5,7 @@ import { Button } from "@/components/common";
 import { Solana, Ethereum } from "@/components/icons";
 import { TStep } from "@/app/page";
 import { TNetwork } from "@/stores/userStore";
+import { useNotificationStore } from "@/stores/notificationStore";
 
 type SelectNetworkProps = {
   setNetwork: Dispatch<SetStateAction<TNetwork>>;
@@ -12,8 +13,11 @@ type SelectNetworkProps = {
 };
 
 const SelectNetwork = ({ setNetwork, setStep }: SelectNetworkProps) => {
+  const notify = useNotificationStore((state) => state.notify);
+
   const setState = (network: TNetwork) => {
     setNetwork(network);
+    notify(`You selected the ${network} network!`, "info");
     setStep(3);
   };
 

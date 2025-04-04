@@ -8,6 +8,7 @@ import { generateMnemonic } from "bip39";
 import { useUserStore, TNetwork } from "@/stores/userStore";
 import useWallet from "@/hooks/useWallet";
 import cn from "@/utils/cn";
+import { useNotificationStore } from "@/stores/notificationStore";
 
 type GenerateWalletProps = {
   network: TNetwork;
@@ -20,6 +21,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
   const { createWallet } = useWallet();
   const mnemonic = useUserStore((state) => state.mnemonic);
   const setState = useUserStore((state) => state.setState);
+  const notify = useNotificationStore((state) => state.notify);
 
   useEffect(() => {
     if (!mnemonic) {
@@ -30,6 +32,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
 
   const handleNext = async () => {
     await createWallet(network);
+    notify("Wallet created successfully!", "success");
     setStep(5);
   };
 
