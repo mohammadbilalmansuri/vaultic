@@ -38,22 +38,32 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
 
   const onPaste = async (event: ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
-    const text = event.clipboardData.getData("text").trim();
-    const words = text.split(/\s+/).filter(Boolean);
-    const wordCount = words.length;
 
-    if (wordCount === 12 || wordCount === 24) {
-      if (wordCount !== (is24Words ? 24 : 12)) {
-        setIs24Words(wordCount === 24);
-      }
-      setTimeout(() => {
-        words.forEach((word, index) =>
-          setValue(`mnemonic.${index}`, word, { shouldValidate: true })
+    try {
+      const text = event.clipboardData.getData("text").trim();
+      const words = text.split(/\s+/).filter(Boolean);
+      const wordCount = words.length;
+
+      if (wordCount === 12 || wordCount === 24) {
+        if (wordCount !== (is24Words ? 24 : 12)) {
+          setIs24Words(wordCount === 24);
+        }
+
+        setTimeout(() => {
+          words.forEach((word, index) =>
+            setValue(`mnemonic.${index}`, word, { shouldValidate: true })
+          );
+        }, 0);
+      } else {
+        setMnemonicErrors(
+          "The recovery phrase must contain exactly 12 or 24 words"
         );
-      }, 0);
-    } else {
+        setTimeout(() => setMnemonicErrors(""), 4000);
+      }
+    } catch (error) {
+      console.error("Failed to paste recovery phrase:", error);
       setMnemonicErrors(
-        "The recovery phrase must contain exactly 12 or 24 words"
+        "Something went wrong while pasting the recovery phrase"
       );
       setTimeout(() => setMnemonicErrors(""), 4000);
     }
@@ -61,13 +71,20 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
 
   const onSubmit = async (data: MnemonicForm) => {
     const phrase = data.mnemonic.map((word) => word.trim()).join(" ");
-    if (validateMnemonic(phrase)) {
+
+    if (!validateMnemonic(phrase)) {
+      setMnemonicErrors("Invalid recovery phrase");
+      return;
+    }
+
+    try {
       setState({ mnemonic: phrase });
       await createWallet(network);
       notify("Wallet imported successfully!", "success");
       setStep(4);
-    } else {
-      setMnemonicErrors("Invalid recovery phrase");
+    } catch (error) {
+      console.error("Wallet import failed:", error);
+      notify("Failed to import wallet", "error");
     }
   };
 

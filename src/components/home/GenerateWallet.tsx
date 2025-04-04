@@ -31,9 +31,14 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
   }, []);
 
   const handleNext = async () => {
-    await createWallet(network);
-    notify("Wallet created successfully!", "success");
-    setStep(5);
+    try {
+      await createWallet(network);
+      notify("Wallet created successfully!", "success");
+      setStep(5);
+    } catch (error) {
+      console.error("Error creating wallet:", error);
+      notify("Failed to create wallet", "error");
+    }
   };
 
   return (
