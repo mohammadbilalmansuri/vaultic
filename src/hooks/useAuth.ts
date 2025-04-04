@@ -18,29 +18,36 @@ const useAuth = () => {
 
   const checkUser = async (pathname: string) => {
     setChecking(true);
+    let redirected = false;
+
     try {
-      const userExists = await isUser();
+      const userExists = authenticated || (await isUser());
 
-      if (!userExists) {
-        if (AUTHENTICATED_ROUTES.has(pathname) && pathname !== "/") {
-          router.replace("/");
-          return;
-        }
-      } else {
-        if (IS_DEV && !authenticated) {
-          await loadUser(DEV_PASSWORD);
-          await loadWallets();
-        }
+      if (
+        !userExists &&
+        AUTHENTICATED_ROUTES.has(pathname) &&
+        pathname !== "/"
+      ) {
+        router.replace("/");
+        redirected = true;
+      }
 
-        if (pathname === "/") {
-          router.replace("/dashboard");
-          return;
-        }
+      if (userExists && IS_DEV && !authenticated) {
+        await loadUser(DEV_PASSWORD);
+        await loadWallets();
+      }
+
+      if (userExists && pathname === "/") {
+        router.replace("/dashboard");
+        redirected = true;
       }
     } catch (error) {
       console.error("Error checking user:", error);
     }
-    setChecking(false);
+
+    if (!redirected) {
+      setChecking(false);
+    }
   };
 
   const handlePasswordSubmit = async ({ password }: VerifyPasswordFormData) => {
