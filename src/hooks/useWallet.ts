@@ -68,7 +68,7 @@ const useWallet = () => {
 
       if (indexes.length === 1) {
         throw new Error(
-          "Cannot delete the last remaining wallet. You must have at least one wallet."
+          "You must have at least one wallet. Deleting the last wallet is not allowed."
         );
       }
 
