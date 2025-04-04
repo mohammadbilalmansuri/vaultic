@@ -58,7 +58,7 @@ const useAuth = () => {
       const errorMessage =
         error instanceof Error ? error.message : "An unknown error occurred";
       setError(errorMessage);
-      setTimeout(() => setError(""), 3000);
+      setTimeout(() => setError(""), 4000);
     }
   };
 
