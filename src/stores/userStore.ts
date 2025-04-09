@@ -7,15 +7,18 @@ export type TIndexes = {
   index: number;
 }[];
 
+export type TNetworkMode = "mainnet" | "devnet";
+
 interface UserState {
   authenticated: boolean;
   password: string;
   mnemonic: string;
   indexes: TIndexes;
   deletedIndexes: TIndexes;
-  setState: (updates: Partial<UserState>) => void;
-  logout: () => void;
-  initUser: (data: Partial<UserState>) => void;
+  networkMode: TNetworkMode;
+  setUserState: (updates: Partial<UserState>) => void;
+  setUser: (data: Partial<UserState>) => void;
+  clearUser: () => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -24,19 +27,11 @@ export const useUserStore = create<UserState>((set) => ({
   mnemonic: "",
   indexes: [],
   deletedIndexes: [],
+  networkMode: "mainnet",
 
-  setState: (updates) => set((state) => ({ ...state, ...updates })),
+  setUserState: (updates) => set((state) => ({ ...state, ...updates })),
 
-  logout: () =>
-    set({
-      authenticated: false,
-      password: "",
-      mnemonic: "",
-      indexes: [],
-      deletedIndexes: [],
-    }),
-
-  initUser: ({ password, mnemonic, indexes }) =>
+  setUser: ({ password, mnemonic, indexes }) =>
     set((state) => ({
       ...state,
       authenticated: true,
@@ -44,5 +39,16 @@ export const useUserStore = create<UserState>((set) => ({
       mnemonic: mnemonic ?? state.mnemonic,
       indexes: indexes ?? state.indexes,
       deletedIndexes: state.deletedIndexes,
+      networkMode: state.networkMode,
     })),
+
+  clearUser: () =>
+    set({
+      authenticated: false,
+      password: "",
+      mnemonic: "",
+      indexes: [],
+      deletedIndexes: [],
+      networkMode: "mainnet",
+    }),
 }));
