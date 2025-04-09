@@ -11,7 +11,7 @@ const rpcUrls = {
   },
 };
 
-export const getRpcUrl = (network: TNetwork): string => {
+const getRpcUrl = (network: TNetwork): string => {
   const { networkMode } = useUserStore.getState();
 
   const url = rpcUrls[network][networkMode];
@@ -22,3 +22,5 @@ export const getRpcUrl = (network: TNetwork): string => {
 
   return url;
 };
+
+export default getRpcUrl;
