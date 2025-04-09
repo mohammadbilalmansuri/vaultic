@@ -7,80 +7,107 @@ import {
   sendAndConfirmTransaction,
 } from "@solana/web3.js";
 import bs58 from "bs58";
+import { TxHistoryItem } from "@/types";
+import getRpcUrl from "@/utils/getRpcUrl";
 
-export type TxHistoryItem = {
-  hash: string;
-  from: string;
-  to: string;
-  amount: string;
-  timestamp: number;
+const createSolanaConnection = (): Connection => {
+  const rpcUrl = getRpcUrl("solana");
+  return new Connection(rpcUrl, "confirmed");
 };
-
-const SOLANA_RPC = "https://api.devnet.solana.com";
-// const SOLANA_RPC = "https://api.mainnet-beta.solana.com";
 
 export const sendSolana = async (
   fromPrivateKey: string,
   toAddress: string,
   amount: string
 ): Promise<string> => {
-  const connection = new Connection(SOLANA_RPC);
-  const secretKey = bs58.decode(fromPrivateKey);
-  const fromKeypair = Keypair.fromSecretKey(secretKey);
-  const toPubkey = new PublicKey(toAddress);
+  try {
+    const connection = createSolanaConnection();
+    const lamports = Math.floor(Number(amount) * 1e9);
 
-  const transaction = new Transaction().add(
-    SystemProgram.transfer({
-      fromPubkey: fromKeypair.publicKey,
-      toPubkey,
-      lamports: parseFloat(amount) * 1e9, // SOL to lamports
-    })
-  );
+    if (isNaN(lamports) || lamports <= 0) {
+      throw new Error("Invalid amount provided.");
+    }
 
-  const signature = await sendAndConfirmTransaction(connection, transaction, [
-    fromKeypair,
-  ]);
-  return signature;
+    const secretKey = bs58.decode(fromPrivateKey);
+    const fromKeypair = Keypair.fromSecretKey(secretKey);
+    const toPubkey = new PublicKey(toAddress);
+
+    const transaction = new Transaction().add(
+      SystemProgram.transfer({
+        fromPubkey: fromKeypair.publicKey,
+        toPubkey,
+        lamports,
+      })
+    );
+
+    const signature = await sendAndConfirmTransaction(connection, transaction, [
+      fromKeypair,
+    ]);
+
+    return signature;
+  } catch (error) {
+    console.error("Failed to send Solana transaction:", error);
+    throw new Error("Solana transaction failed.");
+  }
 };
 
 export const getSolanaHistory = async (
   address: string
 ): Promise<TxHistoryItem[]> => {
-  const connection = new Connection(SOLANA_RPC);
-  const pubkey = new PublicKey(address);
-  const signatures = await connection.getSignaturesForAddress(pubkey, {
-    limit: 10,
-  });
+  try {
+    const connection = createSolanaConnection();
+    const pubkey = new PublicKey(address);
+    const signatures = await connection.getSignaturesForAddress(pubkey, {
+      limit: 10,
+    });
 
-  const transactions = await Promise.all(
-    signatures.map(async (sig) => {
-      const tx = await connection.getTransaction(sig.signature, {
-        maxSupportedTransactionVersion: 0,
-      });
-      if (!tx || !tx.meta) return null;
+    const transactions = await Promise.all(
+      signatures.map(async (sig) => {
+        try {
+          const tx = await connection.getTransaction(sig.signature, {
+            maxSupportedTransactionVersion: 0,
+          });
+          if (!tx || !tx.meta) return null;
 
-      const { transaction, meta } = tx;
-      const accountKeys = transaction.message.getAccountKeys();
-      const from = accountKeys.get(0)?.toBase58();
-      const to = accountKeys.get(1)?.toBase58();
-      const amount = (meta.preBalances[0] - meta.postBalances[0]) / 1e9;
+          const { transaction, meta } = tx;
+          const accountKeys = transaction.message.getAccountKeys();
 
-      return {
-        hash: sig.signature,
-        from,
-        to,
-        amount: amount.toString(),
-        timestamp: (tx.blockTime || 0) * 1000,
-      };
-    })
-  );
+          const from = accountKeys.get(0)?.toBase58();
+          const to = accountKeys.get(1)?.toBase58() ?? "Unknown recipient";
 
-  return transactions.filter(Boolean) as TxHistoryItem[];
+          const amount = (meta.preBalances[0] - meta.postBalances[0]) / 1e9;
+
+          return {
+            hash: sig.signature,
+            from,
+            to,
+            amount: amount.toString(),
+            timestamp: (tx.blockTime || 0) * 1000,
+          };
+        } catch (err) {
+          console.warn(`Failed to process transaction ${sig.signature}`, err);
+          return null;
+        }
+      })
+    );
+
+    return transactions
+      .filter(Boolean)
+      .sort((a, b) => b!.timestamp - a!.timestamp) as TxHistoryItem[];
+  } catch (error) {
+    console.error("Failed to fetch Solana transaction history:", error);
+    throw new Error("Unable to fetch transaction history.");
+  }
 };
 
 export const getSolanaBalance = async (address: string): Promise<string> => {
-  const connection = new Connection(SOLANA_RPC);
-  const pubkey = new PublicKey(address);
-  const balance = await connection.getBalance(pubkey);
-  return (balance / 1e9).toString(); // Convert lamports to SOL
+  try {
+    const connection = createSolanaConnection();
+    const pubkey = new PublicKey(address);
+    const balance = await connection.getBalance(pubkey);
+    return (balance / 1e9).toString();
+  } catch (error) {
+    console.error("Failed to fetch Solana balance:", error);
+    throw new Error("Unable to fetch balance.");
+  }
 };
