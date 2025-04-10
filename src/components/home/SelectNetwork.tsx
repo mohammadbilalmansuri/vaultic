@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { Button } from "@/components/common";
 import { Solana, Ethereum } from "@/components/icons";
 import { TStep } from "@/app/page";
-import { TNetwork } from "@/stores/userStore";
+import { TNetwork } from "@/types";
 import { useNotificationStore } from "@/stores/notificationStore";
 
 type SelectNetworkProps = {
