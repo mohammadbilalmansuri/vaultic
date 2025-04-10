@@ -1,4 +1,5 @@
-import { useUserStore, TNetwork } from "@/stores/userStore";
+import { useUserStore } from "@/stores/userStore";
+import { TNetwork } from "@/types/userStoreTypes";
 
 const rpcUrls = {
   ethereum: {
