@@ -19,6 +19,14 @@ export interface INotification {
   type: "info" | "success" | "error";
 }
 
+export interface ISavedUserData {
+  hashedPassword: string;
+  encryptedMnemonic: string;
+  indexes: TIndexes;
+  deletedIndexes: TIndexes;
+  networkMode: TNetworkMode;
+}
+
 export type TxHistoryItem = {
   hash: string;
   from: string;
