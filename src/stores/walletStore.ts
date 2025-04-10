@@ -1,5 +1,18 @@
 import { create } from "zustand";
-import { IWalletState } from "@/types/walletStoreTypes";
+import { TNetwork, IWallet } from "@/types";
+
+interface IWalletState {
+  wallets: Map<string, IWallet>;
+  setWallets: (wallets: Map<string, IWallet>) => void;
+  addWallet: (wallet: IWallet) => void;
+  removeWallet: (network: TNetwork, address: string) => void;
+  clearWallets: () => void;
+  updateWalletBalance: (
+    network: TNetwork,
+    address: string,
+    balance: number
+  ) => void;
+}
 
 const getWalletKey = (network: string, address: string) =>
   `${network}:${address}`;
@@ -32,9 +45,7 @@ export const useWalletStore = create<IWalletState>((set) => ({
       const key = getWalletKey(network, address);
       const updated = new Map(state.wallets);
       const wallet = updated.get(key);
-      if (wallet) {
-        updated.set(key, { ...wallet, balance });
-      }
+      if (wallet) updated.set(key, { ...wallet, balance });
       return { wallets: updated };
     }),
 }));

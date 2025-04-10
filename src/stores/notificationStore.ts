@@ -1,19 +1,15 @@
 import { create } from "zustand";
+import { INotification } from "@/types";
 
-interface Notification {
-  message: string;
-  type: "info" | "success" | "error";
-}
-
-interface NotificationStore {
+interface NotificationState {
   opened: boolean;
-  type: Notification["type"];
+  type: INotification["type"];
   message: string;
-  notify: (message: string, type?: Notification["type"]) => void;
+  notify: (message: string, type?: INotification["type"]) => void;
   closeNotification: () => void;
 }
 
-export const useNotificationStore = create<NotificationStore>((set, get) => {
+export const useNotificationStore = create<NotificationState>((set, get) => {
   let timeoutId: NodeJS.Timeout | null = null;
 
   const startTimer = () => {
