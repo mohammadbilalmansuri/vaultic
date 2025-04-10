@@ -1,12 +1,4 @@
-import { TIndexes, TNetworkMode } from "@/stores/userStore";
-
-export interface ISavedUserData {
-  hashedPassword: string;
-  encryptedMnemonic: string;
-  indexes: TIndexes;
-  deletedIndexes: TIndexes;
-  networkMode: TNetworkMode;
-}
+import { ISavedUserData } from "@/types";
 
 const DB_NAME = "vaultic_db";
 const STORE_NAME = "vaultic_store";
