@@ -1,50 +1,40 @@
 import { create } from "zustand";
-import { TNetwork } from "./userStore";
+import { IWalletState } from "@/types/walletStoreTypes";
 
-export interface IWallet {
-  index: number;
-  network: TNetwork;
-  address: string;
-  privateKey: string;
-  balance: number;
-}
+const getWalletKey = (network: string, address: string) =>
+  `${network}:${address}`;
 
-interface WalletState {
-  wallets: IWallet[];
-  setWallets: (wallets: IWallet[]) => void;
-  addWallet: (wallet: IWallet) => void;
-  removeWallet: (index: number, network: TNetwork) => void;
-  clearWallets: () => void;
-  updateWalletBalance: (
-    index: number,
-    network: TNetwork,
-    balance: number
-  ) => void;
-}
-
-export const useWalletStore = create<WalletState>((set) => ({
-  wallets: [],
+export const useWalletStore = create<IWalletState>((set) => ({
+  wallets: new Map(),
 
   setWallets: (wallets) => set({ wallets }),
 
   addWallet: (wallet) =>
-    set((state) => ({
-      wallets: [...state.wallets, wallet],
-    })),
+    set((state) => {
+      const key = getWalletKey(wallet.network, wallet.address);
+      const updated = new Map(state.wallets);
+      updated.set(key, wallet);
+      return { wallets: updated };
+    }),
 
-  removeWallet: (index, network) =>
-    set((state) => ({
-      wallets: state.wallets.filter(
-        (w) => !(w.index === index && w.network === network)
-      ),
-    })),
+  removeWallet: (network, address) =>
+    set((state) => {
+      const key = getWalletKey(network, address);
+      const updated = new Map(state.wallets);
+      updated.delete(key);
+      return { wallets: updated };
+    }),
 
-  clearWallets: () => set({ wallets: [] }),
+  clearWallets: () => set({ wallets: new Map() }),
 
-  updateWalletBalance: (index, network, balance) =>
-    set((state) => ({
-      wallets: state.wallets.map((w) =>
-        w.index === index && w.network === network ? { ...w, balance } : w
-      ),
-    })),
+  updateWalletBalance: (network, address, balance) =>
+    set((state) => {
+      const key = getWalletKey(network, address);
+      const updated = new Map(state.wallets);
+      const wallet = updated.get(key);
+      if (wallet) {
+        updated.set(key, { ...wallet, balance });
+      }
+      return { wallets: updated };
+    }),
 }));
