@@ -1,5 +1,17 @@
 import { create } from "zustand";
-import { IUserState } from "@/types/userStoreTypes";
+import { TNetworkMode, TIndexes } from "../types";
+
+interface IUserState {
+  authenticated: boolean;
+  password: string;
+  mnemonic: string;
+  indexes: TIndexes;
+  deletedIndexes: TIndexes;
+  networkMode: TNetworkMode;
+  setUserState: (updates: Partial<IUserState>) => void;
+  setUser: (data: Partial<IUserState>) => void;
+  clearUser: () => void;
+}
 
 const getDefaultState = (): Omit<
   IUserState,
