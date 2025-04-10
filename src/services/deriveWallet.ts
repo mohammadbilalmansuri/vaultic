@@ -4,7 +4,7 @@ import { derivePath } from "ed25519-hd-key";
 import { Keypair } from "@solana/web3.js";
 import nacl from "tweetnacl";
 import bs58 from "bs58";
-import { TNetwork } from "@/stores/userStore";
+import { TNetwork } from "@/types";
 
 const deriveWallet = async (
   mnemonic: string,
