@@ -9,7 +9,7 @@ import {
   CreatePassword,
   Completion,
 } from "@/components/home";
-import { TNetwork } from "@/stores/userStore";
+import { TNetwork } from "@/types";
 import cn from "@/utils/cn";
 
 export type TStep = 1 | 2 | 3 | 4 | 5 | 6;
