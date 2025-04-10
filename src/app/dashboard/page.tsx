@@ -7,7 +7,7 @@ import { Solana, Ethereum, Cancel } from "@/components/icons";
 import { Wallet } from "@/components/dashboard";
 import { useWallet, useStorage } from "@/hooks";
 import { useWalletStore } from "@/stores/walletStore";
-import { TNetwork } from "@/stores/userStore";
+import { TNetwork } from "@/types";
 
 const Send = () => {
   const wallets = useWalletStore((state) => state.wallets);
