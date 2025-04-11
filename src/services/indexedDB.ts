@@ -1,22 +1,22 @@
 import { ISavedUserData } from "@/types";
-
-const DB_NAME = "vaultic_db";
-const STORE_NAME = "vaultic_store";
-const DB_VERSION = 1;
+import {
+  INDEXED_DB_NAME,
+  INDEXED_DB_STORE_NAME,
+  INDEXED_DB_VERSION,
+} from "@/constants";
 
 let dbInstance: IDBDatabase | null = null;
 
-// Opens an IndexedDB connection (singleton pattern).
-async function openDB(): Promise<IDBDatabase> {
+const openDB = async (): Promise<IDBDatabase> => {
   if (dbInstance) return dbInstance;
 
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    const request = indexedDB.open(INDEXED_DB_NAME, INDEXED_DB_VERSION);
 
     request.onupgradeneeded = (event) => {
       const db = (event.target as IDBOpenDBRequest).result;
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME, { keyPath: "id" });
+      if (!db.objectStoreNames.contains(INDEXED_DB_STORE_NAME)) {
+        db.createObjectStore(INDEXED_DB_STORE_NAME, { keyPath: "id" });
       }
     };
 
@@ -31,18 +31,17 @@ async function openDB(): Promise<IDBDatabase> {
     request.onerror = () =>
       reject(new Error(`IndexedDB error: ${request.error?.message}`));
   });
-}
+};
 
-// Executes a database transaction with auto-retry on failure.
-async function withTransaction<T>(
+const withTransaction = async <T>(
   mode: IDBTransactionMode,
   callback: (store: IDBObjectStore) => IDBRequest<T>
-): Promise<T> {
+): Promise<T> => {
   const db = await openDB();
 
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE_NAME, mode);
-    const store = tx.objectStore(STORE_NAME);
+    const tx = db.transaction(INDEXED_DB_STORE_NAME, mode);
+    const store = tx.objectStore(INDEXED_DB_STORE_NAME);
     const request = callback(store);
 
     request.onsuccess = () => resolve(request.result);
@@ -53,36 +52,46 @@ async function withTransaction<T>(
       // dbInstance is reused for performance
     };
   });
-}
+};
 
-// Saves user data in IndexedDB.
-export async function setUserData(
+export const saveUserData = async (
   id: string,
   value: ISavedUserData
-): Promise<void> {
+): Promise<void> => {
   try {
     await withTransaction("readwrite", (store) => store.put({ id, value }));
   } catch (error) {
-    console.error("Failed to set user data:", error);
+    throw new Error(
+      `Failed to save user data: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
   }
-}
+};
 
-// Retrieves user data from IndexedDB.
-export async function getUserData(id: string): Promise<ISavedUserData | null> {
+export const getUserData = async (
+  id: string
+): Promise<ISavedUserData | null> => {
   try {
     const result = await withTransaction("readonly", (store) => store.get(id));
     return result?.value ?? null;
   } catch (error) {
-    console.error("Failed to get user data:", error);
-    return null;
+    throw new Error(
+      `Failed to get user data: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
   }
-}
+};
 
-// Clears all user data.
-export async function clearUserData(): Promise<void> {
+export const clearUserData = async (): Promise<void> => {
   try {
     await withTransaction("readwrite", (store) => store.clear());
   } catch (error) {
-    console.error("Failed to clear user data:", error);
+    throw new Error(
+      `Failed to clear user data: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
   }
-}
+};
