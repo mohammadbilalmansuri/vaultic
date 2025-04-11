@@ -25,7 +25,7 @@ const getDefaultState = (): Omit<
   networkMode: "mainnet",
 });
 
-export const useUserStore = create<IUserState>((set) => ({
+const useUserStore = create<IUserState>((set) => ({
   ...getDefaultState(),
 
   setUserState: (updates) => {
@@ -42,3 +42,5 @@ export const useUserStore = create<IUserState>((set) => ({
 
   clearUser: () => set(() => getDefaultState()),
 }));
+
+export default useUserStore;
