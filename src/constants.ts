@@ -5,6 +5,8 @@ export const INDEXED_DB_VERSION = parseInt(
   process.env.NEXT_PUBLIC_INDEXED_DB_VERSION!
 );
 
+export const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY!;
+
 export const RPC_URLs = {
   ethereum: {
     mainnet: process.env.NEXT_PUBLIC_ETH_MAINNET_RPC!,
