@@ -9,7 +9,7 @@ interface NotificationState {
   closeNotification: () => void;
 }
 
-export const useNotificationStore = create<NotificationState>((set, get) => {
+const useNotificationStore = create<NotificationState>((set, get) => {
   let timeoutId: NodeJS.Timeout | null = null;
 
   const startTimer = () => {
@@ -44,3 +44,5 @@ export const useNotificationStore = create<NotificationState>((set, get) => {
     },
   };
 });
+
+export default useNotificationStore;

@@ -17,7 +17,7 @@ interface IWalletState {
 const getWalletKey = (network: string, address: string) =>
   `${network}:${address}`;
 
-export const useWalletStore = create<IWalletState>((set) => ({
+const useWalletStore = create<IWalletState>((set) => ({
   wallets: new Map(),
 
   setWallets: (wallets) => set({ wallets }),
@@ -49,3 +49,5 @@ export const useWalletStore = create<IWalletState>((set) => ({
       return { wallets: updated };
     }),
 }));
+
+export default useWalletStore;
