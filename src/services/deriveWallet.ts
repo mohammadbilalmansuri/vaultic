@@ -49,8 +49,11 @@ const deriveWallet = async (
         throw new Error("Unsupported network");
     }
   } catch (error) {
-    console.error("Wallet derivation failed:", error);
-    return null;
+    throw new Error(
+      `Failed to derive wallet: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
   }
 };
 
