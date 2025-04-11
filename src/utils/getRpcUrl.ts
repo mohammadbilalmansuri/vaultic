@@ -1,4 +1,4 @@
-import { useUserStore } from "@/stores/userStore";
+import useUserStore from "@/stores/userStore";
 import { TNetwork } from "@/types";
 
 const rpcUrls = {
