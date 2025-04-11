@@ -1,6 +1,8 @@
 const cryptoLib: SubtleCrypto = globalThis.crypto.subtle;
 
-async function hashPassword(password: string): Promise<string | null> {
+export const hashPassword = async (
+  password: string
+): Promise<string | null> => {
   try {
     const encoder = new TextEncoder();
     const salt = crypto.getRandomValues(new Uint8Array(16));
@@ -36,12 +38,12 @@ async function hashPassword(password: string): Promise<string | null> {
     console.error("Password hashing failed:", error);
     return null;
   }
-}
+};
 
-async function verifyPassword(
+export const verifyPassword = async (
   password: string,
   storedHash: string
-): Promise<boolean> {
+): Promise<boolean> => {
   try {
     const [saltHex, hashHex] = storedHash.split(":");
     const salt = new Uint8Array(
@@ -77,12 +79,12 @@ async function verifyPassword(
     console.error("Password verification failed:", error);
     return false;
   }
-}
+};
 
-async function encryptMnemonic(
+export const encryptMnemonic = async (
   mnemonic: string,
   password: string
-): Promise<string | null> {
+): Promise<string | null> => {
   try {
     const encoder = new TextEncoder();
     const salt = crypto.getRandomValues(new Uint8Array(16));
@@ -122,12 +124,12 @@ async function encryptMnemonic(
     console.error("Encryption failed:", error);
     return null;
   }
-}
+};
 
-async function decryptMnemonic(
+export const decryptMnemonic = async (
   encryptedMnemonic: string,
   password: string
-): Promise<string | null> {
+): Promise<string | null> => {
   try {
     const [saltB64, ivB64, encryptedB64] = encryptedMnemonic.split(":");
 
@@ -180,6 +182,4 @@ async function decryptMnemonic(
     console.error("Decryption failed:", error);
     return null;
   }
-}
-
-export { hashPassword, verifyPassword, encryptMnemonic, decryptMnemonic };
+};
