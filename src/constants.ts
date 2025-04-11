@@ -17,3 +17,7 @@ export const RPC_URLs = {
     devnet: process.env.NEXT_PUBLIC_SOLANA_DEVNET_RPC!,
   },
 };
+
+export const AUTHENTICATED_ROUTES = new Set(["/dashboard", "/account"]);
+export const IS_DEV = process.env.NODE_ENV === "development";
+export const DEV_PASSWORD = "12345678";
