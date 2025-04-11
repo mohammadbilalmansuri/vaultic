@@ -29,9 +29,8 @@ export const sendSolana = async (
   try {
     const conn = getSolanaConnection();
     const lamports = Math.floor(Number(amount) * LAMPORTS_PER_SOL);
-    if (isNaN(lamports) || lamports <= 0) {
-      throw new Error("Invalid amount.");
-    }
+
+    if (isNaN(lamports) || lamports <= 0) throw new Error("Invalid amount.");
 
     const fromKeypair = Keypair.fromSecretKey(bs58.decode(fromPrivateKey));
     const toPubkey = new PublicKey(toAddress);
@@ -53,8 +52,11 @@ export const sendSolana = async (
 
     return signature;
   } catch (error) {
-    console.error("Failed to send Solana transaction:", error);
-    throw new Error("Solana transaction failed.");
+    throw new Error(
+      `Failed to send SOL: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
   }
 };
 
@@ -105,8 +107,11 @@ export const getSolanaHistory = async (
       .filter((tx): tx is TxHistoryItem => tx !== null)
       .sort((a, b) => b.timestamp - a.timestamp);
   } catch (error) {
-    console.error("Failed to fetch Solana transaction history:", error);
-    throw new Error("Unable to fetch transaction history.");
+    throw new Error(
+      `Unable to fetch transaction history: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
   }
 };
 
@@ -117,7 +122,10 @@ export const getSolanaBalance = async (address: string): Promise<string> => {
     const balance = await conn.getBalance(pubkey, "confirmed");
     return (balance / LAMPORTS_PER_SOL).toFixed(6);
   } catch (error) {
-    console.error("Failed to fetch Solana balance:", error);
-    throw new Error("Unable to fetch balance.");
+    throw new Error(
+      `Unable to fetch balance: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
   }
 };
