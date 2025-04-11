@@ -65,7 +65,7 @@ export const getSolanaHistory = async (
     const conn = getSolanaConnection();
     const pubkey = new PublicKey(address);
     const signatures = await conn.getSignaturesForAddress(pubkey, {
-      limit: 10,
+      limit: 20,
     });
 
     const transactions = await Promise.all(
