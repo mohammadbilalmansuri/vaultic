@@ -5,14 +5,20 @@ import {
   SystemProgram,
   Transaction,
   sendAndConfirmTransaction,
+  LAMPORTS_PER_SOL,
 } from "@solana/web3.js";
 import bs58 from "bs58";
 import { TxHistoryItem } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 
-const createSolanaConnection = (): Connection => {
-  const rpcUrl = getRpcUrl("solana");
-  return new Connection(rpcUrl, "confirmed");
+let connection: Connection | null = null;
+
+const getSolanaConnection = (): Connection => {
+  if (!connection) {
+    const rpcUrl = getRpcUrl("solana");
+    connection = new Connection(rpcUrl, "confirmed");
+  }
+  return connection;
 };
 
 export const sendSolana = async (
@@ -21,15 +27,13 @@ export const sendSolana = async (
   amount: string
 ): Promise<string> => {
   try {
-    const connection = createSolanaConnection();
-    const lamports = Math.floor(Number(amount) * 1e9);
-
+    const conn = getSolanaConnection();
+    const lamports = Math.floor(Number(amount) * LAMPORTS_PER_SOL);
     if (isNaN(lamports) || lamports <= 0) {
-      throw new Error("Invalid amount provided.");
+      throw new Error("Invalid amount.");
     }
 
-    const secretKey = bs58.decode(fromPrivateKey);
-    const fromKeypair = Keypair.fromSecretKey(secretKey);
+    const fromKeypair = Keypair.fromSecretKey(bs58.decode(fromPrivateKey));
     const toPubkey = new PublicKey(toAddress);
 
     const transaction = new Transaction().add(
@@ -40,7 +44,10 @@ export const sendSolana = async (
       })
     );
 
-    const signature = await sendAndConfirmTransaction(connection, transaction, [
+    transaction.feePayer = fromKeypair.publicKey;
+    transaction.recentBlockhash = (await conn.getLatestBlockhash()).blockhash;
+
+    const signature = await sendAndConfirmTransaction(conn, transaction, [
       fromKeypair,
     ]);
 
@@ -55,33 +62,36 @@ export const getSolanaHistory = async (
   address: string
 ): Promise<TxHistoryItem[]> => {
   try {
-    const connection = createSolanaConnection();
+    const conn = getSolanaConnection();
     const pubkey = new PublicKey(address);
-    const signatures = await connection.getSignaturesForAddress(pubkey, {
+    const signatures = await conn.getSignaturesForAddress(pubkey, {
       limit: 10,
     });
 
     const transactions = await Promise.all(
       signatures.map(async (sig) => {
         try {
-          const tx = await connection.getTransaction(sig.signature, {
+          const tx = await conn.getTransaction(sig.signature, {
             maxSupportedTransactionVersion: 0,
           });
+
           if (!tx || !tx.meta) return null;
 
-          const { transaction, meta } = tx;
-          const accountKeys = transaction.message.getAccountKeys();
+          const message = tx.transaction.message;
+          const accountKeys = message.getAccountKeys();
 
           const from = accountKeys.get(0)?.toBase58();
           const to = accountKeys.get(1)?.toBase58() ?? "Unknown recipient";
 
-          const amount = (meta.preBalances[0] - meta.postBalances[0]) / 1e9;
+          const amount =
+            (tx.meta.preBalances[0] - tx.meta.postBalances[0]) /
+            LAMPORTS_PER_SOL;
 
           return {
             hash: sig.signature,
             from,
             to,
-            amount: amount.toString(),
+            amount: amount.toFixed(6),
             timestamp: (tx.blockTime || 0) * 1000,
           };
         } catch (err) {
@@ -92,8 +102,8 @@ export const getSolanaHistory = async (
     );
 
     return transactions
-      .filter(Boolean)
-      .sort((a, b) => b!.timestamp - a!.timestamp) as TxHistoryItem[];
+      .filter((tx): tx is TxHistoryItem => tx !== null)
+      .sort((a, b) => b.timestamp - a.timestamp);
   } catch (error) {
     console.error("Failed to fetch Solana transaction history:", error);
     throw new Error("Unable to fetch transaction history.");
@@ -102,10 +112,10 @@ export const getSolanaHistory = async (
 
 export const getSolanaBalance = async (address: string): Promise<string> => {
   try {
-    const connection = createSolanaConnection();
+    const conn = getSolanaConnection();
     const pubkey = new PublicKey(address);
-    const balance = await connection.getBalance(pubkey);
-    return (balance / 1e9).toString();
+    const balance = await conn.getBalance(pubkey, "confirmed");
+    return (balance / LAMPORTS_PER_SOL).toFixed(6);
   } catch (error) {
     console.error("Failed to fetch Solana balance:", error);
     throw new Error("Unable to fetch balance.");
