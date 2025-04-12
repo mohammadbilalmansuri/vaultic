@@ -1,10 +1,16 @@
 import * as z from "zod";
+import { isAddress } from "ethers";
+import { PublicKey } from "@solana/web3.js";
 
-// Create Password Validation
+// Common password validator used across forms
+const passwordField = z
+  .string()
+  .min(8, "Password must be at least 8 characters");
 
+// Form schema for creating a new password (with confirmation)
 export const passwordSchema = z
   .object({
-    password: z.string().min(8, "Password must be at least 8 characters"),
+    password: passwordField,
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -12,23 +18,21 @@ export const passwordSchema = z
     path: ["confirmPassword"],
   });
 
-export type PasswordFormData = z.infer<typeof passwordSchema>;
+export type CreatePasswordFormData = z.infer<typeof passwordSchema>;
 
-// Verify Password Validation
-
+// Form schema for verifying an existing password (no confirmation field)
 export const verifyPasswordSchema = z.object({
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  password: passwordField,
 });
 
 export type VerifyPasswordFormData = z.infer<typeof verifyPasswordSchema>;
 
-// Address Validation
+// Validates whether an Ethereum address is properly formatted
+export const isValidEthAddress = (address: string): boolean =>
+  isAddress(address);
 
-import { isAddress } from "ethers";
-import { PublicKey } from "@solana/web3.js";
-
-export const isValidEthAddress = (address: string) => isAddress(address);
-export const isValidSolAddress = (address: string) => {
+// Validates whether a Solana address is a valid PublicKey
+export const isValidSolAddress = (address: string): boolean => {
   try {
     new PublicKey(address);
     return true;
