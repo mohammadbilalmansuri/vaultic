@@ -35,8 +35,10 @@ export const hashPassword = async (
 
     return `${saltHex}:${hashHex}`;
   } catch (error) {
-    console.error("Password hashing failed:", error);
-    return null;
+    throw new Error(`
+      Password hashing failed: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`);
   }
 };
 
@@ -76,8 +78,10 @@ export const verifyPassword = async (
 
     return computedHashHex === hashHex;
   } catch (error) {
-    console.error("Password verification failed:", error);
-    return false;
+    throw new Error(`
+      Password verification failed: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`);
   }
 };
 
@@ -121,8 +125,10 @@ export const encryptMnemonic = async (
       String.fromCharCode(...iv)
     )}:${btoa(String.fromCharCode(...new Uint8Array(encryptedData)))}`;
   } catch (error) {
-    console.error("Encryption failed:", error);
-    return null;
+    throw new Error(`
+      Encryption failed: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`);
   }
 };
 
@@ -179,7 +185,9 @@ export const decryptMnemonic = async (
 
     return new TextDecoder().decode(decryptedData);
   } catch (error) {
-    console.error("Decryption failed:", error);
-    return null;
+    throw new Error(`
+      Decryption failed: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`);
   }
 };
