@@ -1,13 +1,15 @@
+export type TStep = 1 | 2 | 3 | 4 | 5 | 6;
+export type TPath = "create" | "import" | null;
+
 export type TNetwork = "ethereum" | "solana";
-
 export type TNetworkMode = "mainnet" | "devnet";
-
 export type TIndexes = {
   network: TNetwork;
   index: number;
 }[];
 
 export interface IWallet {
+  index: number;
   network: TNetwork;
   address: string;
   privateKey: string;
