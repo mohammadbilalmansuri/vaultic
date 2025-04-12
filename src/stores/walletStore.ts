@@ -1,21 +1,14 @@
 import { create } from "zustand";
-import { TNetwork, IWallet } from "@/types";
+import { IWallet } from "@/types";
 
 interface IWalletState {
   wallets: Map<string, IWallet>;
   setWallets: (wallets: Map<string, IWallet>) => void;
   addWallet: (wallet: IWallet) => void;
-  removeWallet: (network: TNetwork, address: string) => void;
+  removeWallet: (address: string) => void;
   clearWallets: () => void;
-  updateWalletBalance: (
-    network: TNetwork,
-    address: string,
-    balance: number
-  ) => void;
+  updateWalletBalance: (address: string, balance: number) => void;
 }
-
-const getWalletKey = (network: string, address: string) =>
-  `${network}:${address}`;
 
 const useWalletStore = create<IWalletState>((set) => ({
   wallets: new Map(),
@@ -24,28 +17,25 @@ const useWalletStore = create<IWalletState>((set) => ({
 
   addWallet: (wallet) =>
     set((state) => {
-      const key = getWalletKey(wallet.network, wallet.address);
       const updated = new Map(state.wallets);
-      updated.set(key, wallet);
+      updated.set(wallet.address, wallet);
       return { wallets: updated };
     }),
 
-  removeWallet: (network, address) =>
+  removeWallet: (address) =>
     set((state) => {
-      const key = getWalletKey(network, address);
       const updated = new Map(state.wallets);
-      updated.delete(key);
+      updated.delete(address);
       return { wallets: updated };
     }),
 
   clearWallets: () => set({ wallets: new Map() }),
 
-  updateWalletBalance: (network, address, balance) =>
+  updateWalletBalance: (address, balance) =>
     set((state) => {
-      const key = getWalletKey(network, address);
       const updated = new Map(state.wallets);
-      const wallet = updated.get(key);
-      if (wallet) updated.set(key, { ...wallet, balance });
+      const wallet = updated.get(address);
+      if (wallet) updated.set(address, { ...wallet, balance });
       return { wallets: updated };
     }),
 }));
