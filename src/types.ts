@@ -16,7 +16,7 @@ export interface IWallet {
   readonly network: TNetwork;
   readonly address: string;
   readonly privateKey: string;
-  readonly balance: string;
+  readonly balance: number;
 }
 
 export interface INotification {
@@ -36,6 +36,6 @@ export type TxHistoryItem = {
   readonly hash: string;
   readonly from: string;
   readonly to: string;
-  readonly amount: string;
+  readonly amount: number;
   readonly timestamp: number;
 };
