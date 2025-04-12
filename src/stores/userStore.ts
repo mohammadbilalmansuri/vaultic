@@ -28,17 +28,14 @@ const getDefaultState = (): Omit<
 const useUserStore = create<IUserState>((set) => ({
   ...getDefaultState(),
 
-  setUserState: (updates) => {
-    set((state) => ({ ...state, ...updates }));
-  },
+  setUserState: (updates) => set((state) => ({ ...state, ...updates })),
 
-  setUser: (user) => {
+  setUser: (user) =>
     set((state) => ({
       ...state,
       authenticated: true,
       ...user,
-    }));
-  },
+    })),
 
   clearUser: () => set(() => getDefaultState()),
 }));
