@@ -1,3 +1,8 @@
+export const TOTAL_STEPS = {
+  create: 6,
+  import: 5,
+};
+
 export const INDEXED_DB_NAME = process.env.NEXT_PUBLIC_INDEXED_DB_NAME!;
 export const INDEXED_DB_STORE_NAME =
   process.env.NEXT_PUBLIC_INDEXED_DB_STORE_NAME!;
