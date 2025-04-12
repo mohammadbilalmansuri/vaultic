@@ -1,38 +1,41 @@
 export type TStep = 1 | 2 | 3 | 4 | 5 | 6;
+
 export type TPath = "create" | "import" | null;
 
 export type TNetwork = "ethereum" | "solana";
+
 export type TNetworkMode = "mainnet" | "devnet";
+
 export type TIndexes = {
-  network: TNetwork;
-  index: number;
+  readonly network: TNetwork;
+  readonly index: number;
 }[];
 
 export interface IWallet {
-  index: number;
-  network: TNetwork;
-  address: string;
-  privateKey: string;
-  balance: number;
+  readonly index: number;
+  readonly network: TNetwork;
+  readonly address: string;
+  readonly privateKey: string;
+  readonly balance: string;
 }
 
 export interface INotification {
-  message: string;
-  type: "info" | "success" | "error";
+  readonly message: string;
+  readonly type: "info" | "success" | "error";
 }
 
 export interface ISavedUserData {
-  hashedPassword: string;
-  encryptedMnemonic: string;
-  indexes: TIndexes;
-  deletedIndexes: TIndexes;
-  networkMode: TNetworkMode;
+  readonly hashedPassword: string;
+  readonly encryptedMnemonic: string;
+  readonly indexes: TIndexes;
+  readonly deletedIndexes: TIndexes;
+  readonly networkMode: TNetworkMode;
 }
 
 export type TxHistoryItem = {
-  hash: string;
-  from: string;
-  to: string;
-  amount: string;
-  timestamp: number;
+  readonly hash: string;
+  readonly from: string;
+  readonly to: string;
+  readonly amount: string;
+  readonly timestamp: number;
 };
