@@ -1,10 +1,21 @@
+/**
+ * Utility function to conditionally join class names.
+ * Supports:
+ *  - Strings
+ *  - Objects (where keys are class names, and values are booleans)
+ *  - Arrays of the above
+ *
+ * @example
+ * cn("base", { active: true, hidden: false }, ["extra", { disabled: true }])
+ * => "base active extra disabled"
+ */
 type TArgs =
   | string
   | Record<string, boolean>
   | Array<string | Record<string, boolean>>;
 
-const cn = (...args: TArgs[]): string =>
-  args
+const cn = (...args: TArgs[]): string => {
+  return args
     .flat(Infinity)
     .flatMap((item) =>
       typeof item === "object" && !Array.isArray(item)
@@ -15,5 +26,6 @@ const cn = (...args: TArgs[]): string =>
     )
     .filter(Boolean)
     .join(" ");
+};
 
 export default cn;
