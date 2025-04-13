@@ -10,7 +10,7 @@ import {
 } from "@/services/solana";
 import { TxHistoryItem, TNetwork } from "@/types";
 
-export const useBlockchain = () => {
+const useBlockchain = () => {
   const sendTx = async ({
     network,
     fromPrivateKey,
@@ -87,3 +87,5 @@ export const useBlockchain = () => {
     getTxHistory,
   };
 };
+
+export default useBlockchain;
