@@ -1,9 +1,9 @@
 "use client";
-import { useThemeStore } from "@/stores/themeStore";
+import useThemeStore from "@/stores/themeStore";
 import { Switch, NavLink } from "@/components/common";
 import { Logo, Moon, Sun } from "@/components/icons";
 import { usePathname } from "next/navigation";
-import { useUserStore } from "@/stores/userStore";
+import useUserStore from "@/stores/userStore";
 import cn from "@/utils/cn";
 
 const Header = () => {
