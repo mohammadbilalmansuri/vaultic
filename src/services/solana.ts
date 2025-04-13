@@ -13,8 +13,9 @@ import getRpcUrl from "@/utils/getRpcUrl";
 
 let connection: Connection | null = null;
 
-const createSolanaConnection = (): Connection =>
-  new Connection(getRpcUrl("solana"), "confirmed");
+const createSolanaConnection = (): Connection => {
+  return new Connection(getRpcUrl("solana"), "confirmed");
+};
 
 const getConnection = (): Connection => {
   if (!connection) connection = createSolanaConnection();
