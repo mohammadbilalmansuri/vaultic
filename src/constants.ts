@@ -33,3 +33,8 @@ export const RPC_URLs = {
     devnet: getEnvVariable("NEXT_PUBLIC_SOLANA_DEVNET_RPC"),
   },
 } as const;
+
+export const NETWORK_TOKENS = {
+  ethereum: "ETH",
+  solana: "SOL",
+};
