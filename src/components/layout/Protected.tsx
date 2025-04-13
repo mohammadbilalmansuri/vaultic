@@ -11,16 +11,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useAuth } from "@/hooks";
 import { usePathname } from "next/navigation";
+import useUserStore from "@/stores/userStore";
+import { IS_DEV } from "@/constants";
 
 const Protected = ({ children }: { children: ReactNode }) => {
-  const {
-    checking,
-    error,
-    authenticated,
-    handlePasswordSubmit,
-    checkUser,
-    IS_DEV,
-  } = useAuth();
+  const { checking, error, checkUser, handlePasswordSubmit } = useAuth();
+  const authenticated = useUserStore((state) => state.authenticated);
   const pathname = usePathname();
   const {
     register,
