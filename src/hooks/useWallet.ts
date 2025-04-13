@@ -1,16 +1,16 @@
-import { useUserStore, TNetwork } from "@/stores/userStore";
-import { useWalletStore } from "@/stores/walletStore";
+import useUserStore from "@/stores/userStore";
+import useWalletStore from "@/stores/walletStore";
 import deriveWallet from "@/services/deriveWallet";
+import { TNetwork } from "@/types";
+import { useBlockchain } from "@/hooks";
 
 const useWallet = () => {
-  const addWallet = useWalletStore((state) => state.addWallet);
-  const removeWallet = useWalletStore((state) => state.removeWallet);
-  const setWallets = useWalletStore((state) => state.setWallets);
-  const updateWalletBalance = useWalletStore(
-    (state) => state.updateWalletBalance
-  );
+  const { setWallets, addWallet, removeWallet, updateWalletBalance } =
+    useWalletStore.getState();
+  const { setUserState } = useUserStore.getState();
 
-  const setState = useUserStore((state) => state.setState);
+  const { getBalance } = useBlockchain();
+
   let isProcessing = false;
 
   const createWallet = async (network: TNetwork): Promise<void> => {
@@ -44,21 +44,28 @@ const useWallet = () => {
       const wallet = await deriveWallet(mnemonic, lastIndex, network);
       if (!wallet) throw new Error("Failed to derive wallet");
 
-      addWallet({ ...wallet, balance: 0 });
+      const balance = await getBalance({
+        network,
+        address: wallet.address,
+      });
 
-      setState({
+      addWallet({ ...wallet, balance });
+
+      setUserState({
         indexes: [...indexes, { network, index: lastIndex }],
       });
     } catch (error) {
       console.error("Error creating wallet:", error);
+      throw error;
     } finally {
       isProcessing = false;
     }
   };
 
   const deleteWallet = async (
+    network: TNetwork,
     index: number,
-    network: TNetwork
+    address: string
   ): Promise<void> => {
     if (isProcessing) return;
     isProcessing = true;
@@ -72,8 +79,8 @@ const useWallet = () => {
         );
       }
 
-      removeWallet(index, network);
-      setState({
+      removeWallet(address);
+      setUserState({
         indexes: indexes.filter(
           (w) => !(w.network === network && w.index === index)
         ),
@@ -81,6 +88,7 @@ const useWallet = () => {
       });
     } catch (error) {
       console.error("Error deleting wallet:", error);
+      throw error;
     } finally {
       isProcessing = false;
     }
@@ -97,11 +105,19 @@ const useWallet = () => {
         indexes.map(async ({ network, index }) => {
           try {
             const wallet = await deriveWallet(mnemonic, index, network);
-            if (!wallet)
+
+            if (!wallet) {
               throw new Error(
                 `Wallet derivation failed for ${network} index ${index}`
               );
-            return { ...wallet, balance: 0 };
+            }
+
+            const balance = await getBalance({
+              network,
+              address: wallet.address,
+            });
+
+            return { ...wallet, balance };
           } catch (error) {
             console.warn(
               `Skipped wallet ${network}-${index} due to error:`,
@@ -112,9 +128,16 @@ const useWallet = () => {
         })
       );
 
-      setWallets(wallets.filter((w) => w !== null));
+      setWallets(
+        new Map(
+          wallets
+            .filter((w) => w !== null)
+            .map((wallet) => [wallet.address, wallet])
+        )
+      );
     } catch (error) {
       console.error("Error loading wallets:", error);
+      throw error;
     } finally {
       isProcessing = false;
     }
