@@ -10,6 +10,7 @@ import {
 import bs58 from "bs58";
 import { TxHistoryItem } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
+import formatBalance from "@/utils/formatBalance";
 
 let solanaConnection: Connection | null = null;
 
@@ -70,7 +71,7 @@ export const getSolanaBalance = async (address: string): Promise<string> => {
     const connection = getSolanaConnection();
     const pubkey = new PublicKey(address);
     const balance = await connection.getBalance(pubkey, "confirmed");
-    return (balance / LAMPORTS_PER_SOL).toString();
+    return formatBalance((balance / LAMPORTS_PER_SOL).toString());
   } catch (error) {
     console.error("Error fetching Solana balance:", error);
     throw error;
@@ -113,7 +114,9 @@ export const getSolanaHistory = async (
             hash: sig.signature,
             from: parsed.info.source,
             to: parsed.info.destination,
-            amount: (parsed.info.lamports / LAMPORTS_PER_SOL).toString(),
+            amount: formatBalance(
+              (parsed.info.lamports / LAMPORTS_PER_SOL).toString()
+            ),
             timestamp: (tx.blockTime || 0) * 1000,
           };
         } catch (err) {
