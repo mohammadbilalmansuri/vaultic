@@ -1,26 +1,26 @@
 import { useState } from "react";
 import { useStorage, useWallet } from "@/hooks";
-import { useUserStore } from "@/stores/userStore";
+import useUserStore from "@/stores/userStore";
 import { VerifyPasswordFormData } from "@/utils/validation";
 import { useRouter } from "next/navigation";
-
-const AUTHENTICATED_ROUTES = new Set(["/dashboard", "/account"]);
-const IS_DEV = process.env.NODE_ENV === "development";
-const DEV_PASSWORD = "12345678";
+import { AUTHENTICATED_ROUTES, IS_DEV, DEV_PASSWORD } from "@/constants";
+import useNotificationStore from "@/stores/notificationStore";
 
 const useAuth = () => {
-  const { isUser, loadUser } = useStorage();
+  const { isUser, loadUser, removeUser } = useStorage();
   const { loadWallets } = useWallet();
+  const router = useRouter();
+  const notify = useNotificationStore((state) => state.notify);
+
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
-  const authenticated = useUserStore((state) => state.authenticated);
-  const router = useRouter();
 
   const checkUser = async (pathname: string) => {
     setChecking(true);
     let redirected = false;
 
     try {
+      const { authenticated } = useUserStore.getState();
       const userExists = authenticated || (await isUser());
 
       if (
@@ -42,12 +42,10 @@ const useAuth = () => {
         redirected = true;
       }
     } catch (error) {
-      console.error("Error checking user:", error);
+      throw error;
     }
 
-    if (!redirected) {
-      setChecking(false);
-    }
+    if (!redirected) setChecking(false);
   };
 
   const handlePasswordSubmit = async ({ password }: VerifyPasswordFormData) => {
@@ -55,21 +53,32 @@ const useAuth = () => {
       await loadUser(password);
       await loadWallets();
     } catch (error) {
+      console.error("Error submitting password:", error);
+
       const errorMessage =
         error instanceof Error ? error.message : "An unknown error occurred";
-      setError(errorMessage);
-      setTimeout(() => setError(""), 4000);
+
+      if (errorMessage === "Invalid password") {
+        setError(errorMessage);
+        await new Promise((resolve) => setTimeout(resolve, 4000));
+        setError("");
+      } else {
+        notify(
+          `${errorMessage}. For your security, we'll take you back to the start.`,
+          "error"
+        );
+        await new Promise((resolve) => setTimeout(resolve, 4000));
+        await removeUser();
+        router.replace("/");
+      }
     }
   };
 
   return {
     checking,
     error,
-    setError,
-    authenticated,
-    handlePasswordSubmit,
     checkUser,
-    IS_DEV,
+    handlePasswordSubmit,
   };
 };
 
