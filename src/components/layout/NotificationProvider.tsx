@@ -1,10 +1,15 @@
 "use client";
-import { useNotificationStore } from "@/stores/notificationStore";
+import useNotificationStore from "@/stores/notificationStore";
 import { motion, AnimatePresence } from "motion/react";
 import { Cancel, Info, Success, Error } from "../icons";
 
 const NotificationProvider = () => {
-  const { opened, type, message, closeNotification } = useNotificationStore();
+  const opened = useNotificationStore((state) => state.opened);
+  const type = useNotificationStore((state) => state.type);
+  const message = useNotificationStore((state) => state.message);
+  const closeNotification = useNotificationStore(
+    (state) => state.closeNotification
+  );
 
   return (
     <AnimatePresence mode="wait">
