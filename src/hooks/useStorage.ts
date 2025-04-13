@@ -7,7 +7,6 @@ import {
 } from "@/utils/crypto";
 import useUserStore from "@/stores/userStore";
 import useWalletStore from "@/stores/walletStore";
-import { ISavedUserData } from "@/types";
 
 const useStorage = () => {
   const { setUser, clearUser } = useUserStore.getState();
