@@ -7,7 +7,7 @@ interface IWalletState {
   addWallet: (wallet: IWallet) => void;
   removeWallet: (address: string) => void;
   clearWallets: () => void;
-  updateWalletBalance: (address: string, balance: number) => void;
+  updateWalletBalance: (address: string, balance: string) => void;
 }
 
 const useWalletStore = create<IWalletState>((set) => ({
