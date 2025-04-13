@@ -1,14 +1,15 @@
 "use client";
 import { Dispatch, SetStateAction } from "react";
-import { TStep } from "@/app/page";
+import { TStep } from "@/types";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { Button, PasswordInput } from "@/components/common";
-import { passwordSchema, PasswordFormData } from "@/utils/validation";
+import { passwordSchema, CreatePasswordFormData } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUserStore } from "@/stores/userStore";
+import useUserStore from "@/stores/userStore";
 import { useStorage } from "@/hooks";
-import { useNotificationStore } from "@/stores/notificationStore";
+import useNotificationStore from "@/stores/notificationStore";
+import { IS_DEV, DEV_PASSWORD } from "@/constants";
 
 type CreatePasswordProps = {
   setStep: Dispatch<SetStateAction<TStep>>;
@@ -19,23 +20,24 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PasswordFormData>({
+  } = useForm<CreatePasswordFormData>({
     resolver: zodResolver(passwordSchema),
     mode: "onChange",
-    // For Development Only
-    values: {
-      password: "12345678",
-      confirmPassword: "12345678",
-    },
+    values: IS_DEV
+      ? {
+          password: DEV_PASSWORD,
+          confirmPassword: DEV_PASSWORD,
+        }
+      : undefined,
   });
 
-  const setState = useUserStore((state) => state.setState);
+  const setUserState = useUserStore((state) => state.setUserState);
   const { saveUser } = useStorage();
   const notify = useNotificationStore((state) => state.notify);
 
-  const onSubmit = async ({ password }: PasswordFormData) => {
+  const onSubmit = async ({ password }: CreatePasswordFormData) => {
     try {
-      setState({ password, authenticated: true });
+      setUserState({ password, authenticated: true });
       await saveUser();
       notify("User saved successfully!", "success");
       setStep(6);
