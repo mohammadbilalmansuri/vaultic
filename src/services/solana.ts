@@ -13,17 +13,15 @@ import getRpcUrl from "@/utils/getRpcUrl";
 
 let connection: Connection | null = null;
 
-const createSolanaConnection = (): Connection => {
-  return new Connection(getRpcUrl("solana"), "confirmed");
-};
-
 const getConnection = (): Connection => {
-  if (!connection) connection = createSolanaConnection();
+  if (!connection) {
+    connection = new Connection(getRpcUrl("solana"), "confirmed");
+  }
   return connection;
 };
 
 export const resetSolanaConnection = () => {
-  connection = createSolanaConnection();
+  connection = null;
 };
 
 export const sendSolana = async (
