@@ -21,7 +21,8 @@ const Account = () => {
     } catch (error) {
       console.error("Error removing user:", error);
     } finally {
-      setTimeout(() => setLoggingOut(false), 500);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      setLoggingOut(false);
     }
   };
 
