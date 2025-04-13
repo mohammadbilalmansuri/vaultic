@@ -28,10 +28,10 @@ export const resetSolanaConnection = () => {
 export const sendSolana = async (
   fromPrivateKey: string,
   toAddress: string,
-  amount: number
+  amount: string
 ): Promise<string> => {
   try {
-    const lamports = Math.floor(amount * LAMPORTS_PER_SOL);
+    const lamports = Math.floor(Number(amount) * LAMPORTS_PER_SOL);
     if (isNaN(lamports) || lamports <= 0) throw new Error("Invalid amount");
 
     const decodedKey = bs58.decode(fromPrivateKey);
