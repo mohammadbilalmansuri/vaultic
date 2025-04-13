@@ -1,5 +1,5 @@
 "use client";
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Solana,
@@ -17,7 +17,6 @@ import { NETWORK_TOKENS } from "@/constants";
 interface WalletProps extends IWallet {
   name: string;
   isSingle: boolean;
-  setSendingFrom: Dispatch<SetStateAction<string>>;
 }
 
 const Wallet = ({
@@ -28,11 +27,10 @@ const Wallet = ({
   privateKey,
   balance,
   isSingle,
-  setSendingFrom,
 }: WalletProps) => {
   const { deleteWallet } = useWallet();
   const { saveUser } = useStorage();
-  const { copyToClipboard, copied } = useCopy();
+  const { copyToClipboard } = useCopy();
   const notify = useNotificationStore((state) => state.notify);
   const [expanded, setExpanded] = useState(false);
   const [hidden, setHidden] = useState(true);
@@ -71,7 +69,6 @@ const Wallet = ({
           <p className="heading-color leading-none">
             {balance} {NETWORK_TOKENS[network]}
           </p>
-          <button onClick={() => setSendingFrom(address)}>Send</button>
           {!isSingle && expanded && <Delete onClick={removeWallet} />}
           <Expand
             expanded={expanded}
@@ -112,7 +109,7 @@ const Wallet = ({
                   hidden={hidden}
                   onClick={() => setHidden((prev) => !prev)}
                 />
-                <Copy toCopy={privateKey} />
+                <Copy toCopy={privateKey} svgProps={{ className: "w-5" }} />
               </div>
             </div>
           </motion.div>
