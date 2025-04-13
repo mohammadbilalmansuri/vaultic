@@ -11,18 +11,18 @@ import bs58 from "bs58";
 import { TxHistoryItem } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 
-let connection: Connection | null = null;
+let solanaConnection: Connection | null = null;
 
-const getConnection = (): Connection => {
-  if (!connection) {
+const getSolanaConnection = (): Connection => {
+  if (!solanaConnection) {
     const rpc = getRpcUrl("solana");
-    connection = new Connection(rpc, "confirmed");
+    solanaConnection = new Connection(rpc, "confirmed");
   }
-  return connection;
+  return solanaConnection;
 };
 
 export const resetSolanaConnection = () => {
-  connection = null;
+  solanaConnection = null;
 };
 
 export const sendSolana = async (
@@ -39,7 +39,7 @@ export const sendSolana = async (
 
     const fromKeypair = Keypair.fromSecretKey(decodedKey);
     const toPubkey = new PublicKey(toAddress);
-    const conn = getConnection();
+    const connection = getSolanaConnection();
 
     const transaction = new Transaction().add(
       SystemProgram.transfer({
@@ -50,9 +50,11 @@ export const sendSolana = async (
     );
 
     transaction.feePayer = fromKeypair.publicKey;
-    transaction.recentBlockhash = (await conn.getLatestBlockhash()).blockhash;
+    transaction.recentBlockhash = (
+      await connection.getLatestBlockhash()
+    ).blockhash;
 
-    const signature = await sendAndConfirmTransaction(conn, transaction, [
+    const signature = await sendAndConfirmTransaction(connection, transaction, [
       fromKeypair,
     ]);
 
@@ -67,17 +69,17 @@ export const getSolanaHistory = async (
   address: string
 ): Promise<TxHistoryItem[]> => {
   try {
-    const conn = getConnection();
+    const connection = getSolanaConnection();
     const pubkey = new PublicKey(address);
 
-    const signatures = await conn.getSignaturesForAddress(pubkey, {
+    const signatures = await connection.getSignaturesForAddress(pubkey, {
       limit: 20,
     });
 
     const transactions = await Promise.all(
       signatures.map(async (sig) => {
         try {
-          const tx = await conn.getParsedTransaction(sig.signature, {
+          const tx = await connection.getParsedTransaction(sig.signature, {
             maxSupportedTransactionVersion: 0,
           });
 
@@ -124,9 +126,9 @@ export const getSolanaHistory = async (
 
 export const getSolanaBalance = async (address: string): Promise<number> => {
   try {
-    const conn = getConnection();
+    const connection = getSolanaConnection();
     const pubkey = new PublicKey(address);
-    const balance = await conn.getBalance(pubkey, "confirmed");
+    const balance = await connection.getBalance(pubkey, "confirmed");
     return balance / LAMPORTS_PER_SOL;
   } catch (error: unknown) {
     console.error("Error fetching SOL balance:", error);
