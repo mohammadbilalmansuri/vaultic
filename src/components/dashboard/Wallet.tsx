@@ -10,7 +10,9 @@ import {
   Delete,
 } from "@/components/icons";
 import { useCopy, useWallet, useStorage } from "@/hooks";
-import { IWallet } from "@/stores/walletStore";
+import { IWallet } from "@/types";
+import useNotificationStore from "@/stores/notificationStore";
+import { NETWORK_TOKENS } from "@/constants";
 
 interface WalletProps extends IWallet {
   name: string;
@@ -31,15 +33,21 @@ const Wallet = ({
   const { deleteWallet } = useWallet();
   const { saveUser } = useStorage();
   const { copyToClipboard, copied } = useCopy();
+  const notify = useNotificationStore((state) => state.notify);
   const [expanded, setExpanded] = useState(false);
   const [hidden, setHidden] = useState(true);
 
   const removeWallet = async () => {
     try {
-      await deleteWallet(index, network);
+      await deleteWallet(network, index, address);
       await saveUser();
     } catch (error) {
-      console.error("Error deleting wallet:", error);
+      notify(
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred while deleting the wallet. Please try again.",
+        "error"
+      );
     }
   };
 
@@ -61,7 +69,7 @@ const Wallet = ({
 
         <div className="flex items-center gap-4">
           <p className="heading-color leading-none">
-            {balance} {network === "solana" ? "SOL" : "ETH"}
+            {balance} {NETWORK_TOKENS[network]}
           </p>
           <button onClick={() => setSendingFrom(address)}>Send</button>
           {!isSingle && expanded && <Delete onClick={removeWallet} />}
