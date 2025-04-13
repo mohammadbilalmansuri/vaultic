@@ -11,21 +11,15 @@ import {
 } from "@/components/home";
 import { TNetwork } from "@/types";
 import cn from "@/utils/cn";
-
-export type TStep = 1 | 2 | 3 | 4 | 5 | 6;
-export type TPath = "create" | "import" | null;
-
-const TOTAL_STEPS = {
-  create: 6,
-  import: 5,
-};
+import { TPath, TStep } from "@/types";
+import { ONBOARDING_STEPS } from "@/constants";
 
 const Home = () => {
   const [step, setStep] = useState<TStep>(1);
   const [path, setPath] = useState<TPath>(null);
   const [network, setNetwork] = useState<TNetwork>("solana");
 
-  const totalSteps = path ? TOTAL_STEPS[path] : 6;
+  const totalSteps = path ? ONBOARDING_STEPS[path] : 6;
 
   const stepComponents: Record<TStep, JSX.Element> = {
     1: <Welcome setStep={setStep} setPath={setPath} />,
