@@ -3,8 +3,8 @@ import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/common";
 import { Logo } from "@/components/icons";
-import { TStep, TPath } from "@/app/page";
-import { useNotificationStore } from "@/stores/notificationStore";
+import { TStep, TPath } from "@/types";
+import useNotificationStore from "@/stores/notificationStore";
 
 type WelcomeProps = {
   setPath: Dispatch<SetStateAction<TPath>>;
