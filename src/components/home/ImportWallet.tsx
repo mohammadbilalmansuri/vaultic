@@ -3,12 +3,13 @@ import { useState, Dispatch, SetStateAction, ClipboardEvent } from "react";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/common";
-import { TStep } from "@/app/page";
-import { useUserStore, TNetwork } from "@/stores/userStore";
+import { TStep } from "@/types";
+import useUserStore from "@/stores/userStore";
 import { validateMnemonic } from "bip39";
 import { useWallet } from "@/hooks";
 import cn from "@/utils/cn";
-import { useNotificationStore } from "@/stores/notificationStore";
+import useNotificationStore from "@/stores/notificationStore";
+import { TNetwork } from "@/types";
 
 type ImportWalletProps = {
   network: TNetwork;
@@ -21,7 +22,7 @@ type MnemonicForm = {
 
 const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
   const [is24Words, setIs24Words] = useState(false);
-  const setState = useUserStore((state) => state.setState);
+  const setUserState = useUserStore((state) => state.setUserState);
   const {
     register,
     handleSubmit,
@@ -78,7 +79,7 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
     }
 
     try {
-      setState({ mnemonic: phrase });
+      setUserState({ mnemonic: phrase });
       await createWallet(network);
       notify("Wallet imported successfully!", "success");
       setStep(4);
