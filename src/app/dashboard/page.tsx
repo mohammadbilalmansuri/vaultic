@@ -6,7 +6,7 @@ import { Button, Input } from "@/components/common";
 import { Solana, Ethereum, Cancel } from "@/components/icons";
 import { Wallet } from "@/components/dashboard";
 import { useWallet, useStorage } from "@/hooks";
-import { useWalletStore } from "@/stores/walletStore";
+import useWalletStore from "@/stores/walletStore";
 import { TNetwork } from "@/types";
 
 const Send = () => {
@@ -64,7 +64,7 @@ const Send = () => {
 
           <AnimatePresence>
             <div className="w-full flex flex-col gap-5">
-              {wallets.map((wallet, index) => (
+              {Array.from(wallets.values()).map((wallet, index) => (
                 <motion.div
                   key={wallet.address}
                   initial={{ opacity: 0, y: 20 }}
@@ -78,7 +78,7 @@ const Send = () => {
                   <Wallet
                     {...wallet}
                     name={`Wallet ${index + 1}`}
-                    isSingle={wallets.length === 1}
+                    isSingle={wallets.size === 1}
                     setSendingFrom={setSendingFrom}
                   />
                 </motion.div>
