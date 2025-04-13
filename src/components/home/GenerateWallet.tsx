@@ -2,13 +2,14 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
 import { Button, Switch } from "@/components/common";
-import { TStep } from "@/app/page";
+import { TStep } from "@/types";
 import { useCopy } from "@/hooks";
 import { generateMnemonic } from "bip39";
-import { useUserStore, TNetwork } from "@/stores/userStore";
+import useUserStore from "@/stores/userStore";
 import useWallet from "@/hooks/useWallet";
 import cn from "@/utils/cn";
-import { useNotificationStore } from "@/stores/notificationStore";
+import useNotificationStore from "@/stores/notificationStore";
+import { TNetwork } from "@/types";
 
 type GenerateWalletProps = {
   network: TNetwork;
@@ -20,13 +21,13 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
   const [saved, setSaved] = useState(false);
   const { createWallet } = useWallet();
   const mnemonic = useUserStore((state) => state.mnemonic);
-  const setState = useUserStore((state) => state.setState);
+  const setUserState = useUserStore((state) => state.setUserState);
   const notify = useNotificationStore((state) => state.notify);
 
   useEffect(() => {
     if (!mnemonic) {
       const newMnemonic = generateMnemonic();
-      setState({ mnemonic: newMnemonic });
+      setUserState({ mnemonic: newMnemonic });
     }
   }, []);
 
