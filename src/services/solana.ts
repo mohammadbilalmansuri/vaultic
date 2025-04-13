@@ -59,8 +59,8 @@ export const sendSolana = async (
     ]);
 
     return signature;
-  } catch (error: unknown) {
-    console.error("Error sending SOL:", error);
+  } catch (error) {
+    console.error("Error sending Solana:", error);
     throw error;
   }
 };
@@ -71,8 +71,8 @@ export const getSolanaBalance = async (address: string): Promise<string> => {
     const pubkey = new PublicKey(address);
     const balance = await connection.getBalance(pubkey, "confirmed");
     return (balance / LAMPORTS_PER_SOL).toFixed(9);
-  } catch (error: unknown) {
-    console.error("Error fetching SOL balance:", error);
+  } catch (error) {
+    console.error("Error fetching Solana balance:", error);
     throw error;
   }
 };
@@ -126,8 +126,8 @@ export const getSolanaHistory = async (
     return transactions
       .filter((tx): tx is TxHistoryItem => tx !== null)
       .sort((a, b) => b.timestamp - a.timestamp);
-  } catch (error: unknown) {
-    console.error("Error fetching transaction history:", error);
+  } catch (error) {
+    console.error("Error fetching Solana history:", error);
     throw error;
   }
 };
