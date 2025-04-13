@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import {
   sendEthereum,
   getEthereumHistory,
@@ -9,66 +8,82 @@ import {
   getSolanaHistory,
   getSolanaBalance,
 } from "@/services/solana";
-
-export type BlockchainArgs = {
-  blockchain: "solana" | "ethereum";
-  fromPrivateKey?: string;
-  toAddress?: string;
-  amount?: string;
-  address?: string;
-};
+import { TxHistoryItem, TNetwork } from "@/types";
 
 export const useBlockchain = () => {
-  const sendTx = useCallback(async (args: BlockchainArgs): Promise<string> => {
-    switch (args.blockchain) {
-      case "solana":
-        return await sendSolana(
-          args.fromPrivateKey!,
-          args.toAddress!,
-          args.amount!
-        );
-      case "ethereum":
-        return await sendEthereum(
-          args.fromPrivateKey!,
-          args.toAddress!,
-          args.amount!
-        );
-      default:
-        throw new Error("Unsupported blockchain");
+  const sendTx = async ({
+    network,
+    fromPrivateKey,
+    toAddress,
+    amount,
+  }: {
+    network: TNetwork;
+    fromPrivateKey: string;
+    toAddress: string;
+    amount: string;
+  }): Promise<string> => {
+    try {
+      switch (network) {
+        case "solana":
+          return sendSolana(fromPrivateKey, toAddress, amount);
+        case "ethereum":
+          return sendEthereum(fromPrivateKey, toAddress, amount);
+        default:
+          throw new Error("Unsupported network");
+      }
+    } catch (error: unknown) {
+      console.error("Error sending transaction:", error);
+      throw error;
     }
-  }, []);
+  };
 
-  const getTxHistory = useCallback(
-    async (args: BlockchainArgs): Promise<any[]> => {
-      switch (args.blockchain) {
+  const getBalance = async ({
+    network,
+    address,
+  }: {
+    network: TNetwork;
+    address: string;
+  }): Promise<string> => {
+    try {
+      switch (network) {
         case "solana":
-          return await getSolanaHistory(args.address!);
+          return getSolanaBalance(address);
         case "ethereum":
-          return await getEthereumHistory(args.address!);
+          return getEthereumBalance(address);
         default:
-          throw new Error("Unsupported blockchain");
+          throw new Error("Unsupported network");
       }
-    },
-    []
-  );
+    } catch (error: unknown) {
+      console.error("Error fetching balance:", error);
+      throw error;
+    }
+  };
 
-  const getBalance = useCallback(
-    async (args: BlockchainArgs): Promise<string> => {
-      switch (args.blockchain) {
+  const getTxHistory = async ({
+    network,
+    address,
+  }: {
+    network: TNetwork;
+    address: string;
+  }): Promise<TxHistoryItem[]> => {
+    try {
+      switch (network) {
         case "solana":
-          return await getSolanaBalance(args.address!);
+          return getSolanaHistory(address);
         case "ethereum":
-          return await getEthereumBalance(args.address!);
+          return getEthereumHistory(address);
         default:
-          throw new Error("Unsupported blockchain");
+          throw new Error("Unsupported network");
       }
-    },
-    []
-  );
+    } catch (error: unknown) {
+      console.error("Error fetching transaction history:", error);
+      throw error;
+    }
+  };
 
   return {
     sendTx,
-    getTxHistory,
     getBalance,
+    getTxHistory,
   };
 };
