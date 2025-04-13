@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { TNetworkMode, TIndexes } from "../types";
+import { IS_DEV } from "@/constants";
 
 interface IUserState {
   authenticated: boolean;
@@ -22,7 +23,7 @@ const getDefaultState = (): Omit<
   mnemonic: "",
   indexes: [],
   deletedIndexes: [],
-  networkMode: "mainnet",
+  networkMode: IS_DEV ? "devnet" : "mainnet",
 });
 
 const useUserStore = create<IUserState>((set) => ({
