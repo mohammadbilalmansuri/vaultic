@@ -92,11 +92,9 @@ const useStorage = () => {
   const removeUser = async (): Promise<void> => {
     try {
       await clearUserData();
-      clearUser();
-      clearWallets();
+      await Promise.all([clearUser(), clearWallets()]);
     } catch (error) {
-      console.error("Error removing user:", error);
-      throw new Error("Failed to remove user data");
+      throw error;
     }
   };
 
