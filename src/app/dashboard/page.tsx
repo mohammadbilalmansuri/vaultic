@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useForm, FormProvider } from "react-hook-form";
 import { AnimatePresence, motion } from "motion/react";
 import { Button, Input } from "@/components/common";
 import { Solana, Ethereum, Cancel } from "@/components/icons";
@@ -14,9 +13,6 @@ const Send = () => {
   const { createWallet } = useWallet();
   const { saveUser } = useStorage();
   const [isAddingNewWallet, setIsAddingNewWallet] = useState(false);
-  const [sendingFrom, setSendingFrom] = useState("");
-
-  const methods = useForm();
 
   const addWallet = async (network: TNetwork) => {
     try {
@@ -79,7 +75,6 @@ const Send = () => {
                     {...wallet}
                     name={`Wallet ${index + 1}`}
                     isSingle={wallets.size === 1}
-                    setSendingFrom={setSendingFrom}
                   />
                 </motion.div>
               ))}
@@ -87,33 +82,6 @@ const Send = () => {
           </AnimatePresence>
         </div>
       </div>
-
-      {sendingFrom && (
-        <div className="size-full absolute flex flex-col items-center justify-center flex-1 gap-5 bg-zinc-200/60 dark:bg-zinc-800/50 backdrop-blur-sm rounded-2xl p-5">
-          <div className="w-full max-w-xl relative flex flex-col gap-5 py-5">
-            <h2 className="text-2xl heading-color">Send</h2>
-            <p>Sending from {sendingFrom}</p>
-
-            <FormProvider {...methods}>
-              <form
-                onSubmit={methods.handleSubmit((data) => console.log(data))}
-                className="w-full flex flex-col gap-5"
-              >
-                <Input placeholder="Enter address" />
-                <Input placeholder="Enter amount" />
-                <Button type="submit">Send</Button>
-                <Button
-                  variant="zinc"
-                  type="button"
-                  onClick={() => setSendingFrom("")}
-                >
-                  cancle
-                </Button>
-              </form>
-            </FormProvider>
-          </div>
-        </div>
-      )}
     </>
   );
 };
