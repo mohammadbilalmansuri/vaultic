@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button, Loader } from "@/components/common";
 import { useStorage, useCopy } from "@/hooks";
 import { useRouter } from "next/navigation";
-import { useUserStore } from "@/stores/userStore";
+import useUserStore from "@/stores/userStore";
 import cn from "@/utils/cn";
 
 const Account = () => {
