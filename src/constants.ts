@@ -15,7 +15,7 @@ export const IS_DEV = getEnvVariable("NODE_ENV") === "development";
 
 export const DEV_PASSWORD = getEnvVariable("NEXT_PUBLIC_DEV_PASSWORD");
 
-export const IndexedDB = {
+export const INDEXED_DB = {
   NAME: getEnvVariable("NEXT_PUBLIC_INDEXED_DB_NAME"),
   STORE_NAME: getEnvVariable("NEXT_PUBLIC_INDEXED_DB_STORE_NAME"),
   VERSION: parseInt(getEnvVariable("NEXT_PUBLIC_INDEXED_DB_VERSION")),
