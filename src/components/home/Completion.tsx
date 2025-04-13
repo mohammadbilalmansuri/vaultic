@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { Button } from "@/components/common";
 import { Logo } from "@/components/icons";
 import { useRouter } from "next/navigation";
-import { useNotificationStore } from "@/stores/notificationStore";
+import useNotificationStore from "@/stores/notificationStore";
 
 const Completion = () => {
   const router = useRouter();
