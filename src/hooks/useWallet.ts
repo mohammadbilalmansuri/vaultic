@@ -8,14 +8,12 @@ const useWallet = () => {
   const { setWallets, addWallet, removeWallet, updateWalletBalance } =
     useWalletStore.getState();
   const { setUserState } = useUserStore.getState();
-
   const { getBalance } = useBlockchain();
-
-  let isProcessing = false;
+  let processing = false;
 
   const createWallet = async (network: TNetwork): Promise<void> => {
-    if (isProcessing) return;
-    isProcessing = true;
+    if (processing) return;
+    processing = true;
 
     try {
       const { mnemonic, indexes, deletedIndexes } = useUserStore.getState();
@@ -58,7 +56,7 @@ const useWallet = () => {
       console.error("Error creating wallet:", error);
       throw error;
     } finally {
-      isProcessing = false;
+      processing = false;
     }
   };
 
@@ -67,8 +65,8 @@ const useWallet = () => {
     index: number,
     address: string
   ): Promise<void> => {
-    if (isProcessing) return;
-    isProcessing = true;
+    if (processing) return;
+    processing = true;
 
     try {
       const { indexes, deletedIndexes } = useUserStore.getState();
@@ -90,13 +88,13 @@ const useWallet = () => {
       console.error("Error deleting wallet:", error);
       throw error;
     } finally {
-      isProcessing = false;
+      processing = false;
     }
   };
 
   const loadWallets = async (): Promise<void> => {
-    if (isProcessing) return;
-    isProcessing = true;
+    if (processing) return;
+    processing = true;
 
     try {
       const { mnemonic, indexes } = useUserStore.getState();
@@ -139,7 +137,7 @@ const useWallet = () => {
       console.error("Error loading wallets:", error);
       throw error;
     } finally {
-      isProcessing = false;
+      processing = false;
     }
   };
 
