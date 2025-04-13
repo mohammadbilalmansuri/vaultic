@@ -65,6 +65,18 @@ export const sendSolana = async (
   }
 };
 
+export const getSolanaBalance = async (address: string): Promise<string> => {
+  try {
+    const connection = getSolanaConnection();
+    const pubkey = new PublicKey(address);
+    const balance = await connection.getBalance(pubkey, "confirmed");
+    return (balance / LAMPORTS_PER_SOL).toFixed(9);
+  } catch (error: unknown) {
+    console.error("Error fetching SOL balance:", error);
+    throw error;
+  }
+};
+
 export const getSolanaHistory = async (
   address: string
 ): Promise<TxHistoryItem[]> => {
@@ -96,17 +108,13 @@ export const getSolanaHistory = async (
           if (!instruction || !("parsed" in instruction)) return null;
 
           const parsed = instruction.parsed as any;
-          const from = parsed.info.source;
-          const to = parsed.info.destination;
-          const lamports = parsed.info.lamports;
-          const timestamp = (tx.blockTime || 0) * 1000;
 
           return {
             hash: sig.signature,
-            from,
-            to,
-            amount: lamports / LAMPORTS_PER_SOL,
-            timestamp,
+            from: parsed.info.source,
+            to: parsed.info.destination,
+            amount: (parsed.info.lamports / LAMPORTS_PER_SOL).toFixed(9),
+            timestamp: (tx.blockTime || 0) * 1000,
           };
         } catch (err) {
           console.warn(`Failed to process transaction ${sig.signature}`, err);
@@ -120,18 +128,6 @@ export const getSolanaHistory = async (
       .sort((a, b) => b.timestamp - a.timestamp);
   } catch (error: unknown) {
     console.error("Error fetching transaction history:", error);
-    throw error;
-  }
-};
-
-export const getSolanaBalance = async (address: string): Promise<number> => {
-  try {
-    const connection = getSolanaConnection();
-    const pubkey = new PublicKey(address);
-    const balance = await connection.getBalance(pubkey, "confirmed");
-    return balance / LAMPORTS_PER_SOL;
-  } catch (error: unknown) {
-    console.error("Error fetching SOL balance:", error);
     throw error;
   }
 };
