@@ -1,54 +1,50 @@
-import { getUserData, setUserData, clearUserData } from "@/services/indexedDB";
+import { getUserData, saveUserData, clearUserData } from "@/services/indexedDB";
 import {
   hashPassword,
   verifyPassword,
   encryptMnemonic,
   decryptMnemonic,
 } from "@/utils/crypto";
-import { useUserStore } from "@/stores/userStore";
-import { useWalletStore } from "@/stores/walletStore";
+import useUserStore from "@/stores/userStore";
+import useWalletStore from "@/stores/walletStore";
+import { ISavedUserData } from "@/types";
 
 const useStorage = () => {
-  const initUser = useUserStore((state) => state.initUser);
-  const logout = useUserStore((state) => state.logout);
-  const clearWallets = useWalletStore((state) => state.clearWallets);
+  const { setUser, clearUser } = useUserStore.getState();
+  const { clearWallets } = useWalletStore.getState();
 
   const isUser = async (): Promise<boolean> => {
     try {
-      return !!(await getUserData("user"));
+      return Boolean(await getUserData("user"));
     } catch (error) {
-      console.error("Error checking user:", error);
-      return false;
+      console.error("Error checking user existence:", error);
+      throw new Error("Failed to check if user exists");
     }
   };
 
   const loadUser = async (password: string): Promise<void> => {
     try {
       const userData = await getUserData("user");
-      if (!userData) {
-        await removeUser();
-        throw new Error("User not found");
-      }
+      if (!userData) throw new Error("User not found");
 
-      if (!(await verifyPassword(password, userData.hashedPassword))) {
-        throw new Error("Invalid password");
-      }
+      const passwordValid = await verifyPassword(
+        password,
+        userData.hashedPassword
+      );
+      if (!passwordValid) throw new Error("Invalid password");
 
       const decryptedMnemonic = await decryptMnemonic(
         userData.encryptedMnemonic,
         password
       );
+      if (!decryptedMnemonic) throw new Error("Decryption failed");
 
-      if (!decryptedMnemonic) {
-        await removeUser();
-        throw new Error("Decryption failed");
-      }
-
-      initUser({
+      setUser({
         password,
         mnemonic: decryptedMnemonic,
-        indexes: userData.indexes || [],
-        deletedIndexes: userData.deletedIndexes || [],
+        indexes: userData.indexes,
+        deletedIndexes: userData.deletedIndexes,
+        networkMode: userData.networkMode,
       });
     } catch (error) {
       console.error("Error loading user:", error);
@@ -58,29 +54,35 @@ const useStorage = () => {
 
   const saveUser = async (): Promise<void> => {
     try {
-      const { password, mnemonic, indexes, deletedIndexes } =
+      const { password, mnemonic, indexes, deletedIndexes, networkMode } =
         useUserStore.getState();
+
       if (!mnemonic) throw new Error("Mnemonic is missing");
 
       const existingData = await getUserData("user");
 
-      const hashedPassword =
-        existingData?.hashedPassword ||
-        (password ? await hashPassword(password) : null);
+      let hashedPassword = existingData?.hashedPassword ?? null;
+      let encryptedMnemonic = existingData?.encryptedMnemonic ?? null;
 
-      const encryptedMnemonic =
-        existingData?.encryptedMnemonic ||
-        (password ? await encryptMnemonic(mnemonic, password) : null);
+      if (!hashedPassword || !encryptedMnemonic) {
+        if (!password) throw new Error("Password is missing");
+
+        [hashedPassword, encryptedMnemonic] = await Promise.all([
+          hashPassword(password),
+          encryptMnemonic(mnemonic, password),
+        ]);
+      }
 
       if (!hashedPassword || !encryptedMnemonic) {
         throw new Error("Encryption failed");
       }
 
-      await setUserData("user", {
+      await saveUserData("user", {
         hashedPassword,
         encryptedMnemonic,
         indexes,
         deletedIndexes,
+        networkMode,
       });
     } catch (error) {
       console.error("Error saving user:", error);
@@ -91,11 +93,12 @@ const useStorage = () => {
   const removeUser = async (): Promise<void> => {
     try {
       await clearUserData();
+      clearUser();
+      clearWallets();
     } catch (error) {
-      console.error("Error clearing user data:", error);
+      console.error("Error removing user:", error);
+      throw new Error("Failed to remove user data");
     }
-
-    await Promise.all([logout(), clearWallets()]);
   };
 
   return { isUser, loadUser, saveUser, removeUser };
