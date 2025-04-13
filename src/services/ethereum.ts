@@ -4,6 +4,7 @@ import { TxHistoryItem } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 import useUserStore from "@/stores/userStore";
 import { ALCHEMY_API_KEY } from "@/constants";
+import formatBalance from "@/utils/formatBalance";
 
 let ethereumProvider: ethers.JsonRpcProvider | null = null;
 let alchemyInstance: Alchemy | null = null;
@@ -59,7 +60,7 @@ export const getEthereumBalance = async (address: string): Promise<string> => {
 
     const provider = getEthereumProvider();
     const balance = await provider.getBalance(address);
-    return ethers.formatEther(balance);
+    return formatBalance(ethers.formatEther(balance));
   } catch (error) {
     console.error("Error fetching Ethereum balance:", error);
     throw error;
@@ -91,7 +92,7 @@ export const getEthereumHistory = async (
           hash: tx.hash,
           from: tx.from,
           to: tx.to!,
-          amount: ethers.formatEther(tx.value || 0),
+          amount: tx.value ? formatBalance(ethers.formatEther(tx.value)) : "0",
           timestamp: (block?.timestamp || 0) * 1000,
         };
       })
