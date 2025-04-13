@@ -3,9 +3,9 @@ import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/common";
 import { Solana, Ethereum } from "@/components/icons";
-import { TStep } from "@/app/page";
+import { TStep } from "@/types";
 import { TNetwork } from "@/types";
-import { useNotificationStore } from "@/stores/notificationStore";
+import useNotificationStore from "@/stores/notificationStore";
 
 type SelectNetworkProps = {
   setNetwork: Dispatch<SetStateAction<TNetwork>>;

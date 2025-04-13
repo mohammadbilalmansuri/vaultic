@@ -3,7 +3,7 @@ import { useState, Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
 import { Button, Switch } from "@/components/common";
 import { Warning, Lock } from "@/components/icons";
-import { TStep } from "@/app/page";
+import { TStep } from "@/types";
 import cn from "@/utils/cn";
 
 type SecretRecoveryWarningProps = {
