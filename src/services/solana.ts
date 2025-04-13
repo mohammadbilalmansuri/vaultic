@@ -11,23 +11,35 @@ import bs58 from "bs58";
 import { TxHistoryItem } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 
-let connection: Connection = new Connection(getRpcUrl("solana"), "confirmed");
+let connection: Connection | null = null;
+
+const createSolanaConnection = (): Connection =>
+  new Connection(getRpcUrl("solana"), "confirmed");
+
+const getConnection = (): Connection => {
+  if (!connection) connection = createSolanaConnection();
+  return connection;
+};
 
 export const resetSolanaConnection = () => {
-  connection = new Connection(getRpcUrl("solana"), "confirmed");
+  connection = createSolanaConnection();
 };
 
 export const sendSolana = async (
   fromPrivateKey: string,
   toAddress: string,
-  amount: string
+  amount: number
 ): Promise<string> => {
   try {
-    const lamports = Math.floor(Number(amount) * LAMPORTS_PER_SOL);
-    if (isNaN(lamports) || lamports <= 0) throw new Error("Invalid amount.");
+    const lamports = Math.floor(amount * LAMPORTS_PER_SOL);
+    if (isNaN(lamports) || lamports <= 0) throw new Error("Invalid amount");
 
-    const fromKeypair = Keypair.fromSecretKey(bs58.decode(fromPrivateKey));
+    const decodedKey = bs58.decode(fromPrivateKey);
+    if (decodedKey.length !== 64) throw new Error("Invalid private key length");
+
+    const fromKeypair = Keypair.fromSecretKey(decodedKey);
     const toPubkey = new PublicKey(toAddress);
+    const conn = getConnection();
 
     const transaction = new Transaction().add(
       SystemProgram.transfer({
@@ -38,21 +50,16 @@ export const sendSolana = async (
     );
 
     transaction.feePayer = fromKeypair.publicKey;
-    transaction.recentBlockhash = (
-      await connection.getLatestBlockhash()
-    ).blockhash;
+    transaction.recentBlockhash = (await conn.getLatestBlockhash()).blockhash;
 
-    const signature = await sendAndConfirmTransaction(connection, transaction, [
+    const signature = await sendAndConfirmTransaction(conn, transaction, [
       fromKeypair,
     ]);
 
     return signature;
-  } catch (error) {
-    throw new Error(
-      `Failed to send SOL: ${
-        error instanceof Error ? error.message : "Unknown error"
-      }`
-    );
+  } catch (error: unknown) {
+    console.error("Error sending SOL:", error);
+    throw error;
   }
 };
 
@@ -60,36 +67,44 @@ export const getSolanaHistory = async (
   address: string
 ): Promise<TxHistoryItem[]> => {
   try {
+    const conn = getConnection();
     const pubkey = new PublicKey(address);
-    const signatures = await connection.getSignaturesForAddress(pubkey, {
+
+    const signatures = await conn.getSignaturesForAddress(pubkey, {
       limit: 20,
     });
 
     const transactions = await Promise.all(
       signatures.map(async (sig) => {
         try {
-          const tx = await connection.getTransaction(sig.signature, {
+          const tx = await conn.getParsedTransaction(sig.signature, {
             maxSupportedTransactionVersion: 0,
           });
 
-          if (!tx || !tx.meta) return null;
+          if (!tx || !tx.meta || !tx.transaction) return null;
 
-          const message = tx.transaction.message;
-          const accountKeys = message.getAccountKeys();
+          const instruction = tx.transaction.message.instructions.find(
+            (ix) =>
+              "program" in ix &&
+              ix.program === "system" &&
+              "parsed" in ix &&
+              ix.parsed?.type === "transfer"
+          );
 
-          const from = accountKeys.get(0)?.toBase58();
-          const to = accountKeys.get(1)?.toBase58() ?? "Unknown recipient";
+          if (!instruction || !("parsed" in instruction)) return null;
 
-          const amount =
-            (tx.meta.preBalances[0] - tx.meta.postBalances[0]) /
-            LAMPORTS_PER_SOL;
+          const parsed = instruction.parsed as any;
+          const from = parsed.info.source;
+          const to = parsed.info.destination;
+          const lamports = parsed.info.lamports;
+          const timestamp = (tx.blockTime || 0) * 1000;
 
           return {
             hash: sig.signature,
             from,
             to,
-            amount: amount.toFixed(6),
-            timestamp: (tx.blockTime || 0) * 1000,
+            amount: lamports / LAMPORTS_PER_SOL,
+            timestamp,
           };
         } catch (err) {
           console.warn(`Failed to process transaction ${sig.signature}`, err);
@@ -101,25 +116,20 @@ export const getSolanaHistory = async (
     return transactions
       .filter((tx): tx is TxHistoryItem => tx !== null)
       .sort((a, b) => b.timestamp - a.timestamp);
-  } catch (error) {
-    throw new Error(
-      `Unable to fetch transaction history: ${
-        error instanceof Error ? error.message : "Unknown error"
-      }`
-    );
+  } catch (error: unknown) {
+    console.error("Error fetching transaction history:", error);
+    throw error;
   }
 };
 
-export const getSolanaBalance = async (address: string): Promise<string> => {
+export const getSolanaBalance = async (address: string): Promise<number> => {
   try {
+    const conn = getConnection();
     const pubkey = new PublicKey(address);
-    const balance = await connection.getBalance(pubkey, "confirmed");
-    return (balance / LAMPORTS_PER_SOL).toFixed(6);
-  } catch (error) {
-    throw new Error(
-      `Unable to fetch balance: ${
-        error instanceof Error ? error.message : "Unknown error"
-      }`
-    );
+    const balance = await conn.getBalance(pubkey, "confirmed");
+    return balance / LAMPORTS_PER_SOL;
+  } catch (error: unknown) {
+    console.error("Error fetching SOL balance:", error);
+    throw error;
   }
 };
