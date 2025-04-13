@@ -15,7 +15,8 @@ let connection: Connection | null = null;
 
 const getConnection = (): Connection => {
   if (!connection) {
-    connection = new Connection(getRpcUrl("solana"), "confirmed");
+    const rpc = getRpcUrl("solana");
+    connection = new Connection(rpc, "confirmed");
   }
   return connection;
 };
