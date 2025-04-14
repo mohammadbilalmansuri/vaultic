@@ -34,7 +34,6 @@ const useUserStore = create<IUserState>((set) => ({
   setUser: (user) =>
     set((state) => ({
       ...state,
-      authenticated: true,
       ...user,
     })),
 
