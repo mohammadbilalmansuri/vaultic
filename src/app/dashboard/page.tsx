@@ -8,7 +8,7 @@ import { useWallet, useStorage } from "@/hooks";
 import useWalletStore from "@/stores/walletStore";
 import { TNetwork } from "@/types";
 
-const Send = () => {
+const Dashboard = () => {
   const wallets = useWalletStore((state) => state.wallets);
   const { createWallet } = useWallet();
   const { saveUser } = useStorage();
@@ -86,4 +86,4 @@ const Send = () => {
   );
 };
 
-export default Send;
+export default Dashboard;
