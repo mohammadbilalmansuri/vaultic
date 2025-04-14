@@ -10,6 +10,10 @@
   --height-13: 3.25rem;
 }
 
+@utility border-1.5 {
+  @apply border-[1.5px];
+}
+
 @utility border-color {
   @apply border-zinc-200 dark:border-zinc-800;
 }
@@ -104,5 +108,11 @@
     @apply webkit-autofil-color-for-light dark:webkit-autofil-color-for-dark;
     transition: background-color 100000s ease-in-out 0s;
     box-shadow: none;
+  }
+}
+
+@keyframes skeleton-pulse {
+  100% {
+    background-position: top left;
   }
 }
