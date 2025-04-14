@@ -12,7 +12,11 @@ import {
 import { TNetwork } from "@/types";
 import cn from "@/utils/cn";
 import { TPath, TStep } from "@/types";
-import { ONBOARDING_STEPS } from "@/constants";
+
+const ONBOARDING_STEPS = {
+  create: 6,
+  import: 5,
+} as const;
 
 const Home = () => {
   const [step, setStep] = useState<TStep>(1);
