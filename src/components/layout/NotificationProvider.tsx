@@ -20,7 +20,7 @@ const NotificationProvider = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -40 }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
-          className="max-w-lg fixed bottom-8 right-8 z-50 bg-zinc-200 dark:bg-zinc-800 heading-color p-5 rounded-2xl flex items-center gap-4 border-2 border-zinc-300/50 dark:border-zinc-700/50"
+          className="max-w-lg fixed bottom-8 right-8 z-50 bg-zinc-200 dark:bg-zinc-800 heading-color p-5 rounded-2xl flex items-center gap-4 border-1.5 border-zinc-300/50 dark:border-zinc-700/50"
         >
           <div className="flex items-center gap-2">
             {type === "info" && (
