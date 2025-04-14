@@ -59,7 +59,7 @@ const Select = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.1 }}
-            className="absolute top-full left-0 w-full mt-2 flex flex-col gap-2 border-2 rounded-xl bg-zinc-200 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 z-10 px-4 py-3"
+            className="absolute top-full left-0 w-full mt-2 flex flex-col gap-2 border-1.5 rounded-xl bg-zinc-200 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 z-10 px-4 py-3"
           >
             {options.map((option) => (
               <span
