@@ -3,8 +3,10 @@ import { useStorage, useWallet } from "@/hooks";
 import useUserStore from "@/stores/userStore";
 import { VerifyPasswordFormData } from "@/utils/validation";
 import { useRouter } from "next/navigation";
-import { AUTHENTICATED_ROUTES, IS_DEV, DEV_PASSWORD } from "@/constants";
+import { IS_DEV, DEV_PASSWORD } from "@/constants";
 import useNotificationStore from "@/stores/notificationStore";
+
+const AUTHENTICATED_ROUTES = new Set<string>(["/dashboard", "/account"]);
 
 const useAuth = () => {
   const { isUser, loadUser, removeUser } = useStorage();
