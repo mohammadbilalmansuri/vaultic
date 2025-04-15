@@ -4,8 +4,8 @@ import { INotification } from "@/types";
 interface NotificationState {
   opened: boolean;
   type: INotification["type"];
-  message: string;
-  notify: (message: string, type?: INotification["type"]) => void;
+  message: INotification["message"];
+  notify: ({ type, message }: INotification) => void;
   closeNotification: () => void;
 }
 
@@ -22,25 +22,25 @@ const useNotificationStore = create<NotificationState>((set, get) => {
     type: "info",
     message: "",
 
-    notify: (message, type = "info") => {
+    notify: ({ type = "info", message }) => {
       const { opened } = get();
 
       if (opened) {
         set({ opened: false });
 
         setTimeout(() => {
-          set({ opened: true, message, type });
+          set({ opened: true, type, message });
           startTimer();
         }, 200);
       } else {
-        set({ opened: true, message, type });
+        set({ opened: true, type, message });
         startTimer();
       }
     },
 
     closeNotification: () => {
       if (timeoutId) clearTimeout(timeoutId);
-      set({ opened: false, message: "", type: "info" });
+      set({ opened: false, type: "info", message: "" });
     },
   };
 });
