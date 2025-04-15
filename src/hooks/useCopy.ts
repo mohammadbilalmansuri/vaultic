@@ -13,7 +13,7 @@ const useCopy = () => {
   ): Promise<boolean> => {
     if (!navigator?.clipboard?.writeText) {
       notify({
-        type: "warning",
+        type: "error",
         message: "Clipboard not supported in this browser.",
       });
       return false;
