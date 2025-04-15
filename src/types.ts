@@ -22,7 +22,7 @@ export interface IWallet {
 }
 
 export interface INotification {
-  message: string | ReactNode;
+  message: string;
   type?: "info" | "success" | "error";
 }
 
