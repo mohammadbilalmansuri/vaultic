@@ -1,86 +1,105 @@
-import { useState } from "react";
+"use client";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { useStorage, useWallet } from "@/hooks";
 import useUserStore from "@/stores/userStore";
-import { VerifyPasswordFormData } from "@/utils/validation";
-import { useRouter } from "next/navigation";
-import { IS_DEV, DEV_PASSWORD } from "@/constants";
 import useNotificationStore from "@/stores/notificationStore";
-
-const AUTHENTICATED_ROUTES = new Set<string>(["/dashboard", "/account"]);
+import { VerifyPasswordFormData } from "@/utils/validation";
+import { UseFormSetError, UseFormClearErrors } from "react-hook-form";
+import delay from "@/utils/delay";
+import { AUTHENTICATED_ROUTES } from "@/constants";
 
 const useAuth = () => {
+  const router = useRouter();
   const { isUser, loadUser, removeUser } = useStorage();
   const { loadWallets } = useWallet();
-  const router = useRouter();
+
+  const setUserState = useUserStore((state) => state.setUserState);
   const notify = useNotificationStore((state) => state.notify);
 
-  const [checking, setChecking] = useState(true);
-  const [error, setError] = useState("");
+  const [checking, startChecking] = useTransition();
+  const [authenticating, startAuthenticating] = useTransition();
 
-  const checkUser = async (pathname: string) => {
-    setChecking(true);
-    let redirected = false;
-
+  const secureFail = async (message: string) => {
     try {
-      const { authenticated } = useUserStore.getState();
-      const userExists = authenticated || (await isUser());
-
-      if (
-        !userExists &&
-        AUTHENTICATED_ROUTES.has(pathname) &&
-        pathname !== "/"
-      ) {
-        router.replace("/");
-        redirected = true;
-      }
-
-      if (userExists && IS_DEV && !authenticated) {
-        await loadUser(DEV_PASSWORD);
-        await loadWallets();
-      }
-
-      if (userExists && pathname === "/") {
-        router.replace("/dashboard");
-        redirected = true;
-      }
+      notify({
+        type: "error",
+        message: `${message}. For your security, we'll return you to the start.`,
+      });
+      await delay(4000);
+      await removeUser();
+      router.replace("/");
     } catch (error) {
-      throw error;
+      notify({
+        type: "error",
+        message:
+          "We couldn't reset your data automatically. Please clear your browser's site data and refresh to continue securely.",
+      });
     }
-
-    if (!redirected) setChecking(false);
   };
 
-  const handlePasswordSubmit = async ({ password }: VerifyPasswordFormData) => {
-    try {
-      await loadUser(password);
-      await loadWallets();
-    } catch (error) {
-      console.error("Error submitting password:", error);
+  const checkUser = (pathname: string) => {
+    startChecking(async () => {
+      try {
+        let exists = useUserStore.getState().userExists;
 
-      const errorMessage =
-        error instanceof Error ? error.message : "An unknown error occurred";
+        if (!exists) {
+          exists = await isUser();
+          setUserState({ userExists: exists });
+        }
 
-      if (errorMessage === "Invalid password") {
-        setError(errorMessage);
-        await new Promise((resolve) => setTimeout(resolve, 4000));
-        setError("");
-      } else {
-        notify(
-          `${errorMessage}. For your security, we'll take you back to the start.`,
-          "error"
+        if (!exists && AUTHENTICATED_ROUTES.has(pathname) && pathname !== "/") {
+          router.replace("/");
+        }
+
+        if (exists && pathname === "/") {
+          router.replace("/dashboard");
+        }
+      } catch (error) {
+        await secureFail(
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred"
         );
-        await new Promise((resolve) => setTimeout(resolve, 4000));
-        await removeUser();
-        router.replace("/");
       }
-    }
+    });
+  };
+
+  const authenticateWithPassword = (
+    { password }: VerifyPasswordFormData,
+    setError: UseFormSetError<VerifyPasswordFormData>,
+    clearErrors: UseFormClearErrors<VerifyPasswordFormData>
+  ) => {
+    startAuthenticating(async () => {
+      try {
+        await loadUser(password);
+        await loadWallets();
+        setUserState({ authenticated: true });
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred";
+
+        if (errorMessage === "Invalid password") {
+          setError("password", {
+            type: "manual",
+            message: errorMessage,
+          });
+          await delay(4000);
+          clearErrors("password");
+        } else {
+          await secureFail(errorMessage);
+        }
+      }
+    });
   };
 
   return {
-    checking,
-    error,
     checkUser,
-    handlePasswordSubmit,
+    checking,
+    authenticateWithPassword,
+    authenticating,
   };
 };
 
