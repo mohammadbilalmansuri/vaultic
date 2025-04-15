@@ -21,9 +21,10 @@ export interface IWallet {
   readonly balance: string;
 }
 
-export type TNotificationMessage = string | ReactNode;
-
-export type TNotificationType = "info" | "warning" | "success" | "error";
+export interface INotification {
+  message: string | ReactNode;
+  type?: "info" | "warning" | "success" | "error";
+}
 
 export interface ISavedUserData {
   readonly hashedPassword: string;
