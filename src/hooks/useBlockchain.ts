@@ -8,7 +8,7 @@ import {
   getSolanaHistory,
   getSolanaBalance,
 } from "@/services/solana";
-import { TxHistoryItem, TNetwork } from "@/types";
+import { ITxHistoryItem, TNetwork } from "@/types";
 
 const useBlockchain = () => {
   const sendTx = async ({
@@ -65,7 +65,7 @@ const useBlockchain = () => {
   }: {
     network: TNetwork;
     address: string;
-  }): Promise<TxHistoryItem[]> => {
+  }): Promise<ITxHistoryItem[]> => {
     try {
       switch (network) {
         case "solana":
