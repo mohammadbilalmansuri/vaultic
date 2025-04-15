@@ -12,7 +12,10 @@ const useCopy = () => {
     feedback = false
   ): Promise<boolean> => {
     if (!navigator?.clipboard?.writeText) {
-      notify("Clipboard not supported in this browser.", "error");
+      notify({
+        type: "warning",
+        message: "Clipboard not supported in this browser.",
+      });
       return false;
     }
 
@@ -22,7 +25,11 @@ const useCopy = () => {
       await navigator.clipboard.writeText(text);
       setCopied(true);
 
-      if (feedback) notify("Copied to clipboard!", "success");
+      if (feedback)
+        notify({
+          type: "success",
+          message: "Copied to clipboard!",
+        });
 
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
@@ -34,7 +41,10 @@ const useCopy = () => {
       return true;
     } catch (error) {
       console.error("Failed to copy text:", error);
-      notify("Oops! Something went wrong while copying.", "error");
+      notify({
+        type: "error",
+        message: "Something went wrong while copying",
+      });
       return false;
     }
   };
