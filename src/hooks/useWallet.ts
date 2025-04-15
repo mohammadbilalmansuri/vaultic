@@ -72,9 +72,8 @@ const useWallet = () => {
       const { indexes, deletedIndexes } = useUserStore.getState();
 
       if (indexes.length === 1) {
-        throw new Error(
-          "You must have at least one wallet. Deleting the last wallet is not allowed."
-        );
+        console.warn("Cannot delete the last wallet");
+        return;
       }
 
       removeWallet(address);
