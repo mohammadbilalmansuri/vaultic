@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import { TNetworkMode, TIndexes } from "../types";
+import { TIndexes, TNetworkMode } from "../types";
 import { IS_DEV } from "@/constants";
 
 interface IUserState {
-  status: boolean;
+  userExists: boolean;
   authenticated: boolean;
   password: string;
   mnemonic: string;
@@ -19,7 +19,7 @@ const getDefaultState = (): Omit<
   IUserState,
   "setUserState" | "setUser" | "clearUser"
 > => ({
-  status: false,
+  userExists: false,
   authenticated: false,
   password: "",
   mnemonic: "",
