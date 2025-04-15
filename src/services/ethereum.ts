@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { Alchemy, Network, AssetTransfersCategory } from "alchemy-sdk";
-import { TxHistoryItem } from "@/types";
+import { ITxHistoryItem } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 import useUserStore from "@/stores/userStore";
 import { ALCHEMY_API_KEY } from "@/constants";
@@ -11,7 +11,8 @@ let alchemyInstance: Alchemy | null = null;
 
 const getEthereumProvider = (): ethers.JsonRpcProvider => {
   if (!ethereumProvider) {
-    ethereumProvider = new ethers.JsonRpcProvider(getRpcUrl("ethereum"));
+    const rpc = getRpcUrl("ethereum");
+    ethereumProvider = new ethers.JsonRpcProvider(rpc);
   }
   return ethereumProvider;
 };
@@ -69,7 +70,7 @@ export const getEthereumBalance = async (address: string): Promise<string> => {
 
 export const getEthereumHistory = async (
   address: string
-): Promise<TxHistoryItem[]> => {
+): Promise<ITxHistoryItem[]> => {
   try {
     if (!ethers.isAddress(address)) throw new Error("Invalid Ethereum address");
 

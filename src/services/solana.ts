@@ -8,7 +8,7 @@ import {
   LAMPORTS_PER_SOL,
 } from "@solana/web3.js";
 import bs58 from "bs58";
-import { TxHistoryItem } from "@/types";
+import { ITxHistoryItem } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 import formatBalance from "@/utils/formatBalance";
 
@@ -80,7 +80,7 @@ export const getSolanaBalance = async (address: string): Promise<string> => {
 
 export const getSolanaHistory = async (
   address: string
-): Promise<TxHistoryItem[]> => {
+): Promise<ITxHistoryItem[]> => {
   try {
     const connection = getSolanaConnection();
     const pubkey = new PublicKey(address);
@@ -127,7 +127,7 @@ export const getSolanaHistory = async (
     );
 
     return transactions
-      .filter((tx): tx is TxHistoryItem => tx !== null)
+      .filter((tx): tx is ITxHistoryItem => tx !== null)
       .sort((a, b) => b.timestamp - a.timestamp);
   } catch (error) {
     console.error("Error fetching Solana history:", error);
