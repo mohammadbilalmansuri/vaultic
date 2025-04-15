@@ -34,7 +34,7 @@ export interface ISavedUserData {
   readonly networkMode: TNetworkMode;
 }
 
-export interface TTxHistoryItem {
+export interface ITxHistoryItem {
   readonly hash: string;
   readonly from: string;
   readonly to: string;
