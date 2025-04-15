@@ -110,9 +110,3 @@
     box-shadow: none;
   }
 }
-
-@keyframes skeleton-pulse {
-  100% {
-    background-position: top left;
-  }
-}
