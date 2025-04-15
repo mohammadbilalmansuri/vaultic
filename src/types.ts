@@ -1,6 +1,8 @@
-export type TStep = 1 | 2 | 3 | 4 | 5 | 6;
+import { ReactNode } from "react";
 
-export type TPath = "create" | "import" | null;
+export type TOnboardingStep = 1 | 2 | 3 | 4 | 5 | 6;
+
+export type TOnboardingPath = "create" | "import" | null;
 
 export type TNetwork = "ethereum" | "solana";
 
@@ -19,10 +21,9 @@ export interface IWallet {
   readonly balance: string;
 }
 
-export interface INotification {
-  readonly message: string;
-  readonly type: "info" | "success" | "error";
-}
+export type TNotificationMessage = string | ReactNode;
+
+export type TNotificationType = "info" | "warning" | "success" | "error";
 
 export interface ISavedUserData {
   readonly hashedPassword: string;
@@ -32,10 +33,10 @@ export interface ISavedUserData {
   readonly networkMode: TNetworkMode;
 }
 
-export type TxHistoryItem = {
+export interface TTxHistoryItem {
   readonly hash: string;
   readonly from: string;
   readonly to: string;
   readonly amount: string;
   readonly timestamp: number;
-};
+}
