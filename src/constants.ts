@@ -1,3 +1,10 @@
+export const ONBOARDING_STEPS = {
+  create: 6,
+  import: 5,
+} as const;
+
+export const AUTHENTICATED_ROUTES = new Set<string>(["/dashboard", "/account"]);
+
 export const IS_DEV = process.env.NODE_ENV === "development";
 
 export const DEV_PASSWORD = process.env.NEXT_PUBLIC_DEV_PASSWORD!;
