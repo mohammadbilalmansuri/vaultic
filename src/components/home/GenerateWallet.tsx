@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
-import { Button, Switch } from "@/components/common";
-import { TStep } from "@/types";
+import { Button, Switch, Loader } from "@/components/ui";
+import { TOnboardingStep } from "@/types";
 import { useCopy } from "@/hooks";
 import { generateMnemonic } from "bip39";
 import useUserStore from "@/stores/userStore";
@@ -13,16 +13,17 @@ import { TNetwork } from "@/types";
 
 type GenerateWalletProps = {
   network: TNetwork;
-  setStep: Dispatch<SetStateAction<TStep>>;
+  setStep: Dispatch<SetStateAction<TOnboardingStep>>;
 };
 
 const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
   const { copied, copyToClipboard } = useCopy();
-  const [saved, setSaved] = useState(false);
   const { createWallet } = useWallet();
   const mnemonic = useUserStore((state) => state.mnemonic);
   const setUserState = useUserStore((state) => state.setUserState);
   const notify = useNotificationStore((state) => state.notify);
+  const [saved, setSaved] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
   useEffect(() => {
     if (!mnemonic) {
@@ -32,13 +33,20 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
   }, []);
 
   const handleNext = async () => {
+    if (!saved) return;
+    setProcessing(true);
+
     try {
       await createWallet(network);
-      notify("Wallet created successfully!", "success");
+      notify({
+        type: "success",
+        message: "Wallet created successfully!",
+      });
       setStep(5);
     } catch (error) {
-      console.error("Error creating wallet:", error);
-      notify("Failed to create wallet", "error");
+      notify({ type: "error", message: "Failed to create wallet" });
+    } finally {
+      setProcessing(false);
     }
   };
 
@@ -93,7 +101,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
           disabled={!saved}
           onClick={handleNext}
         >
-          Next
+          {processing ? <Loader size="sm" color="black" /> : "Next"}
         </Button>
       </div>
     </motion.div>

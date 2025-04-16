@@ -1,6 +1,4 @@
 "use client";
-import { ButtonHTMLAttributes } from "react";
-
 const Delete = ({ ...props }: ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button type="button" className="icon" {...props}>

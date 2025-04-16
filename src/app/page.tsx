@@ -11,21 +11,17 @@ import {
 } from "@/components/home";
 import { TNetwork } from "@/types";
 import cn from "@/utils/cn";
-import { TPath, TStep } from "@/types";
-
-const ONBOARDING_STEPS = {
-  create: 6,
-  import: 5,
-} as const;
+import { TOnboardingPath, TOnboardingStep } from "@/types";
+import { ONBOARDING_STEPS } from "@/constants";
 
 const Home = () => {
   const [step, setStep] = useState<TStep>(1);
-  const [path, setPath] = useState<TPath>(null);
+  const [path, setPath] = useState<TOnboardingPath>(null);
   const [network, setNetwork] = useState<TNetwork>("solana");
 
   const totalSteps = path ? ONBOARDING_STEPS[path] : 6;
 
-  const stepComponents: Record<TStep, JSX.Element> = {
+  const stepComponents: Record<TOnboardingStep, JSX.Element> = {
     1: <Welcome setStep={setStep} setPath={setPath} />,
     2: <SelectNetwork setNetwork={setNetwork} setStep={setStep} />,
     3:

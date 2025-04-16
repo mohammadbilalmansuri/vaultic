@@ -1,19 +1,26 @@
 "use client";
-import { useState, Dispatch, SetStateAction, ClipboardEvent } from "react";
+import {
+  useState,
+  Dispatch,
+  SetStateAction,
+  ClipboardEvent,
+  useTransition,
+  KeyboardEvent,
+  useEffect,
+} from "react";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/common";
-import { TStep } from "@/types";
+import { Button, Loader } from "@/components/ui";
+import { TOnboardingStep, TNetwork } from "@/types";
 import useUserStore from "@/stores/userStore";
 import { validateMnemonic } from "bip39";
 import { useWallet } from "@/hooks";
 import cn from "@/utils/cn";
 import useNotificationStore from "@/stores/notificationStore";
-import { TNetwork } from "@/types";
 
 type ImportWalletProps = {
   network: TNetwork;
-  setStep: Dispatch<SetStateAction<TStep>>;
+  setStep: Dispatch<SetStateAction<TOnboardingStep>>;
 };
 
 type MnemonicForm = {
@@ -21,23 +28,65 @@ type MnemonicForm = {
 };
 
 const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
-  const [is24Words, setIs24Words] = useState(false);
   const setUserState = useUserStore((state) => state.setUserState);
+  const notify = useNotificationStore((state) => state.notify);
+  const { createWallet } = useWallet();
+
+  const [is24Words, setIs24Words] = useState(false);
+  const [importing, startImporting] = useTransition();
+
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { isValid },
+    getValues,
+    setError,
+    clearErrors,
+    reset,
+    formState: { errors, isValid },
   } = useForm<MnemonicForm>({
     mode: "onChange",
     defaultValues: { mnemonic: Array(12).fill("") },
   });
 
-  const [mnemonicErrors, setMnemonicErrors] = useState<string>("");
-  const { createWallet } = useWallet();
-  const notify = useNotificationStore((state) => state.notify);
+  useEffect(() => {
+    reset({ mnemonic: Array(is24Words ? 24 : 12).fill("") });
+  }, [is24Words, reset]);
 
-  const onPaste = async (event: ClipboardEvent<HTMLInputElement>) => {
+  const onSubmit = () => {
+    startImporting(async () => {
+      const phrase = getValues("mnemonic")
+        .map((word) => word.trim())
+        .join(" ");
+
+      if (!validateMnemonic(phrase)) {
+        setError("mnemonic", {
+          type: "manual",
+          message: "Invalid recovery phrase",
+        });
+        return;
+      }
+
+      clearErrors("mnemonic");
+
+      try {
+        setUserState({ mnemonic: phrase });
+        await createWallet(network);
+        notify({
+          type: "success",
+          message: "Wallet imported successfully!",
+        });
+        setStep(4);
+      } catch (error) {
+        notify({
+          type: "error",
+          message: "Failed to import wallet",
+        });
+      }
+    });
+  };
+
+  const onPaste = (event: ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
 
     try {
@@ -48,46 +97,41 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
       if (wordCount === 12 || wordCount === 24) {
         if (wordCount !== (is24Words ? 24 : 12)) {
           setIs24Words(wordCount === 24);
+          reset({ mnemonic: Array(wordCount).fill("") });
         }
 
-        setTimeout(() => {
-          words.forEach((word, index) =>
-            setValue(`mnemonic.${index}`, word, { shouldValidate: true })
-          );
-        }, 0);
-      } else {
-        setMnemonicErrors(
-          "The recovery phrase must contain exactly 12 or 24 words"
+        words.forEach((word, index) =>
+          setValue(`mnemonic.${index}`, word, { shouldValidate: true })
         );
-        setTimeout(() => setMnemonicErrors(""), 4000);
+
+        clearErrors("mnemonic");
+      } else {
+        setError("mnemonic", {
+          type: "manual",
+          message: "The recovery phrase must contain exactly 12 or 24 words",
+        });
+        setTimeout(() => clearErrors("mnemonic"), 4000);
       }
     } catch (error) {
       console.error("Failed to paste recovery phrase:", error);
-      setMnemonicErrors(
-        "Something went wrong while pasting the recovery phrase"
-      );
-      setTimeout(() => setMnemonicErrors(""), 4000);
+      setError("mnemonic", {
+        type: "manual",
+        message: "Something went wrong while pasting the recovery phrase",
+      });
+      setTimeout(() => clearErrors("mnemonic"), 4000);
     }
   };
 
-  const onSubmit = async (data: MnemonicForm) => {
-    const phrase = data.mnemonic.map((word) => word.trim()).join(" ");
-
-    if (!validateMnemonic(phrase)) {
-      setMnemonicErrors("Invalid recovery phrase");
-      return;
-    }
-
-    try {
-      setUserState({ mnemonic: phrase });
-      await createWallet(network);
-      notify("Wallet imported successfully!", "success");
-      setStep(4);
-    } catch (error) {
-      console.error("Wallet import failed:", error);
-      notify("Failed to import wallet", "error");
-    }
-  };
+  const handleKeyDown =
+    (index: number) => (event: KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === " " && index < (is24Words ? 23 : 11)) {
+        event.preventDefault();
+        const nextField = document.querySelector<HTMLInputElement>(
+          `input[name="mnemonic.${index + 1}"]`
+        );
+        nextField?.focus();
+      }
+    };
 
   return (
     <motion.div
@@ -117,23 +161,36 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
                 <span className="opacity-80">{index + 1}.</span>
                 <input
                   type="text"
-                  {...register(`mnemonic.${index}`, { required: true })}
+                  {...register(`mnemonic.${index}`, {
+                    required: true,
+                    validate: (value) =>
+                      value.trim().length > 0 || "Words cannot be empty",
+                  })}
                   onPaste={index === 0 ? onPaste : undefined}
+                  onKeyDown={handleKeyDown(index)}
                   className="w-full bg-transparent outline-none heading-color"
+                  autoCapitalize="none"
                 />
               </div>
             ))}
         </div>
 
-        {mnemonicErrors && (
-          <p className="py-1 text-yellow-500 text-sm">{mnemonicErrors}</p>
+        {errors.mnemonic?.message && (
+          <p className="py-1 text-yellow-500 text-sm">
+            {errors.mnemonic.message}
+          </p>
         )}
 
         <div className="w-full flex items-center gap-4">
           <Button
             variant="zinc"
             className="w-1/2"
-            onClick={() => setIs24Words((prev) => !prev)}
+            onClick={() => {
+              const count = is24Words ? 12 : 24;
+              reset({ mnemonic: Array(count).fill("") });
+              setIs24Words((prev) => !prev);
+              clearErrors("mnemonic");
+            }}
           >
             {is24Words ? "Use 12 words" : "Use 24 words"}
           </Button>
@@ -144,7 +201,7 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
             type="submit"
             disabled={!isValid}
           >
-            Import
+            {importing ? <Loader size="sm" color="black" /> : "Import"}
           </Button>
         </div>
       </form>

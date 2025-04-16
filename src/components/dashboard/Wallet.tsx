@@ -8,10 +8,9 @@ import {
   Hide,
   Expand,
   Delete,
-} from "@/components/icons";
+} from "@/components/ui/icons";
 import { useCopy, useWallet, useStorage } from "@/hooks";
 import { IWallet } from "@/types";
-import useNotificationStore from "@/stores/notificationStore";
 import { NETWORK_TOKENS } from "@/constants";
 
 interface WalletProps extends IWallet {
@@ -29,28 +28,13 @@ const Wallet = ({
   isSingle,
 }: WalletProps) => {
   const { deleteWallet } = useWallet();
-  const { saveUser } = useStorage();
-  const { copyToClipboard } = useCopy();
-  const notify = useNotificationStore((state) => state.notify);
+  const copyToClipboard = useCopy();
   const [expanded, setExpanded] = useState(false);
   const [hidden, setHidden] = useState(true);
-
-  const removeWallet = async () => {
-    try {
-      await deleteWallet(network, index, address);
-      await saveUser();
-    } catch (error) {
-      notify(
-        error instanceof Error
-          ? error.message
-          : "An unexpected error occurred while deleting the wallet. Please try again.",
-        "error"
-      );
-    }
-  };
+  const [copied, setCopied] = useState(false);
 
   return (
-    <div className="w-full rounded-2xl relative p-5 flex flex-col transition-all duration-300 bg-zinc-200/60 dark:bg-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-800">
+    <div className="w-full rounded-2xl relative p-5 flex flex-col transition-all duration-300 border-1.5 border-color hover:bg-zinc-200/50 dark:hover:bg-zinc-800/25">
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center gap-4">
           {network === "solana" ? (
@@ -69,7 +53,7 @@ const Wallet = ({
           <p className="heading-color leading-none">
             {balance} {NETWORK_TOKENS[network]}
           </p>
-          {!isSingle && expanded && <Delete onClick={removeWallet} />}
+          {!isSingle && expanded && <Delete />}
           <Expand
             expanded={expanded}
             onClick={() => setExpanded((prev) => !prev)}
@@ -93,7 +77,9 @@ const Wallet = ({
             <div className="w-full flex items-center justify-between gap-4 cursor-pointer">
               <p
                 className="hover:heading-color transition-all duration-300"
-                onClick={() => copyToClipboard(privateKey)}
+                onClick={() =>
+                  copyToClipboard(privateKey, copied, setCopied, true)
+                }
               >
                 {hidden ? (
                   <span className="tracking-[0.2em]">
@@ -109,7 +95,13 @@ const Wallet = ({
                   hidden={hidden}
                   onClick={() => setHidden((prev) => !prev)}
                 />
-                <Copy toCopy={privateKey} svgProps={{ className: "w-5" }} />
+                <Copy
+                  copied={copied}
+                  className="w-5"
+                  onClick={() =>
+                    copyToClipboard(privateKey, copied, setCopied, true)
+                  }
+                />
               </div>
             </div>
           </motion.div>

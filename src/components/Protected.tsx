@@ -3,7 +3,7 @@ import { ReactNode, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import useUserStore from "@/stores/userStore";
 import { useAuth } from "@/hooks";
-import { Loader, Button, PasswordInput } from "@/components/common";
+import { Loader, Button, PasswordInput } from "@/components/ui";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import {

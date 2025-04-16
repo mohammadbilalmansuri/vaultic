@@ -1,7 +1,7 @@
 "use client";
 import useNotificationStore from "@/stores/notificationStore";
 import { motion, AnimatePresence } from "motion/react";
-import { Cancel, Info, Success, Error } from "@/components/icons";
+import { Cancel, Info, Success, Error } from "@/components/ui/icons";
 
 const NOTIFICATION_ICONS = new Map([
   ["info", <Info className="w-6 fill-zinc-800 dark:fill-zinc-200" />],
@@ -38,8 +38,8 @@ const NotificationProvider = () => {
 
           <Cancel
             className="min-w-fit fill-zinc-500 hover:fill-zinc-800 dark:hover:fill-zinc-200 transition-all duration-300"
+            svgClassName="w-3.5"
             onClick={closeNotification}
-            svgProps={{ className: "w-3.5" }}
           />
         </motion.div>
       )}

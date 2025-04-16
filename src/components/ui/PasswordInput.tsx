@@ -1,6 +1,6 @@
 "use client";
 import { forwardRef, useState, ComponentProps } from "react";
-import { Hide } from "@/components/icons";
+import { Hide } from "@/components/ui/icons";
 import cn from "@/utils/cn";
 
 const PasswordInput = forwardRef<HTMLInputElement, ComponentProps<"input">>(

@@ -4,11 +4,11 @@ import { Ubuntu_Sans } from "next/font/google";
 import "./globals.css";
 import {
   ThemeProvider,
-  Protected,
+  NotificationProvider,
   Header,
   Footer,
-  NotificationProvider,
-} from "@/components/layout";
+  Protected,
+} from "@/components";
 
 const ubuntuSans = Ubuntu_Sans({
   variable: "--font-ubuntu-sans",
