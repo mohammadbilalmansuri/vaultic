@@ -1,23 +1,22 @@
 "use client";
-import { MouseEventHandler } from "react";
+import { ButtonHTMLAttributes } from "react";
 import cn from "@/utils/cn";
 
-interface SwitchProps {
+interface SwitchProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   state: boolean;
   colorDependsOnState?: boolean;
-  onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
 const Switch = ({
   state,
   colorDependsOnState = true,
-  onClick,
+  ...props
 }: SwitchProps) => {
   return (
     <button
       type="button"
       className="p-1 rounded-full h-6 w-12 relative flex items-center transition-colors duration-300 bg-zinc-200 dark:bg-zinc-800"
-      onClick={onClick}
+      {...props}
     >
       <span
         className={cn(
