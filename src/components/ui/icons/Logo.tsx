@@ -1,4 +1,4 @@
-const Logo = ({ className = "w-8 fill-teal-500" }) => {
+const Logo = ({ className = "w-7 fill-teal-500" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
