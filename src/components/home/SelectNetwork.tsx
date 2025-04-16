@@ -3,13 +3,13 @@ import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/common";
 import { Solana, Ethereum } from "@/components/icons";
-import { TStep } from "@/types";
+import { TOnboardingStep } from "@/types";
 import { TNetwork } from "@/types";
 import useNotificationStore from "@/stores/notificationStore";
 
 type SelectNetworkProps = {
   setNetwork: Dispatch<SetStateAction<TNetwork>>;
-  setStep: Dispatch<SetStateAction<TStep>>;
+  setStep: Dispatch<SetStateAction<TOnboardingStep>>;
 };
 
 const SelectNetwork = ({ setNetwork, setStep }: SelectNetworkProps) => {
@@ -17,7 +17,10 @@ const SelectNetwork = ({ setNetwork, setStep }: SelectNetworkProps) => {
 
   const setState = (network: TNetwork) => {
     setNetwork(network);
-    notify(`You selected the ${network} network!`, "info");
+    notify({
+      type: "info",
+      message: `You selected the ${network} network!`,
+    });
     setStep(3);
   };
 
