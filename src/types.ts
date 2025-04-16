@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 export type TOnboardingStep = 1 | 2 | 3 | 4 | 5 | 6;
 
-export type TOnboardingPath = "create" | "import" | null;
+export type TOnboardingPath = "create" | "import";
 
 export type TNetwork = "ethereum" | "solana";
 
