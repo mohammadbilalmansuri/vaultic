@@ -32,9 +32,7 @@ const Protected = ({ children }: { children: ReactNode }) => {
   } = useForm<VerifyPasswordFormData>({
     resolver: zodResolver(verifyPasswordSchema),
     mode: "onChange",
-    defaultValues: {
-      password: IS_DEV ? DEV_PASSWORD : "",
-    },
+    defaultValues: { password: IS_DEV ? DEV_PASSWORD : "" },
   });
 
   useEffect(() => {
