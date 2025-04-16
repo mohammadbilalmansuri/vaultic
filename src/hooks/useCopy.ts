@@ -1,14 +1,15 @@
 "use client";
-import { useState, useRef } from "react";
+import { Dispatch, SetStateAction } from "react";
 import useNotificationStore from "@/stores/notificationStore";
+import delay from "@/utils/delay";
 
 const useCopy = () => {
   const notify = useNotificationStore((state) => state.notify);
-  const [copied, setCopied] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const copyToClipboard = async (
     text: string,
+    copied: boolean,
+    setCopied: Dispatch<SetStateAction<boolean>>,
     feedback = false
   ): Promise<boolean> => {
     if (!navigator?.clipboard?.writeText) {
@@ -25,19 +26,15 @@ const useCopy = () => {
       await navigator.clipboard.writeText(text);
       setCopied(true);
 
-      if (feedback)
+      if (feedback) {
         notify({
           type: "success",
           message: "Copied to clipboard!",
         });
+      }
 
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-
-      timeoutRef.current = setTimeout(() => {
-        setCopied(false);
-        timeoutRef.current = null;
-      }, 2000);
-
+      await delay(2000);
+      setCopied(false);
       return true;
     } catch (error) {
       console.error("Failed to copy text:", error);
@@ -49,7 +46,7 @@ const useCopy = () => {
     }
   };
 
-  return { copied, copyToClipboard };
+  return copyToClipboard;
 };
 
 export default useCopy;
