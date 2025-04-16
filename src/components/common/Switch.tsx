@@ -10,13 +10,13 @@ interface SwitchProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Switch = ({
   state,
   colorDependsOnState = true,
-  onClick,
+  ...props
 }: SwitchProps) => {
   return (
     <button
       type="button"
       className="p-1 rounded-full h-6 w-12 relative flex items-center transition-colors duration-300 bg-zinc-200 dark:bg-zinc-800"
-      onClick={onClick}
+      {...props}
     >
       <span
         className={cn(
