@@ -15,11 +15,9 @@ import { TOnboardingPath, TOnboardingStep } from "@/types";
 import { ONBOARDING_STEPS } from "@/constants";
 
 const Home = () => {
-  const [step, setStep] = useState<TStep>(1);
-  const [path, setPath] = useState<TOnboardingPath>(null);
+  const [step, setStep] = useState<TOnboardingStep>(1);
+  const [path, setPath] = useState<TOnboardingPath>("create");
   const [network, setNetwork] = useState<TNetwork>("solana");
-
-  const totalSteps = path ? ONBOARDING_STEPS[path] : 6;
 
   const stepComponents: Record<TOnboardingStep, JSX.Element> = {
     1: <Welcome setStep={setStep} setPath={setPath} />,
@@ -45,21 +43,18 @@ const Home = () => {
     <div className="w-full max-w-screen-lg relative flex flex-col items-center gap-8">
       {stepComponents[step]}
 
-      {/* Step Indicator */}
-      {path && (
-        <div className="flex items-center gap-2">
-          {Array.from({ length: totalSteps }, (_, index) => (
-            <span
-              key={index}
-              className={cn("size-3 rounded-full", {
-                "bg-zinc-300 dark:bg-zinc-700": step < index + 1,
-                "bg-teal-500/50": step > index + 1,
-                "bg-teal-500": step === index + 1,
-              })}
-            />
-          ))}
-        </div>
-      )}
+      <div className="flex items-center gap-2">
+        {Array.from({ length: ONBOARDING_STEPS[path] }, (_, index) => (
+          <span
+            key={index}
+            className={cn("size-3 rounded-full", {
+              "bg-zinc-300 dark:bg-zinc-700": step < index + 1,
+              "bg-teal-500/50": step > index + 1,
+              "bg-teal-500": step === index + 1,
+            })}
+          />
+        ))}
+      </div>
     </div>
   );
 };
