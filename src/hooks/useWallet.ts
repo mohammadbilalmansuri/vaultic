@@ -1,13 +1,17 @@
 import useUserStore from "@/stores/userStore";
 import useWalletStore from "@/stores/walletStore";
 import deriveWallet from "@/services/deriveWallet";
-import { TNetwork } from "@/types";
 import { useBlockchain } from "@/hooks";
+import { TNetwork } from "@/types";
 
 const useWallet = () => {
-  const { setWallets, addWallet, removeWallet, updateWalletBalance } =
-    useWalletStore.getState();
-  const { setUserState } = useUserStore.getState();
+  const setWallets = useWalletStore((state) => state.setWallets);
+  const addWallet = useWalletStore((state) => state.addWallet);
+  const removeWallet = useWalletStore((state) => state.removeWallet);
+  const updateWalletBalance = useWalletStore(
+    (state) => state.updateWalletBalance
+  );
+  const setUserState = useUserStore((state) => state.setUserState);
   const { getBalance } = useBlockchain();
   let processing = false;
 
