@@ -1,17 +1,19 @@
 "use client";
 import { useState } from "react";
-import { Button, Loader } from "@/components/common";
+import { Button, Loader } from "@/components/ui";
 import { useStorage, useCopy } from "@/hooks";
 import { useRouter } from "next/navigation";
 import useUserStore from "@/stores/userStore";
 import cn from "@/utils/cn";
+import delay from "@/utils/delay";
 
 const Account = () => {
   const mnemonic = useUserStore((state) => state.mnemonic);
-  const { copyToClipboard, copied } = useCopy();
+  const copyToClipboard = useCopy();
   const { removeUser } = useStorage();
   const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const logout = async () => {
     setLoggingOut(true);
@@ -21,7 +23,7 @@ const Account = () => {
     } catch (error) {
       console.error("Error removing user:", error);
     } finally {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await delay(500);
       setLoggingOut(false);
     }
   };
@@ -44,7 +46,7 @@ const Account = () => {
         ) : (
           <div
             className="w-full bg-zinc-200/60 dark:bg-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-2xl flex flex-col px-5 pt-5 gap-5 cursor-pointer transition-all duration-300"
-            onClick={() => copyToClipboard(mnemonic)}
+            onClick={() => copyToClipboard(mnemonic, copied, setCopied, true)}
           >
             <div className="w-full grid grid-cols-6 gap-4">
               {mnemonic.split(" ").map((word, index) => (

@@ -1,6 +1,4 @@
-import { SVGProps } from "react";
-
-const Moon = ({ ...props }: SVGProps<SVGSVGElement>) => {
+const Moon = ({ className = "" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,7 +7,7 @@ const Moon = ({ ...props }: SVGProps<SVGSVGElement>) => {
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"
-      {...props}
+      className={className}
     >
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
     </svg>

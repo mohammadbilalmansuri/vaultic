@@ -1,8 +1,10 @@
-import { SVGProps } from "react";
-
-const Info = ({ ...props }: SVGProps<SVGSVGElement>) => {
+const Info = ({ className = "" }) => {
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      className={className}
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"

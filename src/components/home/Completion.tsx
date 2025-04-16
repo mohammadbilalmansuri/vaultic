@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "motion/react";
-import { Button } from "@/components/common";
-import { Logo } from "@/components/icons";
+import { Button } from "@/components/ui";
+import { Logo } from "@/components/ui/icons";
 import { useRouter } from "next/navigation";
 import useNotificationStore from "@/stores/notificationStore";
 

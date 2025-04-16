@@ -1,9 +1,9 @@
 "use client";
 import { Dispatch, SetStateAction } from "react";
-import { TStep } from "@/types";
+import { TOnboardingStep } from "@/types";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import { Button, PasswordInput } from "@/components/common";
+import { Button, PasswordInput } from "@/components/ui";
 import { passwordSchema, CreatePasswordFormData } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useUserStore from "@/stores/userStore";
@@ -12,7 +12,7 @@ import useNotificationStore from "@/stores/notificationStore";
 import { IS_DEV, DEV_PASSWORD } from "@/constants";
 
 type CreatePasswordProps = {
-  setStep: Dispatch<SetStateAction<TStep>>;
+  setStep: Dispatch<SetStateAction<TOnboardingStep>>;
 };
 
 const CreatePassword = ({ setStep }: CreatePasswordProps) => {
@@ -23,12 +23,10 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
   } = useForm<CreatePasswordFormData>({
     resolver: zodResolver(passwordSchema),
     mode: "onChange",
-    values: IS_DEV
-      ? {
-          password: DEV_PASSWORD,
-          confirmPassword: DEV_PASSWORD,
-        }
-      : undefined,
+    defaultValues: {
+      password: IS_DEV ? DEV_PASSWORD : "",
+      confirmPassword: IS_DEV ? DEV_PASSWORD : "",
+    },
   });
 
   const setUserState = useUserStore((state) => state.setUserState);
@@ -39,11 +37,17 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
     try {
       setUserState({ password, authenticated: true });
       await saveUser();
-      notify("User saved successfully!", "success");
+      notify({
+        type: "success",
+        message: "User saved successfully!",
+      });
       setStep(6);
     } catch (error) {
       console.error("Error saving user:", error);
-      notify("Failed to save user", "error");
+      notify({
+        type: "error",
+        message: "Failed to save user",
+      });
     }
   };
 

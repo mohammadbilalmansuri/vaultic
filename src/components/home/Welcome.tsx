@@ -1,8 +1,8 @@
 "use client";
 import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
-import { Button } from "@/components/common";
-import { Logo } from "@/components/icons";
+import { Button } from "@/components/ui";
+import { Logo } from "@/components/ui/icons";
 import { TOnboardingStep, TOnboardingPath } from "@/types";
 import useNotificationStore from "@/stores/notificationStore";
 

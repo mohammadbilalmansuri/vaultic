@@ -1,14 +1,15 @@
 "use client";
 import useThemeStore from "@/stores/themeStore";
-import { Switch, NavLink } from "@/components/common";
-import { Logo, Moon, Sun } from "@/components/icons";
+import { Switch, NavLink } from "@/components/ui";
+import { Logo, Moon, Sun } from "@/components/ui/icons";
 import { usePathname } from "next/navigation";
 import useUserStore from "@/stores/userStore";
 import cn from "@/utils/cn";
 
 const Header = () => {
-  const { theme, toggleTheme } = useThemeStore();
   const pathname = usePathname();
+  const theme = useThemeStore((state) => state.theme);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
   const authenticated = useUserStore((state) => state.authenticated);
 
   return (
