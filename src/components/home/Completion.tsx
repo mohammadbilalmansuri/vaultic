@@ -27,7 +27,10 @@ const Completion = () => {
       <Button
         className="mt-3"
         onClick={() => {
-          notify("Wallet setup completed successfully!", "success");
+          notify({
+            type: "info",
+            message: "Wallet setup completed successfully!",
+          });
           router.push("/dashboard");
         }}
       >
