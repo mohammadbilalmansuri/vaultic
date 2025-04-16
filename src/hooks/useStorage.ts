@@ -9,8 +9,9 @@ import useUserStore from "@/stores/userStore";
 import useWalletStore from "@/stores/walletStore";
 
 const useStorage = () => {
-  const { setUser, clearUser } = useUserStore.getState();
-  const { clearWallets } = useWalletStore.getState();
+  const setUser = useUserStore((state) => state.setUser);
+  const clearUser = useUserStore((state) => state.clearUser);
+  const clearWallets = useWalletStore((state) => state.clearWallets);
 
   const isUser = async (): Promise<boolean> => {
     try {
