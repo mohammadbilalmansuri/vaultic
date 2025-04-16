@@ -36,7 +36,7 @@ const NotificationProvider = () => {
             </p>
           </div>
 
-          <Cancel className="icon-base w-3.5" onClick={closeNotification} />
+          <Cancel className="icon-fill w-3.5" onClick={closeNotification} />
         </motion.div>
       )}
     </AnimatePresence>
