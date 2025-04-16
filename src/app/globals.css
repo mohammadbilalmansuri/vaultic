@@ -58,10 +58,6 @@
   word-spacing: 8px;
 }
 
-@utility icon-base {
-  @apply fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 active:scale-95 transition-all duration-300;
-}
-
 @layer base {
   .dark {
     color-scheme: dark;
@@ -97,8 +93,16 @@
     @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-xl outline-none transition-all duration-300 bg-zinc-200/60 dark:bg-zinc-800/50 focus:bg-zinc-200 dark:focus:bg-zinc-800;
   }
 
+  .icon-fill {
+    @apply fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 active:scale-95 transition-all duration-300 cursor-pointer;
+  }
+
+  .icon-stroke {
+    @apply stroke-zinc-600 dark:stroke-zinc-400 hover:stroke-zinc-800 dark:hover:stroke-zinc-200 active:scale-90 transition-all duration-300 cursor-pointer;
+  }
+
   .icon-bg {
-    @apply icon-base p-2 size-8 rounded-xl flex flex-col items-center justify-center bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60;
+    @apply p-2 size-8 rounded-xl flex flex-col items-center justify-center bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60;
   }
 
   .icon-bg svg {
