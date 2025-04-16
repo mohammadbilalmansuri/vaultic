@@ -8,7 +8,7 @@ import {
   Header,
   Footer,
   Protected,
-} from "@/components";
+} from "@/components/layout";
 
 const ubuntuSans = Ubuntu_Sans({
   variable: "--font-ubuntu-sans",
