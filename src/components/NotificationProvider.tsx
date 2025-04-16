@@ -1,6 +1,6 @@
 "use client";
-import useNotificationStore from "@/stores/notificationStore";
 import { motion, AnimatePresence } from "motion/react";
+import useNotificationStore from "@/stores/notificationStore";
 import { Cancel, Info, Success, Error } from "@/components/ui/icons";
 
 const NOTIFICATION_ICONS = new Map([
@@ -24,7 +24,7 @@ const NotificationProvider = () => {
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -32 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
           className="max-w-lg fixed bottom-8 right-8 z-50 backdrop-blur-xl p-5 rounded-2xl flex items-center justify-between gap-4 border-1.5 border-color shadow-xl"
         >
           <div className="flex items-center gap-2.5">
@@ -36,11 +36,7 @@ const NotificationProvider = () => {
             </p>
           </div>
 
-          <Cancel
-            className="min-w-fit fill-zinc-500 hover:fill-zinc-800 dark:hover:fill-zinc-200 transition-all duration-300"
-            svgClassName="w-3.5"
-            onClick={closeNotification}
-          />
+          <Cancel className="icon-base w-3.5" onClick={closeNotification} />
         </motion.div>
       )}
     </AnimatePresence>
