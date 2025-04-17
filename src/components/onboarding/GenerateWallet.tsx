@@ -27,7 +27,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
   const mnemonic = useUserStore((state) => state.mnemonic);
   const setUserState = useUserStore((state) => state.setUserState);
   const notify = useNotificationStore((state) => state.notify);
-  const { copyToClipboard } = useClipboard();
+  const copyToClipboard = useClipboard();
   const { createWallet } = useWallet();
 
   const [saved, setSaved] = useState(false);
