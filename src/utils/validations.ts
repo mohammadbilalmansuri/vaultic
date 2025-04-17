@@ -16,13 +16,9 @@ export const passwordSchema = z
     path: ["confirmPassword"],
   });
 
-export type CreatePasswordFormData = z.infer<typeof passwordSchema>;
-
 export const verifyPasswordSchema = z.object({
   password: passwordField,
 });
-
-export type VerifyPasswordFormData = z.infer<typeof verifyPasswordSchema>;
 
 export const isValidEthAddress = (address: string): boolean =>
   isAddress(address);
@@ -35,3 +31,7 @@ export const isValidSolAddress = (address: string): boolean => {
     return false;
   }
 };
+
+export type TCreatePasswordFormData = z.infer<typeof passwordSchema>;
+
+export type TVerifyPasswordFormData = z.infer<typeof verifyPasswordSchema>;
