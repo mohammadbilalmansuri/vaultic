@@ -1,7 +1,14 @@
 "use client";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import {
+  useState,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+  useTransition,
+} from "react";
 import { motion } from "motion/react";
 import { Button, Switch, Loader } from "@/components/ui";
+import { Copy, Hide } from "@/components/ui/icons";
 import { TOnboardingStep } from "@/types";
 import { useCopy } from "@/hooks";
 import { generateMnemonic } from "bip39";
@@ -17,13 +24,16 @@ type GenerateWalletProps = {
 };
 
 const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
-  const { copied, copyToClipboard } = useCopy();
-  const { createWallet } = useWallet();
   const mnemonic = useUserStore((state) => state.mnemonic);
   const setUserState = useUserStore((state) => state.setUserState);
   const notify = useNotificationStore((state) => state.notify);
+  const copyToClipboard = useCopy();
+  const { createWallet } = useWallet();
+
   const [saved, setSaved] = useState(false);
-  const [processing, setProcessing] = useState(false);
+  const [hidden, setHidden] = useState(true);
+  const [copied, setCopied] = useState(false);
+  const [generating, startGenerating] = useTransition();
 
   useEffect(() => {
     if (!mnemonic) {
@@ -32,22 +42,20 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
     }
   }, []);
 
-  const handleNext = async () => {
-    if (!saved) return;
-    setProcessing(true);
-
-    try {
-      await createWallet(network);
-      notify({
-        type: "success",
-        message: "Wallet created successfully!",
-      });
-      setStep(5);
-    } catch (error) {
-      notify({ type: "error", message: "Failed to create wallet" });
-    } finally {
-      setProcessing(false);
-    }
+  const generateWallet = () => {
+    startGenerating(async () => {
+      if (!saved) return;
+      try {
+        await createWallet(network);
+        notify({
+          type: "success",
+          message: "Wallet created successfully!",
+        });
+        setStep(5);
+      } catch (_) {
+        notify({ type: "error", message: "Failed to create wallet" });
+      }
+    });
   };
 
   return (
@@ -58,26 +66,36 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
       className="box max-w-xl"
     >
       <h1 className="-mt-1">Secret Recovery Phrase</h1>
-      <p className="text-lg text-teal-500 -mt-1">
-        Save these words in a safe place.
-      </p>
 
-      <div
-        className="w-full bg-zinc-200/60 dark:bg-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-xl flex flex-col px-4 pt-4 gap-4 mt-1 cursor-pointer transition-all duration-300"
-        onClick={() => copyToClipboard(mnemonic)}
-      >
-        <div className="w-full grid grid-cols-2 xs:grid-cols-3 gap-4">
+      <div className="w-full relative bg-zinc-200/60 dark:bg-zinc-800/50 rounded-xl flex flex-col mt-1 overflow-hidden">
+        <div className="bg-zinc-200 dark:bg-zinc-800 flex items-center justify-between py-3 px-4 rounded-xl">
+          <p className="leading-none">Save these words in a safe place.</p>
+          <div className="flex items-center gap-4">
+            <Hide hidden={hidden} onClick={() => setHidden((prev) => !prev)} />
+            <Copy
+              copied={copied}
+              onClick={() => copyToClipboard(mnemonic, copied, setCopied)}
+            />
+          </div>
+        </div>
+
+        <div
+          className="w-full grid grid-cols-2 xs:grid-cols-3 gap-4 cursor-pointer p-4"
+          onClick={() => copyToClipboard(mnemonic, copied, setCopied)}
+        >
           {mnemonic.split(" ").map((word, index) => (
             <div key={index} className="flex items-center gap-2">
               <span className="opacity-80">{index + 1}.</span>
-              <span className="lowercase heading-color">{word}</span>
+              <span
+                className={cn("lowercase heading-color", {
+                  "tracking-[0.2em]": hidden,
+                })}
+              >
+                {hidden ? Array(word.length).fill("•").join("") : word}
+              </span>
             </div>
           ))}
         </div>
-
-        <p className="text-sm leading-none py-3 border-t border-zinc-300/80 dark:border-zinc-700/60 text-center">
-          {copied ? "Copied" : "Click anywhere on this card to copy"}
-        </p>
       </div>
 
       <div
@@ -94,14 +112,15 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
         <Button variant="zinc" className="w-1/2" onClick={() => setStep(3)}>
           Read the warning again
         </Button>
+
         <Button
           className={cn("w-1/2", {
             "opacity-60 pointer-events-none": !saved,
           })}
           disabled={!saved}
-          onClick={handleNext}
+          onClick={generateWallet}
         >
-          {processing ? <Loader size="sm" color="black" /> : "Next"}
+          {generating ? <Loader size="sm" color="black" /> : "Next"}
         </Button>
       </div>
     </motion.div>
