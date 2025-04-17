@@ -15,10 +15,7 @@ const Hide = ({ hidden, className = "", ...props }: HideProps) => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={cn(
-        "w-5 stroke-zinc-600 dark:stroke-zinc-400 hover:stroke-zinc-800 dark:hover:stroke-zinc-200 transition-all duration-300 active:scale-90",
-        className
-      )}
+      className={cn("icon-stroke w-5", className)}
       {...props}
     >
       {hidden ? (
