@@ -42,7 +42,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
     }
   }, []);
 
-  const generateWallet = () => {
+  const handleNext = () => {
     startGenerating(async () => {
       if (!saved) return;
       try {
@@ -118,7 +118,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
             "opacity-60 pointer-events-none": !saved,
           })}
           disabled={!saved}
-          onClick={generateWallet}
+          onClick={handleNext}
         >
           {generating ? <Loader size="sm" color="black" /> : "Next"}
         </Button>
