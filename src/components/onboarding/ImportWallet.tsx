@@ -69,13 +69,14 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
         await createWallet(network);
         notify({
           type: "success",
-          message: "Wallet imported successfully!",
+          message: "Wallet imported successfully.",
         });
         setStep(4);
       } catch (_) {
         notify({
           type: "error",
-          message: "Failed to import wallet",
+          message:
+            "Something went wrong while importing your wallet. Please try again.",
         });
       }
     });

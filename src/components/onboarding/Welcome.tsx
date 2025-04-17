@@ -18,10 +18,12 @@ const Welcome = ({ setPath, setStep }: WelcomeProps) => {
     setPath(path);
     notify({
       type: "info",
-      message: `You're about to ${
-        path === "create" ? "create a new wallet" : "import an existing wallet"
-      }!`,
+      message:
+        path === "create"
+          ? "Let's create your new wallet!"
+          : "Let's import your wallet securely!",
     });
+
     setStep(2);
   };
 
