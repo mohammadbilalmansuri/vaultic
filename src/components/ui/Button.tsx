@@ -1,22 +1,33 @@
 "use client";
-import { ReactNode, ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
+
+import { ReactNode, ButtonHTMLAttributes } from "react";
 import Link, { LinkProps } from "next/link";
 import cn from "@/utils/cn";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+type ButtonVariant = "teal" | "zinc";
+
+interface ButtonBaseProps {
+  variant?: ButtonVariant;
   children: ReactNode;
-  as?: "button" | "link";
-  variant?: "teal" | "zinc";
-  href?: LinkProps["href"];
   className?: string;
 }
 
+type ButtonAsButton = ButtonBaseProps &
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    as?: "button";
+  };
+
+type ButtonAsLink = ButtonBaseProps &
+  LinkProps & {
+    as: "link";
+  };
+
+type ButtonProps = ButtonAsButton | ButtonAsLink;
+
 const Button = ({
-  children,
   as = "button",
-  type = "button",
   variant = "teal",
-  href,
+  children,
   className = "",
   ...props
 }: ButtonProps) => {
@@ -28,20 +39,18 @@ const Button = ({
     className
   );
 
-  if (as === "link" && href) {
+  if (as === "link") {
+    const { href, ...linkProps } = props as ButtonAsLink;
     return (
-      <Link
-        href={href}
-        className={classes}
-        {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)}
-      >
+      <Link href={href} {...linkProps} className={classes}>
         {children}
       </Link>
     );
   }
 
+  const { type = "button", ...buttonProps } = props as ButtonAsButton;
   return (
-    <button type={type} className={classes} {...props}>
+    <button type={type} className={classes} {...buttonProps}>
       {children}
     </button>
   );
