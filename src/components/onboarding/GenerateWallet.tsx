@@ -10,7 +10,7 @@ import { motion } from "motion/react";
 import { Button, Switch, Loader } from "@/components/ui";
 import { Copy, Hide } from "@/components/ui/icons";
 import { TOnboardingStep } from "@/types";
-import { useCopy } from "@/hooks";
+import { useClipboard } from "@/hooks";
 import { generateMnemonic } from "bip39";
 import useUserStore from "@/stores/userStore";
 import useWallet from "@/hooks/useWallet";
@@ -27,7 +27,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
   const mnemonic = useUserStore((state) => state.mnemonic);
   const setUserState = useUserStore((state) => state.setUserState);
   const notify = useNotificationStore((state) => state.notify);
-  const copyToClipboard = useCopy();
+  const { copyToClipboard } = useClipboard();
   const { createWallet } = useWallet();
 
   const [saved, setSaved] = useState(false);
