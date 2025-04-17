@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Button, Loader } from "@/components/ui";
-import { useStorage, useCopy } from "@/hooks";
+import { useStorage, useClipboard } from "@/hooks";
 import { useRouter } from "next/navigation";
 import useUserStore from "@/stores/userStore";
 import cn from "@/utils/cn";
@@ -9,7 +9,7 @@ import delay from "@/utils/delay";
 
 const Account = () => {
   const mnemonic = useUserStore((state) => state.mnemonic);
-  const copyToClipboard = useCopy();
+  const { copyToClipboard } = useClipboard();
   const { removeUser } = useStorage();
   const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
