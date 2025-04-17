@@ -28,7 +28,7 @@ const Wallet = ({
   isSingle,
 }: WalletProps) => {
   const { deleteWallet } = useWallet();
-  const { copyToClipboard } = useClipboard();
+  const copyToClipboard = useClipboard();
   const [expanded, setExpanded] = useState(false);
   const [hidden, setHidden] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -78,9 +78,7 @@ const Wallet = ({
             <div className="w-full flex items-center justify-between gap-4 cursor-pointer">
               <p
                 className="hover:heading-color transition-all duration-300"
-                onClick={() =>
-                  copyToClipboard(privateKey, copied, setCopied, true)
-                }
+                onClick={() => copyToClipboard(privateKey, copied, setCopied)}
               >
                 {hidden ? (
                   <span className="tracking-[0.2em]">
@@ -99,9 +97,7 @@ const Wallet = ({
                 <Copy
                   copied={copied}
                   className="w-5"
-                  onClick={() =>
-                    copyToClipboard(privateKey, copied, setCopied, true)
-                  }
+                  onClick={() => copyToClipboard(privateKey, copied, setCopied)}
                 />
               </div>
             </div>
