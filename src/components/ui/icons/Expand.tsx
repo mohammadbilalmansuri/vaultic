@@ -1,14 +1,19 @@
 "use client";
 import { ButtonHTMLAttributes } from "react";
 import { motion } from "motion/react";
+import cn from "@/utils/cn";
 
 interface ExpandProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   expanded: boolean;
 }
 
-const Expand = ({ expanded, ...props }: ExpandProps) => {
+const Expand = ({ expanded, className = "", ...props }: ExpandProps) => {
   return (
-    <button type="button" className="icon" {...props}>
+    <button
+      type="button"
+      className={cn("icon-fill icon-bg", className)}
+      {...props}
+    >
       <motion.svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 512 512"
