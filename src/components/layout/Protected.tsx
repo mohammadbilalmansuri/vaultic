@@ -8,8 +8,8 @@ import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import {
   verifyPasswordSchema,
-  VerifyPasswordFormData,
-} from "@/utils/validation";
+  TVerifyPasswordFormData,
+} from "@/utils/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { DEV_PASSWORD, IS_DEV } from "@/constants";
@@ -29,7 +29,7 @@ const Protected = ({ children }: { children: ReactNode }) => {
     setError,
     clearErrors,
     formState: { errors, isValid },
-  } = useForm<VerifyPasswordFormData>({
+  } = useForm<TVerifyPasswordFormData>({
     resolver: zodResolver(verifyPasswordSchema),
     mode: "onChange",
     defaultValues: { password: IS_DEV ? DEV_PASSWORD : "" },
@@ -50,7 +50,7 @@ const Protected = ({ children }: { children: ReactNode }) => {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
         className="box"
-        onSubmit={handleSubmit((data: VerifyPasswordFormData) => {
+        onSubmit={handleSubmit((data: TVerifyPasswordFormData) => {
           authenticateWithPassword(data, setError, clearErrors);
         })}
       >
