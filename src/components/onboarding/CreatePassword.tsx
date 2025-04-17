@@ -1,25 +1,31 @@
 "use client";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useTransition } from "react";
 import { TOnboardingStep } from "@/types";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import { Button, PasswordInput } from "@/components/ui";
+import { Button, Loader, PasswordInput } from "@/components/ui";
 import { passwordSchema, TCreatePasswordFormData } from "@/utils/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useUserStore from "@/stores/userStore";
 import { useStorage } from "@/hooks";
 import useNotificationStore from "@/stores/notificationStore";
 import { IS_DEV, DEV_PASSWORD } from "@/constants";
+import cn from "@/utils/cn";
 
 type CreatePasswordProps = {
   setStep: Dispatch<SetStateAction<TOnboardingStep>>;
 };
 
 const CreatePassword = ({ setStep }: CreatePasswordProps) => {
+  const { saveUser } = useStorage();
+  const setUserState = useUserStore((state) => state.setUserState);
+  const notify = useNotificationStore((state) => state.notify);
+  const [saving, startSaving] = useTransition();
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<TCreatePasswordFormData>({
     resolver: zodResolver(passwordSchema),
     mode: "onChange",
@@ -29,26 +35,23 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
     },
   });
 
-  const { saveUser } = useStorage();
-  const setUserState = useUserStore((state) => state.setUserState);
-  const notify = useNotificationStore((state) => state.notify);
-
-  const onSubmit = async ({ password }: TCreatePasswordFormData) => {
-    try {
-      setUserState({ password, authenticated: true });
-      await saveUser();
-      notify({
-        type: "success",
-        message: "User saved successfully!",
-      });
-      setStep(6);
-    } catch (error) {
-      console.error("Error saving user:", error);
-      notify({
-        type: "error",
-        message: "Failed to save user",
-      });
-    }
+  const handleSave = ({ password }: TCreatePasswordFormData) => {
+    startSaving(async () => {
+      try {
+        setUserState({ password, authenticated: true });
+        await saveUser();
+        notify({
+          type: "success",
+          message: "User saved successfully!",
+        });
+        setStep(6);
+      } catch (_) {
+        notify({
+          type: "error",
+          message: "Failed to save user",
+        });
+      }
+    });
   };
 
   const renderFormError = () => {
@@ -75,7 +78,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
       </p>
 
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(handleSave)}
         className="w-full flex flex-col gap-4 pt-2"
       >
         <PasswordInput {...register("password")} />
@@ -84,8 +87,14 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
           placeholder="Confirm password"
         />
         {renderFormError()}
-        <Button className="w-full" type="submit">
-          Next
+        <Button
+          type="submit"
+          className={cn("w-full", {
+            "opacity-60 pointer-events-none": !isValid,
+          })}
+          disabled={!isValid}
+        >
+          {saving ? <Loader size="sm" color="black" /> : "Next"}
         </Button>
       </form>
     </motion.div>
