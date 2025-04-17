@@ -9,7 +9,7 @@ import {
   Expand,
   Delete,
 } from "@/components/ui/icons";
-import { useCopy, useWallet, useStorage } from "@/hooks";
+import { useClipboard, useWallet } from "@/hooks";
 import { IWallet } from "@/types";
 import { NETWORK_TOKENS } from "@/constants";
 
@@ -28,7 +28,7 @@ const Wallet = ({
   isSingle,
 }: WalletProps) => {
   const { deleteWallet } = useWallet();
-  const copyToClipboard = useCopy();
+  const { copyToClipboard } = useClipboard();
   const [expanded, setExpanded] = useState(false);
   const [hidden, setHidden] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -53,8 +53,9 @@ const Wallet = ({
           <p className="heading-color leading-none">
             {balance} {NETWORK_TOKENS[network]}
           </p>
-          {!isSingle && expanded && <Delete />}
+          {!isSingle && expanded && <Delete className="icon" />}
           <Expand
+            className="icon"
             expanded={expanded}
             onClick={() => setExpanded((prev) => !prev)}
           />
