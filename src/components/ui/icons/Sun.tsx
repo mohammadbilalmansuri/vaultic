@@ -1,4 +1,6 @@
-const Sun = ({ className = "" }) => {
+import { SVGProps } from "react";
+
+const Sun = ({ ...props }: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -7,7 +9,7 @@ const Sun = ({ className = "" }) => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={className}
+      {...props}
     >
       <circle cx="12" cy="12" r="4" />
       <path d="M12 2v2" />
