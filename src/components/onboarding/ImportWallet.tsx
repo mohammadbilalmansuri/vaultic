@@ -1,5 +1,11 @@
 "use client";
-import { useState, Dispatch, SetStateAction, useTransition } from "react";
+import {
+  useState,
+  Dispatch,
+  SetStateAction,
+  useTransition,
+  ClipboardEvent,
+} from "react";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { Button, Loader } from "@/components/ui";
@@ -10,10 +16,11 @@ import {
   TMnemonicLength,
 } from "@/types";
 import useUserStore from "@/stores/userStore";
-import { validateMnemonic } from "bip39";
-import { useWallet, useClipboard } from "@/hooks";
-import cn from "@/utils/cn";
 import useNotificationStore from "@/stores/notificationStore";
+import { validateMnemonic } from "bip39";
+import { useWallet } from "@/hooks";
+import cn from "@/utils/cn";
+import delay from "@/utils/delay";
 
 type ImportWalletProps = {
   network: TNetwork;
@@ -24,7 +31,6 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
   const setUserState = useUserStore((state) => state.setUserState);
   const notify = useNotificationStore((state) => state.notify);
   const { createWallet } = useWallet();
-  const { handlePasteMnemonic } = useClipboard();
 
   const [mnemonicLength, setMnemonicLength] = useState<TMnemonicLength>(12);
   const [importing, startImporting] = useTransition();
@@ -35,16 +41,18 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
     setValue,
     setError,
     clearErrors,
-    reset,
     formState: { errors, isValid },
   } = useForm<TImportWalletFormData>({
     mode: "onChange",
-    defaultValues: { mnemonic: Array(12).fill("") },
+    defaultValues: { mnemonic: Array(24).fill("") },
   });
 
   const handleImport = ({ mnemonic }: TImportWalletFormData) => {
     startImporting(async () => {
-      const phrase = mnemonic.map((word) => word.trim()).join(" ");
+      const phrase = mnemonic
+        .slice(0, mnemonicLength)
+        .map((word) => word.trim())
+        .join(" ");
 
       if (!validateMnemonic(phrase)) {
         setError("mnemonic", {
@@ -73,6 +81,41 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
     });
   };
 
+  const getPasteHandler = (index: number) =>
+    index === 0
+      ? async (event: ClipboardEvent<HTMLInputElement>) => {
+          event.preventDefault();
+
+          const text = event.clipboardData.getData("text").trim();
+          const words = text.split(/\s+/).filter(Boolean);
+          const wordCount = words.length;
+
+          if (wordCount === 12 || wordCount === 24) {
+            if (wordCount !== mnemonicLength) setMnemonicLength(wordCount);
+
+            words.forEach((word, index) =>
+              setValue(`mnemonic.${index}`, word, { shouldValidate: true })
+            );
+
+            clearErrors("mnemonic");
+          } else {
+            setError("mnemonic", {
+              type: "manual",
+              message:
+                "The recovery phrase must contain exactly 12 or 24 words",
+            });
+
+            notify({
+              type: "error",
+              message: "Invalid recovery phrase length",
+            });
+
+            await delay(2000);
+            clearErrors("mnemonic");
+          }
+        }
+      : undefined;
+
   return (
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
@@ -91,39 +134,23 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
         onSubmit={handleSubmit(handleImport)}
       >
         <div className="w-full grid grid-cols-2 xs:grid-cols-3 gap-3">
-          {Array(mnemonicLength)
-            .fill("")
-            .map((_, index) => (
-              <div
-                key={index}
-                className="w-full flex items-center gap-2 p-3 rounded-xl transition-all duration-300 bg-zinc-200/60 dark:bg-zinc-800/50 focus-within:bg-zinc-200 dark:focus-within:bg-zinc-800"
-              >
-                <span className="opacity-80">{index + 1}.</span>
-                <input
-                  type="text"
-                  {...register(`mnemonic.${index}`, {
-                    required: true,
-                    validate: (value) =>
-                      value.trim().length > 0 || "Words cannot be empty",
-                  })}
-                  onPaste={
-                    index === 0
-                      ? (event) =>
-                          handlePasteMnemonic(
-                            event,
-                            mnemonicLength,
-                            setMnemonicLength,
-                            setError,
-                            clearErrors,
-                            reset,
-                            setValue
-                          )
-                      : undefined
-                  }
-                  className="w-full bg-transparent outline-none heading-color"
-                />
-              </div>
-            ))}
+          {Array.from({ length: mnemonicLength }, (_, index) => (
+            <div
+              key={index}
+              className="w-full flex items-center gap-2 p-3 rounded-xl transition-all duration-300 bg-zinc-200/60 dark:bg-zinc-800/50 focus-within:bg-zinc-200 dark:focus-within:bg-zinc-800"
+            >
+              <span className="opacity-80">{index + 1}.</span>
+              <input
+                type="text"
+                {...register(`mnemonic.${index}`, {
+                  required: true,
+                  validate: (value) => value.trim() !== "",
+                })}
+                onPaste={getPasteHandler(index)}
+                className="w-full bg-transparent outline-none heading-color"
+              />
+            </div>
+          ))}
         </div>
 
         {errors.mnemonic?.message && (
@@ -138,12 +165,12 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
             className="w-1/2"
             onClick={() => {
               setMnemonicLength((prev) => (prev === 12 ? 24 : 12));
-              reset({ mnemonic: Array(mnemonicLength).fill("") });
               clearErrors("mnemonic");
             }}
           >
             {`Use ${mnemonicLength === 12 ? "24" : "12"} words`}
           </Button>
+
           <Button
             className={cn("w-1/2", {
               "pointer-events-none opacity-40": !isValid,
