@@ -42,13 +42,13 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
         await saveUser();
         notify({
           type: "success",
-          message: "User saved successfully!",
+          message: "Password set. Your data is stored safely on this device.",
         });
         setStep(6);
       } catch (_) {
         notify({
           type: "error",
-          message: "Failed to save user",
+          message: "Couldn't finish setup. Please try again.",
         });
       }
     });
