@@ -1,36 +1,37 @@
 "use client";
-import { forwardRef, useState, ComponentProps } from "react";
-import { Hide } from "@/components/ui/icons";
+import { ComponentProps, Ref, useState } from "react";
+import { Hide } from "./icons";
 import cn from "@/utils/cn";
 
-const PasswordInput = forwardRef<HTMLInputElement, ComponentProps<"input">>(
-  ({ placeholder = "Password", className = "", ...props }, ref) => {
-    const [passwordInputType, setPasswordInputType] = useState<
-      "password" | "text"
-    >("password");
+interface PasswordInputProps extends ComponentProps<"input"> {
+  ref: Ref<HTMLInputElement>;
+}
 
-    return (
-      <div className="w-full relative flex flex-col items-center justify-center">
-        <input
-          type={passwordInputType}
-          placeholder={placeholder}
-          className={cn("input pr-9", className)}
-          ref={ref}
-          {...props}
-        />
-        <Hide
-          hidden={passwordInputType === "password"}
-          className="absolute right-3 cursor-pointer"
-          onClick={() =>
-            setPasswordInputType((prev) =>
-              prev === "password" ? "text" : "password"
-            )
-          }
-        />
-      </div>
-    );
-  }
-);
+const PasswordInput = ({
+  placeholder = "Enter password",
+  className = "",
+  ref,
+  ...props
+}: PasswordInputProps) => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div className="w-full relative flex flex-col items-center justify-center">
+      <input
+        type={show ? "text" : "password"}
+        className={cn("input", className)}
+        placeholder={placeholder}
+        ref={ref}
+        {...props}
+      />
+
+      <Hide
+        hidden={!show}
+        onClick={() => setShow((prev) => !prev)}
+        className="absolute right-3"
+      />
+    </div>
+  );
+};
 
 export default PasswordInput;
-PasswordInput.displayName = "PasswordInput";
