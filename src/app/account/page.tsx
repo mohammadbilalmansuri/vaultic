@@ -9,7 +9,7 @@ import delay from "@/utils/delay";
 
 const Account = () => {
   const mnemonic = useUserStore((state) => state.mnemonic);
-  const { copyToClipboard } = useClipboard();
+  const copyToClipboard = useClipboard();
   const { removeUser } = useStorage();
   const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
@@ -46,7 +46,7 @@ const Account = () => {
         ) : (
           <div
             className="w-full bg-zinc-200/60 dark:bg-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-2xl flex flex-col px-5 pt-5 gap-5 cursor-pointer transition-all duration-300"
-            onClick={() => copyToClipboard(mnemonic, copied, setCopied, true)}
+            onClick={() => copyToClipboard(mnemonic, copied, setCopied)}
           >
             <div className="w-full grid grid-cols-6 gap-4">
               {mnemonic.split(" ").map((word, index) => (
