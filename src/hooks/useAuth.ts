@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useStorage, useWallet } from "@/hooks";
 import useUserStore from "@/stores/userStore";
 import useNotificationStore from "@/stores/notificationStore";
-import { VerifyPasswordFormData } from "@/utils/validation";
+import { TVerifyPasswordFormData } from "@/utils/validations";
 import { UseFormSetError, UseFormClearErrors } from "react-hook-form";
 import delay from "@/utils/delay";
 import { AUTHENTICATED_ROUTES } from "@/constants";
@@ -66,9 +66,9 @@ const useAuth = () => {
   };
 
   const authenticateWithPassword = (
-    { password }: VerifyPasswordFormData,
-    setError: UseFormSetError<VerifyPasswordFormData>,
-    clearErrors: UseFormClearErrors<VerifyPasswordFormData>
+    { password }: TVerifyPasswordFormData,
+    setError: UseFormSetError<TVerifyPasswordFormData>,
+    clearErrors: UseFormClearErrors<TVerifyPasswordFormData>
   ) => {
     startAuthenticating(async () => {
       try {
