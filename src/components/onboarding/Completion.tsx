@@ -16,7 +16,7 @@ const Completion = () => {
       transition={{ duration: 0.4, ease: "easeInOut" }}
       className="box"
     >
-      <Logo size="lg" className="-mt-1" />
+      <Logo className="-mt-1 w-15 fill-teal-500" />
       <h3 className="text-lg text-teal-500">Congratulations</h3>
       <h1>You're all good!</h1>
       <p className="max-w-xs">

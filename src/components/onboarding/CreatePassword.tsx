@@ -4,7 +4,7 @@ import { TOnboardingStep } from "@/types";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { Button, PasswordInput } from "@/components/ui";
-import { passwordSchema, CreatePasswordFormData } from "@/utils/validation";
+import { passwordSchema, TCreatePasswordFormData } from "@/utils/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useUserStore from "@/stores/userStore";
 import { useStorage } from "@/hooks";
@@ -20,7 +20,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreatePasswordFormData>({
+  } = useForm<TCreatePasswordFormData>({
     resolver: zodResolver(passwordSchema),
     mode: "onChange",
     defaultValues: {
@@ -29,11 +29,11 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
     },
   });
 
-  const setUserState = useUserStore((state) => state.setUserState);
   const { saveUser } = useStorage();
+  const setUserState = useUserStore((state) => state.setUserState);
   const notify = useNotificationStore((state) => state.notify);
 
-  const onSubmit = async ({ password }: CreatePasswordFormData) => {
+  const onSubmit = async ({ password }: TCreatePasswordFormData) => {
     try {
       setUserState({ password, authenticated: true });
       await saveUser();
@@ -81,7 +81,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
         <PasswordInput {...register("password")} />
         <PasswordInput
           {...register("confirmPassword")}
-          placeholder="Confirm Password"
+          placeholder="Confirm password"
         />
         {renderFormError()}
         <Button className="w-full" type="submit">
