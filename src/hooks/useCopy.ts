@@ -10,7 +10,7 @@ const useCopy = () => {
     text: string,
     copied: boolean,
     setCopied: Dispatch<SetStateAction<boolean>>,
-    feedback = false
+    feedback = true
   ): Promise<boolean> => {
     if (!navigator?.clipboard?.writeText) {
       notify({
