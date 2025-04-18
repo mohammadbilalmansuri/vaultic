@@ -24,7 +24,7 @@ const useAuth = () => {
     try {
       notify({
         type: "error",
-        message: `${message}. For your security, we'll return you to the start.`,
+        message: `${message}. For your safety, we'll take you back to the start.`,
       });
       await delay(4000);
       await removeUser();
@@ -33,7 +33,7 @@ const useAuth = () => {
       notify({
         type: "error",
         message:
-          "We couldn't reset your data automatically. Please clear your browser's site data and refresh to continue securely.",
+          "We couldn't reset your data automatically. Please clear this site's stored data from your browser settings and refresh the page to continue safely.",
       });
     }
   };
