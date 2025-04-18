@@ -27,7 +27,7 @@
 }
 
 @utility btn-base {
-  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-xl transition-all duration-300 active:scale-[0.98];
+  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-xl transition-all duration-300 active:scale-95;
 }
 
 @utility btn-zinc {
