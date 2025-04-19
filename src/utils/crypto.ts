@@ -34,7 +34,7 @@ export const hashPassword = async (password: string): Promise<string> => {
     return `${saltHex}:${hashHex}`;
   } catch (error) {
     console.error("Error hashing password:", error);
-    throw error;
+    throw new Error("Failed to hash password");
   }
 };
 
@@ -75,7 +75,7 @@ export const verifyPassword = async (
     return computedHashHex === hashHex;
   } catch (error) {
     console.error("Error verifying password:", error);
-    throw error;
+    throw new Error("Failed to verify password");
   }
 };
 
@@ -120,7 +120,7 @@ export const encryptMnemonic = async (
     )}:${btoa(String.fromCharCode(...new Uint8Array(encryptedData)))}`;
   } catch (error) {
     console.error("Error encrypting mnemonic:", error);
-    throw error;
+    throw new Error("Failed to encrypt mnemonic");
   }
 };
 
@@ -178,6 +178,6 @@ export const decryptMnemonic = async (
     return new TextDecoder().decode(decryptedData);
   } catch (error) {
     console.error("Error decrypting mnemonic:", error);
-    throw error;
+    throw new Error("Failed to decrypt mnemonic");
   }
 };
