@@ -59,7 +59,7 @@ const Protected = ({ children }: { children: ReactNode }) => {
         <PasswordInput {...register("password")} />
 
         {errors.password?.message && (
-          <p className="text-yellow-500 text-sm">{errors.password.message}</p>
+          <p className="text-yellow-500">{errors.password.message}</p>
         )}
 
         <Button
