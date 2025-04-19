@@ -1,8 +1,6 @@
 const cryptoLib: SubtleCrypto = globalThis.crypto.subtle;
 
-export const hashPassword = async (
-  password: string
-): Promise<string | null> => {
+export const hashPassword = async (password: string): Promise<string> => {
   try {
     const encoder = new TextEncoder();
     const salt = crypto.getRandomValues(new Uint8Array(16));
@@ -84,7 +82,7 @@ export const verifyPassword = async (
 export const encryptMnemonic = async (
   mnemonic: string,
   password: string
-): Promise<string | null> => {
+): Promise<string> => {
   try {
     const encoder = new TextEncoder();
     const salt = crypto.getRandomValues(new Uint8Array(16));
@@ -129,7 +127,7 @@ export const encryptMnemonic = async (
 export const decryptMnemonic = async (
   encryptedMnemonic: string,
   password: string
-): Promise<string | null> => {
+): Promise<string> => {
   try {
     const [saltB64, ivB64, encryptedB64] = encryptedMnemonic.split(":");
 
