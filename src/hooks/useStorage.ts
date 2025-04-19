@@ -37,7 +37,6 @@ const useStorage = () => {
         userData.encryptedMnemonic,
         password
       );
-      if (!decryptedMnemonic) throw new Error("Mnemonic decryption failed");
 
       setUserState({
         password,
@@ -64,9 +63,6 @@ const useStorage = () => {
         encryptMnemonic(mnemonic, password),
         hashPassword(password),
       ]);
-
-      if (!encryptedMnemonic || !hashedPassword)
-        throw new Error("Mnemonic encryption failed");
 
       await saveUserData("user", {
         encryptedMnemonic,
@@ -105,27 +101,17 @@ const useStorage = () => {
     newPassword: string
   ): Promise<void> => {
     try {
+      const { password, mnemonic } = useUserStore.getState();
+      if (password !== currentPassword)
+        throw new Error("Invalid current password");
+
       const userData = await getUserData("user");
       if (!userData) throw new Error("User not found");
 
-      const isValid = await verifyPassword(
-        currentPassword,
-        userData.hashedPassword
-      );
-      if (!isValid) throw new Error("Invalid current password");
-
-      const decryptedMnemonic = await decryptMnemonic(
-        userData.encryptedMnemonic,
-        currentPassword
-      );
-      if (!decryptedMnemonic) throw new Error("Mnemonic decryption failed");
-
       const [newEncryptedMnemonic, newHashedPassword] = await Promise.all([
-        encryptMnemonic(decryptedMnemonic, newPassword),
+        encryptMnemonic(mnemonic, newPassword),
         hashPassword(newPassword),
       ]);
-      if (!newEncryptedMnemonic || !newHashedPassword)
-        throw new Error("Encryption failed");
 
       await saveUserData("user", {
         ...userData,
@@ -133,7 +119,7 @@ const useStorage = () => {
         encryptedMnemonic: newEncryptedMnemonic,
       });
 
-      useUserStore.setState({ password: newPassword });
+      setUserState({ password: newPassword });
     } catch (error) {
       console.error("Error updating password:", error);
       throw error;
@@ -150,27 +136,6 @@ const useStorage = () => {
     }
   };
 
-  const getMnemonic = async (password: string): Promise<string> => {
-    try {
-      const userData = await getUserData("user");
-      if (!userData) throw new Error("User not found");
-
-      const isValid = await verifyPassword(password, userData.hashedPassword);
-      if (!isValid) throw new Error("Invalid password");
-
-      const decryptedMnemonic = await decryptMnemonic(
-        userData.encryptedMnemonic,
-        password
-      );
-      if (!decryptedMnemonic) throw new Error("Mnemonic decryption failed");
-
-      return decryptedMnemonic;
-    } catch (error) {
-      console.error("Error getting mnemonic:", error);
-      throw error;
-    }
-  };
-
   return {
     isUser,
     loadUser,
@@ -178,7 +143,6 @@ const useStorage = () => {
     saveUserMetadata,
     updatePassword,
     removeUser,
-    getMnemonic,
   };
 };
 
