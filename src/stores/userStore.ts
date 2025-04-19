@@ -11,7 +11,6 @@ interface IUserState {
   deletedIndexes: TIndexes;
   networkMode: TNetworkMode;
   setUserState: (updates: Partial<IUserState>) => void;
-  setUser: (data: Partial<IUserState>) => void;
   clearUser: () => void;
 }
 
@@ -32,12 +31,6 @@ const useUserStore = create<IUserState>((set) => ({
   ...getDefaultState(),
 
   setUserState: (updates) => set((state) => ({ ...state, ...updates })),
-
-  setUser: (user) =>
-    set((state) => ({
-      ...state,
-      ...user,
-    })),
 
   clearUser: () => set(() => getDefaultState()),
 }));
