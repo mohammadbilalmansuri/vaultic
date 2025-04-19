@@ -27,15 +27,15 @@
 }
 
 @utility btn-base {
-  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-xl transition-all duration-300 active:scale-95;
+  @apply font-medium px-5 py-3 h-13 flex items-center justify-center leading-none rounded-xl transition-all duration-300 active:scale-95 border-1.5;
 }
 
 @utility btn-zinc {
-  @apply btn-base heading-color bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60;
+  @apply btn-base heading-color bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60 border-zinc-300/40 dark:border-zinc-700/30;
 }
 
 @utility btn-teal {
-  @apply btn-base text-zinc-800 bg-teal-500 hover:bg-teal-600/80 dark:hover:bg-teal-400;
+  @apply btn-base text-zinc-800 bg-teal-500 hover:bg-teal-600/80 dark:hover:bg-teal-400 border-teal-600/60 dark:border-teal-400;
 }
 
 @utility box {
