@@ -44,4 +44,5 @@ export type {
   TCreatePasswordFormData,
   TVerifyPasswordFormData,
   TImportWalletFormData,
+  TChangePasswordFormData,
 } from "./utils/validations.ts";
