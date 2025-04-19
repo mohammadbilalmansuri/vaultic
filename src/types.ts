@@ -39,3 +39,7 @@ export interface ITxHistoryItem {
   readonly amount: string;
   readonly timestamp: number;
 }
+
+export type TImportWalletFormData = {
+  mnemonic: string[];
+};
