@@ -4,7 +4,10 @@ import { TOnboardingStep } from "@/types";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { Button, Loader, PasswordInput } from "@/components/ui";
-import { passwordSchema, TCreatePasswordFormData } from "@/utils/validations";
+import {
+  CreatePasswordSchema,
+  TCreatePasswordFormData,
+} from "@/utils/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useUserStore from "@/stores/userStore";
 import { useStorage } from "@/hooks";
@@ -27,7 +30,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<TCreatePasswordFormData>({
-    resolver: zodResolver(passwordSchema),
+    resolver: zodResolver(CreatePasswordSchema),
     mode: "onChange",
     defaultValues: {
       password: IS_DEV ? DEV_PASSWORD : "",
@@ -59,7 +62,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
       errors.password?.message || errors.confirmPassword?.message;
 
     return errorMessages ? (
-      <p className="py-1 text-yellow-500 text-sm">{errorMessages}</p>
+      <p className="py-1 text-yellow-500">{errorMessages}</p>
     ) : null;
   };
 
