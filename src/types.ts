@@ -39,10 +39,3 @@ export interface ITxHistoryItem {
   readonly amount: string;
   readonly timestamp: number;
 }
-
-export type {
-  TCreatePasswordFormData,
-  TVerifyPasswordFormData,
-  TImportWalletFormData,
-  TChangePasswordFormData,
-} from "./utils/validations.ts";
