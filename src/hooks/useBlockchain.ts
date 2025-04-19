@@ -2,15 +2,22 @@ import {
   sendEthereum,
   getEthereumHistory,
   getEthereumBalance,
+  resetEthereumConnection,
 } from "@/services/ethereum";
 import {
   sendSolana,
   getSolanaHistory,
   getSolanaBalance,
+  resetSolanaConnection,
 } from "@/services/solana";
-import { ITxHistoryItem, TNetwork } from "@/types";
+import useUserStore from "@/stores/userStore";
+import { ITxHistoryItem, TNetwork, TNetworkMode } from "@/types";
+import { useStorage } from "@/hooks";
 
 const useBlockchain = () => {
+  const setUserState = useUserStore((state) => state.setUserState);
+  const { saveUserMetadata } = useStorage();
+
   const sendTx = async ({
     network,
     fromPrivateKey,
@@ -81,10 +88,23 @@ const useBlockchain = () => {
     }
   };
 
+  const switchNetworkMode = async (mode: TNetworkMode) => {
+    try {
+      resetEthereumConnection();
+      resetSolanaConnection();
+      setUserState({ networkMode: mode });
+      await saveUserMetadata();
+    } catch (error: unknown) {
+      console.error("Error switching network mode:", error);
+      throw error;
+    }
+  };
+
   return {
     sendTx,
     getBalance,
     getTxHistory,
+    switchNetworkMode,
   };
 };
 
