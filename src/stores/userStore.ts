@@ -14,10 +14,7 @@ interface IUserState {
   clearUser: () => void;
 }
 
-const getDefaultState = (): Omit<
-  IUserState,
-  "setUserState" | "setUser" | "clearUser"
-> => ({
+const getDefaultState = (): Omit<IUserState, "setUserState" | "clearUser"> => ({
   userExists: false,
   authenticated: false,
   password: "",
