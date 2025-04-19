@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 export type TOnboardingStep = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type TOnboardingPath = "create" | "import";
@@ -42,8 +40,8 @@ export interface ITxHistoryItem {
   readonly timestamp: number;
 }
 
-export type TImportWalletFormData = {
-  mnemonic: string[];
-};
-
-export type TMnemonicLength = 12 | 24;
+export type {
+  TCreatePasswordFormData,
+  TVerifyPasswordFormData,
+  TImportWalletFormData,
+} from "./utils/validations.ts";
