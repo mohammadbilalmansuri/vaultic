@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "Vaultic is a secure, web-based cryptocurrency wallet designed for Solana and Ethereum. Built with Next.js and powered by Alchemy RPC, Vaultic enables users to create and manage multiple wallets, send and receive funds, and recover accounts using seed phrases.",
   icons: [
     {
-      url: "/vaultic.svg",
+      url: "/favicon.svg",
       rel: "icon",
       type: "image/svg+xml",
     },
