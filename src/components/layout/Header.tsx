@@ -16,8 +16,8 @@ const Header = () => {
     <header className="w-full relative flex flex-col items-center px-5 min-h-fit">
       <div className="w-full max-w-screen-lg relative flex items-center justify-between py-5">
         <div className="flex items-center gap-2 cursor-default select-none">
-          <Logo className="w-7" />
-          <span className="mt-px text-3xl leading-[0.8] font-bold gradient-text">
+          <Logo className="w-7 fill-teal-500" />
+          <span className="mt-px text-3xl leading-[0.8] font-bold text-teal-500">
             Vaultic
           </span>
         </div>
