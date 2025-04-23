@@ -27,7 +27,6 @@ const Protected = ({ children }: { children: ReactNode }) => {
     register,
     handleSubmit,
     setError,
-    clearErrors,
     formState: { errors, isValid },
   } = useForm<TVerifyPasswordFormData>({
     resolver: zodResolver(verifyPasswordSchema),
@@ -50,9 +49,9 @@ const Protected = ({ children }: { children: ReactNode }) => {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
         className="box"
-        onSubmit={handleSubmit((data: TVerifyPasswordFormData) => {
-          authenticateWithPassword(data, setError, clearErrors);
-        })}
+        onSubmit={handleSubmit((data: TVerifyPasswordFormData) =>
+          authenticateWithPassword(data, setError)
+        )}
       >
         <h1 className="-mt-1">Enter Your Password</h1>
 
