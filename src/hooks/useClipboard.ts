@@ -1,7 +1,6 @@
 "use client";
 import { Dispatch, SetStateAction } from "react";
 import useNotificationStore from "@/stores/notificationStore";
-import delay from "@/utils/delay";
 
 const useClipboard = () => {
   const notify = useNotificationStore((state) => state.notify);
@@ -25,8 +24,7 @@ const useClipboard = () => {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       notify({ type: "success", message: "Copied to clipboard!" });
-      await delay(3000);
-      setCopied(false);
+      setTimeout(() => setCopied(false), 3000);
       return true;
     } catch (error) {
       console.error("Failed to copy text:", error);
