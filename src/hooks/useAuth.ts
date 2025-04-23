@@ -5,8 +5,9 @@ import { useStorage, useWallet } from "@/hooks";
 import useUserStore from "@/stores/userStore";
 import useNotificationStore from "@/stores/notificationStore";
 import { TVerifyPasswordFormData } from "@/utils/validations";
-import { UseFormSetError, UseFormClearErrors } from "react-hook-form";
+import { UseFormSetError } from "react-hook-form";
 import { AUTHENTICATED_ROUTES } from "@/constants";
+import delay from "@/utils/delay";
 
 const useAuth = () => {
   const router = useRouter();
@@ -26,8 +27,8 @@ const useAuth = () => {
         message: `${message}. For your safety, we'll take you back to the start.`,
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 4000));
-      // await removeUser();
+      await delay(4000);
+      await removeUser();
       router.replace("/");
     } catch (error) {
       notify({
@@ -67,8 +68,7 @@ const useAuth = () => {
 
   const authenticateWithPassword = (
     { password }: TVerifyPasswordFormData,
-    setError: UseFormSetError<TVerifyPasswordFormData>,
-    clearErrors: UseFormClearErrors<TVerifyPasswordFormData>
+    setError: UseFormSetError<TVerifyPasswordFormData>
   ) => {
     startAuthenticating(async () => {
       try {
@@ -83,7 +83,6 @@ const useAuth = () => {
 
         if (errorMessage === "Invalid password") {
           setError("password", { message: errorMessage });
-          setTimeout(() => clearErrors("password"), 4000);
         } else {
           await secureFail(errorMessage);
         }
