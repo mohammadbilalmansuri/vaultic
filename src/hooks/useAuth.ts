@@ -6,7 +6,6 @@ import useUserStore from "@/stores/userStore";
 import useNotificationStore from "@/stores/notificationStore";
 import { TVerifyPasswordFormData } from "@/utils/validations";
 import { UseFormSetError, UseFormClearErrors } from "react-hook-form";
-import delay from "@/utils/delay";
 import { AUTHENTICATED_ROUTES } from "@/constants";
 
 const useAuth = () => {
@@ -26,8 +25,9 @@ const useAuth = () => {
         type: "error",
         message: `${message}. For your safety, we'll take you back to the start.`,
       });
-      await delay(4000);
-      await removeUser();
+
+      await new Promise((resolve) => setTimeout(resolve, 4000));
+      // await removeUser();
       router.replace("/");
     } catch (error) {
       notify({
@@ -83,11 +83,9 @@ const useAuth = () => {
 
         if (errorMessage === "Invalid password") {
           setError("password", {
-            type: "manual",
             message: errorMessage,
           });
-          await delay(4000);
-          clearErrors("password");
+          setTimeout(() => clearErrors("password"), 4000);
         } else {
           await secureFail(errorMessage);
         }
