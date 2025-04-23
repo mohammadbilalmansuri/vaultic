@@ -19,7 +19,7 @@ const PasswordInput = ({
     <div className="w-full relative flex flex-col items-center justify-center">
       <input
         type={show ? "text" : "password"}
-        className={cn("input", className)}
+        className={cn("input pr-10", className)}
         placeholder={placeholder}
         ref={ref}
         {...props}
@@ -28,7 +28,7 @@ const PasswordInput = ({
       <Hide
         hidden={!show}
         onClick={() => setShow((prev) => !prev)}
-        className="absolute right-3"
+        className="absolute right-3.5"
       />
     </div>
   );
