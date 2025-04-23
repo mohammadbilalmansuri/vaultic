@@ -10,7 +10,7 @@ const Header = () => {
   const pathname = usePathname();
   const theme = useThemeStore((state) => state.theme);
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
-  const authenticated = useUserStore((state) => state.authenticated);
+  const userExists = useUserStore((state) => state.userExists);
 
   return (
     <header className="w-full relative flex flex-col items-center px-5 min-h-fit">
@@ -23,7 +23,7 @@ const Header = () => {
         </div>
 
         <nav className="flex items-center gap-8">
-          {authenticated && (
+          {userExists && (
             <>
               <NavLink href="/dashboard" active={pathname === "/dashboard"}>
                 Dashboard
