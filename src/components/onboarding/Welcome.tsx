@@ -34,10 +34,10 @@ const Welcome = ({ setPath, setStep }: WelcomeProps) => {
       transition={{ duration: 0.4, ease: "easeInOut" }}
       className="box"
     >
-      <Logo className="-mt-1 w-15 fill-teal-500" />
+      <Logo className="-mt-1 w-18 fill-teal-500" />
       <h3 className="text-lg text-teal-500">Welcome to Vaultic</h3>
       <h1>Let's Get Started</h1>
-      <p>
+      <p className="-mt-px">
         Vaultic is a secure, web-based cryptocurrency wallet supporting Solana
         and Ethereum.
       </p>

@@ -37,7 +37,7 @@ const SelectNetwork = ({ setNetwork, setStep }: SelectNetworkProps) => {
         you like to use? You can add more wallets later on another network.
       </p>
 
-      <div className="flex items-center gap-4 pt-2">
+      <div className="flex items-center gap-4 pt-2.5">
         <Button
           variant="zinc"
           className="gap-2.5"
