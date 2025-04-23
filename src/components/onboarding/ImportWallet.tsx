@@ -122,18 +122,21 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
       </p>
 
       <form
-        className="w-full flex flex-col gap-4.5 pt-2"
+        className="w-full flex flex-col gap-4.5 pt-2.5"
         onSubmit={handleSubmit(handleImport)}
       >
         <div className="w-full grid grid-cols-2 xs:grid-cols-3 gap-3">
           {Array.from({ length: mnemonicLength }, (_, index) => (
             <div
               key={index}
-              className="w-full flex items-center gap-2 p-3 rounded-xl transition-all duration-300 bg-zinc-200/60 dark:bg-zinc-800/50 focus-within:bg-zinc-200 dark:focus-within:bg-zinc-800"
+              className="w-full flex items-center gap-2 p-3 rounded-xl transition-all duration-300 bg-default border-1.5 bg-default-border focus-within:bg-default-focus"
             >
-              <span className="opacity-80">{index + 1}.</span>
+              <label className="opacity-80" htmlFor={`mnemonic.${index}`}>
+                {index + 1}.
+              </label>
               <input
                 type="text"
+                id={`mnemonic.${index}`}
                 {...register(`mnemonic.${index}`, {
                   required: true,
                   validate: (value) => value.trim() !== "",
