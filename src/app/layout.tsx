@@ -8,6 +8,7 @@ import {
   Header,
   Footer,
   Protected,
+  TestnetNotice,
 } from "@/components/layout";
 
 const ubuntuSans = Ubuntu_Sans({
@@ -57,6 +58,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${ubuntuSans.variable} antialiased`}>
         <ThemeProvider>
+          <TestnetNotice />
           <Header />
           <main>
             <Protected>{children}</Protected>
