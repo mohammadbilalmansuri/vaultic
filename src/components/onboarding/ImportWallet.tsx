@@ -15,7 +15,6 @@ import useNotificationStore from "@/stores/notificationStore";
 import { validateMnemonic } from "bip39";
 import { useWallet } from "@/hooks";
 import cn from "@/utils/cn";
-import delay from "@/utils/delay";
 
 type ImportWalletProps = {
   network: TNetwork;
@@ -51,10 +50,8 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
         .join(" ");
 
       if (!validateMnemonic(phrase)) {
-        setError("mnemonic", {
-          type: "manual",
-          message: "Invalid recovery phrase",
-        });
+        setError("mnemonic", { message: "Invalid recovery phrase" });
+        setTimeout(() => clearErrors("mnemonic"), 4000);
         return;
       }
 
@@ -97,13 +94,10 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
             clearErrors("mnemonic");
           } else {
             setError("mnemonic", {
-              type: "manual",
               message:
                 "The recovery phrase must contain exactly 12 or 24 words",
             });
-
-            await delay(4000);
-            clearErrors("mnemonic");
+            setTimeout(() => clearErrors("mnemonic"), 4000);
           }
         }
       : undefined;
