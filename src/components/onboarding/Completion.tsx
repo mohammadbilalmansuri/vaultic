@@ -11,10 +11,10 @@ const Completion = () => {
       transition={{ duration: 0.4, ease: "easeInOut" }}
       className="box"
     >
-      <Logo className="-mt-1 w-15 fill-teal-500" />
+      <Logo className="-mt-1 w-18 fill-teal-500" />
       <h3 className="text-lg text-teal-500">Congratulations</h3>
       <h1>You're all ready!</h1>
-      <p className="max-w-xs">
+      <p className="max-w-xs -mt-px">
         Keep your Secret Recovery Phrase in a safe place. If you lose it, no one
         can recover it for you, and you will permanently lose access to your
         wallet.
