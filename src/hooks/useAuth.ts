@@ -82,9 +82,7 @@ const useAuth = () => {
             : "An unexpected error occurred";
 
         if (errorMessage === "Invalid password") {
-          setError("password", {
-            message: errorMessage,
-          });
+          setError("password", { message: errorMessage });
           setTimeout(() => clearErrors("password"), 4000);
         } else {
           await secureFail(errorMessage);
