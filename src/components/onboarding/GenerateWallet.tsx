@@ -8,15 +8,14 @@ import {
 } from "react";
 import { motion } from "motion/react";
 import { Button, Switch, Loader } from "@/components/ui";
-import { Copy, Hide } from "@/components/ui/icons";
 import { TOnboardingStep } from "@/types";
-import { useClipboard } from "@/hooks";
 import { generateMnemonic } from "bip39";
 import useUserStore from "@/stores/userStore";
 import useWallet from "@/hooks/useWallet";
 import cn from "@/utils/cn";
 import useNotificationStore from "@/stores/notificationStore";
 import { TNetwork } from "@/types";
+import { MnemonicView } from "@/components/common";
 
 type GenerateWalletProps = {
   network: TNetwork;
@@ -27,12 +26,9 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
   const mnemonic = useUserStore((state) => state.mnemonic);
   const setUserState = useUserStore((state) => state.setUserState);
   const notify = useNotificationStore((state) => state.notify);
-  const copyToClipboard = useClipboard();
   const { createWallet } = useWallet();
 
   const [saved, setSaved] = useState(false);
-  const [hidden, setHidden] = useState(true);
-  const [copied, setCopied] = useState(false);
   const [generating, startGenerating] = useTransition();
 
   useEffect(() => {
@@ -69,38 +65,9 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
       transition={{ duration: 0.4, ease: "easeInOut" }}
       className="box max-w-xl"
     >
-      <h1 className="-mt-1">Secret Recovery Phrase</h1>
+      <h1 className="-mt-1 mb-1">Secret Recovery Phrase</h1>
 
-      <div className="w-full relative bg-1 rounded-xl flex flex-col mt-1">
-        <div className="border-color border-b-[1.5px] flex items-center justify-between py-3 px-4">
-          <p className="leading-none">Save these words in a safe place.</p>
-          <div className="flex items-center gap-4">
-            <Hide hidden={hidden} onClick={() => setHidden((prev) => !prev)} />
-            <Copy
-              copied={copied}
-              onClick={() => copyToClipboard(mnemonic, copied, setCopied)}
-            />
-          </div>
-        </div>
-
-        <div
-          className="w-full grid grid-cols-2 xs:grid-cols-3 gap-4 cursor-pointer p-4"
-          onClick={() => copyToClipboard(mnemonic, copied, setCopied)}
-        >
-          {mnemonic.split(" ").map((word, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <span className="opacity-80">{index + 1}.</span>
-              <span
-                className={cn("lowercase heading-color", {
-                  "tracking-[0.2em]": hidden,
-                })}
-              >
-                {hidden ? Array(word.length).fill("•").join("") : word}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <MnemonicView lable="Save these words in a safe place." />
 
       <div
         className="flex gap-4 py-1 cursor-pointer select-none"
