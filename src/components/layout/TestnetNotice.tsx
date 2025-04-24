@@ -3,9 +3,9 @@ import useUserStore from "@/stores/userStore";
 
 const TestnetNotice = () => {
   const networkMode = useUserStore((state) => state.networkMode);
-  const userExists = useUserStore((state) => state.userExists);
+  const authenticated = useUserStore((state) => state.authenticated);
 
-  if (!userExists || networkMode !== "devnet") return null;
+  if (!authenticated || networkMode !== "devnet") return null;
 
   return (
     <p className="w-full text-yellow-500 bg-yellow-500/10 px-5 py-2 flex items-center justify-center gap-2">
