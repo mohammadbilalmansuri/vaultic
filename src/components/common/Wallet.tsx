@@ -34,7 +34,7 @@ const Wallet = ({
   const [copied, setCopied] = useState(false);
 
   return (
-    <div className="w-full rounded-2xl relative p-5 flex flex-col transition-all duration-300 border-1.5 border-color hover:bg-zinc-200/50 dark:hover:bg-zinc-800/25">
+    <div className="w-full rounded-2xl relative p-5 flex flex-col transition-all duration-300 border-2 border-color">
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center gap-4">
           {network === "solana" ? (
