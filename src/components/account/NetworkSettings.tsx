@@ -1,41 +1,52 @@
 "use client";
-import { useState } from "react";
+import { useTransition } from "react";
+import { useBlockchain } from "@/hooks";
 import useNotificationStore from "@/stores/notificationStore";
+import useUserStore from "@/stores/userStore";
+import { TNetworkMode } from "@/types";
+import { Switch } from "../ui";
 
-export default function NetworkSettings() {
-  const [network, setNetwork] = useState<"mainnet" | "devnet">("mainnet");
+const NetworkSettings = () => {
   const notify = useNotificationStore((s) => s.notify);
+  const networkMode = useUserStore((s) => s.networkMode);
+  const { switchNetworkMode } = useBlockchain();
+  const [switching, startSwitching] = useTransition();
 
-  const switchNetwork = (value: "mainnet" | "devnet") => {
-    setNetwork(value);
-    notify({ type: "success", message: `Switched to ${value}` });
+  const toggleNetworkMode = () => {
+    startSwitching(async () => {
+      try {
+        await switchNetworkMode(
+          networkMode === "mainnet" ? "devnet" : "mainnet"
+        );
+        notify({
+          type: "success",
+          message: `Switched to ${
+            networkMode === "devnet" ? "Testnet" : "Devnet"
+          }`,
+        });
+      } catch (_) {
+        notify({
+          type: "error",
+          message: "We couldn't switch the network mode.",
+        });
+      }
+    });
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <p className="text-lg heading-color">Select Network</p>
-      <div className="flex gap-4">
-        <label>
-          <input
-            type="radio"
-            name="network"
-            value="mainnet"
-            checked={network === "mainnet"}
-            onChange={() => switchNetwork("mainnet")}
-          />
-          Mainnet
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="network"
-            value="devnet"
-            checked={network === "devnet"}
-            onChange={() => switchNetwork("devnet")}
-          />
-          Devnet
-        </label>
+    <div className="flex justify-between items-center gap-4">
+      <div className="flex flex-col gap-1">
+        <h3 className="text-lg heading-color">Testnet Mode</h3>
+        <p>Applies to balances and app connections.</p>
       </div>
+
+      <Switch
+        state={networkMode === "devnet"}
+        disabled={switching}
+        onClick={toggleNetworkMode}
+      />
     </div>
   );
-}
+};
+
+export default NetworkSettings;
