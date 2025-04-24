@@ -42,6 +42,10 @@
   @apply bg-zinc-300/80 dark:bg-zinc-700/60;
 }
 
+@utility bg-warning {
+  @apply text-yellow-900 dark:text-yellow-500 bg-yellow-500/20 dark:bg-yellow-500/10;
+}
+
 @utility btn-base {
   @apply font-medium h-13 px-5 relative rounded-2xl transition-all duration-300 flex items-center justify-center active:scale-[0.97];
 }
@@ -118,5 +122,9 @@
 
   .icon-bg svg {
     @apply w-5;
+  }
+
+  .tab {
+    @apply w-full flex items-center;
   }
 }
