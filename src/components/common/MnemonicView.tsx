@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { Copy, Hide } from "@/components/ui/icons";
 import { useClipboard } from "@/hooks";
