@@ -8,7 +8,7 @@ const TestnetNotice = () => {
   if (!authenticated || networkMode !== "devnet") return null;
 
   return (
-    <p className="w-full text-yellow-900 dark:text-yellow-500 bg-yellow-500/20 dark:bg-yellow-500/10 px-5 py-2 flex items-center justify-center gap-2">
+    <p className="w-full bg-warning px-5 py-2 flex items-center justify-center">
       You are currently in testnet mode.
     </p>
   );
