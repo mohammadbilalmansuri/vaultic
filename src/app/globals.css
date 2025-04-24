@@ -31,19 +31,15 @@
 }
 
 @utility bg-1 {
-  @apply bg-zinc-200 dark:bg-zinc-800;
-}
-
-@utility bg-1-hover {
-  @apply bg-zinc-300/80 dark:bg-zinc-700/60;
-}
-
-@utility bg-2 {
   @apply bg-zinc-200/50 dark:bg-zinc-800/50;
 }
 
-@utility bg-2-hover {
+@utility bg-2 {
   @apply bg-zinc-200 dark:bg-zinc-800;
+}
+
+@utility bg-3 {
+  @apply bg-zinc-300/80 dark:bg-zinc-700/60;
 }
 
 @utility btn-base {
@@ -93,7 +89,7 @@
   }
 
   .btn-zinc {
-    @apply btn-base heading-color bg-1 hover:bg-1-hover;
+    @apply btn-base heading-color bg-3 hover:bg-3;
   }
 
   .box {
@@ -101,7 +97,7 @@
   }
 
   .input {
-    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-xl outline-none transition-all duration-300 bg-2 focus-within:bg-2-hover;
+    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-xl outline-none transition-all duration-300 bg-1 focus-within:bg-2;
   }
 
   h1 {
