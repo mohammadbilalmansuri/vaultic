@@ -1,6 +1,6 @@
 "use client";
 import { JSX, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   RecoveryPhrase,
   ChangePassword,
@@ -16,23 +16,30 @@ const TABS = new Map<string, JSX.Element>([
   ["Remove Account", <RemoveAccount />],
 ]);
 
-export default function AccountPage() {
-  const [tab, setTab] = useState("Recovery Phrase");
+const Account = () => {
+  const [tab, setTab] = useState<string>("Recovery Phrase");
 
   return (
-    <div className="w-full max-w-screen-lg relative flex flex-col flex-1 gap-3 py-5">
-      <div className="w-full flex flex-col">
-        <div className="w-full relative flex gap-3 p-3 border-2 border-color rounded-2xl overflow-hidden">
+    <div className="w-full max-w-screen-lg relative flex flex-col flex-1 py-5">
+      <div className="overflow-hidden w-full relative flex flex-col gap-4 border-2 border-color p-5 rounded-3xl">
+        <div className="w-full relative grid grid-cols-4 bg-1 rounded-2xl p-1 h-14">
+          <motion.div
+            className="absolute bg-2 rounded-xl h-[calc(100%-8px)] top-1"
+            style={{
+              left: `calc(${Array.from(TABS.keys()).indexOf(tab)} * 25% + 4px)`,
+              width: "calc(25% - 8px)",
+            }}
+            layout
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          />
           {Array.from(TABS.keys(), (tabName, index) => (
             <button
               key={index}
               className={cn(
-                "font-medium w-full px-5 py-4 leading-none rounded-xl transition-all duration-300 bg-zinc-200/60 dark:bg-zinc-800/50 active:scale-95 border-t-2",
+                "font-medium px-5 leading-none transition-all duration-300 relative z-10",
                 {
-                  "heading-color border-zinc-400 dark:border-zinc-600":
-                    tab === tabName,
-                  "border-transparent hover:bg-zinc-200 dark:hover:bg-zinc-800":
-                    tab !== tabName,
+                  "heading-color": tab === tabName,
+                  "hover:heading-color": tab !== tabName,
                 }
               )}
               onClick={() => setTab(tabName)}
@@ -43,19 +50,13 @@ export default function AccountPage() {
         </div>
 
         <AnimatePresence mode="wait">
-          <div className="w-full relative flex flex-col pt-9 pb-5 px-5 overflow-hidden border-t-0 border-2 border-color rounded-b-2xl -mt-4">
-            <motion.div
-              key={tab}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              {TABS.get(tab)}
-            </motion.div>
+          <div className="w-full relative flex flex-col" key={tab}>
+            {TABS.get(tab)}
           </div>
         </AnimatePresence>
       </div>
     </div>
   );
-}
+};
+
+export default Account;
