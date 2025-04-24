@@ -34,7 +34,7 @@ const Welcome = ({ setPath, setStep }: WelcomeProps) => {
       transition={{ duration: 0.4, ease: "easeInOut" }}
       className="box"
     >
-      <Logo className="-mt-1 w-18 fill-teal-500" />
+      <Logo className="-mt-1 w-16 fill-teal-500" />
       <h3 className="text-lg text-teal-500">Welcome to Vaultic</h3>
       <h1>Let's Get Started</h1>
       <p className="-mt-px">
