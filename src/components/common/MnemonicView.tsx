@@ -21,7 +21,9 @@ const MnemonicView = ({
   const [hidden, setHidden] = useState(true);
 
   return (
-    <div className={cn("relative flex gap-4", widthClassName)}>
+    <div
+      className={cn("relative bg-1 rounded-2xl flex flex-col", widthClassName)}
+    >
       <div className="w-full border-color border-b-[1.5px] flex items-center justify-between py-3 px-4">
         <p className="leading-none">{lable}</p>
         <div className="flex items-center gap-4">
