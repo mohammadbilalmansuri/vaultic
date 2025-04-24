@@ -7,11 +7,13 @@ import cn from "@/utils/cn";
 interface MnemonicViewProps {
   lable?: string;
   cols?: 3 | 4 | 6;
+  widthClassName?: string;
 }
 
 const MnemonicView = ({
   lable = "Your Recovery Phrase",
   cols = 3,
+  widthClassName = "w-full",
 }: MnemonicViewProps) => {
   const mnemonic = useUserStore((state) => state.mnemonic);
   const copyToClipboard = useClipboard();
@@ -19,8 +21,8 @@ const MnemonicView = ({
   const [hidden, setHidden] = useState(true);
 
   return (
-    <div className="w-full relative bg-1 rounded-2xl flex flex-col">
-      <div className="border-color border-b-[1.5px] flex items-center justify-between py-3 px-4">
+    <div className={cn("relative flex gap-4", widthClassName)}>
+      <div className="w-full border-color border-b-[1.5px] flex items-center justify-between py-3 px-4">
         <p className="leading-none">{lable}</p>
         <div className="flex items-center gap-4">
           <Hide hidden={hidden} onClick={() => setHidden((prev) => !prev)} />
