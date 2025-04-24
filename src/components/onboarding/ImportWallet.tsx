@@ -123,7 +123,7 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
           {Array.from({ length: mnemonicLength }, (_, index) => (
             <div
               key={index}
-              className="w-full flex items-center gap-2 p-3 rounded-xl transition-all duration-300 bg-1 focus-within:bg-2"
+              className="w-full flex items-center gap-2 p-3 rounded-2xl transition-all duration-300 bg-1 focus-within:bg-2"
             >
               <label className="opacity-80" htmlFor={`mnemonic.${index}`}>
                 {index + 1}.
