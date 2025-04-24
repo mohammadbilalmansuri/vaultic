@@ -25,7 +25,7 @@ const SecretRecoveryWarning = ({ setStep }: SecretRecoveryWarningProps) => {
         On the next page, you will receive your secret recovery phrase.
       </p>
 
-      <div className="mt-1 w-full flex items-center gap-4 text-left p-4 rounded-xl bg-default border-1.5 bg-default-border">
+      <div className="mt-1 w-full flex items-center gap-4 text-left p-4 rounded-xl bg-2">
         <span className="min-w-fit">
           <Warning className="w-4.5 fill-yellow-500" />
         </span>
@@ -35,7 +35,7 @@ const SecretRecoveryWarning = ({ setStep }: SecretRecoveryWarningProps) => {
         </p>
       </div>
 
-      <div className="-mt-1 w-full flex items-center gap-4 text-left p-4 rounded-xl bg-default border-1.5 bg-default-border">
+      <div className="-mt-1 w-full flex items-center gap-4 text-left p-4 rounded-xl bg-2">
         <span className="min-w-fit">
           <Lock className="w-4.5 fill-teal-500" />
         </span>
