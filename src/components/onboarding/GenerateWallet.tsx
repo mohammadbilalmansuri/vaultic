@@ -71,7 +71,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
     >
       <h1 className="-mt-1">Secret Recovery Phrase</h1>
 
-      <div className="w-full relative bg-2 rounded-xl flex flex-col mt-1 overflow-hidden">
+      <div className="w-full relative bg-2 rounded-xl flex flex-col mt-1">
         <div className="border-color border-b-[1.5px] flex items-center justify-between py-3 px-4">
           <p className="leading-none">Save these words in a safe place.</p>
           <div className="flex items-center gap-4">
