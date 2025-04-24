@@ -93,7 +93,7 @@
   }
 
   .btn-zinc {
-    @apply btn-base heading-color bg-3 hover:bg-3;
+    @apply btn-base heading-color bg-2 hover:bg-3;
   }
 
   .box {
@@ -101,7 +101,7 @@
   }
 
   .input {
-    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-xl outline-none transition-all duration-300 bg-1 focus-within:bg-2;
+    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-1 focus-within:bg-2;
   }
 
   h1 {
