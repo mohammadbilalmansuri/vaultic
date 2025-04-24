@@ -11,39 +11,11 @@
 }
 
 @utility webkit-autofil-color-for-dark {
-  -webkit-text-fill-color: #f4f4f5;
+  -webkit-text-fill-color: oklch(92% 0.004 286.32);
 }
 
 @utility webkit-autofil-color-for-light {
-  -webkit-text-fill-color: #18181b;
-}
-
-@utility border-1.5 {
-  @apply border-[1.5px];
-}
-
-@utility border-x-1.5 {
-  @apply border-x-[1.5px];
-}
-
-@utility border-y-1.5 {
-  @apply border-y-[1.5px];
-}
-
-@utility border-l-1.5 {
-  @apply border-l-[1.5px];
-}
-
-@utility border-r-1.5 {
-  @apply border-r-[1.5px];
-}
-
-@utility border-t-1.5 {
-  @apply border-t-[1.5px];
-}
-
-@utility border-b-1.5 {
-  @apply border-b-[1.5px];
+  -webkit-text-fill-color: oklch(27.4% 0.006 286.033);
 }
 
 @utility heading-color {
@@ -54,28 +26,28 @@
   @apply text-zinc-600 dark:text-zinc-400;
 }
 
-@utility bg-default {
-  @apply bg-zinc-200/40 dark:bg-zinc-800/40;
-}
-
 @utility border-color {
   @apply border-zinc-200 dark:border-zinc-800;
 }
 
-@utility bg-default-border {
-  @apply border-zinc-200/80 dark:border-zinc-800/80;
+@utility bg-1 {
+  @apply bg-zinc-200 dark:bg-zinc-800;
 }
 
-@utility bg-default-hover {
-  @apply hover:bg-zinc-200/80 hover:dark:bg-zinc-800/80;
+@utility bg-1-hover {
+  @apply bg-zinc-300/80 dark:bg-zinc-700/60;
 }
 
-@utility bg-default-focus {
-  @apply border-zinc-300 dark:border-zinc-700;
+@utility bg-2 {
+  @apply bg-zinc-200/50 dark:bg-zinc-800/50;
+}
+
+@utility bg-2-hover {
+  @apply bg-zinc-200 dark:bg-zinc-800;
 }
 
 @utility btn-base {
-  @apply font-medium py-3 px-5 relative rounded-2xl transition-all duration-300 flex items-center justify-center active:scale-[0.97] border-1.5;
+  @apply font-medium h-13 px-5 relative rounded-2xl transition-all duration-300 flex items-center justify-center active:scale-[0.97];
 }
 
 @layer base {
@@ -89,7 +61,7 @@
 
   body {
     font-family: var(--font-ubuntu-sans);
-    @apply bg-zinc-100 dark:bg-zinc-900 text-color w-full min-h-dvh relative tracking-[0.01em] box-border overflow-x-hidden;
+    @apply text-color bg-zinc-100 dark:bg-zinc-900 w-full min-h-dvh relative overflow-x-hidden box-border tracking-[0.01em];
   }
 
   .root {
@@ -117,11 +89,11 @@
 
 @layer components {
   .btn-teal {
-    @apply btn-base text-zinc-800 bg-teal-500 hover:bg-teal-600/80 dark:hover:bg-teal-400 border-teal-600/50 dark:border-teal-400;
+    @apply btn-base text-zinc-800 bg-teal-500 hover:bg-teal-600/80 dark:hover:bg-teal-400;
   }
 
   .btn-zinc {
-    @apply btn-base heading-color bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60 border-zinc-300/50 dark:border-zinc-700/40;
+    @apply btn-base heading-color bg-1 hover:bg-1-hover;
   }
 
   .box {
@@ -129,11 +101,15 @@
   }
 
   .input {
-    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-xl outline-none transition-all duration-300 bg-default border-1.5 bg-default-border focus-within:bg-default-focus;
+    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-xl outline-none transition-all duration-300 bg-2 focus-within:bg-2-hover;
+  }
+
+  h1 {
+    @apply text-3xl font-medium heading-color;
   }
 
   .icon-fill {
-    @apply fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 active:scale-95 transition-all duration-400 cursor-pointer;
+    @apply fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 active:scale-95 transition-all duration-300 cursor-pointer;
   }
 
   .icon-stroke {
@@ -141,14 +117,10 @@
   }
 
   .icon-bg {
-    @apply p-2 size-8 rounded-xl flex flex-col items-center justify-center bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60;
+    @apply p-2 size-8 rounded-xl flex flex-col items-center justify-center bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60 border-zinc-300/50 dark:border-zinc-700/40;
   }
 
   .icon-bg svg {
     @apply w-5;
-  }
-
-  h1 {
-    @apply text-3xl font-medium heading-color;
   }
 }
