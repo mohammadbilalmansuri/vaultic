@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Button, Loader } from "@/components/ui";
 import { Solana, Ethereum, Cancel } from "@/components/ui/icons";
-import { Wallet } from "@/components/dashboard";
+import { Wallet } from "@/components/common";
 import { useWallet, useStorage } from "@/hooks";
 import useWalletStore from "@/stores/walletStore";
 import { TNetwork } from "@/types";
