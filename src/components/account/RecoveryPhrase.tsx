@@ -1,8 +1,4 @@
 "use client";
-import { useState } from "react";
-import { useClipboard } from "@/hooks";
-import useUserStore from "@/stores/userStore";
-import cn from "@/utils/cn";
 import { MnemonicView } from "@/components/common";
 
 const RecoveryPhrase = () => {
