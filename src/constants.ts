@@ -5,12 +5,10 @@ export const ONBOARDING_STEPS = {
   import: 5,
 } as const;
 
-export const AUTHENTICATED_ROUTES = new Set<string>(["/dashboard", "/account"]);
-
 export const ROUTES = new Map<RouteState, Set<string>>([
   ["signin", new Set(["/dashboard", "/wallets", "/history", "/account"])],
   ["signout", new Set(["/"])],
-  ["always", new Set(["/faucets", "/guide"])],
+  ["always", new Set(["/faucet", "/faucet/solana", "/guide"])],
 ]);
 
 export const IS_DEV = process.env.NODE_ENV === "development";
