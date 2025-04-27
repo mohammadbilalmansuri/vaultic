@@ -1,5 +1,4 @@
-"use client";
-import { ReactNode, ButtonHTMLAttributes } from "react";
+import { ReactNode, ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
 import Link, { LinkProps } from "next/link";
 import cn from "@/utils/cn";
 
@@ -17,7 +16,8 @@ type ButtonAsButton = ButtonBaseProps &
   };
 
 type ButtonAsLink = ButtonBaseProps &
-  LinkProps & {
+  LinkProps &
+  AnchorHTMLAttributes<HTMLAnchorElement> & {
     as: "link";
   };
 
