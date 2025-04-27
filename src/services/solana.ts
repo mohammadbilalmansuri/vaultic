@@ -22,6 +22,12 @@ const getSolanaConnection = (): Connection => {
   return solanaConnection;
 };
 
+const convertSolToLamports = (amount: string): number => {
+  const lamports = Math.floor(Number(amount) * LAMPORTS_PER_SOL);
+  if (isNaN(lamports) || lamports <= 0) throw new Error("Invalid amount");
+  return lamports;
+};
+
 export const resetSolanaConnection = () => {
   solanaConnection = null;
 };
@@ -32,9 +38,7 @@ export const sendSolana = async (
   amount: string
 ): Promise<string> => {
   try {
-    const lamports = Math.floor(Number(amount) * LAMPORTS_PER_SOL);
-    if (isNaN(lamports) || lamports <= 0) throw new Error("Invalid amount");
-
+    const lamports = convertSolToLamports(amount);
     const decodedKey = bs58.decode(fromPrivateKey);
     if (decodedKey.length !== 64) throw new Error("Invalid private key length");
 
@@ -108,7 +112,7 @@ export const getSolanaHistory = async (
 
           if (!instruction || !("parsed" in instruction)) return null;
 
-          const parsed = instruction.parsed as any;
+          const parsed = instruction.parsed;
 
           return {
             hash: sig.signature,
@@ -140,12 +144,13 @@ export const requestSolanaAirdrop = async (
   amount: string
 ): Promise<string> => {
   try {
-    const lamports = Math.floor(Number(amount) * LAMPORTS_PER_SOL);
-    if (isNaN(lamports) || lamports <= 0) throw new Error("Invalid amount");
-    if (lamports > 5 * LAMPORTS_PER_SOL)
+    const lamports = convertSolToLamports(amount);
+    if (lamports > 5 * LAMPORTS_PER_SOL) {
       throw new Error("You can only request up to 5 SOL at a time.");
+    }
 
-    const connection = getSolanaConnection();
+    const devnetRpc = getRpcUrl("solana", "devnet");
+    const connection = new Connection(devnetRpc, "confirmed");
     const pubkey = new PublicKey(toAddress);
 
     const signature = await connection.requestAirdrop(pubkey, lamports);
