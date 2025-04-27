@@ -23,7 +23,7 @@ const Header = () => {
         </div>
 
         <nav className="flex items-center gap-8">
-          {userExists && (
+          {userExists ? (
             <>
               <NavLink href="/dashboard" active={pathname === "/dashboard"}>
                 Dashboard
@@ -32,6 +32,10 @@ const Header = () => {
                 Account
               </NavLink>
             </>
+          ) : (
+            <NavLink href="/guide" active={pathname === "/guide"}>
+              Guide
+            </NavLink>
           )}
 
           <div className="flex items-center gap-2">
