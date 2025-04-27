@@ -123,8 +123,4 @@
   .icon-bg svg {
     @apply w-5;
   }
-
-  .tab {
-    @apply w-full flex items-center;
-  }
 }
