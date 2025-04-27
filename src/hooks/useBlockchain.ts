@@ -9,6 +9,7 @@ import {
   getSolanaHistory,
   getSolanaBalance,
   resetSolanaConnection,
+  requestSolanaAirdrop,
 } from "@/services/solana";
 import useUserStore from "@/stores/userStore";
 import { ITxHistoryItem, TNetwork, TNetworkMode } from "@/types";
@@ -100,11 +101,25 @@ const useBlockchain = () => {
     }
   };
 
+  const airdropSolana = async (address: string, amount: string) => {
+    try {
+      const { networkMode } = useUserStore.getState();
+      if (networkMode !== "devnet") {
+        throw new Error("Switch to Testnet Mode to get solana test tokens.");
+      }
+
+      return await requestSolanaAirdrop(address, amount);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   return {
     sendTx,
     getBalance,
     getTxHistory,
     switchNetworkMode,
+    airdropSolana,
   };
 };
 
