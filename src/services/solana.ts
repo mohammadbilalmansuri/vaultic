@@ -134,3 +134,24 @@ export const getSolanaHistory = async (
     throw error;
   }
 };
+
+export const requestSolanaAirdrop = async (
+  toAddress: string,
+  amount: string
+): Promise<string> => {
+  try {
+    const lamports = Math.floor(Number(amount) * LAMPORTS_PER_SOL);
+    if (isNaN(lamports) || lamports <= 0) throw new Error("Invalid amount");
+    if (lamports > 5 * LAMPORTS_PER_SOL)
+      throw new Error("You can only request up to 5 SOL at a time.");
+
+    const connection = getSolanaConnection();
+    const pubkey = new PublicKey(toAddress);
+
+    const signature = await connection.requestAirdrop(pubkey, lamports);
+    return signature;
+  } catch (error) {
+    console.error("Error requesting Solana airdrop:", error);
+    throw error;
+  }
+};
