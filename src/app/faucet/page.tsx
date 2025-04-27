@@ -1,12 +1,9 @@
 "use client";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui";
-import { Logo, Solana, Ethereum } from "@/components/ui/icons";
+import { Solana, Ethereum } from "@/components/ui/icons";
 
-const Faucets = () => {
-  const [faucet, setFaucet] = useState<"solana" | "ethereum" | null>(null);
-
+const Faucet = () => {
   return (
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
@@ -14,14 +11,18 @@ const Faucets = () => {
       transition={{ duration: 0.4, ease: "easeInOut" }}
       className="box"
     >
-      <h1>Available Faucets</h1>
-      <p className="-mt-1">On which network do you want airdrop test tokens</p>
+      <h1>Request Test Tokens</h1>
+      <p className="max-w-sm">
+        Choose a blockchain network below to receive testnet tokens for
+        development and testing purposes.
+      </p>
 
-      <div className="flex flex-col gap-4 pt-2">
+      <div className="flex flex-col gap-4">
         <Button
           variant="zinc"
+          as="link"
+          href="/faucet/solana"
           className="gap-2.5"
-          onClick={() => setFaucet("solana")}
         >
           <Solana className="h-4 min-w-fit" />
           <span className="mt-px">Solana Devnet</span>
@@ -42,4 +43,4 @@ const Faucets = () => {
   );
 };
 
-export default Faucets;
+export default Faucet;
