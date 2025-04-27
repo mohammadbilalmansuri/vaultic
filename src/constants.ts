@@ -1,9 +1,17 @@
+import { RouteState } from "@/types";
+
 export const ONBOARDING_STEPS = {
   create: 6,
   import: 5,
 } as const;
 
 export const AUTHENTICATED_ROUTES = new Set<string>(["/dashboard", "/account"]);
+
+export const ROUTES = new Map<RouteState, Set<string>>([
+  ["signin", new Set(["/dashboard", "/wallets", "/history", "/account"])],
+  ["signout", new Set(["/"])],
+  ["always", new Set(["/faucets", "/guide"])],
+]);
 
 export const IS_DEV = process.env.NODE_ENV === "development";
 
