@@ -4,12 +4,12 @@ import { MnemonicView } from "@/components/common";
 const RecoveryPhrase = () => {
   return (
     <div className="w-full relative flex gap-4">
-      <MnemonicView widthClassName="w-2/3" cols={4} />
+      <MnemonicView widthClassName="w-[65%]" cols={4} />
 
-      <div className="w-1/3 flex flex-col items-center justify-center text-center gap-2 p-4 rounded-2xl bg-warning">
+      <div className="w-[35%] flex flex-col items-center justify-center text-center gap-2 p-5 rounded-2xl bg-warning">
         <p>
           You're viewing your recovery phrase.{" "}
-          <strong>Do not share it with anyone.</strong>
+          <b>Do not share it with anyone.</b>
         </p>
 
         <p>
