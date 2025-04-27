@@ -22,14 +22,17 @@ const getSolanaConnection = (): Connection => {
   return solanaConnection;
 };
 
-const convertSolToLamports = (amount: string): number => {
-  const lamports = Math.floor(Number(amount) * LAMPORTS_PER_SOL);
-  if (isNaN(lamports) || lamports <= 0) throw new Error("Invalid amount");
-  return lamports;
-};
-
 export const resetSolanaConnection = () => {
   solanaConnection = null;
+};
+
+const convertSolToLamports = (amount: string): number => {
+  const parsedAmount = Number(amount);
+  if (isNaN(parsedAmount) || parsedAmount <= 0)
+    throw new Error("Invalid amount");
+
+  const lamports = Math.floor(parsedAmount * LAMPORTS_PER_SOL);
+  return lamports;
 };
 
 export const sendSolana = async (
@@ -55,9 +58,9 @@ export const sendSolana = async (
     );
 
     transaction.feePayer = fromKeypair.publicKey;
-    transaction.recentBlockhash = (
-      await connection.getLatestBlockhash()
-    ).blockhash;
+
+    const { blockhash } = await connection.getLatestBlockhash();
+    transaction.recentBlockhash = blockhash;
 
     const signature = await sendAndConfirmTransaction(connection, transaction, [
       fromKeypair,
@@ -100,7 +103,7 @@ export const getSolanaHistory = async (
             maxSupportedTransactionVersion: 0,
           });
 
-          if (!tx || !tx.meta || !tx.transaction) return null;
+          if (!tx) return null;
 
           const instruction = tx.transaction.message.instructions.find(
             (ix) =>
@@ -121,7 +124,7 @@ export const getSolanaHistory = async (
             amount: formatBalance(
               (parsed.info.lamports / LAMPORTS_PER_SOL).toString()
             ),
-            timestamp: (tx.blockTime || 0) * 1000,
+            timestamp: (tx.blockTime ?? 0) * 1000,
           };
         } catch (err) {
           console.warn(`Failed to process transaction ${sig.signature}`, err);
