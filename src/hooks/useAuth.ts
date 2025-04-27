@@ -6,8 +6,8 @@ import useUserStore from "@/stores/userStore";
 import useNotificationStore from "@/stores/notificationStore";
 import { TVerifyPasswordFormData } from "@/utils/validations";
 import { UseFormSetError } from "react-hook-form";
-import { AUTHENTICATED_ROUTES } from "@/constants";
 import delay from "@/utils/delay";
+import isAllowedRoute from "@/utils/isAllowedRoute";
 
 const useAuth = () => {
   const router = useRouter();
@@ -49,12 +49,13 @@ const useAuth = () => {
           setUserState({ userExists: exists });
         }
 
-        if (!exists && AUTHENTICATED_ROUTES.has(pathname) && pathname !== "/") {
-          router.replace("/");
-        }
+        const canAccess =
+          isAllowedRoute("always", pathname) ||
+          (exists && isAllowedRoute("signin", pathname)) ||
+          (!exists && isAllowedRoute("signout", pathname));
 
-        if (exists && pathname === "/") {
-          router.replace("/dashboard");
+        if (!canAccess) {
+          router.replace(exists ? "/dashboard" : "/");
         }
       } catch (error) {
         await secureFail(
