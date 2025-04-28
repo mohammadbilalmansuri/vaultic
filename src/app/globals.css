@@ -60,8 +60,7 @@
   }
 
   body {
-    font-family: var(--font-ubuntu-sans);
-    @apply text-color bg-zinc-100 dark:bg-zinc-900 w-full min-h-dvh relative overflow-x-hidden box-border tracking-[0.01em];
+    @apply text-color bg-zinc-100 dark:bg-zinc-900 w-full min-h-dvh relative overflow-x-hidden box-border;
   }
 
   .root {
@@ -89,7 +88,7 @@
 
 @layer components {
   .btn-teal {
-    @apply btn-base text-zinc-800 bg-teal-500 hover:bg-teal-600/80 dark:hover:bg-teal-400;
+    @apply btn-base text-white bg-teal-500 hover:bg-teal-600/80 dark:hover:bg-teal-400;
   }
 
   .btn-zinc {
@@ -105,7 +104,7 @@
   }
 
   h1 {
-    @apply text-3xl font-medium heading-color;
+    @apply text-4xl lowercase font-medium heading-color;
   }
 
   .icon-fill {

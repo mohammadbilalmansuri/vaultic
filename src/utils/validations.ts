@@ -34,6 +34,16 @@ export const changePasswordSchema = z
     path: ["newPassword"],
   });
 
+export const solanaAirdropSchema = z.object({
+  address: z.string().trim().min(1, "Address is required"),
+  amount: z
+    .string()
+    .trim()
+    .min(1, "Amount is required")
+    .regex(/^\d+$/, "Amount must be a number"),
+});
+
 export type TCreatePasswordFormData = z.infer<typeof CreatePasswordSchema>;
 export type TVerifyPasswordFormData = z.infer<typeof verifyPasswordSchema>;
 export type TChangePasswordFormData = z.infer<typeof changePasswordSchema>;
+export type TSolanaAirdropFormData = z.infer<typeof solanaAirdropSchema>;

@@ -14,12 +14,10 @@ import { IWallet } from "@/types";
 import { NETWORK_TOKENS } from "@/constants";
 
 interface WalletProps extends IWallet {
-  name: string;
   isSingle: boolean;
 }
 
 const Wallet = ({
-  name,
   index,
   network,
   address,
@@ -44,7 +42,9 @@ const Wallet = ({
           )}
 
           <div className="flex flex-col gap-0.5">
-            <h3 className="text-xl heading-color">{name}</h3>
+            <h3 className="text-xl heading-color capitalize">
+              {`${network} Wallet ${index + 1}`}
+            </h3>
             <p>{address}</p>
           </div>
         </div>
