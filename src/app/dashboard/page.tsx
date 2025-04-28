@@ -87,11 +87,7 @@ const Dashboard = () => {
                 }}
                 className="w-full"
               >
-                <Wallet
-                  {...wallet}
-                  name={`Wallet ${index + 1}`}
-                  isSingle={wallets.size === 1}
-                />
+                <Wallet {...wallet} isSingle={wallets.size === 1} />
               </motion.div>
             ))}
           </div>

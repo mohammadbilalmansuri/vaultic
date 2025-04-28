@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import type { Metadata } from "next";
-import { Ubuntu_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import {
   ThemeProvider,
@@ -11,9 +11,8 @@ import {
   TestnetNotice,
 } from "@/components/layout";
 
-const ubuntuSans = Ubuntu_Sans({
-  variable: "--font-ubuntu-sans",
-  subsets: ["latin"],
+const inter = Inter({
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -56,7 +55,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ubuntuSans.variable} antialiased`}>
+      <body className={`${inter.variable} ${inter.className} antialiased`}>
         <ThemeProvider>
           <TestnetNotice />
           <Header />

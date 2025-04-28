@@ -5,6 +5,7 @@ import { Logo, Moon, Sun } from "@/components/ui/icons";
 import { usePathname } from "next/navigation";
 import useUserStore from "@/stores/userStore";
 import cn from "@/utils/cn";
+import Link from "next/link";
 
 const Header = () => {
   const pathname = usePathname();
@@ -15,12 +16,15 @@ const Header = () => {
   return (
     <header className="w-full relative flex flex-col items-center px-5 min-h-fit">
       <div className="w-full max-w-screen-lg relative flex items-center justify-between py-5">
-        <div className="flex items-center gap-2 cursor-default select-none">
+        <Link
+          href={userExists ? "/dashboard" : "/"}
+          className="flex items-center gap-2 select-none"
+        >
           <Logo className="w-7 fill-teal-500" />
           <span className="mt-px text-3xl leading-[0.8] font-bold text-teal-500">
             Vaultic
           </span>
-        </div>
+        </Link>
 
         <nav className="flex items-center gap-8">
           {userExists ? (
@@ -28,14 +32,22 @@ const Header = () => {
               <NavLink href="/dashboard" active={pathname === "/dashboard"}>
                 Dashboard
               </NavLink>
+              <NavLink href="/wallets" active={pathname === "/wallets"}>
+                Wallets
+              </NavLink>
               <NavLink href="/account" active={pathname === "/account"}>
                 Account
               </NavLink>
             </>
           ) : (
-            <NavLink href="/guide" active={pathname === "/guide"}>
-              Guide
-            </NavLink>
+            <>
+              <NavLink href="/guide" active={pathname === "/guide"}>
+                Guide
+              </NavLink>
+              <NavLink href="/faucet" active={pathname === "/faucet"}>
+                Faucet
+              </NavLink>
+            </>
           )}
 
           <div className="flex items-center gap-2">
