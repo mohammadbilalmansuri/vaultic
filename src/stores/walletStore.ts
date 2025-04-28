@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { IWallet } from "@/types";
+import { IWallet, TNetwork } from "@/types";
 
 interface IWalletState {
   wallets: Map<string, IWallet>;
@@ -8,9 +8,10 @@ interface IWalletState {
   removeWallet: (address: string) => void;
   clearWallets: () => void;
   updateWalletBalance: (address: string, balance: string) => void;
+  filterNetworkWallets: (network: TNetwork) => Map<string, IWallet>;
 }
 
-const useWalletStore = create<IWalletState>((set) => ({
+const useWalletStore = create<IWalletState>((set, get) => ({
   wallets: new Map(),
 
   setWallets: (wallets) => set({ wallets }),
@@ -38,6 +39,13 @@ const useWalletStore = create<IWalletState>((set) => ({
       if (wallet) updated.set(address, { ...wallet, balance });
       return { wallets: updated };
     }),
+
+  filterNetworkWallets: (network) =>
+    new Map(
+      Array.from(get().wallets).filter(
+        ([, wallet]) => wallet.network === network
+      )
+    ),
 }));
 
 export default useWalletStore;
