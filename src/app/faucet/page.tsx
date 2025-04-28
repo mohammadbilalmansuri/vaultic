@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui";
-import { Solana, Ethereum } from "@/components/ui/icons";
+import { Solana, Ethereum, Logo } from "@/components/ui/icons";
 
 const Faucet = () => {
   return (
@@ -11,13 +11,14 @@ const Faucet = () => {
       transition={{ duration: 0.4, ease: "easeInOut" }}
       className="box"
     >
-      <h1>Request Test Tokens</h1>
+      <Logo className="-mt-1 w-16 fill-teal-500" />
+      <h1 className="pt-2">Request Test Tokens</h1>
       <p className="max-w-sm">
         Choose a blockchain network below to receive testnet tokens for
         development and testing purposes.
       </p>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 pt-2">
         <Button
           variant="zinc"
           as="link"
