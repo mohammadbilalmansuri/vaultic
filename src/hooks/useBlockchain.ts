@@ -14,9 +14,11 @@ import {
 import useUserStore from "@/stores/userStore";
 import { ITxHistoryItem, TNetwork, TNetworkMode } from "@/types";
 import { useStorage } from "@/hooks";
+import useWalletStore from "@/stores/walletStore";
 
 const useBlockchain = () => {
   const setUserState = useUserStore((state) => state.setUserState);
+  const wallets = useWalletStore((state) => state.wallets);
   const { saveUserMetadata } = useStorage();
 
   const sendTx = async ({
@@ -67,22 +69,30 @@ const useBlockchain = () => {
     }
   };
 
-  const getTxHistory = async ({
-    network,
-    address,
-  }: {
-    network: TNetwork;
-    address: string;
-  }): Promise<ITxHistoryItem[]> => {
+  const getTxHistory = async (): Promise<ITxHistoryItem[]> => {
     try {
-      switch (network) {
-        case "solana":
-          return getSolanaHistory(address);
-        case "ethereum":
-          return getEthereumHistory(address);
-        default:
-          throw new Error("Unsupported network");
-      }
+      const historyArrays = await Promise.all(
+        wallets.values().map(async ({ network, address }) => {
+          switch (network) {
+            case "solana":
+              return await getSolanaHistory(address);
+            case "ethereum":
+              return await getEthereumHistory(address);
+            default:
+              return [];
+          }
+        })
+      );
+
+      const history = historyArrays.flat();
+
+      history.sort((a, b) => {
+        return (
+          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+        );
+      });
+
+      return history;
     } catch (error: unknown) {
       console.error("Error fetching transaction history:", error);
       throw error;
