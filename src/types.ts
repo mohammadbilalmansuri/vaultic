@@ -43,5 +43,3 @@ export interface ITxHistoryItem {
 export type TImportWalletFormData = {
   mnemonic: string[];
 };
-
-export type RouteState = "signin" | "signout" | "always";
