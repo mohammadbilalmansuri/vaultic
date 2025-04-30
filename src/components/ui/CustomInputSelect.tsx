@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { motion } from "motion/react";
 import { Controller, FieldValues, Control } from "react-hook-form";
@@ -45,7 +46,7 @@ const CustomInputSelect = ({
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="absolute top-14 w-[95%] bg-2 shadow-lg rounded-2xl z-10 overflow-hidden"
+              className="absolute top-14 w-[95%] bg-secondary shadow-lg rounded-2xl z-10 overflow-hidden"
             >
               <div className="flex flex-col gap-2 p-3">
                 {options.map(({ label, value }) => (
