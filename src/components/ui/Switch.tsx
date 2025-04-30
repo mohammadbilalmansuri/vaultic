@@ -15,7 +15,7 @@ const Switch = ({
   return (
     <button
       type="button"
-      className="p-1 rounded-full h-6 w-12 relative flex items-center transition-colors duration-300 bg-2"
+      className="p-1 rounded-full h-6 w-12 relative flex items-center transition-colors duration-300 bg-secondary"
       {...props}
     >
       <span
