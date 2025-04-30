@@ -1,3 +1,10 @@
+export type TRouteCategory =
+  | "authProtected" // only logged-in + password verified
+  | "guestOnly" // only visible to logged-out users
+  | "semiProtected" // visible to all, but password required if logged in
+  | "public" // fully open, no checks
+  | null;
+
 export type TOnboardingStep = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type TOnboardingPath = "create" | "import";
