@@ -1,22 +1,25 @@
 "use client";
 import { ReactNode, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import useUserStore from "@/stores/userStore";
-import { useAuth } from "@/hooks";
-import { Loader, Button, PasswordInput } from "@/components/ui";
 import { motion } from "motion/react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import useAuth from "@/hooks/useAuth";
+import useUserStore from "@/stores/userStore";
 import {
   verifyPasswordSchema,
   TVerifyPasswordFormData,
 } from "@/utils/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { DEV_PASSWORD, IS_DEV } from "@/constants";
+import { Button, Loader, PasswordInput } from "@/components/ui";
+import { IS_DEV, DEV_PASSWORD } from "@/constants";
+import getRouteCategory from "@/utils/getRouteCategory";
 import cn from "@/utils/cn";
 
 const Protected = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
+  const routeCategory = getRouteCategory(pathname);
+
   const { checkUser, checking, authenticateWithPassword, authenticating } =
     useAuth();
 
@@ -35,21 +38,23 @@ const Protected = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
-    checkUser(pathname);
+    checkUser(routeCategory);
   }, [pathname]);
 
-  if (checking) {
-    return <Loader />;
-  }
+  if (checking) return <Loader />;
 
-  if (userExists && !authenticated) {
+  if (
+    userExists &&
+    !authenticated &&
+    (routeCategory === "authProtected" || routeCategory === "semiProtected")
+  ) {
     return (
       <motion.form
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
         className="box"
-        onSubmit={handleSubmit((data: TVerifyPasswordFormData) =>
+        onSubmit={handleSubmit((data) =>
           authenticateWithPassword(data, setError)
         )}
       >
