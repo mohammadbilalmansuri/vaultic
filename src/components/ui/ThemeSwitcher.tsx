@@ -1,3 +1,4 @@
+"use client";
 import { Sun, Moon } from "@/components/ui/icons";
 import useThemeStore from "@/stores/themeStore";
 
@@ -8,7 +9,7 @@ const ThemeSwitcher = () => {
   return (
     <button
       type="button"
-      className="size-10 flex items-center justify-center rounded-xl transition-all duration-300 active:scale-95 hover:bg-primary stroke-zinc-600 dark:stroke-zinc-400 hover:stroke-zinc-800 dark:hover:stroke-zinc-200"
+      className="size-10 flex items-center justify-center rounded-xl transition-all duration-300 hover:bg-primary icon-stroke-hover active:scale-90"
       onClick={toggleTheme}
     >
       {theme === "dark" ? (
