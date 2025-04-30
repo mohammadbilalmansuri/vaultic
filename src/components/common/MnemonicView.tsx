@@ -23,7 +23,10 @@ const MnemonicView = ({
 
   return (
     <div
-      className={cn("relative bg-1 rounded-2xl flex flex-col", widthClassName)}
+      className={cn(
+        "relative bg-primary rounded-2xl flex flex-col",
+        widthClassName
+      )}
     >
       <div className="w-full border-color border-b-[1.5px] flex items-center justify-between py-3 px-4">
         <p className="leading-none">{lable}</p>

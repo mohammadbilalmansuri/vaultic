@@ -1,6 +1,6 @@
 "use client";
 import { useTransition } from "react";
-import motion from "framer-motion";
+import motion from "motion/react";
 import { useBlockchain } from "@/hooks";
 import useNotificationStore from "@/stores/notificationStore";
 import useUserStore from "@/stores/userStore";
@@ -57,7 +57,7 @@ const TestnetMode = () => {
         <p>
           Need test tokens?{" "}
           <Link
-            href="/faucets"
+            href="/faucet"
             className="heading-color hover:underline"
             target="_blank"
           >
