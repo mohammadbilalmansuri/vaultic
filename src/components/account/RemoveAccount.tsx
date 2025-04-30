@@ -50,7 +50,7 @@ const RemoveAccount = () => {
 
   return (
     <div className="w-full relative flex gap-5">
-      <div className="w-1/2 flex flex-col items-center justify-center text-center gap-3 p-5 rounded-2xl bg-1">
+      <div className="w-1/2 flex flex-col items-center justify-center text-center gap-3 p-5 rounded-2xl bg-primary">
         <h2 className="text-lg font-medium heading-color">
           Removing Your Account
         </h2>
@@ -90,7 +90,7 @@ const RemoveAccount = () => {
         </Button>
 
         <Link
-          href="/guide"
+          href="/help-and-support"
           className="hover:heading-color transition-all duration-300 border-b leading-tight"
           target="_blank"
         >
