@@ -7,7 +7,7 @@ import useNotificationStore from "@/stores/notificationStore";
 import { TVerifyPasswordFormData } from "@/utils/validations";
 import { UseFormSetError } from "react-hook-form";
 import delay from "@/utils/delay";
-import isAllowedRoute from "@/utils/isAllowedRoute";
+import { TRouteCategory } from "@/types";
 
 const useAuth = () => {
   const router = useRouter();
@@ -39,22 +39,22 @@ const useAuth = () => {
     }
   };
 
-  const checkUser = (pathname: string) => {
+  const checkUser = (routeCategory: TRouteCategory) => {
     startChecking(async () => {
       try {
         let exists = useUserStore.getState().userExists;
-
         if (!exists) {
           exists = await isUser();
           setUserState({ userExists: exists });
         }
 
-        const canAccess =
-          isAllowedRoute("always", pathname) ||
-          (exists && isAllowedRoute("signin", pathname)) ||
-          (!exists && isAllowedRoute("signout", pathname));
+        const allowed =
+          routeCategory === "public" ||
+          routeCategory === "semiProtected" ||
+          (routeCategory === "authProtected" && exists) ||
+          (routeCategory === "guestOnly" && !exists);
 
-        if (!canAccess) {
+        if (!allowed) {
           router.replace(exists ? "/dashboard" : "/");
         }
       } catch (error) {
@@ -77,15 +77,15 @@ const useAuth = () => {
         await loadWallets();
         setUserState({ authenticated: true });
       } catch (error) {
-        const errorMessage =
+        const message =
           error instanceof Error
             ? error.message
             : "An unexpected error occurred";
 
-        if (errorMessage === "Invalid password") {
-          setError("password", { message: errorMessage });
+        if (message === "Invalid password") {
+          setError("password", { message });
         } else {
-          await secureFail(errorMessage);
+          await secureFail(message);
         }
       }
     });
