@@ -8,6 +8,7 @@
   --breakpoint-md: 840px;
   --breakpoint-lg: 1024px;
   --height-13: 3.25rem;
+  --text-md: 1.0625rem;
 }
 
 @utility webkit-autofil-color-for-dark {
@@ -30,16 +31,12 @@
   @apply border-zinc-200 dark:border-zinc-800;
 }
 
-@utility bg-1 {
-  @apply bg-zinc-200/50 dark:bg-zinc-800/50;
+@utility bg-primary {
+  @apply bg-zinc-200/60 dark:bg-zinc-800/60;
 }
 
-@utility bg-2 {
+@utility bg-secondary {
   @apply bg-zinc-200 dark:bg-zinc-800;
-}
-
-@utility bg-3 {
-  @apply bg-zinc-300/80 dark:bg-zinc-700/60;
 }
 
 @utility bg-warning {
@@ -47,7 +44,7 @@
 }
 
 @utility btn-base {
-  @apply font-medium h-13 px-5 relative rounded-2xl transition-all duration-300 flex items-center justify-center active:scale-[0.97];
+  @apply font-medium h-13 px-5 relative rounded-2xl transition-all duration-300 flex items-center justify-center hover:rounded-3xl active:scale-[0.97];
 }
 
 @layer base {
@@ -88,11 +85,11 @@
 
 @layer components {
   .btn-teal {
-    @apply btn-base text-white bg-teal-500 hover:bg-teal-600/80 dark:hover:bg-teal-400;
+    @apply btn-base text-zinc-800 bg-teal-500;
   }
 
   .btn-zinc {
-    @apply btn-base heading-color bg-2 hover:bg-3;
+    @apply btn-base heading-color bg-secondary;
   }
 
   .box {
@@ -100,11 +97,11 @@
   }
 
   .input {
-    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-1 focus-within:bg-2;
+    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-primary focus-within:bg-secondary;
   }
 
   h1 {
-    @apply text-4xl lowercase font-medium heading-color;
+    @apply text-4xl font-medium heading-color;
   }
 
   .icon-fill {
