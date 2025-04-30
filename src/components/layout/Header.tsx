@@ -1,32 +1,28 @@
 "use client";
-import useThemeStore from "@/stores/themeStore";
-import { Switch, NavLink } from "@/components/ui";
-import { Logo, Moon, Sun } from "@/components/ui/icons";
+import { ThemeSwitcher, NavLink } from "@/components/ui";
+import { Logo } from "@/components/ui/icons";
 import { usePathname } from "next/navigation";
 import useUserStore from "@/stores/userStore";
-import cn from "@/utils/cn";
 import Link from "next/link";
 
 const Header = () => {
   const pathname = usePathname();
-  const theme = useThemeStore((state) => state.theme);
-  const toggleTheme = useThemeStore((state) => state.toggleTheme);
   const userExists = useUserStore((state) => state.userExists);
 
   return (
     <header className="w-full relative flex flex-col items-center px-5 min-h-fit">
-      <div className="w-full max-w-screen-lg relative flex items-center justify-between py-5">
+      <div className="w-full max-w-screen-lg relative flex items-center justify-between gap-5 py-5">
         <Link
           href={userExists ? "/dashboard" : "/"}
-          className="flex items-center gap-2 select-none"
+          className="flex items-center gap-2.5 select-none"
         >
           <Logo className="w-7 fill-teal-500" />
-          <span className="mt-px text-3xl leading-[0.8] font-bold text-teal-500">
-            Vaultic
+          <span className="-mt-0.5 text-3xl lowercase leading-[0.8] font-bold text-teal-500">
+            vaultic
           </span>
         </Link>
 
-        <nav className="flex items-center gap-8">
+        <nav className="flex items-center gap-6">
           {userExists ? (
             <>
               <NavLink href="/dashboard" active={pathname === "/dashboard"}>
@@ -41,35 +37,23 @@ const Header = () => {
             </>
           ) : (
             <>
-              <NavLink href="/guide" active={pathname === "/guide"}>
-                Guide
+              <NavLink href="/onboarding" active={pathname === "/onboarding"}>
+                Onboarding
               </NavLink>
               <NavLink href="/faucet" active={pathname === "/faucet"}>
                 Faucet
               </NavLink>
+              <NavLink
+                href="/help-and-support"
+                active={pathname === "/help-and-support"}
+              >
+                Help & Support
+              </NavLink>
             </>
           )}
-
-          <div className="flex items-center gap-2">
-            <Sun
-              className={cn("size-5", {
-                "stroke-zinc-800": theme === "light",
-                "stroke-zinc-400": theme === "dark",
-              })}
-            />
-            <Switch
-              state={theme === "dark"}
-              colorDependsOnState={false}
-              onClick={toggleTheme}
-            />
-            <Moon
-              className={cn("size-5", {
-                "stroke-zinc-200": theme === "dark",
-                "stroke-zinc-400": theme === "light",
-              })}
-            />
-          </div>
         </nav>
+
+        <ThemeSwitcher />
       </div>
     </header>
   );
