@@ -41,12 +41,13 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
   const handleSave = ({ password }: TCreatePasswordFormData) => {
     startSaving(async () => {
       try {
-        setUserState({ password, authenticated: true });
+        setUserState({ password });
         await saveUser();
         notify({
           type: "success",
           message: "Password set. Your data is stored safely on this device.",
         });
+        setUserState({ userExists: true, authenticated: true });
         setStep(6);
       } catch (_) {
         notify({
