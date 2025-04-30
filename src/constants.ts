@@ -1,3 +1,15 @@
+import { TRouteCategory } from "@/types";
+
+export const ROUTES = new Map<TRouteCategory, Set<string>>([
+  [
+    "authProtected",
+    new Set(["/dashboard", "/wallets", "/history", "/account"]),
+  ],
+  ["guestOnly", new Set(["/onboarding", "/forgot-password"])],
+  ["semiProtected", new Set(["/faucet", "/faucet/solana"])],
+  ["public", new Set(["/", "/help-and-support"])],
+]);
+
 export const ONBOARDING_STEPS = {
   create: 6,
   import: 5,
