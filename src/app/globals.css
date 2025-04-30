@@ -99,24 +99,4 @@
   .input {
     @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-primary focus-within:bg-secondary;
   }
-
-  h1 {
-    @apply text-4xl font-medium heading-color;
-  }
-
-  .icon-fill {
-    @apply fill-zinc-600 dark:fill-zinc-400 hover:fill-zinc-800 dark:hover:fill-zinc-200 active:scale-95 transition-all duration-300 cursor-pointer;
-  }
-
-  .icon-stroke {
-    @apply stroke-zinc-600 dark:stroke-zinc-400 hover:stroke-zinc-800 dark:hover:stroke-zinc-200 active:scale-90 transition-all duration-300 cursor-pointer;
-  }
-
-  .icon-bg {
-    @apply p-2 size-8 rounded-xl flex flex-col items-center justify-center bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/60 border-zinc-300/50 dark:border-zinc-700/40;
-  }
-
-  .icon-bg svg {
-    @apply w-5;
-  }
 }
