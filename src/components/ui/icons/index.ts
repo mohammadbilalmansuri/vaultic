@@ -13,3 +13,4 @@ export { default as Solana } from "./Solana";
 export { default as Success } from "./Success";
 export { default as Sun } from "./Sun";
 export { default as Warning } from "./Warning";
+export { default as Github } from "./Github";
