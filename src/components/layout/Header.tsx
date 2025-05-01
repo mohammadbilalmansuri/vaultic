@@ -1,6 +1,6 @@
 "use client";
 import { ThemeSwitcher, NavLink } from "@/components/ui";
-import { Logo } from "@/components/ui/icons";
+import { Logo, Github } from "@/components/ui/icons";
 import { usePathname } from "next/navigation";
 import useUserStore from "@/stores/userStore";
 import Link from "next/link";
@@ -53,7 +53,18 @@ const Header = () => {
           )}
         </nav>
 
-        <ThemeSwitcher />
+        <div className="flex items-center gap-3">
+          {!userExists && (
+            <Link
+              href="https://github.com/mohammadbilalmansuri/vaultic"
+              target="_blank"
+              className="icon-hover-bg icon-fill-hover"
+            >
+              <Github />
+            </Link>
+          )}
+          <ThemeSwitcher />
+        </div>
       </div>
     </header>
   );
