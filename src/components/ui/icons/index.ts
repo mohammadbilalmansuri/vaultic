@@ -14,3 +14,7 @@ export { default as Success } from "./Success";
 export { default as Sun } from "./Sun";
 export { default as Warning } from "./Warning";
 export { default as Github } from "./Github";
+export { default as ShieldTick } from "./ShieldTick";
+export { default as Wallet } from "./Wallet";
+export { default as Send } from "./Send";
+export { default as Airdrop } from "./Airdrop";
