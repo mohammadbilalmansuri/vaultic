@@ -16,9 +16,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Vaultic - Your Crypto, Fortified.",
+  title: "Vaultic - Secure by design. Yours by default.",
   description:
-    "Vaultic is a secure, web-based cryptocurrency wallet designed for Solana and Ethereum. Built with Next.js and powered by Alchemy RPC, Vaultic enables users to create and manage multiple wallets, send and receive funds, and recover accounts using seed phrases.",
+    "Vaultic is a secure, browser-based crypto wallet for Solana and Ethereum. Create multiple wallets with one mnemonic, send assets on testnet and mainnet, and store everything encrypted — no servers, no compromise.",
   icons: [
     {
       url: "/favicon.svg",
