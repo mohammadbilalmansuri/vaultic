@@ -9,14 +9,10 @@ const ThemeSwitcher = () => {
   return (
     <button
       type="button"
-      className="size-10 flex items-center justify-center rounded-xl transition-all duration-300 hover:bg-primary icon-stroke-hover active:scale-90"
+      className="icon-hover-bg icon-stroke-hover"
       onClick={toggleTheme}
     >
-      {theme === "dark" ? (
-        <Moon className="w-5.5" />
-      ) : (
-        <Sun className="w-5.5" />
-      )}
+      {theme === "dark" ? <Moon /> : <Sun />}
     </button>
   );
 };
