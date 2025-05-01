@@ -115,4 +115,12 @@
   .input {
     @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-primary focus-within:bg-secondary;
   }
+
+  .icon-hover-bg {
+    @apply size-10 flex items-center justify-center rounded-xl transition-all duration-300 hover:bg-primary active:scale-90;
+  }
+
+  .icon-hover-bg svg {
+    @apply w-5.5;
+  }
 }
