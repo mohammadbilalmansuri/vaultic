@@ -47,20 +47,8 @@
   @apply font-medium h-13 px-5 relative rounded-2xl transition-all duration-300 flex items-center justify-center hover:rounded-3xl active:scale-95;
 }
 
-@utility icon-fill {
-  @apply fill-zinc-600 dark:fill-zinc-400;
-}
-
-@utility icon-fill-hover {
-  @apply icon-fill hover:fill-zinc-800 hover:dark:fill-zinc-200;
-}
-
-@utility icon-stroke {
-  @apply stroke-zinc-600 dark:stroke-zinc-400;
-}
-
-@utility icon-stroke-hover {
-  @apply icon-stroke hover:stroke-zinc-800 hover:dark:stroke-zinc-200;
+@utility hover-icon {
+  @apply text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition-all duration-300;
 }
 
 @layer base {
