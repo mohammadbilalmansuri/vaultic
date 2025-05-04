@@ -9,6 +9,7 @@
   --breakpoint-lg: 1024px;
   --height-13: 3.25rem;
   --text-md: 1.0625rem;
+  --border-width-1_5: 1.5px;
 }
 
 @utility webkit-autofil-color-for-dark {
@@ -32,7 +33,7 @@
 }
 
 @utility bg-primary {
-  @apply bg-zinc-200/60 dark:bg-zinc-800/60;
+  @apply bg-zinc-200/50 dark:bg-zinc-800/50;
 }
 
 @utility bg-secondary {
@@ -104,11 +105,11 @@
     @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-primary focus-within:bg-secondary;
   }
 
-  .icon-hover-bg {
-    @apply size-10 flex items-center justify-center rounded-xl transition-all duration-300 hover:bg-primary active:scale-90;
+  .on-hover-bg-icon {
+    @apply hover-icon size-10 flex items-center justify-center rounded-xl hover:bg-primary active:scale-90;
   }
 
-  .icon-hover-bg svg {
+  .on-hover-bg-icon svg {
     @apply w-5.5;
   }
 }
