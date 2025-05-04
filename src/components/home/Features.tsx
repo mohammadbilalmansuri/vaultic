@@ -37,33 +37,31 @@ const Features = () => {
   return (
     <section
       ref={ref}
-      className="w-full relative flex flex-col items-center gap-10"
+      className="w-full relative flex flex-col items-center gap-8"
     >
       <motion.h2
-        className="text-3xl md:text-4xl font-bold heading-color leading-snug"
+        className="h2"
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.3, delay: 0.3 }}
+        transition={{ duration: 0.3, delay: 0.5 }}
       >
-        What Vaultic Offers
+        Built for Web3. Powered by You.
       </motion.h2>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
         {features.map(({ icon: Icon, title, description }, i) => (
           <motion.div
             key={i}
-            className="flex items-center gap-5 py-7 px-5 rounded-3xl border-1.5 border-color"
+            className="flex flex-col gap-4 p-8 rounded-3xl border-1.5 border-color"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.3, delay: 0.4 + i * 0.1 }}
+            transition={{ duration: 0.3, delay: 0.6 + i * 0.1 }}
           >
-            <div>
-              <Icon className="w-10 text-teal-500" />
+            <div className="flex items-center gap-4">
+              <Icon className="w-8 text-teal-500" />
+              <h3 className="text-h4 heading-color font-medium">{title}</h3>
             </div>
-            <div className="flex flex-col gap-2">
-              <h3 className="text-xl font-medium heading-color">{title}</h3>
-              <p>{description}</p>
-            </div>
+            <p>{description}</p>
           </motion.div>
         ))}
       </div>
