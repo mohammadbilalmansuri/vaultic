@@ -16,9 +16,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Vaultic - Secure by design. Yours by default.",
+  title: "Vaultic - Secure by Design. Yours to Keep.",
   description:
-    "Vaultic is a secure, browser-based crypto wallet for Solana and Ethereum. Create multiple wallets with one mnemonic, send assets on testnet and mainnet, and store everything encrypted — no servers, no compromise.",
+    "Vaultic is a secure, browser-based crypto wallet for Solana and Ethereum. Create and manage multiple wallets using a single mnemonic phrase. Send and receive assets on both testnet and mainnet. Your data stays encrypted in your browser — no servers, no tracking, no compromises.",
   icons: [
     {
       url: "/favicon.svg",
