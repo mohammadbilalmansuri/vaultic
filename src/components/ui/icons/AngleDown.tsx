@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-const ArrowDown = ({ ...props }: SVGProps<SVGSVGElement>) => {
+const AngleDown = ({ ...props }: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,4 +18,4 @@ const ArrowDown = ({ ...props }: SVGProps<SVGSVGElement>) => {
   );
 };
 
-export default ArrowDown;
+export default AngleDown;
