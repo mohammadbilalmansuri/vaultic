@@ -16,7 +16,7 @@ const Header = () => {
           href={userExists ? "/dashboard" : "/"}
           className="flex items-center gap-2.5 select-none"
         >
-          <Logo className="w-7 fill-teal-500" />
+          <Logo className="w-7 text-teal-500" />
           <span className="-mt-0.5 text-3xl lowercase leading-[0.8] font-bold text-teal-500">
             vaultic
           </span>
@@ -58,7 +58,7 @@ const Header = () => {
             <Link
               href="https://github.com/mohammadbilalmansuri/vaultic"
               target="_blank"
-              className="icon-hover-bg icon-fill-hover"
+              className="on-hover-bg-icon"
             >
               <Github />
             </Link>
