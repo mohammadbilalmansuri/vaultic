@@ -16,7 +16,7 @@ const NavLink = ({ children, href, active, ...props }: NavLinkProps) => {
       className={cn(
         "text-md leading-none h-10 px-3 rounded-xl flex items-center justify-center transition-all duration-300 active:scale-95",
         {
-          "bg-secondary heading-color": active,
+          "bg-primary heading-color": active,
           "bg-transparent hover:heading-color hover:bg-primary": !active,
         }
       )}
