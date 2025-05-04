@@ -1,4 +1,3 @@
-export { default as Airdrop } from "./Airdrop";
 export { default as AngleDown } from "./AngleDown";
 export { default as Cancel } from "./Cancel";
 export { default as Clipboard } from "./Clipboard";
@@ -22,5 +21,6 @@ export { default as Success } from "./Success";
 export { default as Sun } from "./Sun";
 export { default as Trash } from "./Trash";
 export { default as Wallet } from "./Wallet";
+export { default as WalletMoney } from "./WalletMoney";
 export { default as WalletRecovery } from "./WalletRecovery";
 export { default as Warning } from "./Warning";
