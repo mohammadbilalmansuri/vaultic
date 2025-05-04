@@ -1,54 +1,55 @@
 "use client";
-import { Button } from "@/components/ui";
 import { motion } from "motion/react";
+import { Button } from "@/components/ui";
 
 const Hero = () => {
   return (
-    <section className="w-full relative flex gap-10 items-center">
-      <div className="w-full sm:w-[55%] flex flex-col items-start gap-5">
-        <motion.h1
-          className="text-4xl md:text-5xl font-bold leading-snug heading-color"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          Secure by design.
-          <br />
-          Yours by default.
-        </motion.h1>
+    <motion.section
+      className="w-full relative flex flex-col text-center gap-10 items-center bg-primary p-16 rounded-4xl"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <motion.span
+        className="bg-teal-500/20 px-3 py-1.5 rounded-full text-teal-800 dark:text-teal-200 font-medium text-sm border border-teal-500/20"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+      >
+        Open Source & Non-Custodial
+      </motion.span>
 
-        <motion.p
-          className="text-base md:text-lg"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-        >
-          Create and manage Solana and Ethereum wallets with one secure phrase.
-          No servers, no tracking — just your crypto, encrypted in your browser.
-        </motion.p>
+      <motion.h1
+        className="h1 -my-4"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.2 }}
+      >
+        Secure by Design. Yours to Keep.
+      </motion.h1>
 
-        <motion.div
-          className="flex items-center gap-4 mt-4"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
-        >
-          <Button as="link" href="/onboarding">
-            Get Started
-          </Button>
-          <Button as="link" href="/faucet" variant="zinc">
-            Check Faucet
-          </Button>
-        </motion.div>
-      </div>
+      <motion.p
+        className="text-lg max-w-3xl"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
+      >
+        Vaultic is a secure, browser-based crypto wallet for Solana and
+        Ethereum. Create multiple wallets from one mnemonic, send assets on
+        testnet and mainnet, and store everything encrypted — no servers, no
+        compromise.
+      </motion.p>
 
       <motion.div
-        className="w-full md:w-[45%] aspect-square relative flex items-center justify-center bg-[url(/hero-light.png)] dark:bg-[url(/hero-dark.png)] bg-no-repeat bg-contain bg-right"
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      />
-    </section>
+        transition={{ duration: 0.3, delay: 0.4 }}
+      >
+        <Button as="link" href="/onboarding">
+          Get Started
+        </Button>
+      </motion.div>
+    </motion.section>
   );
 };
 
