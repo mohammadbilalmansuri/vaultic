@@ -14,7 +14,7 @@ const Hero = () => {
       <span className="absolute bottom-0 left-0 size-48 bg-teal-500/5 rounded-tr-full" />
 
       <motion.span
-        className="bg-teal-500/20 px-3 py-1.5 rounded-full text-teal-800 dark:text-teal-200 font-medium text-sm border border-teal-500/20"
+        className="badge"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.1 }}
