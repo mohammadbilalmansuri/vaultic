@@ -5,14 +5,11 @@ import { Button } from "@/components/ui";
 const Hero = () => {
   return (
     <motion.section
-      className="w-full relative flex flex-col text-center gap-10 items-center bg-primary p-16 rounded-4xl overflow-hidden"
+      className="w-full flex flex-col text-center gap-10 items-center bg-primary p-16 rounded-4xl decorative"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <span className="absolute top-0 right-0 size-32 bg-teal-500/10 rounded-bl-full" />
-      <span className="absolute bottom-0 left-0 size-48 bg-teal-500/5 rounded-tr-full" />
-
       <motion.span
         className="badge"
         initial={{ opacity: 0, y: 30 }}
