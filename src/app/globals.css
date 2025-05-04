@@ -9,7 +9,7 @@
   --breakpoint-lg: 1024px;
   --height-13: 3.25rem;
   --text-md: 1.0625rem;
-  --border-width-1_5: 1.5px;
+  --border-width-1\.5: 1.5px;
 }
 
 @utility webkit-autofil-color-for-dark {
