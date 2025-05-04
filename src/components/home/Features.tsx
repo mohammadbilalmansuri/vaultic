@@ -40,7 +40,7 @@ const Features = () => {
       className="w-full relative flex flex-col items-center gap-10"
     >
       <motion.h2
-        className="text-3xl md:text-4xl font-bold heading-color"
+        className="text-3xl md:text-4xl font-bold heading-color leading-snug"
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.3, delay: 0.3 }}
