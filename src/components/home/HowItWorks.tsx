@@ -46,7 +46,7 @@ const HowItWorks = () => {
           >
             <h3 className="text-h3 font-medium heading-color -mt-1">{title}</h3>
             <p className="-mt-2">{description}</p>
-            <span className="absolute right-0 bottom-0 text-xl font-medium leading-none size-14 rounded-tl-full flex items-end justify-end pr-3 pb-3 transition-all duration-300 text-teal-500 bg-teal-500/10 group-hover:bg-teal-500/20">
+            <span className="absolute right-0 bottom-0 text-xl font-medium leading-none size-14 rounded-tl-full flex items-end justify-end pr-3 pb-3 transition-all duration-300 text-teal-500 bg-teal-500/10 dark:bg-teal-500/5">
               0{i + 1}
             </span>
           </motion.div>
