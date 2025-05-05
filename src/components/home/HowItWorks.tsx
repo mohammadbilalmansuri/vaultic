@@ -12,7 +12,7 @@ const steps = [
   {
     title: "Encrypt & Secure",
     description:
-      "Set a strong password to encrypt everything using AES-256. Your wallet data stays in your browser's local storage — never sent to any server.",
+      "Encrypt your wallet with a strong password using AES-GCM. Your data is stored securely in your browser's IndexedDB — never sent to any server.",
   },
   {
     title: "Manage & Transact",
