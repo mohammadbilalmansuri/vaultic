@@ -1,7 +1,8 @@
 "use client";
-import { motion, useInView } from "motion/react";
 import { useRef } from "react";
+import { motion, useInView } from "motion/react";
 import { ShieldTick, Wallet, Send, WalletMoney } from "@/components/ui/icons";
+import getFadeUpAnimation from "@/utils/getFadeUpAnimation";
 
 const features = [
   {
@@ -41,9 +42,7 @@ const Features = () => {
     >
       <motion.h2
         className="h2"
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.3, delay: 0.5 }}
+        {...getFadeUpAnimation({ inView: isInView, delay: 0.5 })}
       >
         Built for Web3. Powered by You.
       </motion.h2>
@@ -51,11 +50,9 @@ const Features = () => {
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
         {features.map(({ icon: Icon, title, description }, i) => (
           <motion.div
-            key={i}
+            key={`feature-${i}`}
             className="flex flex-col gap-4 p-8 rounded-3xl border-1.5 border-color"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.3, delay: 0.6 + i * 0.1 }}
+            {...getFadeUpAnimation({ inView: isInView, delay: 0.6 + i * 0.1 })}
           >
             <div className="flex items-center gap-4">
               <Icon className="w-8 text-teal-500" />
