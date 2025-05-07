@@ -8,15 +8,18 @@ const Lock = ({ ...props }: SVGProps<SVGSVGElement>) => {
       fill="none"
       stroke="currentColor"
       strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
       {...props}
     >
-      <path d="M6 10V8C6 4.69 7 2 12 2C17 2 18 4.69 18 8V10" />
-      <path d="M17 22H7C3 22 2 21 2 17V15C2 11 3 10 7 10H17C21 10 22 11 22 15V17C22 21 21 22 17 22Z" />
-      <path d="M15.9965 16H16.0054" />
-      <path d="M11.9955 16H12.0045" />
-      <path d="M7.99451 16H8.00349" />
+      <path d="M2 16C2 13.1716 2 11.7574 2.87868 10.8787C3.75736 10 5.17157 10 8 10H16C18.8284 10 20.2426 10 21.1213 10.8787C22 11.7574 22 13.1716 22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22H8C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16Z" />
+      <path
+        d="M6 10V8C6 4.68629 8.68629 2 12 2C15.3137 2 18 4.68629 18 8V10"
+        strokeLinecap="round"
+      />
+      <path
+        d="M8 16H8.009M11.991 16H12M15.991 16H16"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 };
