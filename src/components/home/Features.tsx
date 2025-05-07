@@ -33,7 +33,7 @@ const features = [
 
 const Features = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const isInView = useInView(ref, { once: true, amount: 0.6 });
 
   return (
     <section
