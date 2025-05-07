@@ -23,21 +23,23 @@ const steps = [
 
 const HowItWorks = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const isInView = useInView(ref, { once: true, amount: 0.6 });
 
   return (
     <section
       ref={ref}
       className="w-full relative flex flex-col items-center gap-8"
     >
-      <motion.h2 className="h2">Create. Encrypt. Transact.</motion.h2>
+      <motion.h2 className="h2" {...getFadeUpAnimation({ inView: isInView })}>
+        Create. Encrypt. Transact.
+      </motion.h2>
 
       <div className="w-full relative grid grid-cols-3 gap-5">
         {steps.map(({ title, description }, i) => (
           <motion.div
             key={`step-${i}`}
             className="w-full relative flex flex-col items-start gap-5 border-1.5 border-color p-7 rounded-3xl overflow-hidden group"
-            {...getFadeUpAnimation({ inView: isInView, delay: 0.4 + i * 0.1 })}
+            {...getFadeUpAnimation({ inView: isInView, delay: 0.1 + i * 0.1 })}
           >
             <h3 className="text-h3 font-medium heading-color -mt-1">{title}</h3>
             <p className="-mt-2">{description}</p>
