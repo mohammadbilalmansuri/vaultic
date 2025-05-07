@@ -30,12 +30,7 @@ const HowItWorks = () => {
       ref={ref}
       className="w-full relative flex flex-col items-center gap-8"
     >
-      <motion.h2
-        className="h2"
-        {...getFadeUpAnimation({ inView: isInView, delay: 0.3 })}
-      >
-        Create. Encrypt. Transact.
-      </motion.h2>
+      <motion.h2 className="h2">Create. Encrypt. Transact.</motion.h2>
 
       <div className="w-full relative grid grid-cols-3 gap-5">
         {steps.map(({ title, description }, i) => (
