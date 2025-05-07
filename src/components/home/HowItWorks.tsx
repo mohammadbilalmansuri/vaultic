@@ -38,7 +38,7 @@ const HowItWorks = () => {
         {steps.map(({ title, description }, i) => (
           <motion.div
             key={`step-${i}`}
-            className="w-full relative flex flex-col items-start gap-5 border-1.5 border-color p-7 rounded-3xl overflow-hidden group"
+            className="w-full relative flex flex-col items-start gap-5 border-1.5 border-color p-8 rounded-3xl overflow-hidden group"
             {...getFadeUpAnimation({ inView: isInView, delay: 0.1 + i * 0.1 })}
           >
             <h3 className="text-h3 font-medium heading-color -mt-1">{title}</h3>
