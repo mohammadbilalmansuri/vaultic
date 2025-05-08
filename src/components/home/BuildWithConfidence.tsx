@@ -7,7 +7,7 @@ import { Airdrop, Code } from "@/components/ui/icons";
 
 const BuildWithConfidence = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.6 });
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
     <section
@@ -44,7 +44,7 @@ const BuildWithConfidence = () => {
 
         <motion.div
           className="w-full relative overflow-hidden flex flex-col items-start gap-4 p-8 border-1.5 border-color rounded-3xl"
-          {...getFadeUpAnimation({ inView: isInView, delay: 0.15 })}
+          {...getFadeUpAnimation({ inView: isInView, delay: 0.3 })}
         >
           <h3 className="h3 -mt-1">100% Open Source & Auditable</h3>
           <p>
