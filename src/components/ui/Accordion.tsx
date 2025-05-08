@@ -1,0 +1,62 @@
+"use client";
+import { MouseEventHandler } from "react";
+import { motion } from "motion/react";
+import { AngleDown } from "@/components/ui/icons";
+import cn from "@/utils/cn";
+
+interface AccordionProps {
+  isOpen: boolean;
+  toggleAccordion: MouseEventHandler<HTMLDivElement>;
+  question: string;
+  answer: string;
+}
+
+const Accordion = ({
+  isOpen,
+  toggleAccordion,
+  question,
+  answer,
+}: AccordionProps) => {
+  return (
+    <div
+      className={cn(
+        "border-1.5 border-color rounded-3xl overflow-hidden transition-all duration-300",
+        {
+          "border-zinc-300 dark:border-zinc-700": isOpen,
+          "hover:border-zinc-300 dark:hover:border-zinc-700": !isOpen,
+        }
+      )}
+    >
+      <div
+        onClick={toggleAccordion}
+        className="pl-5 py-3.5 pr-3.5 w-full flex justify-between items-center cursor-pointer"
+      >
+        <h5
+          className={cn("text-lg transition-all duration-300", {
+            "heading-color": isOpen,
+          })}
+        >
+          {question}
+        </h5>
+        <span className="on-hover-bg-icon">
+          <AngleDown
+            className={cn("transition-all duration-300", {
+              "rotate-180": isOpen,
+            })}
+          />
+        </span>
+      </div>
+
+      <motion.div
+        initial={{ height: 0 }}
+        animate={{ height: isOpen ? "auto" : 0 }}
+        transition={{ duration: 0.3 }}
+        className="overflow-hidden"
+      >
+        <p className="px-5 pb-5">{answer}</p>
+      </motion.div>
+    </div>
+  );
+};
+
+export default Accordion;
