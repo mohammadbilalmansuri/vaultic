@@ -1,6 +1,6 @@
 "use client";
 import { MouseEventHandler } from "react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { AngleDown } from "@/components/ui/icons";
 import cn from "@/utils/cn";
 
@@ -47,14 +47,17 @@ const Accordion = ({
         </span>
       </div>
 
-      <motion.div
-        initial={{ height: 0 }}
-        animate={{ height: isOpen ? "auto" : 0 }}
-        transition={{ duration: 0.3 }}
-        className="overflow-hidden"
-      >
-        <p className="px-5 pb-5">{answer}</p>
-      </motion.div>
+      <AnimatePresence initial={false}>
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="overflow-hidden"
+        >
+          <p className="px-5 pb-5">{answer}</p>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };
