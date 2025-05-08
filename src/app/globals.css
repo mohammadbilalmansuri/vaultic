@@ -124,4 +124,8 @@
   .h2 {
     @apply text-h2 font-bold heading-color;
   }
+
+  .h3 {
+    @apply text-h3 font-bold heading-color;
+  }
 }
