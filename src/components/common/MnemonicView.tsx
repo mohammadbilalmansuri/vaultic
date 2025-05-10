@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Copy, Hide } from "@/components/ui/icons";
+import { Copy, Hide } from "@/components/ui";
 import { useClipboard } from "@/hooks";
 import useUserStore from "@/stores/userStore";
 import cn from "@/utils/cn";
@@ -28,7 +28,7 @@ const MnemonicView = ({
         widthClassName
       )}
     >
-      <div className="w-full border-color border-b-[1.5px] flex items-center justify-between py-3 px-4">
+      <div className="w-full border-color border-b-1.5 flex items-center justify-between py-3 px-4">
         <p className="leading-none">{lable}</p>
         <div className="flex items-center gap-4">
           <Hide hidden={hidden} onClick={() => setHidden((prev) => !prev)} />
@@ -50,11 +50,7 @@ const MnemonicView = ({
         {mnemonic.split(" ").map((word, index) => (
           <div key={index} className="flex items-center gap-2">
             <span className="opacity-80">{index + 1}.</span>
-            <span
-              className={cn("lowercase heading-color", {
-                "tracking-[0.2em]": hidden,
-              })}
-            >
+            <span className="lowercase heading-color">
               {hidden ? Array(word.length).fill("•").join("") : word}
             </span>
           </div>
