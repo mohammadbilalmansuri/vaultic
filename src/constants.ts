@@ -3,9 +3,15 @@ import { TRouteCategory } from "@/types";
 export const ROUTES = new Map<TRouteCategory, Set<string>>([
   [
     "authProtected",
-    new Set(["/dashboard", "/wallets", "/history", "/account"]),
+    new Set([
+      "/dashboard",
+      "/wallets",
+      "/history",
+      "/account",
+      "/forgot-password",
+    ]),
   ],
-  ["guestOnly", new Set(["/onboarding", "/forgot-password"])],
+  ["guestOnly", new Set(["/onboarding"])],
   ["semiProtected", new Set(["/faucet", "/faucet/solana"])],
   ["public", new Set(["/", "/help-and-support"])],
 ]);
