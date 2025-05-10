@@ -1,9 +1,10 @@
 export type TRouteCategory =
-  | "authProtected" // only logged-in + password verified
-  | "guestOnly" // only visible to logged-out users
-  | "semiProtected" // visible to all, but password required if logged in
-  | "public" // fully open, no checks
-  | null;
+  | "authProtected" // Requires user to be logged in *and* verified with password
+  | "authOnly" // Requires user to be logged in, but no password prompt
+  | "guestOnly" // Only accessible to logged-out users
+  | "semiProtected" // Publicly accessible, but requires password if user is logged in
+  | "public" // Fully public, no auth or password required
+  | null; // Unknown or uncategorized route
 
 export type TOnboardingStep = 1 | 2 | 3 | 4 | 5 | 6;
 
