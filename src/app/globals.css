@@ -101,14 +101,6 @@
     @apply btn-base heading-color bg-secondary;
   }
 
-  .box {
-    @apply w-full max-w-md relative flex flex-col items-center text-center gap-5 border-2 border-color rounded-3xl p-12;
-  }
-
-  .input {
-    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-primary focus-within:bg-secondary;
-  }
-
   .on-hover-bg-icon {
     @apply hover-icon size-10 flex items-center justify-center rounded-xl hover:bg-primary;
   }
@@ -135,5 +127,13 @@
 
   .onboarding-heading {
     @apply text-[28px] font-medium heading-color;
+  }
+
+  .box {
+    @apply w-full max-w-md relative flex flex-col items-center text-center gap-4 border-2 border-color rounded-3xl p-12;
+  }
+
+  .input {
+    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-primary focus-within:bg-secondary;
   }
 }
