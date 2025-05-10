@@ -3,7 +3,7 @@ import { useState, JSX } from "react";
 import {
   Welcome,
   SelectNetwork,
-  SecretRecoveryWarning,
+  RecoveryPhraseWarning,
   GenerateWallet,
   ImportWallet,
   CreatePassword,
@@ -24,7 +24,7 @@ const Onboarding = () => {
     2: <SelectNetwork setNetwork={setNetwork} setStep={setStep} />,
     3:
       path === "create" ? (
-        <SecretRecoveryWarning setStep={setStep} />
+        <RecoveryPhraseWarning setStep={setStep} />
       ) : (
         <ImportWallet network={network} setStep={setStep} />
       ),
