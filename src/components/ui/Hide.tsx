@@ -1,14 +1,15 @@
 "use client";
 import { ButtonHTMLAttributes } from "react";
 import { Eye, EyeSlash } from "@/components/ui/icons";
+import cn from "@/utils/cn";
 
 interface HideProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   hidden: boolean;
 }
 
-const Hide = ({ hidden, ...props }: HideProps) => {
+const Hide = ({ hidden, className = "", ...props }: HideProps) => {
   return (
-    <button type="button" className="hover-icon" {...props}>
+    <button type="button" className={cn("hover-icon", className)} {...props}>
       {hidden ? <Eye /> : <EyeSlash />}
     </button>
   );
