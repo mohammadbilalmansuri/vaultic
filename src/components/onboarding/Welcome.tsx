@@ -5,6 +5,7 @@ import { Button } from "@/components/ui";
 import { Logo } from "@/components/ui/icons";
 import { TOnboardingStep, TOnboardingPath } from "@/types";
 import useNotificationStore from "@/stores/notificationStore";
+import { scaleUpAnimation } from "@/utils/animations";
 
 type WelcomeProps = {
   setPath: Dispatch<SetStateAction<TOnboardingPath>>;
@@ -14,7 +15,7 @@ type WelcomeProps = {
 const Welcome = ({ setPath, setStep }: WelcomeProps) => {
   const notify = useNotificationStore((state) => state.notify);
 
-  const setState = (path: TOnboardingPath) => {
+  const handleStart = (path: TOnboardingPath) => {
     setPath(path);
     notify({
       type: "info",
@@ -23,37 +24,26 @@ const Welcome = ({ setPath, setStep }: WelcomeProps) => {
           ? "Let's create your new wallet!"
           : "Let's import your wallet securely!",
     });
-
     setStep(2);
   };
 
   return (
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="box"
-    >
-      <Logo className="-mt-1 h-16 fill-teal-500 dark:fill-teal-500" />
-      <h3 className="text-lg">Welcome to Vaultic</h3>
-      <h1>Let's Get Started</h1>
-      <p className="-mt-px">
-        Vaultic is a secure, web-based cryptocurrency wallet supporting Solana
-        and Ethereum.
+    <motion.div {...scaleUpAnimation()} className="box">
+      <Logo className="-mt-1 h-15 text-teal-500" />
+      <h1 className="onboarding-heading mt-1">Set Up Your Wallet</h1>
+      <p className="-mt-1">
+        Choose how you'd like to get started. You can create a new wallet or
+        import an existing one.
       </p>
 
-      <div className="flex flex-col gap-4 pt-2">
-        <Button
-          variant="teal"
-          className="w-full"
-          onClick={() => setState("create")}
-        >
+      <div className="flex flex-col gap-4 mt-3">
+        <Button className="w-full" onClick={() => handleStart("create")}>
           Create a new wallet
         </Button>
         <Button
           variant="zinc"
           className="w-full"
-          onClick={() => setState("import")}
+          onClick={() => handleStart("import")}
         >
           Import wallet
         </Button>
