@@ -54,10 +54,11 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center gap-3">
-          {!userExists && (
+          {(!userExists || pathname === "/") && (
             <Link
               href="https://github.com/mohammadbilalmansuri/vaultic"
               target="_blank"
+              rel="noopener noreferrer"
               className="on-hover-bg-icon"
             >
               <Github />
