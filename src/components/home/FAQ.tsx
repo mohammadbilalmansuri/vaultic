@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
-import getFadeUpAnimation from "@/utils/getFadeUpAnimation";
+import { fadeUpAnimation } from "@/utils/animations";
 import { Accordion } from "@/components/ui";
 
 const faqs = [
@@ -49,7 +49,7 @@ const FaqSection = () => {
 
   return (
     <section ref={ref} className="w-full flex flex-col items-center gap-8">
-      <motion.h2 className="h2" {...getFadeUpAnimation({ inView: isInView })}>
+      <motion.h2 className="h2" {...fadeUpAnimation({ inView: isInView })}>
         Frequently Asked. Clearly Answered.
       </motion.h2>
 
@@ -57,7 +57,7 @@ const FaqSection = () => {
         {faqs.map(({ question, answer }, index) => (
           <motion.div
             key={index}
-            {...getFadeUpAnimation({
+            {...fadeUpAnimation({
               inView: isInView,
               delay: 0.1 + index * 0.1,
             })}
