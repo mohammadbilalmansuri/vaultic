@@ -16,14 +16,14 @@ const RecoveryPhraseWarning = ({ setStep }: RecoveryPhraseWarningProps) => {
 
   return (
     <motion.div {...scaleUpAnimation()} className="box max-w-xl">
-      <h1 className="-mt-1 onboarding-heading">
+      <h1 className="-mt-2 onboarding-heading">
         Secret Recovery Phrase Warning
       </h1>
-      <p className="max-w-sm -mt-1">
+      <p className="max-w-sm">
         On the next page, you will receive your secret recovery phrase.
       </p>
 
-      <div className="mt-1 w-full flex items-center gap-4 text-left p-4 rounded-2xl bg-primary">
+      <div className="mt-2 w-full flex items-center gap-4 text-left p-4 rounded-2xl bg-primary">
         <span className="min-w-fit">
           <Warning className="w-6 text-yellow-500" />
         </span>
@@ -33,7 +33,7 @@ const RecoveryPhraseWarning = ({ setStep }: RecoveryPhraseWarningProps) => {
         </p>
       </div>
 
-      <div className="-mt-1 w-full flex items-center gap-4 text-left p-4 rounded-2xl bg-primary">
+      <div className="w-full flex items-center gap-4 text-left p-4 rounded-2xl bg-primary">
         <span className="min-w-fit">
           <Lock className="w-6 text-teal-500" />
         </span>
@@ -44,7 +44,7 @@ const RecoveryPhraseWarning = ({ setStep }: RecoveryPhraseWarningProps) => {
       </div>
 
       <div
-        className="flex items-center gap-4 text-left cursor-pointer select-none"
+        className="flex items-center gap-4 my-1.5 text-left cursor-pointer select-none"
         onClick={() => setAgree((prev) => !prev)}
       >
         <div className="min-w-fit">

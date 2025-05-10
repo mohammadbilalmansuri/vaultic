@@ -14,6 +14,7 @@ import { useStorage } from "@/hooks";
 import useNotificationStore from "@/stores/notificationStore";
 import { IS_DEV, DEV_PASSWORD } from "@/constants";
 import cn from "@/utils/cn";
+import { scaleUpAnimation } from "@/utils/animations";
 
 type CreatePasswordProps = {
   setStep: Dispatch<SetStateAction<TOnboardingStep>>;
@@ -68,14 +69,9 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
   };
 
   return (
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="box"
-    >
-      <h1 className="-mt-1">Create a Password</h1>
-      <p className="-mt-1">
+    <motion.div {...scaleUpAnimation()} className="box">
+      <h1 className="-mt-2 onboarding-heading">Create a Password</h1>
+      <p>
         It should be at least 8 characters.
         <br />
         You'll need this to unlock Vaultic.
@@ -83,7 +79,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
 
       <form
         onSubmit={handleSubmit(handleSave)}
-        className="w-full flex flex-col gap-4 pt-2"
+        className="w-full flex flex-col gap-4 mt-3"
       >
         <PasswordInput {...register("password")} />
         <PasswordInput
