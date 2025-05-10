@@ -27,7 +27,6 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
   const setUserState = useUserStore((state) => state.setUserState);
   const notify = useNotificationStore((state) => state.notify);
   const { createWallet } = useWallet();
-
   const [saved, setSaved] = useState(false);
   const [generating, startGenerating] = useTransition();
 
@@ -38,7 +37,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
     }
   }, []);
 
-  const handleNext = () => {
+  const handleGenerate = () => {
     startGenerating(async () => {
       if (!saved) return;
       try {
@@ -65,10 +64,8 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
       transition={{ duration: 0.4, ease: "easeInOut" }}
       className="box max-w-xl"
     >
-      <h1 className="-mt-1 mb-1">Secret Recovery Phrase</h1>
-
+      <h1 className="-mt-1 mb-1 onboarding-heading">Secret Recovery Phrase</h1>
       <MnemonicView lable="Save these words in a safe place." />
-
       <div
         className="flex gap-4 py-1 cursor-pointer select-none"
         onClick={() => setSaved((prev) => !prev)}
@@ -89,7 +86,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
             "opacity-60 pointer-events-none": !saved,
           })}
           disabled={!saved}
-          onClick={handleNext}
+          onClick={handleGenerate}
         >
           {generating ? <Loader size="sm" color="black" /> : "Next"}
         </Button>
