@@ -70,7 +70,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
 
   return (
     <motion.div {...scaleUpAnimation()} className="box">
-      <h1 className="-mt-2 onboarding-heading">Create a Password</h1>
+      <h1 className="-mt-2 box-heading">Create a Password</h1>
       <p>
         It should be at least 8 characters.
         <br />

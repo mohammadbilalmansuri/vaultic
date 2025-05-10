@@ -60,7 +60,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
 
   return (
     <motion.div {...scaleUpAnimation()} className="box max-w-xl">
-      <h1 className="-mt-2 mb-2 onboarding-heading">Secret Recovery Phrase</h1>
+      <h1 className="-mt-2 mb-2 box-heading">Secret Recovery Phrase</h1>
       <MnemonicView lable="Save these words in a safe place." />
       <div
         className="flex gap-4 my-1.5 cursor-pointer select-none"

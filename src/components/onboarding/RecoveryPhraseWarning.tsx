@@ -16,9 +16,7 @@ const RecoveryPhraseWarning = ({ setStep }: RecoveryPhraseWarningProps) => {
 
   return (
     <motion.div {...scaleUpAnimation()} className="box max-w-xl">
-      <h1 className="-mt-2 onboarding-heading">
-        Secret Recovery Phrase Warning
-      </h1>
+      <h1 className="-mt-2 box-heading">Secret Recovery Phrase Warning</h1>
       <p className="max-w-sm">
         On the next page, you will receive your secret recovery phrase.
       </p>
