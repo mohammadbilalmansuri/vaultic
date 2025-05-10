@@ -15,6 +15,7 @@ import useNotificationStore from "@/stores/notificationStore";
 import { validateMnemonic } from "bip39";
 import { useWallet } from "@/hooks";
 import cn from "@/utils/cn";
+import { scaleUpAnimation } from "@/utils/animations";
 
 type ImportWalletProps = {
   network: TNetwork;
@@ -103,20 +104,15 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
       : undefined;
 
   return (
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="box max-w-xl"
-    >
-      <h1 className="-mt-1">Secret Recovery Phrase</h1>
-      <p className="max-w-sm">
+    <motion.div {...scaleUpAnimation()} className="box max-w-xl">
+      <h1 className="-mt-1 onboarding-heading">Secret Recovery Phrase</h1>
+      <p className="max-w-sm -mt-1">
         Enter your 12 or 24-word phrase. You can paste your full mnemonic into
         the first input field.
       </p>
 
       <form
-        className="w-full flex flex-col gap-4.5 pt-2.5"
+        className="w-full flex flex-col gap-4.5 mt-2"
         onSubmit={handleSubmit(handleImport)}
       >
         <div className="w-full grid grid-cols-2 xs:grid-cols-3 gap-3">
