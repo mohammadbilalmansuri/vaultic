@@ -2,15 +2,11 @@
 import { motion } from "motion/react";
 import { Button } from "@/components/ui";
 import { Logo } from "@/components/ui/icons";
+import { scaleUpAnimation } from "@/utils/animations";
 
 const Completion = () => {
   return (
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="box"
-    >
+    <motion.div {...scaleUpAnimation()} className="box">
       <Logo className="h-15 text-teal-500" />
       <h1 className="onboarding-heading mt-2">You're all ready!</h1>
       <p>
