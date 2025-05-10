@@ -1,6 +1,6 @@
 "use client";
 import { ComponentProps, Ref, useState } from "react";
-import { Hide } from "./icons";
+import { Hide } from "@/components/ui";
 import cn from "@/utils/cn";
 
 interface PasswordInputProps extends ComponentProps<"input"> {
