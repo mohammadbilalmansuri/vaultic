@@ -3,9 +3,9 @@ import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui";
 import { Solana, Ethereum } from "@/components/ui/icons";
-import { TOnboardingStep } from "@/types";
-import { TNetwork } from "@/types";
+import { TOnboardingStep, TNetwork } from "@/types";
 import useNotificationStore from "@/stores/notificationStore";
+import { scaleUpAnimation } from "@/utils/animations";
 
 type SelectNetworkProps = {
   setNetwork: Dispatch<SetStateAction<TNetwork>>;
@@ -15,7 +15,7 @@ type SelectNetworkProps = {
 const SelectNetwork = ({ setNetwork, setStep }: SelectNetworkProps) => {
   const notify = useNotificationStore((state) => state.notify);
 
-  const setState = (network: TNetwork) => {
+  const handleSelect = (network: TNetwork) => {
     setNetwork(network);
     notify({
       type: "info",
@@ -25,23 +25,18 @@ const SelectNetwork = ({ setNetwork, setStep }: SelectNetworkProps) => {
   };
 
   return (
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="box"
-    >
-      <h1 className="-mt-1">Select Network</h1>
-      <p>
-        Vaultic supports both the Solana and Ethereum networks. Which one would
-        you like to use? You can add more wallets later on another network.
+    <motion.div {...scaleUpAnimation()} className="box">
+      <h1 className="-mt-1 onboarding-heading">Select Network</h1>
+      <p className="-mt-1">
+        Vaultic supports Solana and Ethereum. Select the network you'd like to
+        use first. You can add more wallets later on another network.
       </p>
 
-      <div className="flex items-center gap-4 pt-2">
+      <div className="flex items-center gap-4 mt-2.5">
         <Button
           variant="zinc"
           className="gap-2.5"
-          onClick={() => setState("solana")}
+          onClick={() => handleSelect("solana")}
         >
           <Solana className="h-4 min-w-fit" />
           <span className="mt-px">Solana</span>
@@ -50,7 +45,7 @@ const SelectNetwork = ({ setNetwork, setStep }: SelectNetworkProps) => {
         <Button
           variant="zinc"
           className="gap-2.5"
-          onClick={() => setState("ethereum")}
+          onClick={() => handleSelect("ethereum")}
         >
           <Ethereum className="h-6 min-w-fit" />
           <span className="mt-px">Ethereum</span>
