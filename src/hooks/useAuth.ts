@@ -52,7 +52,8 @@ const useAuth = () => {
           routeCategory === "public" ||
           routeCategory === "semiProtected" ||
           (routeCategory === "authProtected" && exists) ||
-          (routeCategory === "guestOnly" && !exists);
+          (routeCategory === "guestOnly" && !exists) ||
+          (routeCategory === "authOnly" && exists);
 
         if (!allowed) {
           router.replace(exists ? "/dashboard" : "/");
