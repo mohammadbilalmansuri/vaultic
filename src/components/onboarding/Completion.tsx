@@ -8,7 +8,7 @@ const Completion = () => {
   return (
     <motion.div {...scaleUpAnimation()} className="box">
       <Logo className="h-15 text-teal-500" />
-      <h1 className="onboarding-heading mt-2">You're all ready!</h1>
+      <h1 className="box-heading mt-2">You're all ready!</h1>
       <p>
         Keep your Secret Recovery Phrase in a safe place. If you lose it, no one
         can recover it for you, and you will permanently lose access to your

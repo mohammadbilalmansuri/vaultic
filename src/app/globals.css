@@ -125,7 +125,7 @@
     @apply text-h3 font-bold heading-color;
   }
 
-  .onboarding-heading {
+  .box-heading {
     @apply text-[28px] font-medium heading-color;
   }
 

@@ -105,7 +105,7 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
 
   return (
     <motion.div {...scaleUpAnimation()} className="box max-w-xl">
-      <h1 className="-mt-2 onboarding-heading">Secret Recovery Phrase</h1>
+      <h1 className="-mt-2 box-heading">Secret Recovery Phrase</h1>
       <p className="max-w-sm1">
         Enter your 12 or 24-word phrase. You can paste your full mnemonic into
         the first input field.

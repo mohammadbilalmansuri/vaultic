@@ -30,7 +30,7 @@ const Welcome = ({ setPath, setStep }: WelcomeProps) => {
   return (
     <motion.div {...scaleUpAnimation()} className="box">
       <Logo className="h-15 text-teal-500" />
-      <h1 className="onboarding-heading mt-2">Set Up Your Wallet</h1>
+      <h1 className="box-heading mt-2">Set Up Your Wallet</h1>
       <p>
         Choose how you'd like to get started. You can create a new wallet or
         import an existing one.
