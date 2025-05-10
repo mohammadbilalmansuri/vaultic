@@ -4,7 +4,7 @@ import { Button } from "@/components/ui";
 import { Solana, Ethereum, Logo } from "@/components/ui/icons";
 import { scaleUpAnimation } from "@/utils/animations";
 
-const Faucets = () => {
+const Faucet = () => {
   return (
     <motion.div {...scaleUpAnimation()} className="box">
       <Logo className="w-15 text-teal-500" />
@@ -41,4 +41,4 @@ const Faucets = () => {
   );
 };
 
-export default Faucets;
+export default Faucet;
