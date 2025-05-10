@@ -53,7 +53,7 @@
 }
 
 @utility hover-icon {
-  @apply text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition-all duration-300;
+  @apply text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition-all duration-300 active:scale-90;
 }
 
 @layer base {
@@ -110,7 +110,11 @@
   }
 
   .on-hover-bg-icon {
-    @apply hover-icon size-10 flex items-center justify-center rounded-xl hover:bg-primary active:scale-90;
+    @apply hover-icon size-10 flex items-center justify-center rounded-xl hover:bg-primary;
+  }
+
+  .hover-icon svg {
+    @apply w-5;
   }
 
   .on-hover-bg-icon svg {
