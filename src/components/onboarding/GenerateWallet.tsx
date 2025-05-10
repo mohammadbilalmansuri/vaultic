@@ -16,6 +16,7 @@ import cn from "@/utils/cn";
 import useNotificationStore from "@/stores/notificationStore";
 import { TNetwork } from "@/types";
 import { MnemonicView } from "@/components/common";
+import { scaleUpAnimation } from "@/utils/animations";
 
 type GenerateWalletProps = {
   network: TNetwork;
@@ -58,12 +59,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
   };
 
   return (
-    <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
-      className="box max-w-xl"
-    >
+    <motion.div {...scaleUpAnimation()} className="box max-w-xl">
       <h1 className="-mt-1 mb-1 onboarding-heading">Secret Recovery Phrase</h1>
       <MnemonicView lable="Save these words in a safe place." />
       <div
