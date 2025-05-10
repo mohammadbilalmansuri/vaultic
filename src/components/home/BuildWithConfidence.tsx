@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { Button } from "@/components/ui";
-import getFadeUpAnimation from "@/utils/getFadeUpAnimation";
+import { fadeUpAnimation } from "@/utils/animations";
 import { Airdrop, Code } from "@/components/ui/icons";
 
 const BuildWithConfidence = () => {
@@ -14,14 +14,14 @@ const BuildWithConfidence = () => {
       ref={ref}
       className="w-full relative flex flex-col items-center gap-8"
     >
-      <motion.h2 className="h2" {...getFadeUpAnimation({ inView: isInView })}>
+      <motion.h2 className="h2" {...fadeUpAnimation({ inView: isInView })}>
         Build Confidently. Trust Transparently.
       </motion.h2>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
         <motion.div
           className="w-full relative overflow-hidden flex flex-col items-start gap-4 p-8 border-1.5 border-color rounded-3xl"
-          {...getFadeUpAnimation({ inView: isInView, delay: 0.15 })}
+          {...fadeUpAnimation({ inView: isInView, delay: 0.15 })}
         >
           <h3 className="h3 -mt-1">Test Before You Transact</h3>
           <p>
@@ -44,7 +44,7 @@ const BuildWithConfidence = () => {
 
         <motion.div
           className="w-full relative overflow-hidden flex flex-col items-start gap-4 p-8 border-1.5 border-color rounded-3xl"
-          {...getFadeUpAnimation({ inView: isInView, delay: 0.3 })}
+          {...fadeUpAnimation({ inView: isInView, delay: 0.3 })}
         >
           <h3 className="h3 -mt-1">100% Open Source & Auditable</h3>
           <p>

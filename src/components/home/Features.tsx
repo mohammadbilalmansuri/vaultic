@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { ShieldTick, Wallet, Send, WalletMoney } from "@/components/ui/icons";
-import getFadeUpAnimation from "@/utils/getFadeUpAnimation";
+import { fadeUpAnimation } from "@/utils/animations";
 
 const features = [
   {
@@ -42,7 +42,7 @@ const Features = () => {
     >
       <motion.h2
         className="h2"
-        {...getFadeUpAnimation({ inView: isInView, delay: 0.5 })}
+        {...fadeUpAnimation({ inView: isInView, delay: 0.5 })}
       >
         Built for Web3. Powered by You.
       </motion.h2>
@@ -52,7 +52,7 @@ const Features = () => {
           <motion.div
             key={`feature-${i}`}
             className="flex flex-col gap-4 p-8 rounded-3xl border-1.5 border-color"
-            {...getFadeUpAnimation({ inView: isInView, delay: 0.6 + i * 0.1 })}
+            {...fadeUpAnimation({ inView: isInView, delay: 0.6 + i * 0.1 })}
           >
             <div className="flex items-center gap-4">
               <Icon className="w-8 text-teal-500" />

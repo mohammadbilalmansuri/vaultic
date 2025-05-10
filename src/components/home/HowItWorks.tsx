@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
-import getFadeUpAnimation from "@/utils/getFadeUpAnimation";
+import { fadeUpAnimation } from "@/utils/animations";
 
 const steps = [
   {
@@ -30,7 +30,7 @@ const HowItWorks = () => {
       ref={ref}
       className="w-full relative flex flex-col items-center gap-8"
     >
-      <motion.h2 className="h2" {...getFadeUpAnimation({ inView: isInView })}>
+      <motion.h2 className="h2" {...fadeUpAnimation({ inView: isInView })}>
         Create. Encrypt. Transact.
       </motion.h2>
 
@@ -39,7 +39,7 @@ const HowItWorks = () => {
           <motion.div
             key={`step-${i}`}
             className="w-full relative flex flex-col items-start gap-5 border-1.5 border-color p-8 rounded-3xl overflow-hidden group"
-            {...getFadeUpAnimation({ inView: isInView, delay: 0.1 + i * 0.1 })}
+            {...fadeUpAnimation({ inView: isInView, delay: 0.1 + i * 0.1 })}
           >
             <h3 className="text-h3 font-medium heading-color -mt-1">{title}</h3>
             <p className="-mt-2">{description}</p>
