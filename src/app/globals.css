@@ -132,4 +132,8 @@
   .h3 {
     @apply text-h3 font-bold heading-color;
   }
+
+  .onboarding-heading {
+    @apply text-[28px] font-medium heading-color;
+  }
 }
