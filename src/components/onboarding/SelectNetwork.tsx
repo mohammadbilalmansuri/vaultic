@@ -26,13 +26,13 @@ const SelectNetwork = ({ setNetwork, setStep }: SelectNetworkProps) => {
 
   return (
     <motion.div {...scaleUpAnimation()} className="box">
-      <h1 className="-mt-1 onboarding-heading">Select Network</h1>
-      <p className="-mt-1">
+      <h1 className="-mt-2 onboarding-heading">Select Network</h1>
+      <p>
         Vaultic supports Solana and Ethereum. Select the network you'd like to
         use first. You can add more wallets later on another network.
       </p>
 
-      <div className="flex items-center gap-4 mt-2.5">
+      <div className="flex items-center gap-4 mt-3">
         <Button
           variant="zinc"
           className="gap-2.5"
