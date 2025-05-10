@@ -96,22 +96,6 @@ const useStorage = () => {
     }
   };
 
-  const getUserMetadata = async (): Promise<void> => {
-    try {
-      const userData = await getUserData("user");
-      if (!userData) throw new Error("User not found");
-
-      setUserState({
-        indexes: userData.indexes,
-        deletedIndexes: userData.deletedIndexes,
-        networkMode: userData.networkMode,
-      });
-    } catch (error) {
-      console.error("Error getting user metadata:", error);
-      throw error;
-    }
-  };
-
   const updatePassword = async (
     currentPassword: string,
     newPassword: string
@@ -157,7 +141,6 @@ const useStorage = () => {
     loadUser,
     saveUser,
     saveUserMetadata,
-    getUserMetadata,
     updatePassword,
     removeUser,
   };
