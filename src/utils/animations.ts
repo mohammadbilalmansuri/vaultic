@@ -31,5 +31,5 @@ export const scaleUpAnimation = ({
 }: ScaleUpConfig = {}) => ({
   initial: { opacity: 0, scale },
   animate: inView !== false ? { opacity: 1, scale: 1 } : undefined,
-  transition: { duration, delay },
+  transition: { duration, delay, ease: "easeInOut" },
 });
