@@ -7,7 +7,7 @@ import { scaleUpAnimation } from "@/utils/animations";
 const Completion = () => {
   return (
     <motion.div {...scaleUpAnimation()} className="box">
-      <Logo className="h-15 text-teal-500" />
+      <Logo className="w-15 text-teal-500" />
       <h1 className="box-heading mt-2">You're all ready!</h1>
       <p>
         Keep your Secret Recovery Phrase in a safe place. If you lose it, no one
