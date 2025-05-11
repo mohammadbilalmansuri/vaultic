@@ -71,7 +71,7 @@ const Combobox = ({
                       type="button"
                       className="w-full flex items-center justify-between gap-4 hover:bg-primary px-3 py-2 rounded-xl transition-colors duration-300"
                       onClick={() => {
-                        onChange(option.value);
+                        onChange(value === option.value ? "" : option.value);
                         setOpened(false);
                       }}
                     >
