@@ -36,6 +36,10 @@
   @apply border-zinc-200 dark:border-zinc-800;
 }
 
+@utility bg-default {
+  @apply bg-zinc-100 dark:bg-zinc-900;
+}
+
 @utility bg-primary {
   @apply bg-zinc-200/50 dark:bg-zinc-800/50;
 }
@@ -66,7 +70,7 @@
   }
 
   body {
-    @apply text-color bg-zinc-100 dark:bg-zinc-900 w-full min-h-dvh relative overflow-x-hidden box-border;
+    @apply text-color bg-default w-full min-h-dvh relative overflow-x-hidden box-border;
   }
 
   .root {
