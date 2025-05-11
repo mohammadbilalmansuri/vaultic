@@ -4,7 +4,7 @@ const useOutsideClick = (
   handler: (event: MouseEvent | TouchEvent) => void,
   enabled = true
 ) => {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!enabled) return;
