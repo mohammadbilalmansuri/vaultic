@@ -43,3 +43,5 @@ export const NETWORK_TOKENS = {
   ethereum: "ETH",
   solana: "SOL",
 };
+
+export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"];
