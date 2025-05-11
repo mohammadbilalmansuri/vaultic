@@ -1,10 +1,11 @@
-import { useEffect, RefObject } from "react";
+import { useEffect, useRef } from "react";
 
-const useOutsideClick = <T extends HTMLElement>(
-  ref: RefObject<T>,
+const useOutsideClick = (
   handler: (event: MouseEvent | TouchEvent) => void,
   enabled = true
 ) => {
+  const ref = useRef<HTMLElement>(null);
+
   useEffect(() => {
     if (!enabled) return;
 
@@ -22,6 +23,8 @@ const useOutsideClick = <T extends HTMLElement>(
       document.removeEventListener("touchstart", listener);
     };
   }, [enabled]);
+
+  return ref;
 };
 
 export default useOutsideClick;
