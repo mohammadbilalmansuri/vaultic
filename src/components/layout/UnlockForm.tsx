@@ -44,7 +44,7 @@ const UnlockForm = () => {
         className={cn("w-full", {
           "opacity-60 pointer-events-none": !isValid,
         })}
-        disabled={!isValid}
+        disabled={!isValid || authenticating}
       >
         {authenticating ? <Loader size="sm" color="black" /> : "Unlock"}
       </Button>
