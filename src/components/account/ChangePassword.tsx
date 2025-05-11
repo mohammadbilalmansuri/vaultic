@@ -47,7 +47,6 @@ const ChangePassword = () => {
               ? error.message
               : "Failed to change password",
         });
-
         setTimeout(() => clearErrors("currentPassword"), 4000);
       }
     });
@@ -87,10 +86,10 @@ const ChangePassword = () => {
 
         <Button
           type="submit"
-          disabled={!isValid || changing}
           className={cn({
             "opacity-60 pointer-events-none": !isValid,
           })}
+          disabled={!isValid || changing}
         >
           {changing ? <Loader size="sm" color="black" /> : "Change Password"}
         </Button>
