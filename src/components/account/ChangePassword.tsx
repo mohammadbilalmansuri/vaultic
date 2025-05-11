@@ -87,7 +87,7 @@ const ChangePassword = () => {
 
         <Button
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || changing}
           className={cn({
             "opacity-60 pointer-events-none": !isValid,
           })}
