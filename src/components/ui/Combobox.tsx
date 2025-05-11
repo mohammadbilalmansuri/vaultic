@@ -6,6 +6,7 @@ import { Input } from "@/components/ui";
 import { AngleDown, Check } from "@/components/ui/icons";
 import { useOutsideClick } from "@/hooks";
 import cn from "@/utils/cn";
+import getShortAddress from "@/utils/getShortAddress";
 
 interface ComboboxProps {
   name: string;
@@ -79,9 +80,7 @@ const Combobox = ({
                         {option.label}
                         {value === option.value && <Check className="w-5" />}
                       </span>
-                      <span>
-                        {option.value.slice(0, 4)}...{option.value.slice(-4)}
-                      </span>
+                      <span>{getShortAddress(option.value)}</span>
                     </button>
                   ))}
                 </div>
