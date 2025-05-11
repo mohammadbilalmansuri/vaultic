@@ -1,14 +1,8 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import {
-  Solana,
-  Ethereum,
-  Copy,
-  Hide,
-  Expand,
-  Delete,
-} from "@/components/ui/icons";
+import { Solana, Ethereum, AngleDown, Trash } from "@/components/ui/icons";
+import { Copy, Hide } from "@/components/ui";
 import { useClipboard, useWallet } from "@/hooks";
 import { IWallet } from "@/types";
 import { NETWORK_TOKENS } from "@/constants";
@@ -53,12 +47,13 @@ const Wallet = ({
           <p className="heading-color leading-none">
             {balance} {NETWORK_TOKENS[network]}
           </p>
-          {!isSingle && expanded && <Delete className="icon" />}
-          <Expand
-            className="icon"
-            expanded={expanded}
+          {!isSingle && expanded && <Trash className="w-6" />}
+          <button
+            className="on-hover-bg-icon"
             onClick={() => setExpanded((prev) => !prev)}
-          />
+          >
+            <AngleDown />
+          </button>
         </div>
       </div>
 
