@@ -40,10 +40,12 @@ const Dashboard = () => {
           <div className="flex items-center gap-3">
             {addingWallet !== false ? (
               <>
-                <Cancel
-                  className="size-10 cursor-pointer icon"
+                <button
+                  className="on-hover-bg-icon"
                   onClick={() => setAddingWallet(false)}
-                />
+                >
+                  <Cancel />
+                </button>
                 <button
                   type="button"
                   onClick={() => addWallet("solana")}
