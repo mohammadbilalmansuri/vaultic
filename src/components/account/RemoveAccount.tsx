@@ -84,7 +84,7 @@ const RemoveAccount = () => {
           className={cn("w-full", {
             "opacity-60 pointer-events-none": !isValid,
           })}
-          disabled={!isValid}
+          disabled={!isValid || removing}
         >
           {removing ? <Loader size="sm" color="black" /> : "Remove Account"}
         </Button>
