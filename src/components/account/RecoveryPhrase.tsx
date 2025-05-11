@@ -11,7 +11,6 @@ const RecoveryPhrase = () => {
           You're viewing your recovery phrase.{" "}
           <b>Do not share it with anyone.</b>
         </p>
-
         <p>
           This phrase gives full access to your wallet — keep it private and
           secure.
