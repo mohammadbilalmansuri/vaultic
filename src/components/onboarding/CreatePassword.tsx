@@ -60,11 +60,11 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
   };
 
   const renderFormError = () => {
-    const errorMessages =
+    const errorMessage =
       errors.password?.message || errors.confirmPassword?.message;
 
-    return errorMessages ? (
-      <p className="py-1 text-yellow-500">{errorMessages}</p>
+    return errorMessage ? (
+      <p className="py-1 text-yellow-500">{errorMessage}</p>
     ) : null;
   };
 
