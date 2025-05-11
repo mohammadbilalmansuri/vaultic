@@ -42,6 +42,6 @@ export const RPC_URLs = {
 export const NETWORK_TOKENS = {
   ethereum: "ETH",
   solana: "SOL",
-};
+} as const;
 
-export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"];
+export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"] as const;
