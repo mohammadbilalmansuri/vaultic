@@ -3,7 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Controller, Control, FieldValues } from "react-hook-form";
 import { Input } from "@/components/ui";
-import { AngleDown } from "@/components/ui/icons";
+import { AngleDown, Check } from "@/components/ui/icons";
 import { useOutsideClick } from "@/hooks";
 import cn from "@/utils/cn";
 
@@ -64,7 +64,7 @@ const Combobox = ({
                 transition={{ duration: 0.2, ease: "easeInOut" }}
                 className="absolute top-14 w-[98%] bg-default border-1.5 border-color rounded-2xl z-10 overflow-hidden"
               >
-                <div className="flex flex-col gap-2 p-2">
+                <div className="w-full flex flex-col gap-2 p-2">
                   {options.map((option) => (
                     <button
                       key={option.value}
@@ -75,7 +75,10 @@ const Combobox = ({
                         setOpened(false);
                       }}
                     >
-                      <span>{option.label}</span>
+                      <span className="flex items-center gap-2">
+                        {option.label}
+                        {value === option.value && <Check className="w-5" />}
+                      </span>
                       <span>
                         {option.value.slice(0, 4)}...{option.value.slice(-4)}
                       </span>
