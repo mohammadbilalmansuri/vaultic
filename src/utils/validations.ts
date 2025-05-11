@@ -1,3 +1,4 @@
+import { FAUCET_PRESET_AMOUNTS } from "@/constants";
 import * as z from "zod";
 
 const passwordField = z
@@ -35,12 +36,14 @@ export const changePasswordSchema = z
   });
 
 export const solanaAirdropSchema = z.object({
-  address: z.string().trim().min(1, "Address is required"),
-  amount: z
+  address: z
     .string()
     .trim()
-    .min(1, "Amount is required")
-    .regex(/^\d+$/, "Amount must be a number"),
+    .min(32, { message: "Enter valid Solana wallet address" })
+    .max(44, { message: "Invalid Solana wallet address" }),
+  amount: z.enum(FAUCET_PRESET_AMOUNTS, {
+    errorMap: () => ({ message: "Please select an amount" }),
+  }),
 });
 
 export type TCreatePasswordFormData = z.infer<typeof CreatePasswordSchema>;
