@@ -115,7 +115,14 @@ const useBlockchain = () => {
     try {
       return await requestSolanaAirdrop(address, amount);
     } catch (error) {
-      throw error;
+      throw new Error(
+        error instanceof Error
+          ? error.message.includes("airdrop limit") ||
+            error.message.includes("limit")
+            ? "You've either reached your airdrop limit or the airdrop faucet has run dry. Try again later or use the official faucet."
+            : error.message
+          : "Airdrop failed. Please try again."
+      );
     }
   };
 
