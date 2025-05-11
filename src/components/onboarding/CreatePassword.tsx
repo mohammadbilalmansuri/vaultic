@@ -92,7 +92,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
           className={cn("w-full", {
             "opacity-60 pointer-events-none": !isValid,
           })}
-          disabled={!isValid}
+          disabled={!isValid || saving}
         >
           {saving ? <Loader size="sm" color="black" /> : "Next"}
         </Button>

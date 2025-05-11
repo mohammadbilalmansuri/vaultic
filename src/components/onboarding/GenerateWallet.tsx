@@ -81,7 +81,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
           className={cn("w-1/2", {
             "opacity-60 pointer-events-none": !saved,
           })}
-          disabled={!saved}
+          disabled={!saved || generating}
           onClick={handleGenerate}
         >
           {generating ? <Loader size="sm" color="black" /> : "Next"}

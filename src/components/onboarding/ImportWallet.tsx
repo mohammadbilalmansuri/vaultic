@@ -162,7 +162,7 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
               "pointer-events-none opacity-40": !isValid,
             })}
             type="submit"
-            disabled={!isValid}
+            disabled={!isValid || importing}
           >
             {importing ? <Loader size="sm" color="black" /> : "Import"}
           </Button>
