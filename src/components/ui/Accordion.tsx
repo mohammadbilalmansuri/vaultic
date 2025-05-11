@@ -47,7 +47,7 @@ const Accordion = ({
         </span>
       </div>
 
-      <AnimatePresence initial={false}>
+      <AnimatePresence>
         <motion.div
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
