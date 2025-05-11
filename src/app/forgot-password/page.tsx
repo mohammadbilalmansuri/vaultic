@@ -89,8 +89,7 @@ const ForgotPassword = () => {
             "opacity-60 pointer-events-none": !agree,
           })}
           onClick={handleReset}
-          disabled={!agree}
-          aria-disabled={!agree}
+          disabled={!agree || resetting}
         >
           {resetting ? <Loader size="sm" color="black" /> : "Reset Vaultic"}
         </Button>
