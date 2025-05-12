@@ -34,7 +34,7 @@ const TestnetMode = () => {
 
   return (
     <div className="w-full flex gap-6">
-      <div className="flex flex-col gap-2 w-[90%]">
+      <div className="flex flex-col gap-3 w-[90%]">
         <p>
           <span className="heading-color font-medium">Testnet Mode</span> lets
           you explore Vaultic in a safe environment without risking real assets.
@@ -46,7 +46,7 @@ const TestnetMode = () => {
           to learn the wallet flow, try transactions, or test integration
           behavior — ideal for first-time users and developers.
         </p>
-        <p className="mt-2 leading-tight">
+        <p>
           Need test tokens?{" "}
           <Link
             href="/faucet"
