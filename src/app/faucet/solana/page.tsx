@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { Combobox, Input, Button, Loader } from "@/components/ui";
+import { Combobox, Input, Button, Loader, FormError } from "@/components/ui";
 import useUserStore from "@/stores/userStore";
 import useNotificationStore from "@/stores/notificationStore";
 import useWalletStore from "@/stores/walletStore";
@@ -57,13 +57,6 @@ const SolanaFaucet = () => {
         });
       }
     });
-  };
-
-  const renderFormError = () => {
-    const errorMessage = errors.address?.message || errors.amount?.message;
-    return errorMessage ? (
-      <p className="text-yellow-500">{errorMessage}</p>
-    ) : null;
   };
 
   const solanaWalletOptions = Array.from(wallets.values())
@@ -123,7 +116,7 @@ const SolanaFaucet = () => {
           )}
         />
 
-        {renderFormError()}
+        <FormError errors={errors} />
 
         <Button
           type="submit"
