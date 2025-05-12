@@ -1,11 +1,10 @@
 "use client";
 import { useTransition } from "react";
-import motion from "motion/react";
-import { useBlockchain } from "@/hooks";
+import Link from "next/link";
 import useNotificationStore from "@/stores/notificationStore";
 import useUserStore from "@/stores/userStore";
+import { useBlockchain } from "@/hooks";
 import { Switch } from "@/components/ui";
-import Link from "next/link";
 
 const TestnetMode = () => {
   const notify = useNotificationStore((s) => s.notify);
@@ -34,38 +33,38 @@ const TestnetMode = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-5">
-      <div className="w-full flex gap-5">
-        <p className="w-[83%]">
-          Testnet Mode lets you explore safely without real assets. Balances,
-          app connections, and transactions will happen on test networks like
-          Solana Devnet and Ethereum Sepolia. Claim free test tokens from
-          faucets, try out Vaultic (our secure wallet), and get comfortable
-          before operating with real assets.
-        </p>
-
-        <div className="w-[17%] flex flex-col items-end">
-          <Switch
-            state={networkMode === "devnet"}
-            disabled={switching}
-            onClick={toggleNetworkMode}
-          />
-        </div>
-      </div>
-
-      {networkMode === "devnet" && (
+    <div className="w-full flex gap-6">
+      <div className="flex flex-col gap-2 w-[90%]">
         <p>
+          <span className="heading-color font-medium">Testnet Mode</span> lets
+          you explore Vaultic in a safe environment without risking real assets.
+          While it's enabled, your wallet connects to Solana Devnet and Ethereum
+          Sepolia — public test networks designed for experimentation.
+        </p>
+        <p>
+          You'll interact with test tokens and simulated balances, allowing you
+          to learn the wallet flow, try transactions, or test integration
+          behavior — ideal for first-time users and developers.
+        </p>
+        <p className="mt-2 leading-tight">
           Need test tokens?{" "}
           <Link
             href="/faucet"
-            className="heading-color hover:underline"
-            target="_blank"
+            className="heading-color border-b border-transparent hover:border-current transition-colors duration-300"
           >
-            Get them from available faucets
+            Check available faucets
           </Link>
           .
         </p>
-      )}
+      </div>
+
+      <div className="min-w-fit w-[10%] flex justify-end">
+        <Switch
+          state={networkMode === "devnet"}
+          disabled={switching}
+          onClick={toggleNetworkMode}
+        />
+      </div>
     </div>
   );
 };
