@@ -9,7 +9,12 @@ interface HideProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Hide = ({ hidden, className = "", ...props }: HideProps) => {
   return (
-    <button type="button" className={cn("hover-icon", className)} {...props}>
+    <button
+      type="button"
+      tabIndex={-1}
+      className={cn("hover-icon", className)}
+      {...props}
+    >
       {hidden ? <Eye /> : <EyeSlash />}
     </button>
   );
