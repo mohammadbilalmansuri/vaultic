@@ -3,16 +3,15 @@ import { MnemonicView } from "@/components/common";
 
 const RecoveryPhrase = () => {
   return (
-    <div className="w-full relative flex gap-4">
+    <div className="w-full flex flex-col md:flex-row gap-6">
       <MnemonicView widthClassName="w-[65%]" cols={4} />
 
-      <div className="w-[35%] flex flex-col items-center justify-center text-center gap-2 p-5 rounded-2xl bg-warning">
+      <div className="w-full md:w-[35%] p-5 rounded-2xl bg-warning text-center flex flex-col justify-center gap-2">
         <p>
-          You're viewing your recovery phrase.{" "}
-          <b>Do not share it with anyone.</b>
+          You're viewing your recovery phrase. Never share this with anyone.
         </p>
         <p>
-          This phrase gives full access to your wallet — keep it private and
+          This phrase gives full access to your wallet. Keep it private and
           secure.
         </p>
       </div>
