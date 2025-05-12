@@ -24,7 +24,7 @@ const useClipboard = () => {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       notify({ type: "success", message: "Copied to clipboard!" });
-      setTimeout(() => setCopied(false), 3000);
+      setTimeout(() => setCopied(false), 4000);
       return true;
     } catch (error) {
       console.error("Failed to copy text:", error);
