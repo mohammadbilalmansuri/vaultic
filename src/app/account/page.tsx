@@ -8,6 +8,7 @@ import {
   RemoveAccount,
 } from "@/components/account";
 import cn from "@/utils/cn";
+import { fadeUpAnimation } from "@/utils/animations";
 
 const TABS = new Map<string, JSX.Element>([
   ["Recovery Phrase", <RecoveryPhrase />],
@@ -17,12 +18,15 @@ const TABS = new Map<string, JSX.Element>([
 ]);
 
 const Account = () => {
-  const [tab, setTab] = useState<string>("Testnet Mode");
+  const [tab, setTab] = useState<string>("Recovery Phrase");
 
   return (
     <div className="w-full max-w-screen-lg relative flex flex-col flex-1 py-5">
       <div className="w-full relative flex flex-col gap-5 border-2 border-color p-5 rounded-3xl">
-        <div className="w-full relative grid grid-cols-4 bg-primary rounded-2xl p-1 h-14">
+        <motion.div
+          className="w-full relative grid grid-cols-4 bg-primary rounded-2xl p-1 h-14"
+          {...fadeUpAnimation()}
+        >
           <motion.div
             className="absolute bg-secondary rounded-xl h-[calc(100%-8px)] top-1"
             style={{
@@ -47,15 +51,16 @@ const Account = () => {
               {tabName}
             </button>
           ))}
-        </div>
+        </motion.div>
 
         <AnimatePresence mode="wait">
-          <div
-            className="w-full relative flex flex-col items-center p-3"
+          <motion.div
             key={tab}
+            className="w-full relative flex flex-col items-center p-3"
+            {...fadeUpAnimation({ delay: 0.1 })}
           >
             {TABS.get(tab)}
-          </div>
+          </motion.div>
         </AnimatePresence>
       </div>
     </div>
