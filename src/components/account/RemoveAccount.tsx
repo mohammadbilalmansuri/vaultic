@@ -1,28 +1,31 @@
 "use client";
 import { useTransition } from "react";
-import { Input, Button, Loader, PasswordInput } from "@/components/ui";
-import useNotificationStore from "@/stores/notificationStore";
 import { useRouter } from "next/navigation";
-import { useStorage } from "@/hooks";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useStorage } from "@/hooks";
+import useNotificationStore from "@/stores/notificationStore";
+import useUserStore from "@/stores/userStore";
+import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 import {
   verifyPasswordSchema,
   TVerifyPasswordFormData,
 } from "@/utils/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
-import cn from "@/utils/cn";
-import Link from "next/link";
 import { DEV_PASSWORD, IS_DEV } from "@/constants";
+import cn from "@/utils/cn";
 
 const RemoveAccount = () => {
-  const notify = useNotificationStore((state) => state.notify);
   const router = useRouter();
   const { removeUser } = useStorage();
+  const notify = useNotificationStore((state) => state.notify);
   const [removing, startRemoving] = useTransition();
 
   const {
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors, isValid },
   } = useForm<TVerifyPasswordFormData>({
     resolver: zodResolver(verifyPasswordSchema),
@@ -30,55 +33,42 @@ const RemoveAccount = () => {
     defaultValues: { password: IS_DEV ? DEV_PASSWORD : "" },
   });
 
-  const removeAccount = ({ password }: TVerifyPasswordFormData) => {
+  const handleRemove = ({ password }: TVerifyPasswordFormData) => {
     startRemoving(async () => {
       try {
+        if (useUserStore.getState().password !== password) {
+          setError("password", {
+            message: "Incorrect password",
+          });
+          setTimeout(() => clearErrors("password"), 4000);
+          return;
+        }
         await removeUser();
         notify({
           type: "success",
-          message: "Your account has been removed from this device.",
+          message: "Account removed successfully.",
         });
         router.push("/");
       } catch {
         notify({
           type: "error",
-          message: "We couldn't remove your account. Please try again.",
+          message: "Failed to remove account. Please try again.",
         });
       }
     });
   };
 
   return (
-    <div className="w-full relative flex gap-5">
-      <div className="w-1/2 flex flex-col items-center justify-center text-center gap-3 p-5 rounded-2xl bg-primary">
-        <h2 className="text-lg font-medium heading-color">
-          Removing Your Account
-        </h2>
-
-        <p>
-          Even though you're removing your account from Vaultic, your wallets
-          are not deleted permanently.
-        </p>
-
-        <p>
-          You can recover your wallets at any time using your recovery phrase in
-          Vaultic or another wallet that supports HD wallet derivation.
-        </p>
-      </div>
-
+    <div className="w-full flex gap-6">
       <form
-        onSubmit={handleSubmit(removeAccount)}
-        className="w-1/2 flex flex-col items-center gap-4"
+        onSubmit={handleSubmit(handleRemove)}
+        className="w-full md:w-2/5 flex flex-col items-center gap-4"
       >
         <PasswordInput
-          placeholder="Enter password to confirm"
+          placeholder="Enter your password"
           {...register("password")}
         />
-
-        {errors.password?.message && (
-          <p className="py-1 text-yellow-500">{errors.password?.message}</p>
-        )}
-
+        <FormError errors={errors} />
         <Button
           type="submit"
           className={cn("w-full", {
@@ -86,17 +76,27 @@ const RemoveAccount = () => {
           })}
           disabled={!isValid || removing}
         >
-          {removing ? <Loader size="sm" color="black" /> : "Remove Account"}
+          {removing ? <Loader size="sm" color="black" /> : "Confirm & Remove"}
         </Button>
+      </form>
 
+      <div className="w-full md:w-3/5 p-5 rounded-2xl bg-warning text-center flex flex-col items-center justify-center gap-3">
+        <p>
+          Removing your account will only clear local access from this device.
+          Your wallets remain safely stored and are not deleted permanently.
+        </p>
+        <p>
+          You can always recover your Vaultic account using your recovery phrase
+          in this or any compatible HD wallet.
+        </p>
         <Link
           href="/help-and-support"
-          className="hover:heading-color transition-all duration-300 border-b leading-tight"
           target="_blank"
+          className="leading-tight border-b border-current transition-all duration-300 hover:opacity-75"
         >
-          Learn how recovery works
+          Learn about recovery
         </Link>
-      </form>
+      </div>
     </div>
   );
 };
