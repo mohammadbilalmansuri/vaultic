@@ -8,7 +8,7 @@ import {
   verifyPasswordSchema,
   TVerifyPasswordFormData,
 } from "@/utils/validations";
-import { Button, Loader, PasswordInput } from "@/components/ui";
+import { Button, FormError, Loader, PasswordInput } from "@/components/ui";
 import { IS_DEV, DEV_PASSWORD } from "@/constants";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
@@ -36,9 +36,7 @@ const UnlockForm = () => {
     >
       <h1 className="box-heading -mt-2 mb-2">Enter Your Password</h1>
       <PasswordInput {...register("password")} />
-      {errors.password?.message && (
-        <p className="text-yellow-500">{errors.password.message}</p>
-      )}
+      <FormError errors={errors} />
       <Button
         type="submit"
         className={cn("w-full", {
