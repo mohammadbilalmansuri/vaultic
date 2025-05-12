@@ -49,7 +49,7 @@
 }
 
 @utility bg-warning {
-  @apply text-yellow-900 dark:text-yellow-500 bg-yellow-500/20 dark:bg-yellow-500/10;
+  @apply text-yellow-800 dark:text-yellow-500 bg-yellow-500/20 dark:bg-yellow-500/10;
 }
 
 @utility btn-base {
