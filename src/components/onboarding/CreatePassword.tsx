@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useTransition } from "react";
 import { TOnboardingStep } from "@/types";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import { Button, Loader, PasswordInput } from "@/components/ui";
+import { Button, FormError, Loader, PasswordInput } from "@/components/ui";
 import {
   CreatePasswordSchema,
   TCreatePasswordFormData,
@@ -50,22 +50,13 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
         });
         setUserState({ userExists: true, authenticated: true });
         setStep(6);
-      } catch (_) {
+      } catch {
         notify({
           type: "error",
           message: "Couldn't finish setup. Please try again.",
         });
       }
     });
-  };
-
-  const renderFormError = () => {
-    const errorMessage =
-      errors.password?.message || errors.confirmPassword?.message;
-
-    return errorMessage ? (
-      <p className="py-1 text-yellow-500">{errorMessage}</p>
-    ) : null;
   };
 
   return (
@@ -86,7 +77,7 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
           {...register("confirmPassword")}
           placeholder="Confirm password"
         />
-        {renderFormError()}
+        <FormError errors={errors} />
         <Button
           type="submit"
           className={cn("w-full", {
