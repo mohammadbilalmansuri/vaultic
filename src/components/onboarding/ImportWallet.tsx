@@ -8,7 +8,7 @@ import {
 } from "react";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import { Button, Loader } from "@/components/ui";
+import { Button, FormError, Loader } from "@/components/ui";
 import { TOnboardingStep, TNetwork, TImportWalletFormData } from "@/types";
 import useUserStore from "@/stores/userStore";
 import useNotificationStore from "@/stores/notificationStore";
@@ -66,7 +66,7 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
           message: "Wallet imported successfully.",
         });
         setStep(4);
-      } catch (_) {
+      } catch {
         notify({
           type: "error",
           message:
@@ -138,9 +138,7 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
           ))}
         </div>
 
-        {errors.mnemonic?.message && (
-          <p className="py-1 text-yellow-500">{errors.mnemonic.message}</p>
-        )}
+        <FormError errors={errors} />
 
         <div className="w-full flex items-center gap-4">
           <Button
