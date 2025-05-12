@@ -1,14 +1,14 @@
 "use client";
 import { useTransition } from "react";
-import { Button, Loader, PasswordInput } from "@/components/ui";
-import useNotificationStore from "@/stores/notificationStore";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import useNotificationStore from "@/stores/notificationStore";
+import { useStorage } from "@/hooks";
+import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 import {
   TChangePasswordFormData,
   changePasswordSchema,
 } from "@/utils/validations";
-import { useStorage } from "@/hooks";
 import cn from "@/utils/cn";
 
 const ChangePassword = () => {
@@ -52,17 +52,6 @@ const ChangePassword = () => {
     });
   };
 
-  const renderFormError = () => {
-    const errorMessage =
-      errors.currentPassword?.message ||
-      errors.newPassword?.message ||
-      errors.confirmNewPassword?.message;
-
-    return errorMessage ? (
-      <p className="text-yellow-500">{errorMessage}</p>
-    ) : null;
-  };
-
   return (
     <div className="w-full relative flex flex-col items-center gap-6">
       <form
@@ -73,17 +62,14 @@ const ChangePassword = () => {
           placeholder="Current password"
           {...register("currentPassword")}
         />
-
         <PasswordInput
           placeholder="New password"
           {...register("newPassword")}
         />
-
         <PasswordInput
           placeholder="Confirm new password"
           {...register("confirmNewPassword")}
         />
-
         <Button
           type="submit"
           className={cn({
@@ -94,8 +80,7 @@ const ChangePassword = () => {
           {changing ? <Loader size="sm" color="black" /> : "Change Password"}
         </Button>
       </form>
-
-      {renderFormError()}
+      <FormError errors={errors} />
     </div>
   );
 };
