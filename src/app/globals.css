@@ -52,10 +52,6 @@
   @apply text-yellow-800 dark:text-yellow-500 bg-yellow-500/20 dark:bg-yellow-500/10;
 }
 
-@utility btn-base {
-  @apply font-medium h-13 px-5 relative rounded-2xl transition-all duration-300 flex items-center justify-center hover:rounded-3xl active:scale-95;
-}
-
 @utility hover-icon {
   @apply text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition-all duration-300 active:scale-90;
 }
@@ -97,14 +93,6 @@
 }
 
 @layer components {
-  .btn-teal {
-    @apply btn-base text-zinc-800 bg-teal-500;
-  }
-
-  .btn-zinc {
-    @apply btn-base heading-color bg-secondary;
-  }
-
   .on-hover-bg-icon {
     @apply hover-icon size-10 flex items-center justify-center rounded-xl hover:bg-primary;
   }
