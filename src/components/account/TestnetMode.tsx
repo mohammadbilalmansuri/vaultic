@@ -22,6 +22,7 @@ const TestnetMode = () => {
           message: enableTestnet
             ? "Switched to Testnet Mode."
             : "Switched to Mainnet Mode.",
+          duration: 3000,
         });
       } catch {
         notify({
