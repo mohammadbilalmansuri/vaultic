@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Copy, Hide } from "@/components/ui";
+import { CopyToggle, EyeToggle } from "@/components/ui";
 import { useClipboard } from "@/hooks";
 import useUserStore from "@/stores/userStore";
 import cn from "@/utils/cn";
@@ -24,15 +24,18 @@ const MnemonicView = ({
   return (
     <div
       className={cn(
-        "relative bg-primary rounded-2xl flex flex-col",
+        "relative bg-primary rounded-2xl flex flex-col px-2",
         widthClassName
       )}
     >
-      <div className="w-full border-color border-b-1.5 flex items-center justify-between py-3 px-4">
+      <div className="w-full border-color border-b-1.5 flex items-center justify-between py-3 px-2">
         <p className="leading-none">{lable}</p>
         <div className="flex items-center gap-4">
-          <Hide hidden={hidden} onClick={() => setHidden((prev) => !prev)} />
-          <Copy
+          <EyeToggle
+            hidden={hidden}
+            onClick={() => setHidden((prev) => !prev)}
+          />
+          <CopyToggle
             copied={copied}
             onClick={() => copyToClipboard(mnemonic, copied, setCopied)}
           />
@@ -40,7 +43,7 @@ const MnemonicView = ({
       </div>
 
       <div
-        className={cn("w-full grid gap-4 cursor-pointer p-4", {
+        className={cn("w-full grid gap-4 cursor-pointer py-4 px-2", {
           "grid-cols-3": cols === 3,
           "grid-cols-4": cols === 4,
           "grid-cols-6": cols === 6,
