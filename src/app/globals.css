@@ -14,6 +14,7 @@
   --text-h2: 2rem;
   --text-h3: 1.5rem;
   --text-h4: 1.375rem;
+  --width-42: 10.5rem;
 }
 
 @utility webkit-autofil-color-for-dark {
