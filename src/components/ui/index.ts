@@ -1,9 +1,9 @@
 export { default as Accordion } from "./Accordion";
 export { default as Button } from "./Button";
 export { default as Combobox } from "./Combobox";
-export { default as Copy } from "./Copy";
+export { default as CopyToggle } from "./CopyToggle";
+export { default as EyeToggle } from "./EyeToggle";
 export { default as FormError } from "./FormError";
-export { default as Hide } from "./Hide";
 export { default as Input } from "./Input";
 export { default as Loader } from "./Loader";
 export { default as NavLink } from "./NavLink";
