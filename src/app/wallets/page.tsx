@@ -1,99 +1,138 @@
 "use client";
-import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { Button, Loader } from "@/components/ui";
-import { Solana, Ethereum, Cancel } from "@/components/ui/icons";
-import { Wallet } from "@/components/common";
-import { useWallet, useStorage } from "@/hooks";
+import { motion } from "motion/react";
+import { Address, PrivateKey } from "@/components/common";
 import useWalletStore from "@/stores/walletStore";
-import { TNetwork } from "@/types";
-import useNotificationStore from "@/stores/notificationStore";
+import { Solana, Ethereum, Trash, AngleDown } from "@/components/ui/icons";
+import { NETWORK_TOKENS } from "@/constants";
+import { Button } from "@/components/ui";
+import { useState } from "react";
+import { useClipboard } from "@/hooks";
+import { CopyToggle, EyeToggle } from "@/components/ui";
+import cn from "@/utils/cn";
+import getShortAddress from "@/utils/getShortAddress";
 
 const Wallets = () => {
   const wallets = useWalletStore((state) => state.wallets);
-  const { createWallet } = useWallet();
-  const { saveUser } = useStorage();
-  const notify = useNotificationStore((state) => state.notify);
-  const [addingWallet, setAddingWallet] = useState<TNetwork | boolean>(false);
-
-  const addWallet = async (network: TNetwork) => {
-    setAddingWallet(network);
-    try {
-      await createWallet(network);
-      await saveUser();
-      setAddingWallet(false);
-    } catch (error) {
-      notify({
-        type: "error",
-        message: `Failed to add ${network} wallet. Please try again.`,
-      });
-      setAddingWallet(true);
-    }
-  };
+  const copyToClipboard = useClipboard();
+  const [addressCopied, setAddressCopied] = useState(false);
+  const [privateKeyCopied, setPrivateKeyCopied] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [privateKeyHidden, setPrivateKeyHidden] = useState(true);
 
   return (
     <div className="w-full max-w-screen-lg relative flex flex-col items-center flex-1 gap-5 py-5">
-      <div className="w-full flex flex-col gap-5">
-        <div className="w-full flex items-center justify-between">
-          <h2 className="text-2xl heading-color">Your Wallets</h2>
+      <div className="w-full flex items-center justify-between gap-5">
+        <h2 className="text-2xl font-medium heading-color">Your Wallets</h2>
+        <Button size="sm">Add new wallet</Button>
+      </div>
+      <div className="w-full grid grid-cols-2 gap-5">
+        {[...wallets.values()].map(
+          ({ address, privateKey, index, balance, network }) => (
+            <div
+              key={address}
+              className="w-full col-span-1 relative flex flex-col gap-4 py-5 px-3 border-1.5 border-color rounded-3xl"
+            >
+              <div className="w-full relative z-10 flex items-center justify-between gap-4 pb-4 border-b-1.5 border-color px-2">
+                <div className="flex items-center gap-3">
+                  {network === "solana" ? (
+                    <Solana className="h-5" />
+                  ) : network === "ethereum" ? (
+                    <Ethereum className="h-7" />
+                  ) : null}
+                  <h3 className="heading-color capitalize text-xl font-medium leading-none">{`${network} Wallet ${
+                    index + 1
+                  }`}</h3>
+                </div>
+                <p className="uppercase text-lg heading-color">{`${balance} ${NETWORK_TOKENS[network]}`}</p>
+              </div>
 
-          <div className="flex items-center gap-3">
-            {addingWallet !== false ? (
-              <>
-                <button
-                  className="on-hover-bg-icon"
-                  onClick={() => setAddingWallet(false)}
-                >
-                  <Cancel />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => addWallet("solana")}
-                  className="size-10 bg-zinc-200 dark:bg-zinc-800 p-2.5 rounded-xl"
-                >
-                  {addingWallet === "solana" ? (
-                    <Loader size="sm" />
-                  ) : (
-                    <Solana />
-                  )}
-                </button>
-                <button type="button" onClick={() => addWallet("ethereum")}>
-                  {addingWallet === "ethereum" ? (
-                    <Loader size="sm" />
-                  ) : (
-                    <Ethereum className="size-10 bg-zinc-200 dark:bg-zinc-800 p-2 rounded-xl cursor-pointer" />
-                  )}
-                </button>
-              </>
-            ) : (
-              <Button
-                className="h-10 px-4"
-                onClick={() => setAddingWallet(true)}
-              >
-                Add new wallet
-              </Button>
-            )}
-          </div>
-        </div>
+              <div className="w-full relative flex flex-col gap-5 px-2">
+                <div className="flex flex-col gap-2.5">
+                  <div className="flex items-center justify-between gap-4">
+                    <h5 className="text-lg leading-none heading-color">
+                      Address
+                    </h5>
+                    <div className="flex items-center gap-4">
+                      <CopyToggle
+                        copied={addressCopied}
+                        onClick={() =>
+                          copyToClipboard(
+                            address,
+                            addressCopied,
+                            setAddressCopied
+                          )
+                        }
+                      />
+                      <button
+                        className="hover-icon"
+                        onClick={() => setExpanded((prev) => !prev)}
+                      >
+                        <AngleDown
+                          className={cn("w-6 transition-all duration-300", {
+                            "rotate-180": expanded,
+                          })}
+                        />
+                      </button>
+                    </div>
+                  </div>
+                  <p
+                    className={cn(
+                      "leading-none mt-px hover:heading-color transition-all duration-300 cursor-pointer",
+                      {
+                        "pointer-events-none": addressCopied,
+                      }
+                    )}
+                    onClick={() =>
+                      copyToClipboard(address, addressCopied, setAddressCopied)
+                    }
+                  >
+                    {getShortAddress(address, 10)}
+                  </p>
+                </div>
 
-        <AnimatePresence>
-          <div className="w-full flex flex-col gap-5">
-            {Array.from(wallets.values(), (wallet, index) => (
-              <motion.div
-                key={wallet.address}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.3,
-                  delay: index * 0.1,
-                }}
-                className="w-full"
-              >
-                <Wallet {...wallet} isSingle={wallets.size === 1} />
-              </motion.div>
-            ))}
-          </div>
-        </AnimatePresence>
+                {expanded && (
+                  <div className="flex flex-col gap-2.5">
+                    <div className="w-full flex items-center justify-between">
+                      <h5 className="text-lg leading-none heading-color">
+                        Private Key
+                      </h5>
+                      <div className="flex items-center gap-4">
+                        <EyeToggle
+                          hidden={privateKeyHidden}
+                          onClick={() => setPrivateKeyHidden((prev) => !prev)}
+                        />
+                        <CopyToggle
+                          copied={privateKeyCopied}
+                          onClick={() =>
+                            copyToClipboard(
+                              privateKey,
+                              privateKeyCopied,
+                              setPrivateKeyCopied
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+                    <p
+                      className="hover:heading-color transition-all duration-300 cursor-pointer break-all"
+                      onClick={() =>
+                        copyToClipboard(
+                          privateKey,
+                          privateKeyCopied,
+                          setPrivateKeyCopied
+                        )
+                      }
+                    >
+                      {privateKeyHidden
+                        ? Array(privateKey.length).fill("•").join("")
+                        : privateKey}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )
+        )}
       </div>
     </div>
   );
