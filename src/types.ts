@@ -28,8 +28,9 @@ export interface IWallet {
 }
 
 export interface INotification {
-  message: string;
   type?: "info" | "success" | "error";
+  message: string;
+  duration?: number;
 }
 
 export interface ISavedUserData {
