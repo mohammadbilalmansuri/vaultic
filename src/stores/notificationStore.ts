@@ -5,16 +5,16 @@ interface NotificationState {
   opened: boolean;
   type: INotification["type"];
   message: INotification["message"];
-  notify: ({ type, message }: INotification) => void;
+  notify: ({ type, message, duration }: INotification) => void;
   closeNotification: () => void;
 }
 
 const useNotificationStore = create<NotificationState>((set, get) => {
   let timeoutId: NodeJS.Timeout | null = null;
 
-  const startTimer = () => {
+  const startTimer = (duration: number) => {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => get().closeNotification(), 4000);
+    timeoutId = setTimeout(() => get().closeNotification(), duration);
   };
 
   return {
@@ -22,7 +22,7 @@ const useNotificationStore = create<NotificationState>((set, get) => {
     type: "info",
     message: "",
 
-    notify: ({ type = "info", message }) => {
+    notify: ({ type = "info", message, duration = 4000 }) => {
       const { opened } = get();
 
       if (opened) {
@@ -30,11 +30,11 @@ const useNotificationStore = create<NotificationState>((set, get) => {
 
         setTimeout(() => {
           set({ opened: true, type, message });
-          startTimer();
-        }, 400);
+          startTimer(duration);
+        }, 250);
       } else {
         set({ opened: true, type, message });
-        startTimer();
+        startTimer(duration);
       }
     },
 
