@@ -3,11 +3,11 @@ import { ButtonHTMLAttributes } from "react";
 import { Eye, EyeSlash } from "@/components/ui/icons";
 import cn from "@/utils/cn";
 
-interface HideProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface EyeToggleProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   hidden: boolean;
 }
 
-const Hide = ({ hidden, className = "", ...props }: HideProps) => {
+const EyeToggle = ({ hidden, className = "", ...props }: EyeToggleProps) => {
   return (
     <button
       type="button"
@@ -20,4 +20,4 @@ const Hide = ({ hidden, className = "", ...props }: HideProps) => {
   );
 };
 
-export default Hide;
+export default EyeToggle;
