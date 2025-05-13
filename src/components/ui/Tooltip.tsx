@@ -15,7 +15,7 @@ const Tooltip = ({
   content,
   children,
   containerClassName = "",
-  position = "bottom",
+  position = "top",
   open,
 }: TooltipProps) => {
   const [visible, setVisible] = useState(false);
