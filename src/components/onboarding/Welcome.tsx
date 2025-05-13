@@ -23,6 +23,7 @@ const Welcome = ({ setPath, setStep }: WelcomeProps) => {
         path === "create"
           ? "Let's create your new wallet!"
           : "Let's import your wallet securely!",
+      duration: 3000,
     });
     setStep(2);
   };

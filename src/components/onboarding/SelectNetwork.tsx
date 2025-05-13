@@ -20,6 +20,7 @@ const SelectNetwork = ({ setNetwork, setStep }: SelectNetworkProps) => {
     notify({
       type: "info",
       message: `Connected to the ${network} network securely.`,
+      duration: 3000,
     });
     setStep(3);
   };

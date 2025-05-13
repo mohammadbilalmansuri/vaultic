@@ -46,6 +46,7 @@ const GenerateWallet = ({ network, setStep }: GenerateWalletProps) => {
         notify({
           type: "success",
           message: "Your new wallet is ready!",
+          duration: 3000,
         });
         setStep(5);
       } catch {

@@ -64,6 +64,7 @@ const ImportWallet = ({ network, setStep }: ImportWalletProps) => {
         notify({
           type: "success",
           message: "Wallet imported successfully.",
+          duration: 3000,
         });
         setStep(4);
       } catch {
