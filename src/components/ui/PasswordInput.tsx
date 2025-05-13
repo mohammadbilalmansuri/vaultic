@@ -1,6 +1,6 @@
 "use client";
 import { ComponentProps, Ref, useState } from "react";
-import { Hide } from "@/components/ui";
+import { EyeToggle } from "@/components/ui";
 import cn from "@/utils/cn";
 
 interface PasswordInputProps extends ComponentProps<"input"> {
@@ -25,7 +25,7 @@ const PasswordInput = ({
         {...props}
       />
 
-      <Hide
+      <EyeToggle
         hidden={!show}
         onClick={() => setShow((prev) => !prev)}
         className="absolute right-3.5"
