@@ -4,9 +4,9 @@ import useNotificationStore from "@/stores/notificationStore";
 import { Cancel, Info, Success, Error } from "@/components/ui/icons";
 
 const NOTIFICATION_ICONS = new Map([
-  ["info", <Info className="w-6 text-zinc-800 dark:text-zinc-200" />],
-  ["success", <Success className="w-6 text-teal-500" />],
-  ["error", <Error className="w-6 text-rose-500" />],
+  ["info", <Info className="w-5.5 text-zinc-800 dark:text-zinc-200" />],
+  ["success", <Success className="w-5.5 text-teal-500" />],
+  ["error", <Error className="w-5.5 text-rose-500" />],
 ]);
 
 const NotificationProvider = () => {
@@ -21,6 +21,7 @@ const NotificationProvider = () => {
     <AnimatePresence mode="wait">
       {opened && (
         <motion.div
+          key="notification"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -30 }}
