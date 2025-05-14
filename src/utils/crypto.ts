@@ -1,13 +1,31 @@
 const cryptoLib: SubtleCrypto = globalThis.crypto.subtle;
 
+const textEncoder = new TextEncoder();
+const textDecoder = new TextDecoder();
+
+const toHex = (buffer: Uint8Array) =>
+  Array.from(buffer)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+
+const fromHex = (hex: string) =>
+  new Uint8Array(hex.match(/.{1,2}/g)!.map((b) => parseInt(b, 16)));
+
+const toBase64 = (bytes: Uint8Array) => btoa(String.fromCharCode(...bytes));
+
+const fromBase64 = (b64: string) =>
+  new Uint8Array(
+    atob(b64)
+      .split("")
+      .map((c) => c.charCodeAt(0))
+  );
+
 export const hashPassword = async (password: string): Promise<string> => {
   try {
-    const encoder = new TextEncoder();
     const salt = crypto.getRandomValues(new Uint8Array(16));
-
     const keyMaterial = await cryptoLib.importKey(
       "raw",
-      encoder.encode(password),
+      textEncoder.encode(password),
       { name: "PBKDF2" },
       false,
       ["deriveBits"]
@@ -24,14 +42,7 @@ export const hashPassword = async (password: string): Promise<string> => {
       256
     );
 
-    const hashHex = Array.from(new Uint8Array(derivedKey))
-      .map((byte) => byte.toString(16).padStart(2, "0"))
-      .join("");
-    const saltHex = Array.from(salt)
-      .map((byte) => byte.toString(16).padStart(2, "0"))
-      .join("");
-
-    return `${saltHex}:${hashHex}`;
+    return `${toHex(salt)}:${toHex(new Uint8Array(derivedKey))}`;
   } catch (error) {
     console.error("Error hashing password:", error);
     throw new Error("Failed to hash password");
@@ -44,14 +55,11 @@ export const verifyPassword = async (
 ): Promise<boolean> => {
   try {
     const [saltHex, hashHex] = storedHash.split(":");
-    const salt = new Uint8Array(
-      saltHex.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16))
-    );
+    const salt = fromHex(saltHex);
 
-    const encoder = new TextEncoder();
     const keyMaterial = await cryptoLib.importKey(
       "raw",
-      encoder.encode(password),
+      textEncoder.encode(password),
       { name: "PBKDF2" },
       false,
       ["deriveBits"]
@@ -68,11 +76,8 @@ export const verifyPassword = async (
       256
     );
 
-    const computedHashHex = Array.from(new Uint8Array(derivedKey))
-      .map((byte) => byte.toString(16).padStart(2, "0"))
-      .join("");
-
-    return computedHashHex === hashHex;
+    const computedHex = toHex(new Uint8Array(derivedKey));
+    return computedHex === hashHex;
   } catch (error) {
     console.error("Error verifying password:", error);
     throw new Error("Failed to verify password");
@@ -84,13 +89,12 @@ export const encryptMnemonic = async (
   password: string
 ): Promise<string> => {
   try {
-    const encoder = new TextEncoder();
     const salt = crypto.getRandomValues(new Uint8Array(16));
     const iv = crypto.getRandomValues(new Uint8Array(12));
 
     const keyMaterial = await cryptoLib.importKey(
       "raw",
-      encoder.encode(password),
+      textEncoder.encode(password),
       { name: "PBKDF2" },
       false,
       ["deriveKey"]
@@ -109,15 +113,15 @@ export const encryptMnemonic = async (
       ["encrypt"]
     );
 
-    const encryptedData = await cryptoLib.encrypt(
+    const encrypted = await cryptoLib.encrypt(
       { name: "AES-GCM", iv },
       key,
-      encoder.encode(mnemonic)
+      textEncoder.encode(mnemonic)
     );
 
-    return `${btoa(String.fromCharCode(...salt))}:${btoa(
-      String.fromCharCode(...iv)
-    )}:${btoa(String.fromCharCode(...new Uint8Array(encryptedData)))}`;
+    return `${toBase64(salt)}:${toBase64(iv)}:${toBase64(
+      new Uint8Array(encrypted)
+    )}`;
   } catch (error) {
     console.error("Error encrypting mnemonic:", error);
     throw new Error("Failed to encrypt mnemonic");
@@ -129,28 +133,15 @@ export const decryptMnemonic = async (
   password: string
 ): Promise<string> => {
   try {
-    const [saltB64, ivB64, encryptedB64] = encryptedMnemonic.split(":");
+    const [saltB64, ivB64, cipherB64] = encryptedMnemonic.split(":");
 
-    const salt = new Uint8Array(
-      atob(saltB64)
-        .split("")
-        .map((c) => c.charCodeAt(0))
-    );
-    const iv = new Uint8Array(
-      atob(ivB64)
-        .split("")
-        .map((c) => c.charCodeAt(0))
-    );
-    const encryptedData = new Uint8Array(
-      atob(encryptedB64)
-        .split("")
-        .map((c) => c.charCodeAt(0))
-    );
+    const salt = fromBase64(saltB64);
+    const iv = fromBase64(ivB64);
+    const encryptedData = fromBase64(cipherB64);
 
-    const encoder = new TextEncoder();
     const keyMaterial = await cryptoLib.importKey(
       "raw",
-      encoder.encode(password),
+      textEncoder.encode(password),
       { name: "PBKDF2" },
       false,
       ["deriveKey"]
@@ -169,13 +160,13 @@ export const decryptMnemonic = async (
       ["decrypt"]
     );
 
-    const decryptedData = await cryptoLib.decrypt(
+    const decrypted = await cryptoLib.decrypt(
       { name: "AES-GCM", iv },
       key,
       encryptedData
     );
 
-    return new TextDecoder().decode(decryptedData);
+    return textDecoder.decode(decrypted);
   } catch (error) {
     console.error("Error decrypting mnemonic:", error);
     throw new Error("Failed to decrypt mnemonic");
