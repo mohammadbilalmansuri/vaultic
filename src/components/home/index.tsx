@@ -1,5 +1,5 @@
-export { default as Hero } from "./Hero";
-export { default as Features } from "./Features";
-export { default as HowItWorks } from "./HowItWorks";
-export { default as BuildWithConfidence } from "./BuildWithConfidence";
-export { default as FAQ } from "./FAQ";
+export { default as HeroSection } from "./HeroSection";
+export { default as FeaturesSection } from "./FeaturesSection";
+export { default as HowItWorksSection } from "./HowItWorksSection";
+export { default as TestnetSection } from "./TestnetSection";
+export { default as FAQSection } from "./FAQSection";
