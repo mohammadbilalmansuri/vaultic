@@ -8,7 +8,7 @@ import {
   ImportWallet,
   CreatePassword,
   Completion,
-} from "@/components/onboarding";
+} from "@/components/setup";
 import { TNetwork } from "@/types";
 import cn from "@/utils/cn";
 import { TOnboardingPath, TOnboardingStep } from "@/types";
