@@ -3,14 +3,16 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { LayoutProps } from "@/types";
 import { ThemeProvider, NotificationProvider } from "@/components/layout";
+import cn from "@/utils/cn";
 
 const inter = Inter({
   variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
-  title: "Vaultic - Secure by Design. Yours to Keep.",
-  description: "Secure by Design. Yours to Keep.",
+  title: "Vaultic - The Wallet That Lives in Your Browser",
+  description:
+    "Vaultic is a secure, browser-native crypto wallet for Solana and Ethereum. Generate and manage multiple accounts from a single recovery phrase — fully encrypted, open source, and under your complete control.",
   icons: [
     {
       url: "/favicon.svg",
@@ -43,7 +45,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: LayoutProps) => {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${inter.className} antialiased`}>
+      <body className={cn(inter.variable, inter.className, "antialiased")}>
         <ThemeProvider>
           {children}
           <NotificationProvider />
