@@ -31,7 +31,7 @@ const HowItWorksSection = () => {
       className="w-full relative flex flex-col items-center gap-8"
     >
       <motion.h2 className="h2" {...fadeUpAnimation({ inView: isInView })}>
-        Setup. Encrypt. Transact.
+        Set Up. Encrypt. Transact.
       </motion.h2>
 
       <div className="w-full relative grid grid-cols-1 md:grid-cols-3 gap-5">
