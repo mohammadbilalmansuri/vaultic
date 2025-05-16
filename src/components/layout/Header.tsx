@@ -19,7 +19,7 @@ const Header = () => {
 
         <nav className="flex items-center gap-6">
           <NavLink href="/setup" active={pathname === "/setup"}>
-            Setup Wallet
+            Set Up Your Wallet
           </NavLink>
           <NavLink href="/faucet" active={pathname === "/faucet"}>
             Faucet
