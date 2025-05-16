@@ -8,7 +8,9 @@ import {
   LAMPORTS_PER_SOL,
 } from "@solana/web3.js";
 import bs58 from "bs58";
-import { ITxHistoryItem } from "@/types";
+import { derivePath } from "ed25519-hd-key";
+import nacl from "tweetnacl";
+import { ITxHistoryItem, TNetworkAccount } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 import formatBalance from "@/utils/formatBalance";
 
@@ -22,17 +24,29 @@ const getSolanaConnection = (): Connection => {
   return solanaConnection;
 };
 
+const getSolanaKeypairFromPrivateKey = (privateKey: string): Keypair => {
+  const decoded = bs58.decode(privateKey);
+  if (decoded.length !== 64) throw new Error("Invalid private key");
+  return Keypair.fromSecretKey(decoded);
+};
+
+const convertSolToLamports = (amount: string): number => {
+  const parsed = Number(amount);
+  if (isNaN(parsed) || parsed <= 0) throw new Error("Invalid amount");
+  return Math.floor(parsed * LAMPORTS_PER_SOL);
+};
+
 export const resetSolanaConnection = () => {
   solanaConnection = null;
 };
 
-const convertSolToLamports = (amount: string): number => {
-  const parsedAmount = Number(amount);
-  if (isNaN(parsedAmount) || parsedAmount <= 0)
-    throw new Error("Invalid amount");
-
-  const lamports = Math.floor(parsedAmount * LAMPORTS_PER_SOL);
-  return lamports;
+export const isValidSolanaAddress = (address: string): boolean => {
+  try {
+    new PublicKey(address);
+    return true;
+  } catch {
+    return false;
+  }
 };
 
 export const sendSolana = async (
@@ -40,126 +54,116 @@ export const sendSolana = async (
   toAddress: string,
   amount: string
 ): Promise<string> => {
-  try {
-    const lamports = convertSolToLamports(amount);
-    const decodedKey = bs58.decode(fromPrivateKey);
-    if (decodedKey.length !== 64) throw new Error("Invalid private key length");
+  const lamports = convertSolToLamports(amount);
+  const fromKeypair = getSolanaKeypairFromPrivateKey(fromPrivateKey);
+  const toPubkey = new PublicKey(toAddress);
+  const connection = getSolanaConnection();
 
-    const fromKeypair = Keypair.fromSecretKey(decodedKey);
-    const toPubkey = new PublicKey(toAddress);
-    const connection = getSolanaConnection();
+  const transaction = new Transaction().add(
+    SystemProgram.transfer({
+      fromPubkey: fromKeypair.publicKey,
+      toPubkey,
+      lamports,
+    })
+  );
 
-    const transaction = new Transaction().add(
-      SystemProgram.transfer({
-        fromPubkey: fromKeypair.publicKey,
-        toPubkey,
-        lamports,
-      })
-    );
+  transaction.feePayer = fromKeypair.publicKey;
+  const { blockhash } = await connection.getLatestBlockhash();
+  transaction.recentBlockhash = blockhash;
 
-    transaction.feePayer = fromKeypair.publicKey;
+  const signature = await sendAndConfirmTransaction(connection, transaction, [
+    fromKeypair,
+  ]);
 
-    const { blockhash } = await connection.getLatestBlockhash();
-    transaction.recentBlockhash = blockhash;
-
-    const signature = await sendAndConfirmTransaction(connection, transaction, [
-      fromKeypair,
-    ]);
-
-    return signature;
-  } catch (error) {
-    console.error("Error sending Solana:", error);
-    throw error;
-  }
+  return signature;
 };
 
 export const getSolanaBalance = async (address: string): Promise<string> => {
-  try {
-    const connection = getSolanaConnection();
-    const pubkey = new PublicKey(address);
-    const balance = await connection.getBalance(pubkey, "confirmed");
-    return formatBalance((balance / LAMPORTS_PER_SOL).toString());
-  } catch (error) {
-    console.error("Error fetching Solana balance:", error);
-    throw error;
-  }
+  const pubkey = new PublicKey(address);
+  const balance = await getSolanaConnection().getBalance(pubkey, "confirmed");
+  return formatBalance((balance / LAMPORTS_PER_SOL).toString());
 };
 
 export const getSolanaHistory = async (
   address: string
 ): Promise<ITxHistoryItem[]> => {
-  try {
-    const connection = getSolanaConnection();
-    const pubkey = new PublicKey(address);
+  const connection = getSolanaConnection();
+  const pubkey = new PublicKey(address);
 
-    const signatures = await connection.getSignaturesForAddress(pubkey, {
-      limit: 20,
-    });
+  const signatures = await connection.getSignaturesForAddress(pubkey, {
+    limit: 20,
+  });
 
-    const transactions = await Promise.all(
-      signatures.map(async (sig) => {
-        try {
-          const tx = await connection.getParsedTransaction(sig.signature, {
-            maxSupportedTransactionVersion: 0,
-          });
+  const transactions = await Promise.all(
+    signatures.map(async (sig) => {
+      try {
+        const tx = await connection.getParsedTransaction(sig.signature, {
+          maxSupportedTransactionVersion: 0,
+        });
 
-          if (!tx) return null;
+        if (!tx) return null;
 
-          const instruction = tx.transaction.message.instructions.find(
-            (ix) =>
-              "program" in ix &&
-              ix.program === "system" &&
-              "parsed" in ix &&
-              ix.parsed?.type === "transfer"
-          );
+        const instruction = tx.transaction.message.instructions.find(
+          (ix) =>
+            "program" in ix &&
+            ix.program === "system" &&
+            "parsed" in ix &&
+            ix.parsed?.type === "transfer"
+        );
 
-          if (!instruction || !("parsed" in instruction)) return null;
+        if (!instruction || !("parsed" in instruction)) return null;
 
-          const parsed = instruction.parsed;
+        const parsed = instruction.parsed;
 
-          return {
-            hash: sig.signature,
-            from: parsed.info.source,
-            to: parsed.info.destination,
-            amount: formatBalance(
-              (parsed.info.lamports / LAMPORTS_PER_SOL).toString()
-            ),
-            timestamp: (tx.blockTime ?? 0) * 1000,
-          };
-        } catch (err) {
-          console.warn(`Failed to process transaction ${sig.signature}`, err);
-          return null;
-        }
-      })
-    );
+        return {
+          hash: sig.signature,
+          from: parsed.info.source,
+          to: parsed.info.destination,
+          amount: formatBalance(
+            (parsed.info.lamports / LAMPORTS_PER_SOL).toString()
+          ),
+          timestamp: (tx.blockTime ?? 0) * 1000,
+          network: "solana",
+          status: sig.err ? "failed" : "success",
+        };
+      } catch (err) {
+        console.warn(`Failed to process transaction ${sig.signature}`, err);
+        return null;
+      }
+    })
+  );
 
-    return transactions
-      .filter((tx): tx is ITxHistoryItem => tx !== null)
-      .sort((a, b) => b.timestamp - a.timestamp);
-  } catch (error) {
-    console.error("Error fetching Solana history:", error);
-    throw error;
-  }
+  return transactions
+    .filter((tx): tx is ITxHistoryItem => tx !== null)
+    .sort((a, b) => b.timestamp - a.timestamp);
 };
 
 export const requestSolanaAirdrop = async (
   toAddress: string,
   amount: string
 ): Promise<string> => {
-  try {
-    const lamports = convertSolToLamports(amount);
-    if (lamports > 5 * LAMPORTS_PER_SOL) {
-      throw new Error("You can only request up to 5 SOL at a time.");
-    }
+  const lamports = convertSolToLamports(amount);
+  if (lamports > 5 * LAMPORTS_PER_SOL)
+    throw new Error("You can only request up to 5 SOL at a time.");
 
-    const devnetRpc = getRpcUrl("solana", "devnet");
-    const connection = new Connection(devnetRpc, "confirmed");
-    const pubkey = new PublicKey(toAddress);
+  const devnetRpc = getRpcUrl("solana", "devnet");
+  const connection = new Connection(devnetRpc, "confirmed");
+  const pubkey = new PublicKey(toAddress);
 
-    const signature = await connection.requestAirdrop(pubkey, lamports);
-    return signature;
-  } catch (error) {
-    console.error("Error requesting Solana airdrop:", error);
-    throw error;
-  }
+  return connection.requestAirdrop(pubkey, lamports);
+};
+
+export const deriveSolanaAccount = async (
+  seed: Buffer,
+  index: number
+): Promise<TNetworkAccount> => {
+  const path = `m/44'/501'/${index}'/0'`;
+  const { key } = derivePath(path, seed.toString("hex"));
+  const keypair = Keypair.fromSeed(key);
+
+  const address = keypair.publicKey.toBase58();
+  const privateKey = bs58.encode(keypair.secretKey);
+  const balance = await getSolanaBalance(address);
+
+  return { address, privateKey, balance };
 };

@@ -5,9 +5,8 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { Combobox, Input, Button, Loader, FormError } from "@/components/ui";
-import useUserStore from "@/stores/userStore";
+import { useWalletStore } from "@/stores";
 import useNotificationStore from "@/stores/notificationStore";
-import useWalletStore from "@/stores/walletStore";
 import { useBlockchain } from "@/hooks";
 import { FAUCET_PRESET_AMOUNTS } from "@/constants";
 import {
@@ -19,10 +18,9 @@ import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 
 const SolanaFaucet = () => {
-  const userExists = useUserStore((state) => state.userExists);
-  const wallets = useWalletStore((state) => state.wallets);
+  const walletExists = useWalletStore((state) => state.walletExists);
   const notify = useNotificationStore((state) => state.notify);
-  const { airdropSolana } = useBlockchain();
+  const { requestAirdrop } = useBlockchain();
   const [airdropping, startAirdropping] = useTransition();
 
   const {
@@ -39,7 +37,7 @@ const SolanaFaucet = () => {
   const handleAirdrop = async ({ address, amount }: TSolanaAirdropFormData) => {
     startAirdropping(async () => {
       try {
-        await airdropSolana(address, amount);
+        await requestAirdrop(address, amount);
         notify({
           type: "success",
           message: `Airdrop successful! ${amount} SOL sent to ${getShortAddress(
@@ -59,13 +57,6 @@ const SolanaFaucet = () => {
     });
   };
 
-  const solanaWalletOptions = Array.from(wallets.values())
-    .filter(({ network }) => network === "solana")
-    .map(({ index, address }) => ({
-      label: `Solana Wallet ${index + 1}`,
-      value: address,
-    }));
-
   return (
     <motion.div {...scaleUpAnimation()} className="box max-w-lg">
       <h1 className="box-heading -mt-2">Solana Devnet Faucet</h1>
@@ -79,16 +70,7 @@ const SolanaFaucet = () => {
         onSubmit={handleSubmit(handleAirdrop)}
         className="w-full flex flex-col gap-4 mt-3"
       >
-        {userExists && solanaWalletOptions.length > 0 ? (
-          <Combobox
-            name="address"
-            placeholder="Solana wallet address"
-            control={control}
-            options={solanaWalletOptions}
-          />
-        ) : (
-          <Input {...register("address")} placeholder="Solana wallet address" />
-        )}
+        <Input {...register("address")} placeholder="Solana wallet address" />
 
         <Controller
           name="amount"

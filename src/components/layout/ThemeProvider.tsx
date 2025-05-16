@@ -1,8 +1,9 @@
 "use client";
-import { useEffect, ReactNode } from "react";
+import { useEffect } from "react";
 import useThemeStore from "@/stores/themeStore";
+import { LayoutProps } from "@/types";
 
-const ThemeProvider = ({ children }: { children: ReactNode }) => {
+const ThemeProvider = ({ children }: LayoutProps) => {
   const theme = useThemeStore((state) => state.theme);
   const isHydrated = useThemeStore((state) => state.isHydrated);
 

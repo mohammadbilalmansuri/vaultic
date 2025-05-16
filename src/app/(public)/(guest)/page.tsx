@@ -1,3 +1,4 @@
+"use client";
 import {
   Hero,
   Features,
@@ -6,16 +7,16 @@ import {
   FAQ,
 } from "@/components/home";
 
-const Home = () => {
+const HomePage = () => {
   return (
-    <div className="w-full max-w-screen-lg relative flex-1 flex flex-col items-center gap-32 pt-8 pb-16">
+    <main className="w-full max-w-screen-lg relative flex-1 flex flex-col items-center gap-32 pt-8 pb-16">
       <Hero />
       <Features />
       <HowItWorks />
       <BuildWithConfidence />
       <FAQ />
-    </div>
+    </main>
   );
 };
 
-export default Home;
+export default HomePage;

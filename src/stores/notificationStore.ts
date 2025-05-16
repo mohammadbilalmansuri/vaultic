@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { INotification } from "@/types";
 
-interface NotificationState {
+interface INotificationStore {
   opened: boolean;
   type: INotification["type"];
   message: INotification["message"];
@@ -9,7 +9,7 @@ interface NotificationState {
   closeNotification: () => void;
 }
 
-const useNotificationStore = create<NotificationState>((set, get) => {
+const useNotificationStore = create<INotificationStore>((set, get) => {
   let timeoutId: NodeJS.Timeout | null = null;
 
   const startTimer = (duration: number) => {
@@ -27,7 +27,6 @@ const useNotificationStore = create<NotificationState>((set, get) => {
 
       if (opened) {
         set({ opened: false });
-
         setTimeout(() => {
           set({ opened: true, type, message });
           startTimer(duration);

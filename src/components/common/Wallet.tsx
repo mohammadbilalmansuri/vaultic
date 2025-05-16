@@ -1,104 +1,157 @@
-"use client";
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { Solana, Ethereum, AngleDown, Trash } from "@/components/ui/icons";
-import { Copy, Hide } from "@/components/ui";
-import { useClipboard, useWallet } from "@/hooks";
-import { IWallet } from "@/types";
+import React, { useState } from "react";
+import { Solana, Ethereum, Trash, AngleDown } from "@/components/ui/icons";
+import { CopyToggle, EyeToggle, Tooltip } from "@/components/ui";
+import cn from "@/utils/cn";
+import getShortAddress from "@/utils/getShortAddress";
 import { NETWORK_TOKENS } from "@/constants";
+import { TNetwork } from "@/types";
 
-interface WalletProps extends IWallet {
-  isSingle: boolean;
+interface WalletProps {
+  address: string;
+  privateKey: string;
+  index: number;
+  balance: string;
+  network: TNetwork;
+  onDelete: (network: TNetwork, index: number, address: string) => void;
+  copyToClipboard: (
+    value: string,
+    copied: boolean,
+    setCopied: React.Dispatch<React.SetStateAction<boolean>>
+  ) => Promise<boolean>;
 }
 
 const Wallet = ({
-  index,
-  network,
   address,
   privateKey,
+  index,
   balance,
-  isSingle,
+  network,
+  onDelete,
+  copyToClipboard,
 }: WalletProps) => {
-  const { deleteWallet } = useWallet();
-  const copyToClipboard = useClipboard();
+  const [addressCopied, setAddressCopied] = useState(false);
+  const [privateKeyCopied, setPrivateKeyCopied] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [hidden, setHidden] = useState(true);
-  const [copied, setCopied] = useState(false);
+  const [privateKeyHidden, setPrivateKeyHidden] = useState(true);
 
   return (
-    <div className="w-full rounded-2xl relative p-5 flex flex-col transition-all duration-300 border-2 border-color">
-      <div className="w-full flex items-center justify-between">
-        <div className="flex items-center gap-4">
+    <div className="w-full col-span-1 relative flex flex-col px-3 border-1.5 border-color rounded-3xl">
+      <div className="w-full relative z-10 flex items-center justify-between gap-4 py-4 border-b-1.5 border-color px-2">
+        <div className="flex items-center gap-3">
           {network === "solana" ? (
-            <Solana className="size-10 bg-zinc-300/60 dark:bg-zinc-700/60 p-2.5 rounded-lg" />
-          ) : (
-            <Ethereum className="size-10 bg-zinc-300/60 dark:bg-zinc-700/60 p-2 rounded-lg" />
-          )}
-
-          <div className="flex flex-col gap-0.5">
-            <h3 className="text-xl heading-color capitalize">
-              {`${network} Wallet ${index + 1}`}
-            </h3>
-            <p>{address}</p>
-          </div>
+            <Solana className="h-5" />
+          ) : network === "ethereum" ? (
+            <Ethereum className="h-7" />
+          ) : null}
+          <h3 className="heading-color capitalize text-xl font-medium leading-none">{`${network} Wallet ${
+            index + 1
+          }`}</h3>
         </div>
-
-        <div className="flex items-center gap-4">
-          <p className="heading-color leading-none">
-            {balance} {NETWORK_TOKENS[network]}
-          </p>
-          {!isSingle && expanded && <Trash className="w-6" />}
-          <button
-            className="on-hover-bg-icon"
-            onClick={() => setExpanded((prev) => !prev)}
-          >
-            <AngleDown />
-          </button>
-        </div>
+        <p className="uppercase text-lg heading-color">{`${balance} ${NETWORK_TOKENS[network]}`}</p>
       </div>
 
-      <AnimatePresence>
-        {expanded && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden w-full flex flex-col gap-2"
+      <div className="w-full relative flex flex-col gap-5 px-2 pt-4 pb-5">
+        <div className="flex flex-col gap-2.5">
+          <div className="flex items-center justify-between gap-4">
+            <h5 className="text-lg leading-none heading-color">Address</h5>
+            <div className="flex items-center gap-4">
+              <Tooltip content={addressCopied ? "Copied!" : "Copy address"}>
+                <CopyToggle
+                  copied={addressCopied}
+                  onClick={() =>
+                    copyToClipboard(address, addressCopied, setAddressCopied)
+                  }
+                />
+              </Tooltip>
+              {expanded && (
+                <Tooltip content="Delete wallet">
+                  <button
+                    className="hover-icon"
+                    onClick={() => onDelete(network, index, address)}
+                  >
+                    <Trash className="w-6" />
+                  </button>
+                </Tooltip>
+              )}
+              <Tooltip content={expanded ? "Collapse" : "Expand"}>
+                <button
+                  className="hover-icon"
+                  onClick={() => setExpanded((prev) => !prev)}
+                >
+                  <AngleDown
+                    className={cn("w-6 transition-all duration-300", {
+                      "rotate-180": expanded,
+                    })}
+                  />
+                </button>
+              </Tooltip>
+            </div>
+          </div>
+          <p
+            className={cn(
+              "leading-none mt-px hover:heading-color transition-all duration-300 cursor-pointer",
+              {
+                "pointer-events-none": addressCopied,
+              }
+            )}
+            onClick={() =>
+              copyToClipboard(address, addressCopied, setAddressCopied)
+            }
           >
-            <h4 className="pt-6 heading-color text-lg leading-none">
-              Private Key
-            </h4>
+            {getShortAddress(address, 10)}
+          </p>
+        </div>
 
-            <div className="w-full flex items-center justify-between gap-4 cursor-pointer">
-              <p
-                className="hover:heading-color transition-all duration-300"
-                onClick={() => copyToClipboard(privateKey, copied, setCopied)}
-              >
-                {hidden ? (
-                  <span className="tracking-[0.2em]">
-                    {Array(privateKey.length).fill("•").join("")}
-                  </span>
-                ) : (
-                  privateKey
-                )}
-              </p>
-
+        {expanded && (
+          <div className="flex flex-col gap-2.5">
+            <div className="w-full flex items-center justify-between">
+              <h5 className="text-lg leading-none heading-color">
+                Private Key
+              </h5>
               <div className="flex items-center gap-4">
-                <Hide
-                  hidden={hidden}
-                  onClick={() => setHidden((prev) => !prev)}
-                />
-                <Copy
-                  copied={copied}
-                  className="w-5"
-                  onClick={() => copyToClipboard(privateKey, copied, setCopied)}
-                />
+                <Tooltip
+                  content={
+                    privateKeyHidden ? "Show private key" : "Hide private key"
+                  }
+                >
+                  <EyeToggle
+                    hidden={privateKeyHidden}
+                    onClick={() => setPrivateKeyHidden((prev) => !prev)}
+                  />
+                </Tooltip>
+                <Tooltip
+                  content={privateKeyCopied ? "Copied!" : "Copy private key"}
+                >
+                  <CopyToggle
+                    copied={privateKeyCopied}
+                    onClick={() =>
+                      copyToClipboard(
+                        privateKey,
+                        privateKeyCopied,
+                        setPrivateKeyCopied
+                      )
+                    }
+                  />
+                </Tooltip>
               </div>
             </div>
-          </motion.div>
+            <p
+              className="hover:heading-color transition-all duration-300 cursor-pointer break-all"
+              onClick={() =>
+                copyToClipboard(
+                  privateKey,
+                  privateKeyCopied,
+                  setPrivateKeyCopied
+                )
+              }
+            >
+              {privateKeyHidden
+                ? Array(privateKey.length).fill("•").join("")
+                : privateKey}
+            </p>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   );
 };

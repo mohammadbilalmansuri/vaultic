@@ -11,7 +11,7 @@ import cn from "@/utils/cn";
 
 const ForgotPassword = () => {
   const router = useRouter();
-  const { removeUser } = useStorage();
+  const { removeWallet } = useStorage();
   const notify = useNotificationStore((state) => state.notify);
   const [agree, setAgree] = useState(false);
   const [resetting, startResetting] = useTransition();
@@ -19,7 +19,7 @@ const ForgotPassword = () => {
   const handleReset = () => {
     startResetting(async () => {
       try {
-        await removeUser();
+        await removeWallet();
         notify({
           type: "success",
           message: "Vaultic has been reset successfully.",

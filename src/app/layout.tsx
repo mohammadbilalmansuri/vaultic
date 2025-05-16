@@ -1,15 +1,8 @@
-import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import {
-  ThemeProvider,
-  NotificationProvider,
-  Header,
-  Footer,
-  Protected,
-  TestnetNotice,
-} from "@/components/layout";
+import { LayoutProps } from "@/types";
+import { ThemeProvider, NotificationProvider } from "@/components/layout";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -17,8 +10,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Vaultic - Secure by Design. Yours to Keep.",
-  description:
-    "Vaultic is a secure, browser-based crypto wallet for Solana and Ethereum. Create and manage multiple wallets using a single mnemonic phrase. Send and receive assets on both testnet and mainnet. Your data stays encrypted in your browser — no servers, no tracking, no compromises.",
+  description: "Secure by Design. Yours to Keep.",
   icons: [
     {
       url: "/favicon.svg",
@@ -48,24 +40,17 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: ReactNode;
-}>) {
+const RootLayout = ({ children }: LayoutProps) => {
   return (
     <html lang="en">
       <body className={`${inter.variable} ${inter.className} antialiased`}>
         <ThemeProvider>
-          <TestnetNotice />
-          <Header />
-          <main>
-            <Protected>{children}</Protected>
-          </main>
-          <Footer />
+          {children}
           <NotificationProvider />
         </ThemeProvider>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

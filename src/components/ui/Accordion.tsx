@@ -2,6 +2,7 @@
 import { MouseEventHandler } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { AngleDown } from "@/components/ui/icons";
+import { Tooltip } from "@/components/ui";
 import cn from "@/utils/cn";
 
 interface AccordionProps {
@@ -20,7 +21,7 @@ const Accordion = ({
   return (
     <div
       className={cn(
-        "border-1.5 border-color rounded-3xl overflow-hidden transition-all duration-300",
+        "border-1.5 border-color rounded-3xl transition-all duration-300",
         {
           "border-zinc-300 dark:border-zinc-700": isOpen,
           "hover:border-zinc-300 dark:hover:border-zinc-700": !isOpen,
@@ -38,13 +39,16 @@ const Accordion = ({
         >
           {question}
         </h5>
-        <span className="on-hover-bg-icon">
+        <Tooltip
+          containerClassName="on-hover-bg-icon"
+          content={isOpen ? "Collapse" : "Expand"}
+        >
           <AngleDown
             className={cn("transition-all duration-300", {
               "rotate-180": isOpen,
             })}
           />
-        </span>
+        </Tooltip>
       </div>
 
       <AnimatePresence>

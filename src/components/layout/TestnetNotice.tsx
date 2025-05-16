@@ -1,9 +1,9 @@
 "use client";
-import useUserStore from "@/stores/userStore";
+import { useWalletStore } from "@/stores";
 
 const TestnetNotice = () => {
-  const networkMode = useUserStore((state) => state.networkMode);
-  const authenticated = useUserStore((state) => state.authenticated);
+  const networkMode = useWalletStore((state) => state.networkMode);
+  const authenticated = useWalletStore((state) => state.authenticated);
 
   if (!authenticated || networkMode !== "devnet") return null;
 

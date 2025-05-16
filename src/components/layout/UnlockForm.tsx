@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuth } from "@/hooks";
+import { useWallet } from "@/hooks";
 import {
   verifyPasswordSchema,
   TVerifyPasswordFormData,
@@ -14,7 +14,7 @@ import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 
 const UnlockForm = () => {
-  const { authenticateWithPassword, authenticating } = useAuth();
+  const { unlockWallet, unlocking } = useWallet();
   const {
     register,
     handleSubmit,
@@ -30,9 +30,7 @@ const UnlockForm = () => {
     <motion.form
       {...scaleUpAnimation()}
       className="box"
-      onSubmit={handleSubmit((data) =>
-        authenticateWithPassword(data, setError)
-      )}
+      onSubmit={handleSubmit((data) => unlockWallet(data, setError))}
     >
       <h1 className="box-heading -mt-2 mb-2">Enter Your Password</h1>
       <PasswordInput {...register("password")} />
@@ -42,9 +40,9 @@ const UnlockForm = () => {
         className={cn("w-full", {
           "opacity-60 pointer-events-none": !isValid,
         })}
-        disabled={!isValid || authenticating}
+        disabled={!isValid || unlocking}
       >
-        {authenticating ? <Loader size="sm" color="black" /> : "Unlock"}
+        {unlocking ? <Loader size="sm" color="black" /> : "Unlock"}
       </Button>
       <Link
         href="/forgot-password"
