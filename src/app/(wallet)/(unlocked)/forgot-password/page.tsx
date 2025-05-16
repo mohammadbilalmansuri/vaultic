@@ -24,7 +24,7 @@ const ForgotPassword = () => {
           type: "success",
           message: "Vaultic has been reset successfully.",
         });
-        router.push("/onboarding");
+        router.push("/setup");
       } catch {
         notify({
           type: "error",
