@@ -16,7 +16,7 @@ const useClipboard = () => {
       notify({
         type: "error",
         message: "Clipboard not supported in this browser",
-        duration: 2000,
+        duration: 2500,
       });
       return false;
     }
@@ -24,19 +24,14 @@ const useClipboard = () => {
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
-      notify({
-        type: "success",
-        message: "Copied to clipboard!",
-        duration: 2000,
-      });
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), 2500);
       return true;
     } catch (error) {
       console.error("Failed to copy text:", error);
       notify({
         type: "error",
         message: "Something went wrong while copying",
-        duration: 2000,
+        duration: 2500,
       });
       return false;
     }

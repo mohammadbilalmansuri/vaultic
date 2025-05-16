@@ -1,60 +1,61 @@
-import { getUserData, saveUserData, clearUserData } from "@/services/indexedDB";
+import {
+  getWalletData,
+  saveWalletData,
+  clearWalletData,
+} from "@/services/indexedDB";
 import {
   hashPassword,
   verifyPassword,
   encryptMnemonic,
   decryptMnemonic,
 } from "@/utils/crypto";
-import useUserStore from "@/stores/userStore";
-import useWalletStore from "@/stores/walletStore";
+import { useWalletStore, useAccountsStore } from "@/stores";
 
 const useStorage = () => {
-  const setUserState = useUserStore((state) => state.setUserState);
-  const clearUser = useUserStore((state) => state.clearUser);
-  const clearWallets = useWalletStore((state) => state.clearWallets);
+  const { setWalletState, clearWallet } = useWalletStore.getState();
+  const { clearAccounts } = useAccountsStore.getState();
 
-  const isUser = async (): Promise<boolean> => {
+  const isWalletStored = async (): Promise<boolean> => {
     try {
-      return Boolean(await getUserData("user"));
+      return Boolean(await getWalletData("wallet"));
     } catch (error) {
-      console.error("Error checking user existence:", error);
+      console.error("Error checking wallet existence:", error);
       throw error;
     }
   };
 
-  const loadUser = async (password: string): Promise<void> => {
+  const loadWallet = async (password: string): Promise<void> => {
     try {
-      const userData = await getUserData("user");
-      if (!userData) throw new Error("User not found");
+      const wallet = await getWalletData("wallet");
+      if (!wallet) throw new Error("Wallet not found");
 
       const passwordValid = await verifyPassword(
         password,
-        userData.hashedPassword
+        wallet.hashedPassword
       );
       if (!passwordValid) throw new Error("Invalid password");
 
       const decryptedMnemonic = await decryptMnemonic(
-        userData.encryptedMnemonic,
+        wallet.encryptedMnemonic,
         password
       );
 
-      setUserState({
+      setWalletState({
         password,
         mnemonic: decryptedMnemonic,
-        indexes: userData.indexes,
-        deletedIndexes: userData.deletedIndexes,
-        networkMode: userData.networkMode,
+        indexes: wallet.indexes,
+        networkMode: wallet.networkMode,
       });
     } catch (error) {
-      console.error("Error loading user:", error);
+      console.error("Error loading wallet:", error);
       throw error;
     }
   };
 
-  const saveUser = async (): Promise<void> => {
+  const saveWallet = async (): Promise<void> => {
     try {
-      const { mnemonic, password, indexes, deletedIndexes, networkMode } =
-        useUserStore.getState();
+      const { mnemonic, password, indexes, networkMode } =
+        useWalletStore.getState();
 
       if (!mnemonic || !password)
         throw new Error("Missing mnemonic or password");
@@ -64,34 +65,32 @@ const useStorage = () => {
         hashPassword(password),
       ]);
 
-      await saveUserData("user", {
+      await saveWalletData("wallet", {
         encryptedMnemonic,
         hashedPassword,
         indexes,
-        deletedIndexes,
         networkMode,
       });
     } catch (error) {
-      console.error("Error saving user:", error);
+      console.error("Error saving wallet:", error);
       throw error;
     }
   };
 
-  const saveUserMetadata = async (): Promise<void> => {
+  const updateWallet = async (): Promise<void> => {
     try {
-      const { indexes, deletedIndexes, networkMode } = useUserStore.getState();
+      const { indexes, networkMode } = useWalletStore.getState();
 
-      const existingData = await getUserData("user");
-      if (!existingData) throw new Error("User not found");
+      const wallet = await getWalletData("wallet");
+      if (!wallet) throw new Error("Wallet not found");
 
-      await saveUserData("user", {
-        ...existingData,
+      await saveWalletData("wallet", {
+        ...wallet,
         indexes,
-        deletedIndexes,
         networkMode,
       });
     } catch (error) {
-      console.error("Error saving user metadata:", error);
+      console.error("Error updating wallet:", error);
       throw error;
     }
   };
@@ -101,48 +100,48 @@ const useStorage = () => {
     newPassword: string
   ): Promise<void> => {
     try {
-      const { password, mnemonic } = useUserStore.getState();
+      const { password, mnemonic } = useWalletStore.getState();
       if (password !== currentPassword)
         throw new Error("Invalid current password");
 
-      const userData = await getUserData("user");
-      if (!userData) throw new Error("User not found");
+      const wallet = await getWalletData("wallet");
+      if (!wallet) throw new Error("Wallet not found");
 
       const [newEncryptedMnemonic, newHashedPassword] = await Promise.all([
         encryptMnemonic(mnemonic, newPassword),
         hashPassword(newPassword),
       ]);
 
-      await saveUserData("user", {
-        ...userData,
+      await saveWalletData("wallet", {
+        ...wallet,
         hashedPassword: newHashedPassword,
         encryptedMnemonic: newEncryptedMnemonic,
       });
 
-      setUserState({ password: newPassword });
+      setWalletState({ password: newPassword });
     } catch (error) {
       console.error("Error updating password:", error);
       throw error;
     }
   };
 
-  const removeUser = async (): Promise<void> => {
+  const removeWallet = async (): Promise<void> => {
     try {
-      await clearUserData();
-      await Promise.all([clearUser(), clearWallets()]);
+      await clearWalletData();
+      await Promise.all([clearWallet(), clearAccounts()]);
     } catch (error) {
-      console.error("Error removing user:", error);
+      console.error("Error removing wallet:", error);
       throw error;
     }
   };
 
   return {
-    isUser,
-    loadUser,
-    saveUser,
-    saveUserMetadata,
+    isWalletStored,
+    loadWallet,
+    saveWallet,
+    updateWallet,
     updatePassword,
-    removeUser,
+    removeWallet,
   };
 };
 

@@ -1,30 +1,7 @@
-export type TRouteCategory =
-  | "authProtected" // Requires user to be logged in *and* verified with password
-  | "authOnly" // Requires user to be logged in, but no password prompt
-  | "guestOnly" // Only accessible to logged-out users
-  | "semiProtected" // Publicly accessible, but requires password if user is logged in
-  | "public" // Fully public, no auth or password required
-  | null; // Unknown or uncategorized route
+import { ReactNode } from "react";
 
-export type TOnboardingStep = 1 | 2 | 3 | 4 | 5 | 6;
-
-export type TOnboardingPath = "create" | "import";
-
-export type TNetwork = "ethereum" | "solana";
-
-export type TNetworkMode = "mainnet" | "devnet";
-
-export type TIndexes = {
-  readonly network: TNetwork;
-  readonly index: number;
-}[];
-
-export interface IWallet {
-  readonly index: number;
-  readonly network: TNetwork;
-  readonly address: string;
-  readonly privateKey: string;
-  readonly balance: string;
+export interface LayoutProps {
+  children: ReactNode;
 }
 
 export interface INotification {
@@ -33,11 +10,31 @@ export interface INotification {
   duration?: number;
 }
 
-export interface ISavedUserData {
+export type TNetwork = "ethereum" | "solana";
+
+export type TNetworkMode = "mainnet" | "devnet";
+
+export interface IIndexes {
+  inUse: number[];
+  deleted: number[];
+}
+
+export interface TNetworkAccount {
+  address: string;
+  privateKey: string;
+  balance: string;
+}
+
+export type TAccount = Record<TNetwork, TNetworkAccount>;
+
+export type TAccounts = Record<number, TAccount>;
+
+export type TUpdatedBalances = Record<TNetwork, string>;
+
+export interface IStoredWalletData {
   readonly hashedPassword: string;
   readonly encryptedMnemonic: string;
-  readonly indexes: TIndexes;
-  readonly deletedIndexes: TIndexes;
+  readonly indexes: IIndexes;
   readonly networkMode: TNetworkMode;
 }
 
@@ -47,8 +44,6 @@ export interface ITxHistoryItem {
   readonly to: string;
   readonly amount: string;
   readonly timestamp: number;
+  readonly network: string;
+  readonly status: "success" | "failed";
 }
-
-export type TImportWalletFormData = {
-  mnemonic: string[];
-};

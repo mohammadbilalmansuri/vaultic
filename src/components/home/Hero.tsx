@@ -2,11 +2,8 @@
 import { motion } from "motion/react";
 import { Button } from "@/components/ui";
 import { fadeUpAnimation } from "@/utils/animations";
-import useUserStore from "@/stores/userStore";
 
 const Hero = () => {
-  const userExists = useUserStore((s) => s.userExists);
-
   return (
     <motion.section
       className="w-full flex flex-col text-center gap-10 items-center bg-primary p-16 rounded-4xl relative overflow-hidden before:content-[''] before:absolute before:top-0 before:right-0 before:size-32 before:bg-teal-500/10 before:rounded-bl-full after:content-[''] after:absolute after:bottom-0 after:left-0 after:size-48 after:bg-teal-500/5 after:rounded-tr-full"
@@ -28,14 +25,13 @@ const Hero = () => {
         {...fadeUpAnimation({ delay: 0.3 })}
       >
         Vaultic is a secure, browser-based crypto wallet for Solana and
-        Ethereum. Create multiple wallets from one mnemonic, send assets on
-        testnet and mainnet, and store everything encrypted — no servers, no
-        compromise.
+        Ethereum. Derive and manage multiple accounts from a single recovery
+        phrase — fully encrypted and never stored on a server.
       </motion.p>
 
       <motion.div {...fadeUpAnimation({ delay: 0.4 })}>
-        <Button as="link" href={userExists ? "/dashboard" : "/onboarding"}>
-          {userExists ? "Go to Dashboard" : "Get Started"}
+        <Button as="link" href="/onboarding">
+          Get Started
         </Button>
       </motion.div>
     </motion.section>

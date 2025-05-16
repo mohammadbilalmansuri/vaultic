@@ -1,43 +1,37 @@
 import { create } from "zustand";
-import { IWallet } from "@/types";
+import { IIndexes, TNetworkMode } from "@/types";
+import { IS_DEV } from "@/constants";
 
-interface IWalletState {
-  wallets: Map<string, IWallet>;
-  setWallets: (wallets: Map<string, IWallet>) => void;
-  addWallet: (wallet: IWallet) => void;
-  removeWallet: (address: string) => void;
-  clearWallets: () => void;
-  updateWalletBalance: (address: string, balance: string) => void;
+interface IWalletStore {
+  walletExists: boolean;
+  authenticated: boolean;
+  password: string;
+  mnemonic: string;
+  indexes: IIndexes;
+  networkMode: TNetworkMode;
+  setWalletState: (updates: Partial<IWalletStore>) => void;
+  clearWallet: () => void;
 }
 
-const useWalletStore = create<IWalletState>((set, get) => ({
-  wallets: new Map(),
+const getDefaultState = (): Omit<
+  IWalletStore,
+  "setWalletState" | "clearWallet"
+> => ({
+  walletExists: false,
+  authenticated: false,
+  password: "",
+  mnemonic: "",
+  indexes: {
+    inUse: [],
+    deleted: [],
+  },
+  networkMode: IS_DEV ? "devnet" : "mainnet",
+});
 
-  setWallets: (wallets) => set({ wallets }),
-
-  addWallet: (wallet) =>
-    set((state) => {
-      const updated = new Map(state.wallets);
-      updated.set(wallet.address, wallet);
-      return { wallets: updated };
-    }),
-
-  removeWallet: (address) =>
-    set((state) => {
-      const updated = new Map(state.wallets);
-      updated.delete(address);
-      return { wallets: updated };
-    }),
-
-  clearWallets: () => set({ wallets: new Map() }),
-
-  updateWalletBalance: (address, balance) =>
-    set((state) => {
-      const updated = new Map(state.wallets);
-      const wallet = updated.get(address);
-      if (wallet) updated.set(address, { ...wallet, balance });
-      return { wallets: updated };
-    }),
+const useWalletStore = create<IWalletStore>((set) => ({
+  ...getDefaultState(),
+  setWalletState: (updates) => set((state) => ({ ...state, ...updates })),
+  clearWallet: () => set(() => getDefaultState()),
 }));
 
 export default useWalletStore;

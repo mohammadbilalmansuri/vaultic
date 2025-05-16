@@ -5,19 +5,19 @@ import { fadeUpAnimation } from "@/utils/animations";
 
 const steps = [
   {
-    title: "Generate Your Wallet",
+    title: "Create or Import",
     description:
-      "Create a new 12-word seed phrase or import one you already use. Vaultic generates Solana and Ethereum wallets from a single mnemonic — fully BIP-39 compliant for compatibility.",
+      "Start with a new 12-word recovery phrase or import an existing one. Vaultic generates Solana and Ethereum accounts from a single mnemonic using industry-standard BIP-39.",
   },
   {
-    title: "Encrypt & Secure",
+    title: "Encrypt with a Password",
     description:
-      "Encrypt your wallet with a strong password using AES-GCM. Your data is stored securely in your browser's IndexedDB — never sent to any server.",
+      "Secure your wallets using AES-GCM encryption. All data is stored locally in your browser using IndexedDB — fully offline and private.",
   },
   {
-    title: "Manage & Transact",
+    title: "Transact Seamlessly",
     description:
-      "Send, receive, and manage assets with ease. Switch between Ethereum and Solana mainnets or testnets — all in one clean interface.",
+      "Send and receive ETH and SOL across mainnets and testnets. Switch networks or accounts instantly with a single unified interface.",
   },
 ];
 

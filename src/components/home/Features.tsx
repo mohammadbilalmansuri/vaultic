@@ -9,25 +9,25 @@ const features = [
     icon: ShieldTick,
     title: "Client-side Security Only",
     description:
-      "Vaultic stores your wallets in your browser using end-to-end encryption — nothing ever touches a server.",
+      "Vaultic encrypts everything locally and stores it securely in your browser. Nothing ever leaves your device.",
   },
   {
     icon: Wallet,
-    title: "One Seed, Many Wallets",
+    title: "One Phrase, Many Accounts",
     description:
-      "Generate multiple Ethereum and Solana wallets from a single recovery phrase with full HD wallet indexing.",
+      "From a single recovery phrase, create multiple accounts — each with its own Ethereum and Solana addresses, all managed together.",
   },
   {
     icon: Send,
     title: "Send ETH & SOL Instantly",
     description:
-      "Transfer tokens across both mainnets and testnets — no extensions, network switching, or friction.",
+      "Transfer tokens on both mainnets and testnets. No browser extensions, no switching networks, no friction.",
   },
   {
     icon: WalletMoney,
-    title: "Get Free Testnet Tokens",
+    title: "Free Testnet Tokens",
     description:
-      "Access Solana Devnet airdrops and trusted Sepolia faucets to safely test and simulate real transactions — no real funds needed.",
+      "Get SOL and ETH on testnets directly from your wallet using built-in airdrops and faucet integrations — no setup needed.",
   },
 ];
 

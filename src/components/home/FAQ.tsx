@@ -8,37 +8,47 @@ const faqs = [
   {
     question: "Do I need a browser extension to use Vaultic?",
     answer:
-      "No. Vaultic is a fully browser-native experience. There are no extensions or downloads required — just open, onboard, and start transacting instantly from your browser.",
+      "No. Vaultic is 100% browser-based — no extensions or installs needed. Just open the app, and you're ready to create, import, or manage wallets instantly.",
   },
   {
     question: "Can I import an existing wallet using a seed phrase?",
     answer:
-      "Yes. Vaultic supports both 12-word and 24-word BIP-39 compatible mnemonic phrases, so you can easily import existing Solana or Ethereum wallets.",
+      "Yes. Vaultic supports standard 12-word and 24-word BIP-39 seed phrases. You can restore compatible wallets from other apps like Phantom or MetaMask.",
+  },
+  {
+    question: "How does Vaultic handle multiple accounts and blockchains?",
+    answer:
+      "With one recovery phrase, you can generate many accounts — each one works across all supported blockchains. For example, Account 0 includes both an Ethereum and a Solana wallet. Add more accounts by simply increasing the derivation index.",
+  },
+  {
+    question: "Can I access my Vaultic wallet on other devices?",
+    answer:
+      "Yes. Your wallet is fully portable. Just use your recovery phrase to import it on any device, anywhere — no cloud sync or backup required.",
   },
   {
     question: "What's the difference between Testnet and Mainnet?",
     answer:
-      "Testnet lets you safely experiment with fake tokens in an isolated environment, while Mainnet is the live blockchain with real assets. Vaultic allows you to switch instantly between them — no network config or extensions needed.",
+      "Testnet is a safe environment to experiment with fake tokens. Mainnet is the live network with real assets. Vaultic lets you switch instantly — no RPC setup, no friction.",
   },
   {
     question: "How do I get test tokens?",
     answer:
-      "Vaultic includes a built-in faucet for Solana Devnet, so you can claim test SOL instantly inside the app. For Ethereum Sepolia, we provide a direct link to a trusted and free external faucet.",
+      "Vaultic includes a built-in faucet for Solana Devnet and links to trusted Sepolia faucets for Ethereum. You can claim free tokens directly in the app for safe testing.",
   },
   {
     question: "Where is my wallet stored, and how secure is it?",
     answer:
-      "Your wallet is securely encrypted in your browser using AES-GCM (256-bit) and stored via IndexedDB. Additionally, your login password is hashed before storage — never saved in plain text or sent to any server.",
+      "Your wallet is encrypted in your browser using AES-GCM and saved to IndexedDB. Nothing is ever sent to a server. Your password is hashed and never stored in plain text.",
+  },
+  {
+    question: "What if I forget my password?",
+    answer:
+      "For safety reasons we keep you recovery phrase with you plain text password so we can not reset your password, you can reset vaultic with the mnemonic and setupo new password and can generate accounts. Visit our Help page for a full guide.",
   },
   {
     question: "Is Vaultic open source?",
     answer:
-      "Yes — the entire Vaultic codebase is 100% open source and publicly available on GitHub. You can inspect the logic, audit encryption, contribute improvements, or fork it freely.",
-  },
-  {
-    question: "What happens if I forget my password?",
-    answer:
-      "You can reset your Vaultic password using your mnemonic phrase. If that doesn't work, you can clear your browser’s site data, re-import your wallet using the same seed phrase, and set a new password. For full instructions, visit our Help & Support page.",
+      "Yes. The entire Vaultic codebase is open source and available on GitHub. You’re welcome to audit, fork, or contribute anytime.",
   },
 ];
 

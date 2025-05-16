@@ -67,16 +67,16 @@
   }
 
   body {
-    @apply text-color bg-default w-full min-h-dvh relative overflow-x-hidden box-border;
+    @apply text-color bg-default w-full relative overflow-x-hidden box-border;
   }
 
   .root {
-    @apply w-full min-h-dvh relative flex flex-col items-center;
+    @apply w-full relative flex flex-col items-center;
   }
 
-  main {
+  /* main {
     @apply w-full relative flex flex-col items-center justify-center flex-1;
-  }
+  } */
 
   button,
   a {

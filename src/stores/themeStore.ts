@@ -2,13 +2,13 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-interface IThemeState {
+interface IThemeStore {
   theme: "light" | "dark";
   isHydrated: boolean;
   toggleTheme: () => void;
 }
 
-const useThemeStore = create<IThemeState>()(
+const useThemeStore = create<IThemeStore>()(
   persist(
     (set, get) => ({
       theme: "dark",

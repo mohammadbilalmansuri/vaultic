@@ -25,14 +25,15 @@ const BuildWithConfidence = () => {
         >
           <h3 className="h3 -mt-1">Test Before You Transact</h3>
           <p>
-            Vaultic's Testnet Mode gives you a full-featured testing environment
-            without ever touching mainnet funds. Instantly switch between Solana
-            Devnet and Ethereum Sepolia — no extensions, no RPC configuration.
+            Vaultic’s Testnet Mode offers a full-featured environment to safely
+            simulate transactions and test features without risking real funds.
+            Instantly toggle between Solana Devnet and Ethereum Sepolia — no
+            extensions or RPC setup required.
           </p>
           <p>
-            Built-in faucet integration lets you claim test SOL and ETH directly
-            inside the interface. Perfect for prototyping smart contracts,
-            simulating transactions, or debugging without real-world risk.
+            With built-in faucet access, you can claim test SOL and ETH directly
+            from the interface. Ideal for contract prototyping, integration
+            testing, or simply learning without the pressure.
           </p>
           <Button as="link" href="/faucet" className="mt-2" variant="zinc">
             Check Faucets
@@ -48,14 +49,14 @@ const BuildWithConfidence = () => {
         >
           <h3 className="h3 -mt-1">100% Open Source & Auditable</h3>
           <p>
-            Every line of code is public and verifiable — from AES-GCM
-            encryption to how wallets are stored using IndexedDB. No black
-            boxes. No surprises.
+            Vaultic is fully transparent — from encryption to data storage.
+            Everything is open source, publicly available, and built to be
+            reviewed.
           </p>
           <p>
-            Developers and security experts are welcome to review, fork, and
-            contribute. Vaultic is built on trust, and trust is built with
-            transparency.
+            Developers, auditors, and contributors are encouraged to explore the
+            codebase. There are no black boxes — just trust built through
+            clarity.
           </p>
           <Button
             as="link"

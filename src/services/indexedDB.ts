@@ -1,23 +1,23 @@
-import { ISavedUserData } from "@/types";
+import { IStoredWalletData } from "@/types";
 import { INDEXED_DB } from "@/constants";
 
 let dbInstance: IDBDatabase | null = null;
 
-const openDB = async (): Promise<IDBDatabase> => {
-  if (dbInstance) return dbInstance;
+const openDB = (): Promise<IDBDatabase> => {
+  if (dbInstance) return Promise.resolve(dbInstance);
 
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(INDEXED_DB.NAME, INDEXED_DB.VERSION);
 
-    request.onupgradeneeded = (event) => {
-      const db = (event.target as IDBOpenDBRequest).result;
+    request.onupgradeneeded = () => {
+      const db = request.result;
       if (!db.objectStoreNames.contains(INDEXED_DB.STORE_NAME)) {
         db.createObjectStore(INDEXED_DB.STORE_NAME, { keyPath: "id" });
       }
     };
 
-    request.onsuccess = (event) => {
-      dbInstance = (event.target as IDBOpenDBRequest).result;
+    request.onsuccess = () => {
+      dbInstance = request.result;
       dbInstance.onclose = () => {
         dbInstance = null;
       };
@@ -43,39 +43,23 @@ const withTransaction = async <T>(
     request.onsuccess = () => resolve(request.result);
     request.onerror = () =>
       reject(new Error(`Transaction failed: ${request.error?.message}`));
-
-    tx.oncomplete = () => {
-      // dbInstance is reused for performance
-    };
   });
 };
 
-export const saveUserData = async (
+export const saveWalletData = async (
   id: string,
-  value: ISavedUserData
+  value: IStoredWalletData
 ): Promise<void> => {
-  try {
-    await withTransaction("readwrite", (store) => store.put({ id, value }));
-  } catch (error) {
-    throw error;
-  }
+  await withTransaction("readwrite", (store) => store.put({ id, value }));
 };
 
-export const getUserData = async (
+export const getWalletData = async (
   id: string
-): Promise<ISavedUserData | null> => {
-  try {
-    const result = await withTransaction("readonly", (store) => store.get(id));
-    return result?.value ?? null;
-  } catch (error) {
-    throw error;
-  }
+): Promise<IStoredWalletData | null> => {
+  const result = await withTransaction("readonly", (store) => store.get(id));
+  return result?.value ?? null;
 };
 
-export const clearUserData = async (): Promise<void> => {
-  try {
-    await withTransaction("readwrite", (store) => store.clear());
-  } catch (error) {
-    throw error;
-  }
+export const clearWalletData = async (): Promise<void> => {
+  await withTransaction("readwrite", (store) => store.clear());
 };
