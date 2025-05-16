@@ -21,17 +21,6 @@ export const RPC_URLs = {
 
 export const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY!;
 
-export const ROUTES = new Map<string, Set<string>>([
-  [
-    "authProtected",
-    new Set(["/dashboard", "/wallets", "/history", "/account"]),
-  ],
-  ["authOnly", new Set(["/forgot-password"])],
-  ["guestOnly", new Set(["/onboarding"])],
-  ["semiProtected", new Set(["/faucet/solana"])],
-  ["public", new Set(["/", "/faucet", "/help-and-support"])],
-]);
-
 export const ONBOARDING_STEPS = {
   create: 6,
   import: 5,
