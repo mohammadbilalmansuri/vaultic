@@ -17,7 +17,7 @@ import cn from "@/utils/cn";
 
 const RemoveAccount = () => {
   const router = useRouter();
-  const { removeUser } = useStorage();
+  const { removeWallet } = useStorage();
   const notify = useNotificationStore((state) => state.notify);
   const [removing, startRemoving] = useTransition();
 
@@ -43,7 +43,7 @@ const RemoveAccount = () => {
           setTimeout(() => clearErrors("password"), 4000);
           return;
         }
-        await removeUser();
+        await removeWallet();
         notify({
           type: "success",
           message: "Account removed successfully.",
