@@ -37,7 +37,7 @@ const Header = () => {
             href="https://github.com/mohammadbilalmansuri/vaultic"
             target="_blank"
             rel="noopener noreferrer"
-            className="on-hover-bg-icon"
+            className="icon-btn-bg"
           >
             <Github />
           </Link>
