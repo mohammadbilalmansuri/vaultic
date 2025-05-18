@@ -21,11 +21,6 @@ export const RPC_URLs = {
 
 export const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY!;
 
-export const SETUP_STEPS = {
-  create: 6,
-  import: 5,
-} as const;
-
 export const NETWORK_TOKENS = {
   ethereum: "ETH",
   solana: "SOL",
