@@ -126,7 +126,7 @@
   }
 
   .input {
-    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-zinc-50 dark:bg-zinc-950/40 border border-color focus-within:border-zinc-400 dark:focus-within:border-zinc-600;
+    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-white dark:bg-zinc-950/40 border border-color focus-within:border-zinc-400 dark:focus-within:border-zinc-600;
   }
 
   .setup-box {
