@@ -1,5 +1,6 @@
 export { default as Airdrop } from "./Airdrop";
 export { default as AngleDown } from "./AngleDown";
+export { default as ArrowLeft } from "./ArrowLeft";
 export { default as Cancel } from "./Cancel";
 export { default as Check } from "./Check";
 export { default as Code } from "./Code";
