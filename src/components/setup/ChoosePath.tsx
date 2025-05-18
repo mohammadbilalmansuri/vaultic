@@ -1,17 +1,11 @@
 "use client";
-import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui";
 import { Logo } from "@/components/ui/icons";
-import { TSetupPath, TSetupStep } from "@/types";
+import { ISetupProps, TSetupPath } from "@/types";
 import { scaleUpAnimation } from "@/utils/animations";
 
-interface ChoosePathProps {
-  setPath: Dispatch<SetStateAction<TSetupPath>>;
-  setStep: Dispatch<SetStateAction<TSetupStep>>;
-}
-
-const ChoosePath = ({ setPath, setStep }: ChoosePathProps) => {
+const ChoosePath = ({ setPath, setStep }: ISetupProps) => {
   const handleStart = (path: TSetupPath) => {
     setPath(path);
     setStep(2);

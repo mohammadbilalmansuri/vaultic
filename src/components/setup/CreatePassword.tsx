@@ -1,5 +1,4 @@
 "use client";
-import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,14 +12,9 @@ import { useWalletStore } from "@/stores";
 import { IS_DEV, DEV_PASSWORD } from "@/constants";
 import cn from "@/utils/cn";
 import { scaleUpAnimation } from "@/utils/animations";
-import { TSetupPath, TSetupStep } from "@/types";
+import { ISetupProps } from "@/types";
 
-type CreatePasswordProps = {
-  path: TSetupPath;
-  setStep: Dispatch<SetStateAction<TSetupStep>>;
-};
-
-const CreatePassword = ({ path, setStep }: CreatePasswordProps) => {
+const CreatePassword = ({ path, setStep }: ISetupProps) => {
   const setWalletState = useWalletStore((state) => state.setWalletState);
 
   const {

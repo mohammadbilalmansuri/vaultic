@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, Dispatch, SetStateAction } from "react";
 
 export interface LayoutProps {
   children: ReactNode;
@@ -51,3 +51,10 @@ export interface ITxHistoryItem {
 export type TSetupPath = "create" | "import";
 
 export type TSetupStep = 1 | 2 | 3 | 4 | 5;
+
+export interface ISetupProps {
+  step: TSetupStep;
+  path: TSetupPath;
+  setStep: Dispatch<SetStateAction<TSetupStep>>;
+  setPath: Dispatch<SetStateAction<TSetupPath>>;
+}
