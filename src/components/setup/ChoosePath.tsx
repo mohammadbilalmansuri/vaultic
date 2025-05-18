@@ -2,10 +2,16 @@
 import { motion } from "motion/react";
 import { Button } from "@/components/ui";
 import { Logo } from "@/components/ui/icons";
-import { ISetupProps, TSetupPath } from "@/types";
+import { TSetupPath, TSetupSetPath, TSetupSetStep } from "@/types";
 import { scaleUpAnimation } from "@/utils/animations";
 
-const ChoosePath = ({ setPath, setStep }: ISetupProps) => {
+const ChoosePath = ({
+  setPath,
+  setStep,
+}: {
+  setPath: TSetupSetPath;
+  setStep: TSetupSetStep;
+}) => {
   const handleStart = (path: TSetupPath) => {
     setPath(path);
     setStep(2);
