@@ -52,9 +52,6 @@ export type TSetupPath = "create" | "import";
 
 export type TSetupStep = 1 | 2 | 3 | 4 | 5;
 
-export interface ISetupProps {
-  step: TSetupStep;
-  path: TSetupPath;
-  setStep: Dispatch<SetStateAction<TSetupStep>>;
-  setPath: Dispatch<SetStateAction<TSetupPath>>;
-}
+export type TSetupSetPath = Dispatch<SetStateAction<TSetupPath>>;
+
+export type TSetupSetStep = Dispatch<SetStateAction<TSetupStep>>;
