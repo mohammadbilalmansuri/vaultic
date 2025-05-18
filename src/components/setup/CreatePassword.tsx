@@ -30,7 +30,7 @@ const CreatePassword = ({ setStep }: { setStep: TSetupSetStep }) => {
     },
   });
 
-  const handleSave = ({ password }: TCreatePasswordFormData) => {
+  const handleCreatePassword = ({ password }: TCreatePasswordFormData) => {
     setWalletState({ password });
     setStep(3);
   };
@@ -48,7 +48,7 @@ const CreatePassword = ({ setStep }: { setStep: TSetupSetStep }) => {
         </p>
 
         <form
-          onSubmit={handleSubmit(handleSave)}
+          onSubmit={handleSubmit(handleCreatePassword)}
           className="w-full flex flex-col gap-4 mt-3"
         >
           <PasswordInput {...register("password")} />
