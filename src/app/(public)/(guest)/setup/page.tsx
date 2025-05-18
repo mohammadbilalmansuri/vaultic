@@ -8,14 +8,14 @@ import {
   CreatePassword,
   Completion,
 } from "@/components/setup";
-import { TSetupPath, TSetupStep } from "@/types";
+import { TSetupPath, TSetupStep, TSetupSetPath, TSetupSetStep } from "@/types";
 import { Loader } from "@/components/ui";
 
 interface GetStepComponentProps {
   step: TSetupStep;
   path: TSetupPath;
-  setStep: Dispatch<SetStateAction<TSetupStep>>;
-  setPath: Dispatch<SetStateAction<TSetupPath>>;
+  setStep: TSetupSetStep;
+  setPath: TSetupSetPath;
 }
 
 const getStepComponent = ({
