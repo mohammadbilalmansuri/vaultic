@@ -8,7 +8,7 @@ interface PasswordInputProps extends ComponentProps<"input"> {
 }
 
 const PasswordInput = ({
-  placeholder = "Enter password",
+  placeholder = "Password",
   className = "",
   ref,
   ...props
