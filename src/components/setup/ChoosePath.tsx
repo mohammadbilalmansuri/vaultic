@@ -12,7 +12,7 @@ const ChoosePath = ({
   setPath: TSetupSetPath;
   setStep: TSetupSetStep;
 }) => {
-  const handleStart = (path: TSetupPath) => {
+  const handleChoosePath = (path: TSetupPath) => {
     setPath(path);
     setStep(2);
   };
@@ -23,13 +23,13 @@ const ChoosePath = ({
       <h2 className="mt-3">Set Up Your Wallet</h2>
       <p>To get started, create a new wallet or import an existing one.</p>
       <div className="flex flex-col gap-4 mt-3">
-        <Button className="w-full" onClick={() => handleStart("create")}>
+        <Button className="w-full" onClick={() => handleChoosePath("create")}>
           Create a new wallet
         </Button>
         <Button
           variant="zinc"
           className="w-full"
-          onClick={() => handleStart("import")}
+          onClick={() => handleChoosePath("import")}
         >
           Import an existing wallet
         </Button>
