@@ -50,7 +50,7 @@ export interface ITxHistoryItem {
 
 export type TSetupPath = "create" | "import";
 
-export type TSetupStep = 1 | 2 | 3 | 4 | 5;
+export type TSetupStep = 1 | 2 | 3 | 4;
 
 export type TSetupSetPath = Dispatch<SetStateAction<TSetupPath>>;
 
