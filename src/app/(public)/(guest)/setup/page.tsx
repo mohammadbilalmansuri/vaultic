@@ -28,7 +28,7 @@ const getStepComponent = ({
     case 1:
       return <ChoosePath setPath={setPath} setStep={setStep} />;
     case 2:
-      return <CreatePassword setStep={setStep} />;
+      return <CreatePassword path={path} setStep={setStep} />;
     case 3:
       return path === "create" ? (
         <RecoveryPhraseWarning setStep={setStep} />
