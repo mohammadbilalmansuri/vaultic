@@ -126,14 +126,14 @@
   }
 
   .input {
-    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-white dark:bg-zinc-950/40 border border-color focus-within:border-zinc-400 dark:focus-within:border-zinc-600;
+    @apply heading-color w-full px-4 py-3 h-13 flex items-center leading-none rounded-2xl outline-none transition-all duration-300 bg-white dark:bg-zinc-950/30 border border-color focus-within:border-zinc-400 dark:focus-within:border-zinc-600;
   }
 
   .setup-box {
-    @apply w-full max-w-md relative flex flex-col items-center gap-4 text-center border-1.5 border-color rounded-3xl;
+    @apply w-full max-w-md min-h-[440px] relative flex flex-col items-center gap-4 text-center border-1.5 border-color rounded-3xl;
   }
 
   .setup-box h2 {
-    @apply text-h2 font-medium leading-snug heading-color;
+    @apply text-[1.75rem] font-medium leading-snug heading-color;
   }
 }
