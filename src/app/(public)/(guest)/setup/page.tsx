@@ -1,64 +1,62 @@
 "use client";
-import { useState, JSX } from "react";
+import { useState, JSX, Dispatch, SetStateAction } from "react";
 import {
   Welcome,
-  SelectNetwork,
   RecoveryPhraseWarning,
   GenerateWallet,
   ImportWallet,
   CreatePassword,
   Completion,
 } from "@/components/setup";
-import { TNetwork } from "@/types";
-import cn from "@/utils/cn";
-import { TOnboardingPath, TOnboardingStep } from "@/types";
-import { ONBOARDING_STEPS } from "@/constants";
+import { TSetupPath, TSetupStep } from "@/types";
+import { Loader } from "@/components/ui";
 
-const Onboarding = () => {
-  const [step, setStep] = useState<TOnboardingStep>(1);
-  const [path, setPath] = useState<TOnboardingPath>("create");
-  const [network, setNetwork] = useState<TNetwork>("solana");
+interface GetStepComponentProps {
+  step: TSetupStep;
+  path: TSetupPath;
+  setStep: Dispatch<SetStateAction<TSetupStep>>;
+  setPath: Dispatch<SetStateAction<TSetupPath>>;
+}
 
-  const stepComponents: Record<TOnboardingStep, JSX.Element> = {
-    1: <Welcome setStep={setStep} setPath={setPath} />,
-    2: <SelectNetwork setNetwork={setNetwork} setStep={setStep} />,
-    3:
-      path === "create" ? (
+const getStepComponent = ({
+  step,
+  path,
+  setStep,
+  setPath,
+}: GetStepComponentProps): JSX.Element => {
+  switch (step) {
+    case 1:
+      return <Welcome setPath={setPath} setStep={setStep} />;
+    case 2:
+      return <CreatePassword setStep={setStep} />;
+    case 3:
+      return path === "create" ? (
         <RecoveryPhraseWarning setStep={setStep} />
       ) : (
-        <ImportWallet network={network} setStep={setStep} />
-      ),
-    4:
-      path === "create" ? (
-        <GenerateWallet network={network} setStep={setStep} />
+        <ImportWallet setStep={setStep} />
+      );
+    case 4:
+      return path === "create" ? (
+        <GenerateWallet setStep={setStep} />
       ) : (
-        <CreatePassword setStep={setStep} />
-      ),
-    5:
-      path === "create" ? <CreatePassword setStep={setStep} /> : <Completion />,
-    6: <Completion />,
-  };
+        <Completion />
+      );
+    case 5:
+      return <Completion />;
+    default:
+      return <Loader />;
+  }
+};
+
+const SetupPage = () => {
+  const [step, setStep] = useState<TSetupStep>(1);
+  const [path, setPath] = useState<TSetupPath>("create");
 
   return (
-    <div className="w-full max-w-screen-lg relative flex flex-col items-center gap-8">
-      {stepComponents[step]}
-
-      {step !== 1 && (
-        <div className="flex items-center gap-2">
-          {Array.from({ length: ONBOARDING_STEPS[path] }, (_, index) => (
-            <span
-              key={index}
-              className={cn("size-3 rounded-full", {
-                "bg-zinc-300 dark:bg-zinc-700": step < index + 1,
-                "bg-teal-500/50": step > index + 1,
-                "bg-teal-500": step === index + 1,
-              })}
-            />
-          ))}
-        </div>
-      )}
+    <div className="w-full max-w-screen-lg relative flex flex-col items-center">
+      {getStepComponent({ step, path, setStep, setPath })}
     </div>
   );
 };
 
-export default Onboarding;
+export default SetupPage;
