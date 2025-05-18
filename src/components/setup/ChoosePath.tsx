@@ -18,7 +18,7 @@ const ChoosePath = ({ setPath, setStep }: ChoosePathProps) => {
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="setup-box">
+    <motion.div {...scaleUpAnimation()} className="setup-box p-12">
       <Logo className="w-15 text-teal-500" />
       <h2 className="mt-3">Set Up Your Wallet</h2>
       <p>To get started, create a new wallet or import an existing one.</p>
