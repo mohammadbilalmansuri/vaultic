@@ -66,7 +66,7 @@ const Wallet = ({
               {expanded && (
                 <Tooltip content="Delete wallet">
                   <button
-                    className="hover-icon"
+                    className="icon-btn"
                     onClick={() => onDelete(network, index, address)}
                   >
                     <Trash className="w-6" />
@@ -75,7 +75,7 @@ const Wallet = ({
               )}
               <Tooltip content={expanded ? "Collapse" : "Expand"}>
                 <button
-                  className="hover-icon"
+                  className="icon-btn"
                   onClick={() => setExpanded((prev) => !prev)}
                 >
                   <AngleDown

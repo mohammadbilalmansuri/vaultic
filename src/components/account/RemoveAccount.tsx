@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useStorage } from "@/hooks";
 import useNotificationStore from "@/stores/notificationStore";
-import useUserStore from "@/stores/userStore";
+import { useWalletStore } from "@/stores";
 import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 import {
   verifyPasswordSchema,
@@ -36,7 +36,7 @@ const RemoveAccount = () => {
   const handleRemove = ({ password }: TVerifyPasswordFormData) => {
     startRemoving(async () => {
       try {
-        if (useUserStore.getState().password !== password) {
+        if (useWalletStore.getState().password !== password) {
           setError("password", {
             message: "Incorrect password",
           });
