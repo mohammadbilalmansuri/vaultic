@@ -1,7 +1,7 @@
 "use client";
 import { useState, JSX, Dispatch, SetStateAction } from "react";
 import {
-  Welcome,
+  ChoosePath,
   RecoveryPhraseWarning,
   GenerateWallet,
   ImportWallet,
@@ -26,7 +26,7 @@ const getStepComponent = ({
 }: GetStepComponentProps): JSX.Element => {
   switch (step) {
     case 1:
-      return <Welcome setPath={setPath} setStep={setStep} />;
+      return <ChoosePath setPath={setPath} setStep={setStep} />;
     case 2:
       return <CreatePassword setStep={setStep} />;
     case 3:
