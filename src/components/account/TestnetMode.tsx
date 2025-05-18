@@ -2,13 +2,13 @@
 import { useTransition } from "react";
 import Link from "next/link";
 import useNotificationStore from "@/stores/notificationStore";
-import useUserStore from "@/stores/userStore";
+import { useWalletStore } from "@/stores";
 import { useBlockchain } from "@/hooks";
 import { Switch } from "@/components/ui";
 
 const TestnetMode = () => {
   const notify = useNotificationStore((s) => s.notify);
-  const networkMode = useUserStore((s) => s.networkMode);
+  const networkMode = useWalletStore((s) => s.networkMode);
   const { switchNetworkMode } = useBlockchain();
   const [switching, startSwitching] = useTransition();
 
