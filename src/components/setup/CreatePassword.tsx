@@ -1,30 +1,27 @@
 "use client";
-import { Dispatch, SetStateAction, useTransition } from "react";
-import { TOnboardingStep } from "@/types";
+import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import { Button, FormError, Loader, PasswordInput } from "@/components/ui";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, FormError, PasswordInput } from "@/components/ui";
+import SetupProgress from "./SetupProgress";
 import {
   CreatePasswordSchema,
   TCreatePasswordFormData,
 } from "@/utils/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
-import useUserStore from "@/stores/userStore";
-import { useStorage } from "@/hooks";
-import useNotificationStore from "@/stores/notificationStore";
+import { useWalletStore } from "@/stores";
 import { IS_DEV, DEV_PASSWORD } from "@/constants";
 import cn from "@/utils/cn";
 import { scaleUpAnimation } from "@/utils/animations";
+import { TSetupPath, TSetupStep } from "@/types";
 
 type CreatePasswordProps = {
-  setStep: Dispatch<SetStateAction<TOnboardingStep>>;
+  path: TSetupPath;
+  setStep: Dispatch<SetStateAction<TSetupStep>>;
 };
 
-const CreatePassword = ({ setStep }: CreatePasswordProps) => {
-  const { saveUser } = useStorage();
-  const setUserState = useUserStore((state) => state.setUserState);
-  const notify = useNotificationStore((state) => state.notify);
-  const [saving, startSaving] = useTransition();
+const CreatePassword = ({ path, setStep }: CreatePasswordProps) => {
+  const setWalletState = useWalletStore((state) => state.setWalletState);
 
   const {
     register,
@@ -40,54 +37,43 @@ const CreatePassword = ({ setStep }: CreatePasswordProps) => {
   });
 
   const handleSave = ({ password }: TCreatePasswordFormData) => {
-    startSaving(async () => {
-      try {
-        setUserState({ password });
-        await saveUser();
-        notify({
-          type: "success",
-          message: "Password set. Your data is stored safely on this device.",
-        });
-        setUserState({ userExists: true, authenticated: true });
-        setStep(6);
-      } catch {
-        notify({
-          type: "error",
-          message: "Couldn't finish setup. Please try again.",
-        });
-      }
-    });
+    setWalletState({ password });
+    setStep(3);
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="box">
-      <h1 className="-mt-2 box-heading">Create a Password</h1>
-      <p>
-        It should be at least 8 characters.
-        <br />
-        You'll need this to unlock Vaultic.
-      </p>
+    <motion.div {...scaleUpAnimation()} className="setup-box gap-0">
+      <SetupProgress step={2} path={path} back={() => setStep(1)} />
 
-      <form
-        onSubmit={handleSubmit(handleSave)}
-        className="w-full flex flex-col gap-4 mt-3"
-      >
-        <PasswordInput {...register("password")} />
-        <PasswordInput
-          {...register("confirmPassword")}
-          placeholder="Confirm password"
-        />
-        <FormError errors={errors} />
-        <Button
-          type="submit"
-          className={cn("w-full", {
-            "opacity-60 pointer-events-none": !isValid,
-          })}
-          disabled={!isValid || saving}
+      <div className="p-6 w-full flex flex-col items-center gap-3">
+        <h2>Create Password</h2>
+        <p>
+          Your password must be at least 8 characters and is used to unlock
+          Vaultic on this device. It can't be recovered or reset, so make sure
+          to remember it and keep it secure.
+        </p>
+
+        <form
+          onSubmit={handleSubmit(handleSave)}
+          className="w-full flex flex-col gap-4 mt-3"
         >
-          {saving ? <Loader size="sm" color="black" /> : "Next"}
-        </Button>
-      </form>
+          <PasswordInput {...register("password")} />
+          <PasswordInput
+            {...register("confirmPassword")}
+            placeholder="Confirm Password"
+          />
+          <Button
+            type="submit"
+            className={cn("w-full", {
+              "opacity-60 pointer-events-none": !isValid,
+            })}
+            disabled={!isValid}
+          >
+            Continue
+          </Button>
+          <FormError errors={errors} className="mt-1.5" />
+        </form>
+      </div>
     </motion.div>
   );
 };
