@@ -12,7 +12,7 @@ const EyeToggle = ({ hidden, className = "", ...props }: EyeToggleProps) => {
     <button
       type="button"
       tabIndex={-1}
-      className={cn("hover-icon", className)}
+      className={cn("icon-btn", className)}
       {...props}
     >
       {hidden ? <Eye /> : <EyeSlash />}

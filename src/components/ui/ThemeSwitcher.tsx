@@ -7,7 +7,7 @@ const ThemeSwitcher = () => {
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
   return (
-    <button type="button" className="on-hover-bg-icon" onClick={toggleTheme}>
+    <button type="button" className="icon-btn-bg" onClick={toggleTheme}>
       {theme === "dark" ? <Moon /> : <Sun />}
     </button>
   );

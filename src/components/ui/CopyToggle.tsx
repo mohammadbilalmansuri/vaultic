@@ -11,7 +11,7 @@ const CopyToggle = ({ copied, className = "", ...props }: CopyProps) => {
   return (
     <button
       type="button"
-      className={cn("hover-icon", { "pointer-events-none": copied }, className)}
+      className={cn("icon-btn", { "pointer-events-none": copied }, className)}
       {...props}
     >
       {copied ? <CopyCheck /> : <Copy />}
