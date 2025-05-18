@@ -33,7 +33,7 @@
 }
 
 @utility border-color {
-  @apply border-zinc-200 dark:border-zinc-800;
+  @apply border-zinc-300/70 dark:border-zinc-800;
 }
 
 @utility bg-default {
@@ -41,7 +41,7 @@
 }
 
 @utility bg-primary {
-  @apply bg-zinc-200/50 dark:bg-zinc-800/50;
+  @apply bg-zinc-200/60 dark:bg-zinc-800/50;
 }
 
 @utility bg-secondary {
@@ -74,7 +74,7 @@
   }
 
   main {
-    @apply w-full relative flex flex-col items-center flex-1;
+    @apply w-full relative flex flex-col items-center justify-center flex-1 px-5;
   }
 
   button,
@@ -106,15 +106,15 @@
   }
 
   .h1 {
-    @apply text-h1 font-bold heading-color;
+    @apply text-h1 font-bold leading-snug heading-color;
   }
 
   .h2 {
-    @apply text-h2 font-bold heading-color;
+    @apply text-h2 font-bold leading-snug heading-color;
   }
 
   .h3 {
-    @apply text-h3 font-semibold heading-color;
+    @apply text-h3 font-semibold leading-snug heading-color;
   }
 
   .box {
@@ -122,6 +122,6 @@
   }
 
   .input {
-    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-primary focus-within:bg-secondary;
+    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-zinc-50 dark:bg-zinc-950/50 border border-color focus-within:border-zinc-400 dark:focus-within:border-zinc-600;
   }
 }
