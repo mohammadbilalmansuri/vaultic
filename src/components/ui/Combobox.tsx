@@ -44,7 +44,7 @@ const Combobox = ({
             {options.length > 0 && (
               <button
                 type="button"
-                className="hover-icon size-9 flex items-center justify-center rounded-xl hover:bg-secondary absolute right-2"
+                className="icon-btn size-9 flex items-center justify-center rounded-xl hover:bg-secondary absolute right-2"
                 onClick={() => setOpened((prev) => !prev)}
               >
                 <AngleDown

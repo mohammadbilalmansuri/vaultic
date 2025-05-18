@@ -52,8 +52,12 @@
   @apply text-yellow-800 dark:text-yellow-500 bg-yellow-500/20 dark:bg-yellow-500/10;
 }
 
-@utility hover-icon {
+@utility icon-btn {
   @apply text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 transition-all duration-300 active:scale-90;
+}
+
+@utility icon-btn-bg {
+  @apply icon-btn size-10 flex items-center justify-center rounded-xl hover:bg-primary;
 }
 
 @layer base {
@@ -93,16 +97,20 @@
 }
 
 @layer components {
-  .on-hover-bg-icon {
-    @apply hover-icon size-10 flex items-center justify-center rounded-xl hover:bg-primary;
-  }
-
-  .hover-icon svg {
+  .icon-btn svg {
     @apply w-5;
   }
 
-  .on-hover-bg-icon svg {
+  .icon-btn-bg svg {
     @apply w-5.5;
+  }
+
+  .icon-btn-bg-sm {
+    @apply icon-btn-bg size-8;
+  }
+
+  .icon-btn-bg-sm svg {
+    @apply w-5;
   }
 
   .h1 {
@@ -117,11 +125,15 @@
     @apply text-h3 font-semibold leading-snug heading-color;
   }
 
-  .box {
-    @apply w-full max-w-md relative flex flex-col items-center text-center gap-4 border-2 border-color rounded-3xl p-12;
+  .input {
+    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-zinc-50 dark:bg-zinc-950/40 border border-color focus-within:border-zinc-400 dark:focus-within:border-zinc-600;
   }
 
-  .input {
-    @apply heading-color w-full px-4 py-3 h-13 flex items-center justify-center leading-none rounded-2xl outline-none transition-all duration-300 bg-zinc-50 dark:bg-zinc-950/50 border border-color focus-within:border-zinc-400 dark:focus-within:border-zinc-600;
+  .setup-box {
+    @apply w-full max-w-md relative flex flex-col items-center gap-4 text-center border-1.5 border-color rounded-3xl;
+  }
+
+  .setup-box h2 {
+    @apply text-h2 font-medium leading-snug heading-color;
   }
 }

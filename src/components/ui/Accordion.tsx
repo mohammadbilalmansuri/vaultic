@@ -40,7 +40,7 @@ const Accordion = ({
           {question}
         </h5>
         <Tooltip
-          containerClassName="on-hover-bg-icon"
+          containerClassName="icon-btn-bg"
           content={isOpen ? "Collapse" : "Expand"}
         >
           <AngleDown
