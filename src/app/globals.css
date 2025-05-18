@@ -70,12 +70,12 @@
   }
 
   .root {
-    @apply w-full relative flex flex-col items-center;
+    @apply w-full min-h-dvh relative flex flex-col items-center;
   }
 
-  /* main {
-    @apply w-full relative flex flex-col items-center justify-center flex-1;
-  } */
+  main {
+    @apply w-full relative flex flex-col items-center flex-1;
+  }
 
   button,
   a {
