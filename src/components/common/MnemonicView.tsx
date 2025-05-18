@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { CopyToggle, EyeToggle } from "@/components/ui";
 import { useClipboard } from "@/hooks";
-import useUserStore from "@/stores/userStore";
+import { useWalletStore } from "@/stores";
 import cn from "@/utils/cn";
 
 interface MnemonicViewProps {
@@ -16,7 +16,7 @@ const MnemonicView = ({
   cols = 3,
   widthClassName = "w-full",
 }: MnemonicViewProps) => {
-  const mnemonic = useUserStore((state) => state.mnemonic);
+  const mnemonic = useWalletStore((state) => state.mnemonic);
   const copyToClipboard = useClipboard();
   const [copied, setCopied] = useState(false);
   const [hidden, setHidden] = useState(true);
