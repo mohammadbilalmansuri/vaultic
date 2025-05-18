@@ -47,3 +47,6 @@ export interface ITxHistoryItem {
   readonly network: string;
   readonly status: "success" | "failed";
 }
+
+export type TSetupPath = "create" | "import";
+export type TSetupStep = 1 | 2 | 3 | 4 | 5;
