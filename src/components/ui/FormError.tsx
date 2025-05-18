@@ -1,17 +1,17 @@
-import { type FieldErrors } from "react-hook-form";
+import { FieldErrors } from "react-hook-form";
+import cn from "@/utils/cn";
 
-type FormErrorProps = {
+interface FormErrorProps {
   errors: FieldErrors;
   className?: string;
-};
+}
 
-const FormError = ({
-  errors,
-  className = "text-yellow-500",
-}: FormErrorProps) => {
+const FormError = ({ errors, className = "" }: FormErrorProps) => {
   const firstError = Object.values(errors).find((err) => err?.message);
   return firstError ? (
-    <p className={className}>{String(firstError.message)}</p>
+    <p className={cn("text-yellow-500", className)}>
+      {String(firstError.message)}
+    </p>
   ) : null;
 };
 
