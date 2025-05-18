@@ -21,7 +21,7 @@ export const RPC_URLs = {
 
 export const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY!;
 
-export const ONBOARDING_STEPS = {
+export const SETUP_STEPS = {
   create: 6,
   import: 5,
 } as const;
