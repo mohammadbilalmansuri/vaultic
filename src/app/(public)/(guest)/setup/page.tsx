@@ -2,9 +2,8 @@
 import { useState, JSX } from "react";
 import {
   ChoosePath,
-  RecoveryPhraseWarning,
-  GenerateWallet,
-  ImportWallet,
+  ShowRecoveryPhrase,
+  ImportRecoveryPhrase,
   CreatePassword,
   Completion,
 } from "@/components/setup";
@@ -28,21 +27,15 @@ const getStepComponent = ({
     case 1:
       return <ChoosePath setPath={setPath} setStep={setStep} />;
     case 2:
-      return <CreatePassword path={path} setStep={setStep} />;
+      return <CreatePassword setStep={setStep} />;
     case 3:
       return path === "create" ? (
-        <RecoveryPhraseWarning setStep={setStep} />
+        <ShowRecoveryPhrase setStep={setStep} />
       ) : (
-        <ImportWallet setStep={setStep} />
+        <ImportRecoveryPhrase setStep={setStep} />
       );
     case 4:
-      return path === "create" ? (
-        <GenerateWallet setStep={setStep} />
-      ) : (
-        <Completion />
-      );
-    case 5:
-      return <Completion />;
+      <Completion />;
     default:
       return <Loader />;
   }
