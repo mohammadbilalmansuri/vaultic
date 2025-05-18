@@ -11,7 +11,7 @@ const HeroSection = () => {
   return (
     <motion.section
       ref={ref}
-      className="w-full flex flex-col text-center gap-10 items-center bg-primary p-16 rounded-4xl relative overflow-hidden before:content-[''] before:absolute before:top-0 before:right-0 before:size-32 before:bg-teal-500/10 before:rounded-bl-full after:content-[''] after:absolute after:bottom-0 after:left-0 after:size-48 after:bg-teal-500/5 after:rounded-tr-full"
+      className="w-full flex flex-col text-center gap-8 items-center bg-primary p-16 rounded-4xl relative overflow-hidden before:content-[''] before:absolute before:top-0 before:right-0 before:size-32 before:bg-teal-500/10 before:rounded-bl-full after:content-[''] after:absolute after:bottom-0 after:left-0 after:size-48 after:bg-teal-500/5 after:rounded-tr-full"
       {...fadeUpAnimation({ inView: isInView })}
     >
       <motion.h5
@@ -22,14 +22,14 @@ const HeroSection = () => {
       </motion.h5>
 
       <motion.h1
-        className="h1 -my-4"
+        className="h1"
         {...fadeUpAnimation({ delay: 0.2, inView: isInView })}
       >
         The Wallet That Lives in Your Browser
       </motion.h1>
 
       <motion.p
-        className="text-lg max-w-3xl"
+        className="text-lg max-w-3xl -mt-2"
         {...fadeUpAnimation({ delay: 0.3, inView: isInView })}
       >
         Vaultic is a secure, browser-native crypto wallet for Solana and
