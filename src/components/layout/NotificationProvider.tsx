@@ -38,7 +38,7 @@ const NotificationProvider = () => {
           </div>
 
           <button type="button" onClick={closeNotification}>
-            <Cancel className="hover-icon w-4.5" />
+            <Cancel className="icon-btn w-4.5" />
           </button>
         </motion.div>
       )}
