@@ -1,5 +1,5 @@
 "use client";
-import { useState, JSX, Dispatch, SetStateAction } from "react";
+import { useState, JSX } from "react";
 import {
   ChoosePath,
   RecoveryPhraseWarning,
@@ -8,8 +8,8 @@ import {
   CreatePassword,
   Completion,
 } from "@/components/setup";
-import { TSetupPath, TSetupStep, TSetupSetPath, TSetupSetStep } from "@/types";
 import { Loader } from "@/components/ui";
+import { TSetupPath, TSetupStep, TSetupSetPath, TSetupSetStep } from "@/types";
 
 interface GetStepComponentProps {
   step: TSetupStep;
