@@ -4,10 +4,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useWallet } from "@/hooks";
-import {
-  verifyPasswordSchema,
-  TVerifyPasswordFormData,
-} from "@/utils/validations";
+import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";
 import { Button, FormError, Loader, PasswordInput } from "@/components/ui";
 import { IS_DEV, DEV_PASSWORD } from "@/constants";
 import { scaleUpAnimation } from "@/utils/animations";
@@ -20,8 +17,8 @@ const UnlockForm = () => {
     handleSubmit,
     setError,
     formState: { errors, isValid },
-  } = useForm<TVerifyPasswordFormData>({
-    resolver: zodResolver(verifyPasswordSchema),
+  } = useForm<TVerifyPasswordForm>({
+    resolver: zodResolver(VerifyPasswordSchema),
     mode: "onChange",
     defaultValues: { password: IS_DEV ? DEV_PASSWORD : "" },
   });
