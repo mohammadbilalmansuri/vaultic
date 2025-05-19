@@ -3,24 +3,38 @@ import { ButtonHTMLAttributes, SVGProps } from "react";
 import { Copy, CopyCheck } from "@/components/ui/icons";
 import cn from "@/utils/cn";
 
-interface CopyProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  copied: boolean;
-  svgProps?: SVGProps<SVGSVGElement>;
+interface CopyToggleProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  hasCopied: boolean;
+  labels?: { copy: string; copied: string };
+  iconProps?: SVGProps<SVGSVGElement>;
 }
 
 const CopyToggle = ({
-  copied,
+  hasCopied,
+  labels,
   className = "",
-  svgProps,
+  iconProps,
   ...props
-}: CopyProps) => {
+}: CopyToggleProps) => {
   return (
     <button
       type="button"
-      className={cn("icon-btn", { "pointer-events-none": copied }, className)}
+      className={cn(
+        "icon-btn",
+        {
+          "pointer-events-none": hasCopied,
+          "flex items-center gap-2 active:scale-100": !!labels,
+        },
+        className
+      )}
       {...props}
     >
-      {copied ? <CopyCheck {...svgProps} /> : <Copy {...svgProps} />}
+      {hasCopied ? <CopyCheck {...iconProps} /> : <Copy {...iconProps} />}
+      {labels && (
+        <span className="leading-none">
+          {hasCopied ? labels.copied : labels.copy}
+        </span>
+      )}
     </button>
   );
 };
