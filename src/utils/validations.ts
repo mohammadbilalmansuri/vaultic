@@ -1,14 +1,14 @@
 import { FAUCET_PRESET_AMOUNTS } from "@/constants";
 import * as z from "zod";
 
-const passwordField = z
+const PasswordSchema = z
   .string()
   .trim()
   .min(8, "Password must be at least 8 characters");
 
 export const CreatePasswordSchema = z
   .object({
-    password: passwordField,
+    password: PasswordSchema,
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -16,14 +16,14 @@ export const CreatePasswordSchema = z
     path: ["confirmPassword"],
   });
 
-export const verifyPasswordSchema = z.object({
-  password: passwordField,
+export const VerifyPasswordSchema = z.object({
+  password: PasswordSchema,
 });
 
-export const changePasswordSchema = z
+export const ChangePasswordSchema = z
   .object({
-    currentPassword: passwordField,
-    newPassword: passwordField,
+    currentPassword: PasswordSchema,
+    newPassword: PasswordSchema,
     confirmNewPassword: z.string(),
   })
   .refine((data) => data.newPassword === data.confirmNewPassword, {
@@ -35,18 +35,34 @@ export const changePasswordSchema = z
     path: ["newPassword"],
   });
 
-export const solanaAirdropSchema = z.object({
+export const SolanaAirdropSchema = z.object({
   address: z
     .string()
     .trim()
-    .min(32, { message: "Enter valid Solana wallet address" })
+    .min(32, { message: "Enter a valid Solana wallet address" })
     .max(44, { message: "Invalid Solana wallet address" }),
   amount: z.enum(FAUCET_PRESET_AMOUNTS, {
     errorMap: () => ({ message: "Please select an amount" }),
   }),
 });
 
-export type TCreatePasswordFormData = z.infer<typeof CreatePasswordSchema>;
-export type TVerifyPasswordFormData = z.infer<typeof verifyPasswordSchema>;
-export type TChangePasswordFormData = z.infer<typeof changePasswordSchema>;
-export type TSolanaAirdropFormData = z.infer<typeof solanaAirdropSchema>;
+export const ImportMnemonicSchema = z.object({
+  words: z
+    .array(
+      z
+        .string()
+        .trim()
+        .min(1, "Each word is required")
+        .regex(/^[a-z]+$/, "Words must contain only lowercase letters (a-z)")
+        .transform((w) => w.toLowerCase())
+    )
+    .refine((arr) => arr.length === 12 || arr.length === 24, {
+      message: "Mnemonic must be 12 or 24 words",
+    }),
+});
+
+export type TCreatePasswordForm = z.infer<typeof CreatePasswordSchema>;
+export type TVerifyPasswordForm = z.infer<typeof VerifyPasswordSchema>;
+export type TChangePasswordForm = z.infer<typeof ChangePasswordSchema>;
+export type TSolanaAirdropForm = z.infer<typeof SolanaAirdropSchema>;
+export type TImportMnemonicForm = z.infer<typeof ImportMnemonicSchema>;
