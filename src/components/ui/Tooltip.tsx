@@ -6,27 +6,20 @@ import cn from "@/utils/cn";
 interface TooltipProps {
   content: ReactNode;
   children: ReactNode;
-  containerClassName?: string;
   position?: "top" | "bottom";
-  open?: boolean;
+  containerClassName?: string;
 }
 
 const Tooltip = ({
   content,
   children,
-  containerClassName = "",
   position = "top",
-  open,
+  containerClassName = "",
 }: TooltipProps) => {
   const [visible, setVisible] = useState(false);
-  const isVisible = open !== undefined ? open : visible;
 
-  const show = () => {
-    if (open === undefined) setVisible(true);
-  };
-  const hide = () => {
-    if (open === undefined) setVisible(false);
-  };
+  const show = () => setVisible(true);
+  const hide = () => setVisible(false);
 
   return (
     <div
@@ -41,9 +34,10 @@ const Tooltip = ({
     >
       {children}
       <AnimatePresence>
-        {isVisible && (
+        {visible && (
           <motion.div
             role="tooltip"
+            aria-live="polite"
             initial={{
               opacity: 0,
               scale: 0.8,
