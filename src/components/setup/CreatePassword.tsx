@@ -4,10 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, FormError, PasswordInput } from "@/components/ui";
 import SetupProgress from "./SetupProgress";
-import {
-  CreatePasswordSchema,
-  TCreatePasswordFormData,
-} from "@/utils/validations";
+import { CreatePasswordSchema, TCreatePasswordForm } from "@/utils/validations";
 import { useWalletStore } from "@/stores";
 import { IS_DEV, DEV_PASSWORD } from "@/constants";
 import cn from "@/utils/cn";
@@ -21,7 +18,7 @@ const CreatePassword = ({ setStep }: { setStep: TSetupSetStep }) => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<TCreatePasswordFormData>({
+  } = useForm<TCreatePasswordForm>({
     resolver: zodResolver(CreatePasswordSchema),
     mode: "onChange",
     defaultValues: {
@@ -30,7 +27,7 @@ const CreatePassword = ({ setStep }: { setStep: TSetupSetStep }) => {
     },
   });
 
-  const handleCreatePassword = ({ password }: TCreatePasswordFormData) => {
+  const handleCreatePassword = ({ password }: TCreatePasswordForm) => {
     setWalletState({ password });
     setStep(3);
   };
