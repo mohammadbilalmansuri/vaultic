@@ -48,10 +48,7 @@ const MnemonicView = ({
         })}
       >
         {mnemonic.split(" ").map((word, index) => (
-          <div
-            key={index}
-            className="flex items-center gap-1 heading-color lowercase w-full p-3.5 h-12 leading-none rounded-2xl bg-white dark:bg-zinc-950/30 border border-color"
-          >
+          <div key={index} className="mnemonic-word-input">
             <span className="opacity-50">{index + 1}.</span>
             <span>{word}</span>
           </div>
