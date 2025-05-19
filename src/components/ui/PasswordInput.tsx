@@ -29,6 +29,7 @@ const PasswordInput = ({
         isVisible={visible}
         onClick={() => setVisible((prev) => !prev)}
         className="absolute right-3.5"
+        tabIndex={-1}
       />
     </div>
   );
