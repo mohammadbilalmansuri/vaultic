@@ -1,13 +1,19 @@
 "use client";
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, SVGProps } from "react";
 import { Eye, EyeSlash } from "@/components/ui/icons";
 import cn from "@/utils/cn";
 
 interface EyeToggleProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   hidden: boolean;
+  svgProps?: SVGProps<SVGSVGElement>;
 }
 
-const EyeToggle = ({ hidden, className = "", ...props }: EyeToggleProps) => {
+const EyeToggle = ({
+  hidden,
+  className = "",
+  svgProps,
+  ...props
+}: EyeToggleProps) => {
   return (
     <button
       type="button"
@@ -15,7 +21,7 @@ const EyeToggle = ({ hidden, className = "", ...props }: EyeToggleProps) => {
       className={cn("icon-btn", className)}
       {...props}
     >
-      {hidden ? <Eye /> : <EyeSlash />}
+      {hidden ? <Eye {...svgProps} /> : <EyeSlash {...svgProps} />}
     </button>
   );
 };
