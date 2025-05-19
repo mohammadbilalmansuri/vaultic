@@ -13,12 +13,12 @@ const PasswordInput = ({
   ref,
   ...props
 }: PasswordInputProps) => {
-  const [show, setShow] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   return (
     <div className="w-full relative flex flex-col items-center justify-center">
       <input
-        type={show ? "text" : "password"}
+        type={visible ? "text" : "password"}
         className={cn("input pr-10", className)}
         placeholder={placeholder}
         ref={ref}
@@ -26,8 +26,8 @@ const PasswordInput = ({
       />
 
       <EyeToggle
-        hidden={!show}
-        onClick={() => setShow((prev) => !prev)}
+        isVisible={visible}
+        onClick={() => setVisible((prev) => !prev)}
         className="absolute right-3.5"
       />
     </div>
