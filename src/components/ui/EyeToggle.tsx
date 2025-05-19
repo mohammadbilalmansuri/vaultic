@@ -1,27 +1,40 @@
 "use client";
-import { ButtonHTMLAttributes, SVGProps } from "react";
+import React, { ButtonHTMLAttributes, SVGProps } from "react";
 import { Eye, EyeSlash } from "@/components/ui/icons";
 import cn from "@/utils/cn";
 
 interface EyeToggleProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  hidden: boolean;
-  svgProps?: SVGProps<SVGSVGElement>;
+  visible: boolean;
+  label?: {
+    show: string;
+    hide: string;
+  };
+  iconProps?: SVGProps<SVGSVGElement>;
 }
 
 const EyeToggle = ({
-  hidden,
+  visible,
+  label,
   className = "",
-  svgProps,
+  iconProps,
   ...props
 }: EyeToggleProps) => {
   return (
     <button
       type="button"
-      tabIndex={-1}
-      className={cn("icon-btn", className)}
+      className={cn(
+        "icon-btn",
+        { "flex items-center gap-2": !!label },
+        className
+      )}
       {...props}
     >
-      {hidden ? <Eye {...svgProps} /> : <EyeSlash {...svgProps} />}
+      {visible ? <EyeSlash {...iconProps} /> : <Eye {...iconProps} />}
+      {label && (
+        <span className="leading-none">
+          {visible ? label.hide : label.show}
+        </span>
+      )}
     </button>
   );
 };
