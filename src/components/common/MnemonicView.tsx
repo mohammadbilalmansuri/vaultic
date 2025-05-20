@@ -40,7 +40,7 @@ const MnemonicView = ({
         />
       </div>
       <div
-        className={cn("w-full grid gap-2 transition-all", {
+        className={cn("w-full grid gap-2", {
           "grid-cols-3": cols === 3,
           "grid-cols-4": cols === 4,
           "grid-cols-6": cols === 6,
