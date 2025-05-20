@@ -1,9 +1,10 @@
-type TArgs =
-  | string
-  | Record<string, boolean>
-  | Array<string | Record<string, boolean>>;
-
-const cn = (...args: TArgs[]): string => {
+const cn = (
+  ...args: (
+    | string
+    | Record<string, boolean>
+    | Array<string | Record<string, boolean>>
+  )[]
+): string => {
   return args
     .flat(Infinity)
     .flatMap((item) =>
