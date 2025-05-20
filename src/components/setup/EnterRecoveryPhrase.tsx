@@ -96,7 +96,7 @@ const EnterRecoveryPhrase = ({ setStep }: { setStep: TSetupSetStep }) => {
       <SetupProgress step={3} />
 
       <div className="p-6 w-full flex flex-col items-center gap-3">
-        <h2>Enter Your Recovery Phrase</h2>
+        <h2>Enter your recovery phrase</h2>
         <p>
           Enter your 12- or 24-word recovery phrase to import your wallet. You
           can also paste the entire phrase into the first field to fill in the
