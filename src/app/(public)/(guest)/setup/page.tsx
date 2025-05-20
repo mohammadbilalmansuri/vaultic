@@ -5,6 +5,7 @@ import {
   CreatePassword,
   ShowRecoveryPhrase,
   EnterRecoveryPhrase,
+  SettingUpWallet,
   Completion,
 } from "@/components/setup";
 import { Loader } from "@/components/ui";
@@ -27,14 +28,20 @@ const getStepComponent = ({
     case 1:
       return <ChoosePath setPath={setPath} setStep={setStep} />;
     case 2:
-      return <CreatePassword setStep={setStep} />;
+      return path === "create" ? (
+        <CreatePassword path={path} setStep={setStep} />
+      ) : (
+        <EnterRecoveryPhrase setStep={setStep} />
+      );
     case 3:
       return path === "create" ? (
         <ShowRecoveryPhrase setStep={setStep} />
       ) : (
-        <EnterRecoveryPhrase setStep={setStep} />
+        <CreatePassword path={path} setStep={setStep} />
       );
     case 4:
+      return <SettingUpWallet path={path} setStep={setStep} />;
+    case 5:
       return <Completion />;
     default:
       return <Loader />;
