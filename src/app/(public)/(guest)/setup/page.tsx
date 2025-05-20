@@ -49,7 +49,7 @@ const getStepComponent = ({
 };
 
 const SetupPage = () => {
-  const [step, setStep] = useState<TSetupStep>(1);
+  const [step, setStep] = useState<TSetupStep>(5);
   const [path, setPath] = useState<TSetupPath>("create");
 
   return (

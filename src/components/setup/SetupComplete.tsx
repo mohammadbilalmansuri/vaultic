@@ -16,8 +16,8 @@ const SetupComplete = ({ path }: { path: TSetupPath }) => {
       <h2 className="mt-3">Your Wallet Is Ready</h2>
 
       <p>
-        You've successfully {path === "create" ? "created" : "imported"} your
-        wallet. You're now ready to explore, send, and manage your assets
+        You’ve successfully {path === "create" ? "created" : "imported"} your
+        wallet. You’re now ready to explore, send, and manage your assets
         securely.
       </p>
 

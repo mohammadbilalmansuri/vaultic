@@ -112,7 +112,7 @@ const SolanaFaucet = () => {
       </form>
 
       <p className="-mb-0.5 mt-3 leading-tight">
-        Can't get test SOL?{" "}
+        Can’t get test SOL?{" "}
         <Link
           href="https://faucet.solana.com/"
           target="_blank"

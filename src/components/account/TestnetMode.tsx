@@ -39,11 +39,11 @@ const TestnetMode = () => {
         <p>
           <span className="heading-color font-medium">Testnet Mode</span> lets
           you explore Vaultic in a safe environment without risking real assets.
-          While it's enabled, your wallet connects to Solana Devnet and Ethereum
+          While it’s enabled, your wallet connects to Solana Devnet and Ethereum
           Sepolia — public test networks designed for experimentation.
         </p>
         <p>
-          You'll interact with test tokens and simulated balances, allowing you
+          You’ll interact with test tokens and simulated balances, allowing you
           to learn the wallet flow, try transactions, or test integration
           behavior — ideal for first-time users and developers.
         </p>

@@ -46,7 +46,7 @@ const features = [
     icon: Code,
     title: "100% Open Source & Auditable",
     description:
-      "Every line of Vaultic is public and verifiable. Whether you're a dev or a security expert, you're welcome to inspect, fork, and improve it.",
+      "Every line of Vaultic is public and verifiable. Whether you’re a dev or a security expert, you’re welcome to inspect, fork, and improve it.",
   },
 ];
 
