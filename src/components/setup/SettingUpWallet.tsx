@@ -1,12 +1,14 @@
 "use client";
 import { useEffect } from "react";
 import { motion } from "motion/react";
-import { Loader } from "@/components/ui";
 import { Logo } from "@/components/ui/icons";
-import { scaleUpAnimation } from "@/utils/animations";
-import { TSetupPath, TSetupSetStep } from "@/types";
-import { useWallet } from "@/hooks";
+import { Loader } from "@/components/ui";
 import SetupProgress from "./SetupProgress";
+import { useAccounts, useStorage } from "@/hooks";
+import { useWalletStore, useNotificationStore } from "@/stores";
+import { TSetupPath, TSetupSetStep } from "@/types";
+import { scaleUpAnimation } from "@/utils/animations";
+import delay from "@/utils/delay";
 
 const SettingUpWallet = ({
   path,
@@ -15,10 +17,26 @@ const SettingUpWallet = ({
   path: TSetupPath;
   setStep: TSetupSetStep;
 }) => {
-  const { setupWallet } = useWallet();
+  const { createAccount } = useAccounts();
+  const { saveWallet } = useStorage();
+  const setWalletState = useWalletStore((state) => state.setWalletState);
+  const notify = useNotificationStore((state) => state.notify);
 
   useEffect(() => {
-    setupWallet(setStep);
+    (async () => {
+      try {
+        await createAccount();
+        await saveWallet();
+        await delay(2000);
+        setWalletState({ walletExists: true, authenticated: true });
+        setStep(5);
+      } catch {
+        notify({
+          type: "error",
+          message: "Failed to set up wallet. Please try again.",
+        });
+      }
+    })();
   }, []);
 
   return (
@@ -31,10 +49,14 @@ const SettingUpWallet = ({
           <Loader size="xl" />
         </div>
 
-        <h2 className="mt-5">
+        <h2 className="text-2xl mt-5">
           {path === "create" ? "Creating your wallet" : "Importing your wallet"}
         </h2>
-        <p>This should only take a few seconds. Please don't close this tab.</p>
+
+        <p>
+          This will only take a few seconds. Please don't refresh or close this
+          tab during setup.
+        </p>
       </div>
     </motion.div>
   );
