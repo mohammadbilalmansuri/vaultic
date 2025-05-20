@@ -19,13 +19,13 @@ const navItems = [
 export default function WalletLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { isWallet } = useWallet();
+  const { walletExists } = useWallet();
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAccess = async () => {
-      const exists = await isWallet();
+      const exists = await walletExists();
       if (!exists) {
         router.replace("/");
         return;
