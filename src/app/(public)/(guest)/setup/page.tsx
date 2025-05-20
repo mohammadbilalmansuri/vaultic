@@ -6,7 +6,7 @@ import {
   ShowRecoveryPhrase,
   EnterRecoveryPhrase,
   SettingUpWallet,
-  Completion,
+  SetupComplete,
 } from "@/components/setup";
 import { Loader } from "@/components/ui";
 import { TSetupPath, TSetupStep, TSetupSetPath, TSetupSetStep } from "@/types";
@@ -42,7 +42,7 @@ const getStepComponent = ({
     case 4:
       return <SettingUpWallet path={path} setStep={setStep} />;
     case 5:
-      return <Completion />;
+      return <SetupComplete path={path} />;
     default:
       return <Loader />;
   }
