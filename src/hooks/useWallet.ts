@@ -1,33 +1,48 @@
 "use client";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useWalletStore, useNotificationStore } from "@/stores";
 import { useStorage, useAccounts } from "@/hooks";
-import { useWalletStore } from "@/stores";
-import useNotificationStore from "@/stores/notificationStore";
-import { TVerifyPasswordFormData } from "@/utils/validations";
-import { UseFormSetError } from "react-hook-form";
 import delay from "@/utils/delay";
+import { UseFormSetError } from "react-hook-form";
+import { TVerifyPasswordForm } from "@/utils/validations";
 
 const useWallet = () => {
   const router = useRouter();
-  const { isWalletStored, loadWallet, removeWallet } = useStorage();
-  const { loadAccounts } = useAccounts();
+  const { saveWallet, isWalletStored, loadWallet, removeWallet } = useStorage();
+  const { createAccount, loadAccounts } = useAccounts();
   const setWalletState = useWalletStore((state) => state.setWalletState);
   const notify = useNotificationStore((state) => state.notify);
+  const [settingUp, startSettingUp] = useTransition();
   const [unlocking, startUnlocking] = useTransition();
 
-  const isWallet = async () => {
+  const setupWallet = () => {
+    startSettingUp(async () => {
+      try {
+        await createAccount();
+        await saveWallet();
+        await delay(3000);
+      } catch (error) {
+        notify({
+          type: "error",
+          message: "Failed to create wallet. Please try again.",
+        });
+      }
+    });
+  };
+
+  const walletExists = async () => {
     try {
-      const exist =
+      const exists =
         useWalletStore.getState().walletExists || (await isWalletStored());
-      return exist;
+      return exists;
     } catch (error) {
       console.error("Error checking wallet existence:", error);
       throw error;
     }
   };
 
-  const secureFail = async (message: string) => {
+  const handleSecureFailure = async (message: string) => {
     try {
       notify({
         type: "error",
@@ -47,8 +62,8 @@ const useWallet = () => {
   };
 
   const unlockWallet = (
-    { password }: TVerifyPasswordFormData,
-    setError: UseFormSetError<TVerifyPasswordFormData>
+    { password }: TVerifyPasswordForm,
+    setError: UseFormSetError<TVerifyPasswordForm>
   ) => {
     startUnlocking(async () => {
       try {
@@ -61,17 +76,19 @@ const useWallet = () => {
             ? error.message
             : "An unexpected error occurred";
 
-        if (message === "Invalid password") {
+        if (message.includes("password") || message.includes("invalid")) {
           setError("password", { message });
         } else {
-          await secureFail(message);
+          await handleSecureFailure(message);
         }
       }
     });
   };
 
   return {
-    isWallet,
+    setupWallet,
+    settingUp,
+    walletExists,
     unlockWallet,
     unlocking,
   };
