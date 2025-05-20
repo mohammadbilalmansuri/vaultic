@@ -6,12 +6,12 @@ import { LayoutProps } from "@/types";
 
 const GuestLayout = ({ children }: LayoutProps) => {
   const router = useRouter();
-  const { isWallet } = useWallet();
+  const { walletExists } = useWallet();
 
   useEffect(() => {
     (async () => {
-      const walletExists = await isWallet();
-      if (walletExists) router.replace("/unlock");
+      const isWallet = await walletExists();
+      if (isWallet) router.replace("/unlock");
     })();
   }, []);
 
