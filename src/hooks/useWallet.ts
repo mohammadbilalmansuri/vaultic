@@ -1,35 +1,19 @@
 "use client";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { UseFormSetError } from "react-hook-form";
 import { useWalletStore, useNotificationStore } from "@/stores";
 import { useStorage, useAccounts } from "@/hooks";
-import delay from "@/utils/delay";
-import { UseFormSetError } from "react-hook-form";
 import { TVerifyPasswordForm } from "@/utils/validations";
+import delay from "@/utils/delay";
 
 const useWallet = () => {
   const router = useRouter();
-  const { saveWallet, isWalletStored, loadWallet, removeWallet } = useStorage();
-  const { createAccount, loadAccounts } = useAccounts();
+  const { isWalletStored, loadWallet, removeWallet } = useStorage();
+  const { loadAccounts } = useAccounts();
   const setWalletState = useWalletStore((state) => state.setWalletState);
   const notify = useNotificationStore((state) => state.notify);
-  const [settingUp, startSettingUp] = useTransition();
   const [unlocking, startUnlocking] = useTransition();
-
-  const setupWallet = () => {
-    startSettingUp(async () => {
-      try {
-        await createAccount();
-        await saveWallet();
-        await delay(3000);
-      } catch (error) {
-        notify({
-          type: "error",
-          message: "Failed to create wallet. Please try again.",
-        });
-      }
-    });
-  };
 
   const walletExists = async () => {
     try {
@@ -86,8 +70,6 @@ const useWallet = () => {
   };
 
   return {
-    setupWallet,
-    settingUp,
     walletExists,
     unlockWallet,
     unlocking,
