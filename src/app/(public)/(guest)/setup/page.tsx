@@ -2,9 +2,9 @@
 import { useState, JSX } from "react";
 import {
   ChoosePath,
-  ShowRecoveryPhrase,
-  ImportRecoveryPhrase,
   CreatePassword,
+  ShowRecoveryPhrase,
+  EnterRecoveryPhrase,
   Completion,
 } from "@/components/setup";
 import { Loader } from "@/components/ui";
@@ -32,10 +32,10 @@ const getStepComponent = ({
       return path === "create" ? (
         <ShowRecoveryPhrase setStep={setStep} />
       ) : (
-        <ImportRecoveryPhrase setStep={setStep} />
+        <EnterRecoveryPhrase setStep={setStep} />
       );
     case 4:
-      <Completion />;
+      return <Completion />;
     default:
       return <Loader />;
   }
