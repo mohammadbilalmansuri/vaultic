@@ -50,12 +50,14 @@ const SettingUpWallet = ({
         </div>
 
         <h2 className="text-2xl mt-5">
-          {path === "create" ? "Creating your wallet" : "Importing your wallet"}
+          {path === "create"
+            ? "Setting up your new wallet"
+            : "Importing your wallet securely"}
         </h2>
 
         <p>
-          This will only take a few seconds. Please don't refresh or close this
-          tab during setup.
+          This only takes a few seconds. Please keep this tab open while we
+          complete your setup.
         </p>
       </div>
     </motion.div>
