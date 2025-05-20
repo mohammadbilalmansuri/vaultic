@@ -44,13 +44,14 @@ const MnemonicView = ({
           "grid-cols-3": cols === 3,
           "grid-cols-4": cols === 4,
           "grid-cols-6": cols === 6,
-          "blur-xs select-none": !visible,
         })}
       >
         {mnemonic.split(" ").map((word, index) => (
           <div key={index} className="mnemonic-word-input">
             <span className="opacity-50 select-none">{index + 1}.</span>
-            <span>{word}</span>
+            <span>
+              {visible ? word : Array(word.length).fill("•").join("")}
+            </span>
           </div>
         ))}
       </div>
