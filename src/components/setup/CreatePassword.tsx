@@ -9,9 +9,15 @@ import { useWalletStore } from "@/stores";
 import { IS_DEV, DEV_PASSWORD } from "@/constants";
 import cn from "@/utils/cn";
 import { scaleUpAnimation } from "@/utils/animations";
-import { TSetupSetStep } from "@/types";
+import { TSetupPath, TSetupSetStep } from "@/types";
 
-const CreatePassword = ({ setStep }: { setStep: TSetupSetStep }) => {
+const CreatePassword = ({
+  path,
+  setStep,
+}: {
+  path: TSetupPath;
+  setStep: TSetupSetStep;
+}) => {
   const setWalletState = useWalletStore((state) => state.setWalletState);
 
   const {
@@ -29,7 +35,7 @@ const CreatePassword = ({ setStep }: { setStep: TSetupSetStep }) => {
 
   const handleCreatePassword = ({ password }: TCreatePasswordForm) => {
     setWalletState({ password });
-    setStep(3);
+    setStep(path === "create" ? 3 : 4);
   };
 
   return (
