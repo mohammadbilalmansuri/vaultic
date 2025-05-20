@@ -50,4 +50,3 @@ export type TCreatePasswordForm = z.infer<typeof CreatePasswordSchema>;
 export type TVerifyPasswordForm = z.infer<typeof VerifyPasswordSchema>;
 export type TChangePasswordForm = z.infer<typeof ChangePasswordSchema>;
 export type TSolanaAirdropForm = z.infer<typeof SolanaAirdropSchema>;
-export type TImportMnemonicForm = { mnemonic: string[] };
