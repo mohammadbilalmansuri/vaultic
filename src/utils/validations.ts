@@ -46,23 +46,8 @@ export const SolanaAirdropSchema = z.object({
   }),
 });
 
-export const ImportMnemonicSchema = z.object({
-  words: z
-    .array(
-      z
-        .string()
-        .trim()
-        .min(1, "Each word is required")
-        .regex(/^[a-z]+$/, "Words must contain only lowercase letters (a-z)")
-        .transform((w) => w.toLowerCase())
-    )
-    .refine((arr) => arr.length === 12 || arr.length === 24, {
-      message: "Mnemonic must be 12 or 24 words",
-    }),
-});
-
 export type TCreatePasswordForm = z.infer<typeof CreatePasswordSchema>;
 export type TVerifyPasswordForm = z.infer<typeof VerifyPasswordSchema>;
 export type TChangePasswordForm = z.infer<typeof ChangePasswordSchema>;
 export type TSolanaAirdropForm = z.infer<typeof SolanaAirdropSchema>;
-export type TImportMnemonicForm = z.infer<typeof ImportMnemonicSchema>;
+export type TImportMnemonicForm = { mnemonic: string[] };
