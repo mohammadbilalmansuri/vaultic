@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { LayoutProps } from "@/types";
-import { ThemeProvider, NotificationProvider } from "@/components/layout";
 import cn from "@/utils/cn";
+import Providers from "./Providers";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -46,10 +46,7 @@ const RootLayout = ({ children }: LayoutProps) => {
   return (
     <html lang="en">
       <body className={cn(inter.variable, inter.className, "antialiased")}>
-        <ThemeProvider>
-          {children}
-          <NotificationProvider />
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
