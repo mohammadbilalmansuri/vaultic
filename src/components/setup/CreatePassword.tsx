@@ -43,7 +43,7 @@ const CreatePassword = ({
       <SetupProgress step={2} back={() => setStep(1)} />
 
       <div className="p-6 w-full flex flex-col items-center gap-3">
-        <h2>Create Password</h2>
+        <h2>Create password</h2>
         <p>
           Your password must be at least 8 characters and is used to unlock
           Vaultic on this device. It can’t be recovered or reset, so make sure

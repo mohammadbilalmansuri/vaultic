@@ -13,7 +13,7 @@ const SetupComplete = ({ path }: { path: TSetupPath }) => {
     >
       <Logo className="w-15 text-teal-500" />
 
-      <h2 className="mt-3">Your Wallet Is Ready</h2>
+      <h2 className="mt-3">Your wallet is ready</h2>
 
       <p>
         You’ve successfully {path === "create" ? "created" : "imported"} your
