@@ -32,7 +32,7 @@ const ShowRecoveryPhrase = ({ setStep }: { setStep: TSetupSetStep }) => {
       <div className="p-6 w-full flex flex-col items-center gap-4">
         <h2>Your Recovery Phrase</h2>
         <p className="-mt-1 mb-2">
-          This phrase is your only backup. If you lose it, we can't help you
+          This phrase is your only backup. If you lose it, we can’t help you
           recover your wallet. Store it somewhere safe and never share it with
           anyone.
         </p>

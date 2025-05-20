@@ -119,7 +119,7 @@ const useBlockchain = () => {
         error instanceof Error
           ? error.message.includes("airdrop limit") ||
             error.message.includes("limit")
-            ? "You've either reached your airdrop limit or the airdrop faucet has run dry. Try again later or use the official faucet."
+            ? "You’ve either reached your airdrop limit or the airdrop faucet has run dry. Try again later or use the official faucet."
             : error.message
           : "Airdrop failed. Please try again.";
       console.error("Airdrop error:", error);

@@ -30,7 +30,7 @@ const useWallet = () => {
     try {
       notify({
         type: "error",
-        message: `${message}. For your safety, we'll take you back to the start.`,
+        message: `${message}. For your safety, we’ll take you back to the start.`,
       });
 
       await delay(4000);
@@ -40,7 +40,7 @@ const useWallet = () => {
       notify({
         type: "error",
         message:
-          "We couldn't reset your data automatically. Please clear this site's stored data from your browser settings and refresh the page to continue safely.",
+          "We couldn’t reset your data automatically. Please clear this site’s stored data from your browser settings and refresh the page to continue safely.",
       });
     }
   };

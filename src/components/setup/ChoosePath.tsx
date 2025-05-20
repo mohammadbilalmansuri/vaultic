@@ -20,7 +20,7 @@ const ChoosePath = ({
   return (
     <motion.div {...scaleUpAnimation()} className="setup-box p-12">
       <Logo className="w-15 text-teal-500" />
-      <h2 className="mt-3">Set Up Your Wallet</h2>
+      <h2 className="mt-3">Set up your Wallet</h2>
       <p>To get started, create a new wallet or import an existing one.</p>
       <div className="flex flex-col gap-4 mt-3">
         <Button className="w-full" onClick={() => handleChoosePath("create")}>

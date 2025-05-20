@@ -42,11 +42,11 @@ const ForgotPassword = () => {
         <p>
           For your security, Vaultic does not store your password. Your recovery
           phrase is encrypted using your password — which means without it, we
-          can't decrypt your wallets.
+          can’t decrypt your wallets.
         </p>
 
         <p>
-          If you've lost your password, the safest solution is to reset Vaultic
+          If you’ve lost your password, the safest solution is to reset Vaultic
           and start fresh using your recovery phrase. You can re-import any
           wallet tied to that phrase.
         </p>
