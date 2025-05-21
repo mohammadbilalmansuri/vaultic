@@ -39,7 +39,7 @@ const CreatePassword = ({
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="setup-box gap-0">
+    <motion.div {...scaleUpAnimation()} className="box gap-0">
       <SetupProgress step={2} back={() => setStep(1)} />
 
       <div className="p-6 w-full flex flex-col items-center gap-3">
