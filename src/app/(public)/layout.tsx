@@ -1,5 +1,5 @@
-import { Header, Footer } from "@/components/layout";
 import { LayoutProps } from "@/types";
+import { Header, Footer } from "@/components/layout";
 
 const PublicLayout = ({ children }: LayoutProps) => {
   return (
