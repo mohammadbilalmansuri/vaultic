@@ -6,9 +6,9 @@ import { scaleUpAnimation } from "@/utils/animations";
 
 const Faucet = () => {
   return (
-    <motion.div {...scaleUpAnimation()} className="box">
+    <motion.div {...scaleUpAnimation()} className="box p-12">
       <Logo className="w-15 text-teal-500" />
-      <h1 className="box-heading mt-2">Get Testnet Tokens</h1>
+      <h2 className="mt-3">Get Testnet Tokens</h2>
       <p>
         Select a supported network to request free tokens for testing and
         development purposes.

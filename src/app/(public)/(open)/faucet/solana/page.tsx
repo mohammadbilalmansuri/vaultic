@@ -9,10 +9,7 @@ import { useWalletStore } from "@/stores";
 import useNotificationStore from "@/stores/notificationStore";
 import { useBlockchain } from "@/hooks";
 import { FAUCET_PRESET_AMOUNTS } from "@/constants";
-import {
-  solanaAirdropSchema,
-  TSolanaAirdropFormData,
-} from "@/utils/validations";
+import { SolanaAirdropSchema, TSolanaAirdropForm } from "@/utils/validations";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
@@ -29,12 +26,12 @@ const SolanaFaucet = () => {
     control,
     reset,
     formState: { errors, isValid },
-  } = useForm<TSolanaAirdropFormData>({
-    resolver: zodResolver(solanaAirdropSchema),
-    mode: "onChange",
+  } = useForm<TSolanaAirdropForm>({
+    resolver: zodResolver(SolanaAirdropSchema),
+    mode: "onBlur",
   });
 
-  const handleAirdrop = async ({ address, amount }: TSolanaAirdropFormData) => {
+  const handleAirdrop = async ({ address, amount }: TSolanaAirdropForm) => {
     startAirdropping(async () => {
       try {
         await requestAirdrop(address, amount);
@@ -58,8 +55,8 @@ const SolanaFaucet = () => {
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="box max-w-lg">
-      <h1 className="box-heading -mt-2">Solana Devnet Faucet</h1>
+    <motion.div {...scaleUpAnimation()} className="box p-12">
+      <h2 className="-mt-1">Solana Devnet Faucet</h2>
       <p>
         Request free devnet SOL to build, test, or explore the Solana network.
         Select or enter your wallet address and choose an airdrop amount. You
@@ -83,13 +80,9 @@ const SolanaFaucet = () => {
                   key={amt}
                   type="button"
                   onClick={() => onChange(value === amt ? "" : amt)}
-                  className={cn(
-                    "bg-primary heading-color py-2 px-3 rounded-xl hover:bg-secondary transition-colors duration-300 border-1.5",
-                    {
-                      "border-zinc-300 dark:border-zinc-700": value === amt,
-                      "border-transparent": value !== amt,
-                    }
-                  )}
+                  className={cn("mnemonic-word-input", {
+                    "border-teal-500": value === amt,
+                  })}
                 >
                   {amt} SOL
                 </button>
