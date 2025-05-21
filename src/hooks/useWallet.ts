@@ -15,14 +15,19 @@ const useWallet = () => {
   const notify = useNotificationStore((state) => state.notify);
   const [unlocking, startUnlocking] = useTransition();
 
-  const walletExists = async () => {
+  const checkWalletExists = async (): Promise<boolean> => {
     try {
-      const exists =
-        useWalletStore.getState().walletExists || (await isWalletStored());
+      let exists = useWalletStore.getState().walletExists;
+
+      if (!exists) {
+        exists = await isWalletStored();
+        setWalletState({ walletExists: exists });
+      }
+
       return exists;
     } catch (error) {
       console.error("Error checking wallet existence:", error);
-      throw error;
+      return false;
     }
   };
 
@@ -70,7 +75,7 @@ const useWallet = () => {
   };
 
   return {
-    walletExists,
+    checkWalletExists,
     unlockWallet,
     unlocking,
   };
