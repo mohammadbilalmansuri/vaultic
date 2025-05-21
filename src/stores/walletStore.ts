@@ -3,6 +3,7 @@ import { IIndexes, TNetworkMode } from "@/types";
 import { IS_DEV } from "@/constants";
 
 interface IWalletStore {
+  checkingWallet: boolean;
   walletExists: boolean;
   authenticated: boolean;
   password: string;
@@ -17,6 +18,7 @@ const getDefaultState = (): Omit<
   IWalletStore,
   "setWalletState" | "clearWallet"
 > => ({
+  checkingWallet: true,
   walletExists: false,
   authenticated: false,
   password: "",
@@ -31,7 +33,11 @@ const getDefaultState = (): Omit<
 const useWalletStore = create<IWalletStore>((set) => ({
   ...getDefaultState(),
   setWalletState: (updates) => set((state) => ({ ...state, ...updates })),
-  clearWallet: () => set(() => getDefaultState()),
+  clearWallet: () =>
+    set(() => ({
+      ...getDefaultState(),
+      checkingWallet: false,
+    })),
 }));
 
 export default useWalletStore;
