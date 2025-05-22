@@ -11,7 +11,7 @@ import {
 import { Loader } from "@/components/ui";
 import { TSetupPath, TSetupStep, TSetupSetPath, TSetupSetStep } from "@/types";
 
-interface GetStepComponentProps {
+interface IGetStepComponent {
   step: TSetupStep;
   path: TSetupPath;
   setStep: TSetupSetStep;
@@ -23,21 +23,17 @@ const getStepComponent = ({
   path,
   setStep,
   setPath,
-}: GetStepComponentProps): JSX.Element => {
+}: IGetStepComponent): JSX.Element => {
   switch (step) {
     case 1:
       return <ChoosePath setPath={setPath} setStep={setStep} />;
     case 2:
-      return path === "create" ? (
-        <CreatePassword path={path} setStep={setStep} />
-      ) : (
-        <EnterRecoveryPhrase setStep={setStep} />
-      );
+      return <CreatePassword setStep={setStep} />;
     case 3:
       return path === "create" ? (
         <ShowRecoveryPhrase setStep={setStep} />
       ) : (
-        <CreatePassword path={path} setStep={setStep} />
+        <EnterRecoveryPhrase setStep={setStep} />
       );
     case 4:
       return <SettingUpWallet path={path} setStep={setStep} />;
