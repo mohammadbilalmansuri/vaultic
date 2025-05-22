@@ -1,11 +1,10 @@
 "use client";
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useWallet } from "@/hooks";
+import { useWalletStore } from "@/stores";
+import { LayoutProps } from "@/types";
 import cn from "@/utils/cn";
-import { ReactNode } from "react";
 
 const navItems = [
   { name: "Dashboard", href: "/dashboard" },
@@ -16,38 +15,23 @@ const navItems = [
   { name: "Settings", href: "/settings" },
 ];
 
-export default function WalletLayout({ children }: { children: ReactNode }) {
+const WalletLayout = ({ children }: LayoutProps) => {
   const pathname = usePathname();
   const router = useRouter();
-  const { walletExists } = useWallet();
-
-  const [loading, setLoading] = useState(true);
+  const walletExists = useWalletStore((state) => state.walletExists);
+  const walletStatus = useWalletStore((state) => state.walletStatus);
 
   useEffect(() => {
-    const checkAccess = async () => {
-      const exists = await walletExists();
-      if (!exists) {
-        router.replace("/");
-        return;
-      }
-      setLoading(false);
-    };
-
-    checkAccess();
+    if (walletStatus === "ready" && !walletExists) {
+      router.replace("/");
+    }
   }, []);
 
-  if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
+  if (walletStatus === "checking" || !walletExists) return null;
 
   return (
-    <div className="flex h-screen bg-background text-foreground">
-      {/* Sidebar */}
-      <aside className="w-64 border-r border-gray-200 bg-white dark:bg-zinc-900 p-4">
+    <div className="w-full flex flex-1">
+      <aside className="w-64 border-r p-4 bg-white dark:bg-zinc-900">
         <div className="font-semibold text-xl mb-6 px-2">Vaultic</div>
         <nav className="flex flex-col gap-2">
           {navItems.map((item) => (
@@ -63,9 +47,9 @@ export default function WalletLayout({ children }: { children: ReactNode }) {
           ))}
         </nav>
       </aside>
-
-      {/* Main Content */}
       <main className="flex-1 overflow-y-auto p-6">{children}</main>
     </div>
   );
-}
+};
+
+export default WalletLayout;
