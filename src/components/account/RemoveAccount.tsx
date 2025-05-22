@@ -8,10 +8,7 @@ import { useStorage } from "@/hooks";
 import useNotificationStore from "@/stores/notificationStore";
 import { useWalletStore } from "@/stores";
 import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
-import {
-  verifyPasswordSchema,
-  TVerifyPasswordFormData,
-} from "@/utils/validations";
+import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";
 import { DEV_PASSWORD, IS_DEV } from "@/constants";
 import cn from "@/utils/cn";
 
@@ -27,13 +24,13 @@ const RemoveAccount = () => {
     setError,
     clearErrors,
     formState: { errors, isValid },
-  } = useForm<TVerifyPasswordFormData>({
-    resolver: zodResolver(verifyPasswordSchema),
+  } = useForm<TVerifyPasswordForm>({
+    resolver: zodResolver(VerifyPasswordSchema),
     mode: "onChange",
     defaultValues: { password: IS_DEV ? DEV_PASSWORD : "" },
   });
 
-  const handleRemove = ({ password }: TVerifyPasswordFormData) => {
+  const handleRemove = ({ password }: TVerifyPasswordForm) => {
     startRemoving(async () => {
       try {
         if (useWalletStore.getState().password !== password) {
