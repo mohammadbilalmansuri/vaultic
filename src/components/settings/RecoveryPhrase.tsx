@@ -1,5 +1,5 @@
 "use client";
-import { MnemonicView } from "@/components/common";
+import { MnemonicView } from "@/components/wallet";
 
 const RecoveryPhrase = () => {
   return (
