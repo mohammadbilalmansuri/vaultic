@@ -27,7 +27,7 @@ const SettingUpWallet = ({
       try {
         await createAccount();
         await saveWallet();
-        await delay(2000);
+        await delay(1500);
         setWalletState({
           walletExists: true,
           authenticated: true,
