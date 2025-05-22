@@ -16,20 +16,13 @@ const useWallet = () => {
   const [unlocking, startUnlocking] = useTransition();
 
   const checkWalletExists = async () => {
-    setWalletState({ checkingWallet: true });
+    setWalletState({ walletStatus: "checking" });
     try {
-      let exists = useWalletStore.getState().walletExists;
-      if (!exists) {
-        exists = await isWalletStored();
-        setWalletState({ walletExists: exists });
-      }
-    } catch (error) {
-      notify({
-        type: "error",
-        message: "Failed to check wallet existence. Please try again.",
-      });
-    } finally {
-      setWalletState({ checkingWallet: false });
+      const exists = await isWalletStored();
+      setWalletState({ walletExists: exists, walletStatus: "ready" });
+    } catch {
+      setWalletState({ walletStatus: "ready" });
+      notify({ type: "error", message: "Failed to check wallet existence." });
     }
   };
 
