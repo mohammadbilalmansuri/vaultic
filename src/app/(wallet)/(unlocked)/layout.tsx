@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useWalletStore } from "@/stores";
 import { LayoutProps } from "@/types";
+import { PublicLayout } from "@/components/layout";
 
 const UnlockedLayout = ({ children }: LayoutProps) => {
   const router = useRouter();
@@ -17,7 +18,7 @@ const UnlockedLayout = ({ children }: LayoutProps) => {
 
   if (walletStatus === "checking") return null;
 
-  return <>{children}</>;
+  return <PublicLayout>{children}</PublicLayout>;
 };
 
 export default UnlockedLayout;
