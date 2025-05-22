@@ -10,6 +10,8 @@ export interface INotification {
   duration?: number;
 }
 
+export type TWalletStatus = "checking" | "ready";
+
 export type TNetwork = "ethereum" | "solana";
 
 export type TNetworkMode = "mainnet" | "devnet";
