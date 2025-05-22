@@ -28,7 +28,11 @@ const SettingUpWallet = ({
         await createAccount();
         await saveWallet();
         await delay(2000);
-        setWalletState({ walletExists: true, authenticated: true });
+        setWalletState({
+          walletExists: true,
+          authenticated: true,
+          suppressRedirect: true,
+        });
         setStep(5);
       } catch {
         notify({
