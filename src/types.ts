@@ -1,6 +1,6 @@
 import { ReactNode, Dispatch, SetStateAction } from "react";
 
-export interface LayoutProps {
+export interface IChildren {
   children: ReactNode;
 }
 
