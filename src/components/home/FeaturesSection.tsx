@@ -26,7 +26,7 @@ const features = [
   },
   {
     icon: Send,
-    title: "Frictionless Transfers on ETH & SOL",
+    title: "Frictionless ETH & SOL Transfers",
     description:
       "Send and receive assets on mainnet and testnet instantly. No browser extensions, no network configs — just type, confirm, and go.",
   },
