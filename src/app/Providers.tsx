@@ -1,12 +1,12 @@
 "use client";
-import { LayoutProps } from "@/types";
+import { IChildren } from "@/types";
 import {
   ThemeProvider,
   NotificationProvider,
   WalletChecker,
 } from "@/components/layout";
 
-const Providers = ({ children }: LayoutProps) => {
+const Providers = ({ children }: IChildren) => {
   return (
     <ThemeProvider>
       <WalletChecker>{children}</WalletChecker>

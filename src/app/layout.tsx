@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { LayoutProps } from "@/types";
+import { IChildren } from "@/types";
 import cn from "@/utils/cn";
 import Providers from "./Providers";
 
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   ],
 };
 
-const RootLayout = ({ children }: LayoutProps) => {
+const RootLayout = ({ children }: IChildren) => {
   return (
     <html lang="en">
       <body className={cn(inter.variable, inter.className, "antialiased")}>
