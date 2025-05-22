@@ -35,20 +35,20 @@ const ForgotPassword = () => {
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="box max-w-2xl">
-      <h1 className="-mt-2 box-heading">Forgot your password?</h1>
+    <motion.div {...scaleUpAnimation()} className="box max-w-xl p-12">
+      <h2 className="-mt-1">Forgot your password?</h2>
 
       <div className="flex flex-col gap-3">
         <p>
           For your security, Vaultic does not store your password. Your recovery
           phrase is encrypted using your password — which means without it, we
-          can’t decrypt your wallets.
+          can’t decrypt your accounts.
         </p>
 
         <p>
           If you’ve lost your password, the safest solution is to reset Vaultic
-          and start fresh using your recovery phrase. You can re-import any
-          wallet tied to that phrase.
+          and start fresh using your recovery phrase. You can re-import your
+          accounts tied to that phrase.
         </p>
 
         <p>
@@ -77,9 +77,10 @@ const ForgotPassword = () => {
 
       <div className="w-full flex items-center gap-4 mt-1">
         <Button
+          as="link"
+          href="/dashboard"
           variant="zinc"
           className="w-full sm:w-1/2"
-          onClick={() => router.push("/dashboard")}
         >
           I remember my password
         </Button>
