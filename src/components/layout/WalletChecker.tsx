@@ -1,18 +1,18 @@
 "use client";
 import { useEffect } from "react";
 import { LayoutProps } from "@/types";
-import { useWallet } from "@/hooks";
 import useWalletStore from "@/stores/walletStore";
+import { useWallet } from "@/hooks";
 
 const WalletChecker = ({ children }: LayoutProps) => {
   const { checkWalletExists } = useWallet();
-  const checkingWallet = useWalletStore((state) => state.checkingWallet);
+  const walletStatus = useWalletStore((state) => state.walletStatus);
 
   useEffect(() => {
     checkWalletExists();
   }, []);
 
-  if (checkingWallet) return null;
+  if (walletStatus === "checking") return null;
 
   return children;
 };
