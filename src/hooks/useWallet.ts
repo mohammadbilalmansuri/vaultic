@@ -1,5 +1,3 @@
-"use client";
-import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { UseFormSetError } from "react-hook-form";
 import { useWalletStore, useNotificationStore } from "@/stores";
@@ -13,7 +11,6 @@ const useWallet = () => {
   const { loadAccounts } = useAccounts();
   const setWalletState = useWalletStore((state) => state.setWalletState);
   const notify = useNotificationStore((state) => state.notify);
-  const [unlocking, startUnlocking] = useTransition();
 
   const checkWalletExists = async () => {
     setWalletState({ walletStatus: "checking" });
@@ -45,35 +42,27 @@ const useWallet = () => {
     }
   };
 
-  const unlockWallet = (
+  const unlockWallet = async (
     { password }: TVerifyPasswordForm,
     setError: UseFormSetError<TVerifyPasswordForm>
   ) => {
-    startUnlocking(async () => {
-      try {
-        await loadWallet(password);
-        await loadAccounts();
-        setWalletState({ authenticated: true });
-      } catch (error) {
-        const message =
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred";
+    try {
+      await loadWallet(password);
+      await loadAccounts();
+      setWalletState({ authenticated: true });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "An unexpected error occurred";
 
-        if (message.includes("password") || message.includes("invalid")) {
-          setError("password", { message });
-        } else {
-          await handleSecureFailure(message);
-        }
+      if (message.includes("password")) {
+        setError("password", { message });
+      } else {
+        await handleSecureFailure(message);
       }
-    });
+    }
   };
 
-  return {
-    checkWalletExists,
-    unlockWallet,
-    unlocking,
-  };
+  return { checkWalletExists, unlockWallet };
 };
 
 export default useWallet;
