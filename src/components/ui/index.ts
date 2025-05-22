@@ -5,6 +5,7 @@ export { default as CopyToggle } from "./CopyToggle";
 export { default as EyeToggle } from "./EyeToggle";
 export { default as FormError } from "./FormError";
 export { default as Input } from "./Input";
+export { default as MnemonicView } from "./MnemonicView";
 export { default as Loader } from "./Loader";
 export { default as NavLink } from "./NavLink";
 export { default as PasswordInput } from "./PasswordInput";
