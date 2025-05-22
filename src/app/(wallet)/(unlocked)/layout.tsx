@@ -2,10 +2,10 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useWalletStore } from "@/stores";
-import { LayoutProps } from "@/types";
+import { IChildren } from "@/types";
 import { PublicLayout } from "@/components/layout";
 
-const UnlockedLayout = ({ children }: LayoutProps) => {
+const UnlockedLayout = ({ children }: IChildren) => {
   const router = useRouter();
   const walletStatus = useWalletStore((state) => state.walletStatus);
   const authenticated = useWalletStore((state) => state.authenticated);
