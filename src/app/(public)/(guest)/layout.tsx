@@ -1,21 +1,27 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useWallet } from "@/hooks";
+import useWalletStore from "@/stores/walletStore";
 import { LayoutProps } from "@/types";
+import { PublicLayout } from "@/components/layout";
 
 const GuestLayout = ({ children }: LayoutProps) => {
   const router = useRouter();
-  const { walletExists } = useWallet();
+  const walletExists = useWalletStore((state) => state.walletExists);
+  const walletStatus = useWalletStore((state) => state.walletStatus);
+  const suppressRedirect = useWalletStore((state) => state.suppressRedirect);
 
   useEffect(() => {
-    (async () => {
-      const isWallet = await walletExists();
-      if (isWallet) router.replace("/unlock");
-    })();
+    if (walletStatus === "ready" && walletExists && !suppressRedirect) {
+      router.replace("/dashboard");
+    }
   }, []);
 
-  return <>{children}</>;
+  if (walletStatus === "checking" || (walletExists && !suppressRedirect)) {
+    return null;
+  }
+
+  return <PublicLayout>{children}</PublicLayout>;
 };
 
 export default GuestLayout;
