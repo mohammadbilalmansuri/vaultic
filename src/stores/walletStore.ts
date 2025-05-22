@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import { IIndexes, TNetworkMode } from "@/types";
+import { IIndexes, TNetworkMode, TWalletStatus } from "@/types";
 import { IS_DEV } from "@/constants";
 
 interface IWalletStore {
-  checkingWallet: boolean;
+  walletStatus: TWalletStatus;
+  suppressRedirect: boolean;
   walletExists: boolean;
   authenticated: boolean;
   password: string;
@@ -18,15 +19,13 @@ const getDefaultState = (): Omit<
   IWalletStore,
   "setWalletState" | "clearWallet"
 > => ({
-  checkingWallet: true,
+  walletStatus: "checking",
+  suppressRedirect: false,
   walletExists: false,
   authenticated: false,
   password: "",
   mnemonic: "",
-  indexes: {
-    inUse: [],
-    deleted: [],
-  },
+  indexes: { inUse: [], deleted: [] },
   networkMode: IS_DEV ? "devnet" : "mainnet",
 });
 
@@ -34,10 +33,7 @@ const useWalletStore = create<IWalletStore>((set) => ({
   ...getDefaultState(),
   setWalletState: (updates) => set((state) => ({ ...state, ...updates })),
   clearWallet: () =>
-    set(() => ({
-      ...getDefaultState(),
-      checkingWallet: false,
-    })),
+    set(() => ({ ...getDefaultState(), walletStatus: "ready" })),
 }));
 
 export default useWalletStore;
