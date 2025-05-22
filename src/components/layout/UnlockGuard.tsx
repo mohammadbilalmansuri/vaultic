@@ -1,10 +1,10 @@
 "use client";
+import { IChildren } from "@/types";
 import { useWalletStore } from "@/stores";
-import PublicLayout from "./PublicLayout";
+import { PageShell } from "@/components/shells";
 import UnlockForm from "./UnlockForm";
-import { LayoutProps } from "@/types";
 
-const UnlockGuard = ({ children }: LayoutProps) => {
+const UnlockGuard = ({ children }: IChildren) => {
   const walletStatus = useWalletStore((state) => state.walletStatus);
   const authenticated = useWalletStore((state) => state.authenticated);
 
@@ -12,9 +12,9 @@ const UnlockGuard = ({ children }: LayoutProps) => {
 
   if (!authenticated) {
     return (
-      <PublicLayout>
+      <PageShell>
         <UnlockForm />
-      </PublicLayout>
+      </PageShell>
     );
   }
 
