@@ -1,18 +1,23 @@
 "use client";
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useWalletStore } from "@/stores";
+import { LayoutProps } from "@/types";
 
-export default function UnlockedLayout({ children }: { children: ReactNode }) {
+const UnlockedLayout = ({ children }: LayoutProps) => {
   const router = useRouter();
-  const walletExists = useWalletStore((s) => !!s.mnemonic); // optional stronger check
-  const authenticated = useWalletStore((s) => s.authenticated);
+  const walletStatus = useWalletStore((state) => state.walletStatus);
+  const authenticated = useWalletStore((state) => state.authenticated);
 
   useEffect(() => {
-    if (authenticated) {
+    if (walletStatus === "ready" && authenticated) {
       router.replace("/dashboard");
     }
-  }, [authenticated]);
+  }, []);
+
+  if (walletStatus === "checking") return null;
 
   return <>{children}</>;
-}
+};
+
+export default UnlockedLayout;
