@@ -93,7 +93,7 @@ const EnterRecoveryPhrase = ({ setStep }: { setStep: TSetupSetStep }) => {
 
   return (
     <motion.div {...scaleUpAnimation()} className="box gap-0">
-      <SetupProgress step={3} />
+      <SetupProgress step={3} back={() => setStep(2)} />
 
       <div className="p-6 w-full flex flex-col items-center gap-3">
         <h2>Enter your recovery phrase</h2>
