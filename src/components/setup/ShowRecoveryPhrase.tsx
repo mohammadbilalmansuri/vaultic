@@ -1,12 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { Button, Switch } from "@/components/ui";
+import { MnemonicView, Button, Switch } from "@/components/ui";
 import { TSetupSetStep } from "@/types";
 import { generateMnemonic } from "bip39";
 import { useWalletStore } from "@/stores";
 import cn from "@/utils/cn";
-import { MnemonicView } from "@/components/common";
 import { scaleUpAnimation } from "@/utils/animations";
 import SetupProgress from "./SetupProgress";
 
