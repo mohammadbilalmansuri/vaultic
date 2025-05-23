@@ -1,5 +1,5 @@
 import { IChildren } from "@/types";
-import { Sidebar } from "@/components/layout";
+import { Sidebar } from "../layout";
 
 const DashboardShell = ({ children }: IChildren) => {
   return (
