@@ -39,7 +39,7 @@ const UnlockForm = () => {
         onSubmit={handleSubmit(handleUnlock)}
         className="w-full flex flex-col gap-4 mt-1"
       >
-        <PasswordInput {...register("password")} />
+        <PasswordInput {...register("password")} autoFocus={true} />
         <Button
           type="submit"
           className={cn("w-full", {
