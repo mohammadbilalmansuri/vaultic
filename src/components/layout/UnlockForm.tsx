@@ -21,7 +21,7 @@ const UnlockForm = () => {
     formState: { errors, isValid },
   } = useForm<TVerifyPasswordForm>({
     resolver: zodResolver(VerifyPasswordSchema),
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: { password: IS_DEV ? DEV_PASSWORD : "" },
   });
 

@@ -20,7 +20,7 @@ const CreatePassword = ({ setStep }: { setStep: TSetupSetStep }) => {
     formState: { errors, isValid },
   } = useForm<TCreatePasswordForm>({
     resolver: zodResolver(CreatePasswordSchema),
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       password: IS_DEV ? DEV_PASSWORD : "",
       confirmPassword: IS_DEV ? DEV_PASSWORD : "",

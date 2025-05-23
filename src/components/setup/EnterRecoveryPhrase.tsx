@@ -36,7 +36,7 @@ const EnterRecoveryPhrase = ({ setStep }: { setStep: TSetupSetStep }) => {
 
     formState: { errors, isValid },
   } = useForm<TEnterMnemonicForm>({
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: Object.fromEntries(
       Array.from({ length: 12 }, (_, i) => [`word${i + 1}`, ""])
     ),
