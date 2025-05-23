@@ -29,9 +29,9 @@ const SettingUpWallet = ({
         await saveWallet();
         await delay(1500);
         setWalletState({
+          suppressRedirect: true,
           walletExists: true,
           authenticated: true,
-          suppressRedirect: true,
         });
         setStep(5);
       } catch {
