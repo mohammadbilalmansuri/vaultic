@@ -1,15 +1,14 @@
 "use client";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useStorage } from "@/hooks";
-import useNotificationStore from "@/stores/notificationStore";
-import { useWalletStore } from "@/stores";
-import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";
+import { useWalletStore, useNotificationStore } from "@/stores";
+import { useStorage } from "@/hooks";
 import { DEV_PASSWORD, IS_DEV } from "@/constants";
+import { Button, Loader, PasswordInput, FormError } from "../ui";
 import cn from "@/utils/cn";
 
 const RemoveAccount = () => {

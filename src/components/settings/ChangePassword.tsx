@@ -2,10 +2,10 @@
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useNotificationStore from "@/stores/notificationStore";
-import { useStorage } from "@/hooks";
-import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 import { TChangePasswordForm, ChangePasswordSchema } from "@/utils/validations";
+import { useNotificationStore } from "@/stores";
+import { useStorage } from "@/hooks";
+import { Button, Loader, PasswordInput, FormError } from "../ui";
 import cn from "@/utils/cn";
 
 const ChangePassword = () => {
