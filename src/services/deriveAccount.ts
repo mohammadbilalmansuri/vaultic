@@ -1,7 +1,7 @@
 import { TAccount } from "@/types";
 import { mnemonicToSeed } from "bip39";
-import { deriveEthereumAccount } from "@/services/ethereum";
-import { deriveSolanaAccount } from "@/services/solana";
+import { deriveEthereumAccount } from "./ethereum";
+import { deriveSolanaAccount } from "./solana";
 
 const deriveAccount = async (
   mnemonic: string,
@@ -9,12 +9,12 @@ const deriveAccount = async (
 ): Promise<TAccount> => {
   const seed = await mnemonicToSeed(mnemonic);
 
-  const [solana, ethereum] = await Promise.all([
-    deriveSolanaAccount(seed, index),
+  const [ethereum, solana] = await Promise.all([
     deriveEthereumAccount(seed, index),
+    deriveSolanaAccount(seed, index),
   ]);
 
-  return { solana, ethereum };
+  return { ethereum, solana };
 };
 
 export default deriveAccount;

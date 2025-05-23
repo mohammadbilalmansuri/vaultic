@@ -9,7 +9,6 @@ import {
 } from "@solana/web3.js";
 import bs58 from "bs58";
 import { derivePath } from "ed25519-hd-key";
-import nacl from "tweetnacl";
 import { ITxHistoryItem, TNetworkAccount } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 import formatBalance from "@/utils/formatBalance";
