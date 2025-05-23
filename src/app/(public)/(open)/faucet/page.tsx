@@ -6,12 +6,13 @@ import { scaleUpAnimation } from "@/utils/animations";
 
 const Faucet = () => {
   return (
-    <motion.div {...scaleUpAnimation()} className="box p-12">
+    <motion.div {...scaleUpAnimation()} className="box py-12 px-11.5">
       <Logo className="w-15 text-teal-500" />
-      <h2 className="mt-3">Get Testnet Tokens</h2>
+      <h2 className="mt-3">Claim Free Testnet Tokens</h2>
       <p>
-        Select a supported network to request free tokens for testing and
-        development purposes.
+        Get free SOL (Devnet) and ETH (Sepolia) for testing, development, or
+        exploring blockchain features. Perfect for simulating transactions and
+        experimenting safely on testnets.
       </p>
 
       <div className="flex flex-col items-center gap-4 mt-3">
