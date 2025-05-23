@@ -1,6 +1,6 @@
 "use client";
 import { ButtonHTMLAttributes, SVGProps } from "react";
-import { Copy, CopyCheck } from "@/components/ui/icons";
+import { Copy, CopyCheck } from "./icons";
 import cn from "@/utils/cn";
 
 interface CopyToggleProps extends ButtonHTMLAttributes<HTMLButtonElement> {

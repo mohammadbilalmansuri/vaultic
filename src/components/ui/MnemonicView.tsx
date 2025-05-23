@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import { EyeToggle, CopyToggle } from "@/components/ui";
+import EyeToggle from "./EyeToggle";
+import CopyToggle from "./CopyToggle";
 import { useClipboard } from "@/hooks";
 import cn from "@/utils/cn";
 

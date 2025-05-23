@@ -1,6 +1,6 @@
 "use client";
-import { Sun, Moon } from "@/components/ui/icons";
 import useThemeStore from "@/stores/themeStore";
+import { Sun, Moon } from "./icons";
 
 const ThemeSwitcher = () => {
   const theme = useThemeStore((state) => state.theme);
