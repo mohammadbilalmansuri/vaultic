@@ -1,10 +1,9 @@
 "use client";
 import { useTransition } from "react";
 import Link from "next/link";
-import useNotificationStore from "@/stores/notificationStore";
-import { useWalletStore } from "@/stores";
+import { useWalletStore, useNotificationStore } from "@/stores";
 import { useBlockchain } from "@/hooks";
-import { Switch } from "@/components/ui";
+import { Switch } from "../ui";
 
 const TestnetMode = () => {
   const notify = useNotificationStore((s) => s.notify);

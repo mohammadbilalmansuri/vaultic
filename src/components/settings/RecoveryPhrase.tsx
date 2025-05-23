@@ -1,10 +1,13 @@
 "use client";
-import { MnemonicView } from "@/components/wallet";
+import { useWalletStore } from "@/stores";
+import { MnemonicView } from "../ui";
 
 const RecoveryPhrase = () => {
+  const mnemonic = useWalletStore((state) => state.mnemonic);
+
   return (
     <div className="w-full flex flex-col md:flex-row gap-6">
-      <MnemonicView widthClassName="w-full md:w-[65%]" cols={4} />
+      <MnemonicView mnemonic="" widthClassName="w-full md:w-[65%]" cols={4} />
 
       <div className="w-full md:w-[35%] p-5 rounded-2xl bg-warning text-center flex flex-col justify-center gap-3">
         <p className="font-semibold">
