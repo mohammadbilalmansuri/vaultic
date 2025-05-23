@@ -58,6 +58,7 @@ const ChangePassword = () => {
         <PasswordInput
           placeholder="Current password"
           {...register("currentPassword")}
+          autoFocus={true}
         />
         <PasswordInput
           placeholder="New password"

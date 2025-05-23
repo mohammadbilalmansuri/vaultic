@@ -63,6 +63,7 @@ const RemoveAccount = () => {
         <PasswordInput
           placeholder="Enter your password"
           {...register("password")}
+          autoFocus={true}
         />
         <FormError errors={errors} />
         <Button
