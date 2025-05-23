@@ -44,7 +44,7 @@ const RemoveAccount = () => {
           type: "success",
           message: "Account removed successfully.",
         });
-        router.push("/");
+        router.replace("/");
       } catch {
         notify({
           type: "error",
