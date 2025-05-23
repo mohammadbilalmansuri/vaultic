@@ -7,7 +7,6 @@ import cn from "@/utils/cn";
 
 interface MnemonicViewProps {
   mnemonic: string;
-  lable?: string;
   cols?: 3 | 4 | 6;
   widthClassName?: string;
 }
