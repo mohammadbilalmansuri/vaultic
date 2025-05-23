@@ -7,6 +7,7 @@ export { default as FormError } from "./FormError";
 export { default as Input } from "./Input";
 export { default as MnemonicView } from "./MnemonicView";
 export { default as Loader } from "./Loader";
+export { default as Loading } from "./Loading";
 export { default as NavLink } from "./NavLink";
 export { default as PasswordInput } from "./PasswordInput";
 export { default as Switch } from "./Switch";
