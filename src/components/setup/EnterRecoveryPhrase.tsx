@@ -1,14 +1,14 @@
 "use client";
 import { useState, ClipboardEvent } from "react";
 import { motion } from "motion/react";
-import { useForm } from "react-hook-form";
-import SetupProgress from "./SetupProgress";
-import { Button, FormError } from "@/components/ui";
 import { validateMnemonic, wordlists } from "bip39";
+import { useForm } from "react-hook-form";
 import { useWalletStore } from "@/stores";
-import cn from "@/utils/cn";
-import { scaleUpAnimation } from "@/utils/animations";
 import { TSetupSetStep } from "@/types";
+import SetupProgress from "./SetupProgress";
+import { Button, FormError } from "../ui";
+import { scaleUpAnimation } from "@/utils/animations";
+import cn from "@/utils/cn";
 
 type TEnterMnemonicForm = { [key: `word${number}`]: string };
 type TMnemonicLength = 12 | 24;

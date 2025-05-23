@@ -1,8 +1,8 @@
 "use client";
 import { motion } from "motion/react";
-import { Button } from "@/components/ui";
-import { Logo } from "@/components/ui/icons";
 import { TSetupPath, TSetupSetPath, TSetupSetStep } from "@/types";
+import { Button } from "../ui";
+import { Logo } from "../ui/icons";
 import { scaleUpAnimation } from "@/utils/animations";
 
 const ChoosePath = ({

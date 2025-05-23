@@ -1,13 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { MnemonicView, Button, Switch } from "@/components/ui";
-import { TSetupSetStep } from "@/types";
 import { generateMnemonic } from "bip39";
 import { useWalletStore } from "@/stores";
-import cn from "@/utils/cn";
-import { scaleUpAnimation } from "@/utils/animations";
+import { TSetupSetStep } from "@/types";
 import SetupProgress from "./SetupProgress";
+import { MnemonicView, Button, Switch } from "../ui";
+import { scaleUpAnimation } from "@/utils/animations";
+import cn from "@/utils/cn";
 
 const ShowRecoveryPhrase = ({ setStep }: { setStep: TSetupSetStep }) => {
   const setWalletState = useWalletStore((state) => state.setWalletState);
