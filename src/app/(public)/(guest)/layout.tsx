@@ -1,24 +1,24 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import useWalletStore from "@/stores/walletStore";
+import { useWalletStore } from "@/stores";
 import { IChildren } from "@/types";
+import { Loading } from "@/components/ui";
 import { PageShell } from "@/components/shells";
 
 const GuestLayout = ({ children }: IChildren) => {
   const router = useRouter();
-  const walletExists = useWalletStore((state) => state.walletExists);
   const walletStatus = useWalletStore((state) => state.walletStatus);
   const suppressRedirect = useWalletStore((state) => state.suppressRedirect);
+  const walletExists = useWalletStore((state) => state.walletExists);
 
   useEffect(() => {
-    if (walletStatus === "ready" && walletExists && !suppressRedirect) {
-      router.replace("/dashboard");
-    }
+    if (walletStatus !== "ready" || suppressRedirect) return;
+    if (walletExists) router.replace("/dashboard");
   }, []);
 
   if (walletStatus === "checking" || (walletExists && !suppressRedirect)) {
-    return null;
+    return <Loading />;
   }
 
   return <PageShell>{children}</PageShell>;
