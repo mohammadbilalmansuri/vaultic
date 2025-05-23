@@ -1,7 +1,7 @@
 "use client";
 import { motion, AnimatePresence } from "motion/react";
-import useNotificationStore from "@/stores/notificationStore";
-import { Cancel, Info, Success, Error } from "@/components/ui/icons";
+import { useNotificationStore } from "@/stores";
+import { Cancel, Info, Success, Error } from "../ui/icons";
 
 const NOTIFICATION_ICONS = new Map([
   ["info", <Info className="w-5.5 text-zinc-800 dark:text-zinc-200" />],

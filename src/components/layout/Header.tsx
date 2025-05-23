@@ -1,9 +1,9 @@
 "use client";
-import { ThemeSwitcher, NavLink } from "@/components/ui";
-import { Logo, Github } from "@/components/ui/icons";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useWalletStore } from "@/stores";
+import { ThemeSwitcher, NavLink } from "../ui";
+import { Logo, Github } from "../ui/icons";
 
 const Header = () => {
   const pathname = usePathname();
