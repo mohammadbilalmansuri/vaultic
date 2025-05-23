@@ -2,9 +2,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Controller, Control, FieldValues } from "react-hook-form";
+import { useOutsideClick } from "@/hooks";
 import Input from "./Input";
 import { AngleDown, Check } from "./icons";
-import { useOutsideClick } from "@/hooks";
 import getShortAddress from "@/utils/getShortAddress";
 import cn from "@/utils/cn";
 
