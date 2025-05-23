@@ -1,13 +1,37 @@
+"use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useWalletStore } from "@/stores";
 import { IChildren } from "@/types";
-import { UnlockGuard, Sidebar } from "@/components/layout";
-import { DashboardShell } from "@/components/shells";
+import { Loading } from "@/components/ui";
+import { PageShell, DashboardShell } from "@/components/shells";
+import { UnlockForm } from "@/components/layout";
 
 const LockedLayout = ({ children }: IChildren) => {
-  return (
-    <UnlockGuard>
-      <DashboardShell>{children}</DashboardShell>
-    </UnlockGuard>
-  );
+  const router = useRouter();
+  const walletStatus = useWalletStore((state) => state.walletStatus);
+  const suppressRedirect = useWalletStore((state) => state.suppressRedirect);
+  const walletExists = useWalletStore((state) => state.walletExists);
+  const authenticated = useWalletStore((state) => state.authenticated);
+
+  useEffect(() => {
+    if (walletStatus !== "ready" || suppressRedirect) return;
+    if (!walletExists) router.replace("/");
+  }, []);
+
+  if (walletStatus === "checking" || (!walletExists && !suppressRedirect)) {
+    return <Loading />;
+  }
+
+  if (!authenticated) {
+    return (
+      <PageShell>
+        <UnlockForm />
+      </PageShell>
+    );
+  }
+
+  return <DashboardShell>{children}</DashboardShell>;
 };
 
 export default LockedLayout;
