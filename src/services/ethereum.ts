@@ -8,10 +8,10 @@ import {
   formatEther,
 } from "ethers";
 import { Alchemy, Network, AssetTransfersCategory } from "alchemy-sdk";
-import { ITxHistoryItem, TNetworkAccount } from "@/types";
-import getRpcUrl from "@/utils/getRpcUrl";
-import { useWalletStore } from "@/stores";
 import { ALCHEMY_API_KEY } from "@/constants";
+import { ITxHistoryItem, TNetworkAccount } from "@/types";
+import { useWalletStore } from "@/stores";
+import getRpcUrl from "@/utils/getRpcUrl";
 import formatBalance from "@/utils/formatBalance";
 
 let ethereumProvider: JsonRpcProvider | null = null;
