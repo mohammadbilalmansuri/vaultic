@@ -1,9 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui";
-import { Logo } from "@/components/ui/icons";
-import { scaleUpAnimation } from "@/utils/animations";
 import { TSetupPath } from "@/types";
+import { Button } from "../ui";
+import { Logo } from "../ui/icons";
+import { scaleUpAnimation } from "@/utils/animations";
 
 const SetupComplete = ({ path }: { path: TSetupPath }) => {
   return (

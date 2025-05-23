@@ -1,7 +1,7 @@
 "use client";
 import { MouseEventHandler } from "react";
-import { ArrowLeft } from "@/components/ui/icons";
 import { TSetupStep } from "@/types";
+import { ArrowLeft } from "../ui/icons";
 import cn from "@/utils/cn";
 
 interface SetupProgressProps {
