@@ -121,6 +121,7 @@ const EnterRecoveryPhrase = ({ setStep }: { setStep: TSetupSetStep }) => {
                   id={`word${index + 1}`}
                   autoComplete="off"
                   autoCapitalize="off"
+                  autoFocus={index === 0}
                   {...register(`word${index + 1}`, {
                     required: true,
                     validate: mnemonicWordValidator(index),
