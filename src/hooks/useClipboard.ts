@@ -1,6 +1,6 @@
 "use client";
 import { Dispatch, SetStateAction } from "react";
-import useNotificationStore from "@/stores/notificationStore";
+import { useNotificationStore } from "@/stores";
 
 const useClipboard = () => {
   const notify = useNotificationStore((state) => state.notify);
