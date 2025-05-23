@@ -10,7 +10,7 @@ const Faucet = () => {
       <Logo className="w-15 text-teal-500" />
       <h2 className="mt-3">Claim Free Testnet Tokens</h2>
       <p>
-        Get free SOL (Devnet) and ETH (Sepolia) for testing, development, or
+        Get free ETH (Sepolia) and SOL (Devnet) for testing, development, or
         exploring blockchain features. Perfect for simulating transactions and
         experimenting safely on testnets.
       </p>
