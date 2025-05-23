@@ -49,7 +49,7 @@ const MnemonicView = ({
         {mnemonic.split(" ").map((word, index) => (
           <div key={index} className="mnemonic-word-input">
             <span className="opacity-50 select-none">{index + 1}.</span>
-            <span>
+            <span className={cn({ "select-none": !visible })}>
               {visible ? word : Array(word.length).fill("•").join("")}
             </span>
           </div>
