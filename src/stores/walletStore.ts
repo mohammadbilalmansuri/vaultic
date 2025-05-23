@@ -33,7 +33,11 @@ const useWalletStore = create<IWalletStore>((set) => ({
   ...getDefaultState(),
   setWalletState: (updates) => set((state) => ({ ...state, ...updates })),
   clearWallet: () =>
-    set(() => ({ ...getDefaultState(), walletStatus: "ready" })),
+    set(() => ({
+      ...getDefaultState(),
+      suppressRedirect: true,
+      walletStatus: "ready",
+    })),
 }));
 
 export default useWalletStore;
