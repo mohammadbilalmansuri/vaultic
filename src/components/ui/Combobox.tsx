@@ -40,7 +40,7 @@ const Combobox = ({
         <div
           ref={containerRef}
           className={cn(
-            "w-full relative flex flex-col items-center",
+            "relative w-full flex flex-col items-center",
             containerClassName
           )}
         >
@@ -62,7 +62,7 @@ const Combobox = ({
                 onClick={() => setOpened((prev) => !prev)}
               >
                 <AngleDown
-                  className={cn("transition-all duration-300", {
+                  className={cn("transition-transform duration-300", {
                     "rotate-180": opened,
                   })}
                 />
@@ -79,7 +79,7 @@ const Combobox = ({
                 transition={{ duration: 0.15, ease: "easeOut" }}
                 className="absolute top-full mt-1 w-[98%] bg-default border border-color rounded-2xl z-10 overflow-hidden"
               >
-                <div className="w-full flex flex-col gap-2 p-2 bg-input">
+                <div className="flex flex-col gap-2 p-2 bg-input">
                   {options.map((option) => (
                     <button
                       key={option.value}
