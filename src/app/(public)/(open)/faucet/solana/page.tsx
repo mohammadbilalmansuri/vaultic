@@ -74,7 +74,7 @@ const SolanaFaucet = () => {
         onSubmit={handleSubmit(handleAirdrop)}
         className="w-full flex flex-col gap-4 mt-3"
       >
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           {Object.keys(accounts).length > 0 ? (
             <Combobox
               name="address"
