@@ -16,6 +16,7 @@ interface ComboboxProps {
   autoFocus?: InputHTMLAttributes<HTMLInputElement>["autoFocus"];
   autoComplete?: InputHTMLAttributes<HTMLInputElement>["autoComplete"];
   autoCapitalize?: InputHTMLAttributes<HTMLInputElement>["autoCapitalize"];
+  containerClassName?: string;
 }
 
 const Combobox = ({
@@ -26,6 +27,7 @@ const Combobox = ({
   autoFocus,
   autoComplete,
   autoCapitalize,
+  containerClassName = "",
 }: ComboboxProps) => {
   const [opened, setOpened] = useState(false);
   const containerRef = useOutsideClick(() => setOpened(false), opened);
@@ -37,7 +39,10 @@ const Combobox = ({
       render={({ field: { onChange, value, ref } }) => (
         <div
           ref={containerRef}
-          className="w-full relative flex flex-col items-center"
+          className={cn(
+            "w-full relative flex flex-col items-center",
+            containerClassName
+          )}
         >
           <div className="w-full relative flex items-center">
             <Input
