@@ -134,7 +134,7 @@
   }
 
   .input {
-    @apply w-full flex items-center h-13 p-4 outline-none transition-all duration-300 heading-color bg-input border border-color focus:border-focus rounded-2xl;
+    @apply w-full flex items-center h-13 p-4 outline-none transition-all duration-300 heading-color bg-input border border-color focus:border-focus rounded-2xl placeholder:text-zinc-500;
   }
 
   .mnemonic-word-input {
