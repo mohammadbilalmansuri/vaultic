@@ -20,7 +20,7 @@ import { scaleUpAnimation } from "@/utils/animations";
 import getShortAddress from "@/utils/getShortAddress";
 import cn from "@/utils/cn";
 
-const SolanaFaucet = () => {
+const SolanaFaucetPage = () => {
   const accounts = useAccountsStore((state) => state.accounts);
   const notify = useNotificationStore((state) => state.notify);
   const { requestAirdrop } = useBlockchain();
@@ -132,4 +132,4 @@ const SolanaFaucet = () => {
   );
 };
 
-export default SolanaFaucet;
+export default SolanaFaucetPage;
