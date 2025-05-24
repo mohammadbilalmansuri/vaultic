@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, InputHTMLAttributes } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Controller, Control, FieldValues } from "react-hook-form";
 import { useOutsideClick } from "@/hooks";
@@ -13,6 +13,9 @@ interface ComboboxProps {
   placeholder?: string;
   control: Control<FieldValues | any>;
   options: Array<{ label: string; value: string }>;
+  autoFocus?: InputHTMLAttributes<HTMLInputElement>["autoFocus"];
+  autoComplete?: InputHTMLAttributes<HTMLInputElement>["autoComplete"];
+  autoCapitalize?: InputHTMLAttributes<HTMLInputElement>["autoCapitalize"];
 }
 
 const Combobox = ({
@@ -20,6 +23,9 @@ const Combobox = ({
   placeholder = "Enter or select value",
   control,
   options,
+  autoFocus,
+  autoComplete,
+  autoCapitalize,
 }: ComboboxProps) => {
   const [opened, setOpened] = useState(false);
   const containerRef = useOutsideClick(() => setOpened(false), opened);
@@ -39,16 +45,19 @@ const Combobox = ({
               value={value || ""}
               onChange={(e) => onChange(e.target.value)}
               placeholder={placeholder}
-              className="pr-12"
+              className={cn("pr-12", { "border-focus": opened })}
+              autoFocus={autoFocus}
+              autoComplete={autoComplete}
+              autoCapitalize={autoCapitalize}
             />
             {options.length > 0 && (
               <button
                 type="button"
-                className="icon-btn size-9 flex items-center justify-center rounded-xl hover:bg-secondary absolute right-2"
+                className="icon-btn-bg-sm absolute right-2"
                 onClick={() => setOpened((prev) => !prev)}
               >
                 <AngleDown
-                  className={cn("w-5.5 transition-all duration-300", {
+                  className={cn("transition-all duration-300", {
                     "rotate-180": opened,
                   })}
                 />
@@ -62,15 +71,15 @@ const Combobox = ({
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2, ease: "easeInOut" }}
-                className="absolute top-14 w-[98%] bg-default border-1.5 border-color rounded-2xl z-10 overflow-hidden"
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="absolute top-full mt-1 w-[98%] bg-default border border-color rounded-2xl z-10 overflow-hidden"
               >
-                <div className="w-full flex flex-col gap-2 p-2">
+                <div className="w-full flex flex-col gap-2 p-2 bg-input">
                   {options.map((option) => (
                     <button
                       key={option.value}
                       type="button"
-                      className="w-full flex items-center justify-between gap-4 hover:bg-primary px-3 py-2 rounded-xl transition-colors duration-300"
+                      className="w-full flex items-center justify-between gap-3 hover:bg-primary px-3 py-2 rounded-xl transition-colors duration-300"
                       onClick={() => {
                         onChange(value === option.value ? "" : option.value);
                         setOpened(false);
