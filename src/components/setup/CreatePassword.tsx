@@ -48,7 +48,7 @@ const CreatePassword = ({ setStep }: { setStep: TSetupSetStep }) => {
           onSubmit={handleSubmit(handleCreatePassword)}
           className="w-full flex flex-col gap-4 mt-3"
         >
-          <PasswordInput {...register("password")} autoFocus={true} />
+          <PasswordInput {...register("password")} autoFocus />
           <PasswordInput
             {...register("confirmPassword")}
             placeholder="Confirm Password"
