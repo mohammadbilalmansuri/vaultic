@@ -6,7 +6,7 @@ import {
   ChangePassword,
   TestnetMode,
   RemoveAccount,
-} from "@/components/account";
+} from "@/components/settings";
 import cn from "@/utils/cn";
 import { fadeUpAnimation } from "@/utils/animations";
 
