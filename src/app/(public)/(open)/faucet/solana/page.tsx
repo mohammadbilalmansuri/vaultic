@@ -1,24 +1,27 @@
 "use client";
 import { useTransition } from "react";
 import { motion } from "motion/react";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { Combobox, Input, Button, Loader, FormError } from "@/components/ui";
-import { useWalletStore, useNotificationStore } from "@/stores";
-import { useBlockchain } from "@/hooks";
-import { FAUCET_PRESET_AMOUNTS } from "@/constants";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { SolanaAirdropSchema, TSolanaAirdropForm } from "@/utils/validations";
+import { useNotificationStore } from "@/stores";
+import { useBlockchain } from "@/hooks";
+import { FAUCET_PRESET_AMOUNTS, NETWORK_TOKENS } from "@/constants";
+import {
+  Input,
+  PresetSelect,
+  Button,
+  Loader,
+  FormError,
+} from "@/components/ui";
 import { scaleUpAnimation } from "@/utils/animations";
-import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
+import cn from "@/utils/cn";
 
 const SolanaFaucet = () => {
-  const walletExists = useWalletStore((state) => state.walletExists);
   const notify = useNotificationStore((state) => state.notify);
   const { requestAirdrop } = useBlockchain();
-  const [airdropping, startAirdropping] = useTransition();
-
   const {
     register,
     handleSubmit,
@@ -27,89 +30,81 @@ const SolanaFaucet = () => {
     formState: { errors, isValid },
   } = useForm<TSolanaAirdropForm>({
     resolver: zodResolver(SolanaAirdropSchema),
-    mode: "onBlur",
+    mode: "onChange",
   });
 
+  const [airdropping, startAirdropping] = useTransition();
   const handleAirdrop = async ({ address, amount }: TSolanaAirdropForm) => {
     startAirdropping(async () => {
       try {
         await requestAirdrop(address, amount);
         notify({
           type: "success",
-          message: `Airdrop successful! ${amount} SOL sent to ${getShortAddress(
+          message: `Airdrop complete — ${amount} SOL sent to ${getShortAddress(
             address
           )}.`,
         });
         reset();
-      } catch (err) {
+      } catch (error) {
         notify({
           type: "error",
           message:
-            err instanceof Error
-              ? err.message
-              : "An unexpected error occurred.",
+            error instanceof Error
+              ? error.message
+              : "Airdrop failed. Please check the address and try again.",
         });
       }
     });
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="box p-12">
-      <h2 className="-mt-1">Solana Devnet Faucet</h2>
+    <motion.div {...scaleUpAnimation()} className="box p-12 max-w-xl">
+      <h2 className="-mt-1.5">Solana Devnet Faucet</h2>
       <p>
-        Request free devnet SOL to build, test, or explore the Solana network.
-        Select or enter your wallet address and choose an airdrop amount. You
-        can request up to 5 SOL once every 8 hours.
+        Request free SOL on the Solana Devnet to build, test, and explore. You
+        can request up to 5 SOL in a single airdrop, available once every 8
+        hours.
       </p>
 
       <form
         onSubmit={handleSubmit(handleAirdrop)}
         className="w-full flex flex-col gap-4 mt-3"
       >
-        <Input {...register("address")} placeholder="Solana wallet address" />
-
-        <Controller
-          name="amount"
-          control={control}
-          rules={{ required: "Please select an amount" }}
-          render={({ field: { onChange, value } }) => (
-            <div className="grid grid-cols-4 gap-3">
-              {FAUCET_PRESET_AMOUNTS.map((amt) => (
-                <button
-                  key={amt}
-                  type="button"
-                  onClick={() => onChange(value === amt ? "" : amt)}
-                  className={cn("mnemonic-word-input", {
-                    "border-teal-500": value === amt,
-                  })}
-                >
-                  {amt} SOL
-                </button>
-              ))}
-            </div>
-          )}
-        />
-
-        <FormError errors={errors} />
-
+        <div className="flex items-center gap-2.5">
+          <Input
+            {...register("address")}
+            placeholder="Enter Solana address"
+            autoFocus
+            autoComplete="off"
+            autoCapitalize="off"
+          />
+          <PresetSelect
+            name="amount"
+            control={control}
+            placeholder="Amount"
+            options={FAUCET_PRESET_AMOUNTS}
+            valueSuffix={NETWORK_TOKENS.solana}
+          />
+        </div>
         <Button
           type="submit"
-          className={cn("w-full mt-0.5", {
+          className={cn("w-full", {
             "opacity-60 pointer-events-none": !isValid,
           })}
           disabled={!isValid || airdropping}
         >
-          {airdropping ? <Loader size="sm" color="black" /> : "Request Airdrop"}
+          {airdropping ? <Loader size="sm" color="black" /> : "Send Airdrop"}
         </Button>
+        <FormError errors={errors} className="mt-1.5 -mb-2" />
       </form>
 
-      <p className="-mb-0.5 mt-3 leading-tight">
+      <p className="mt-2 -mb-0.5 flex items-center gap-1.5 leading-snug">
         Can’t get test SOL?{" "}
         <Link
           href="https://faucet.solana.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="transition-all duration-300 border-b border-transparent hover:border-current heading-color"
+          className="border-b border-transparent hover:border-current heading-color transition-colors duration-300"
         >
           Try the official Solana faucet
         </Link>
