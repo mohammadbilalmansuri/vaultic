@@ -1,8 +1,8 @@
 "use client";
-import { ComponentProps, Ref } from "react";
+import { InputHTMLAttributes, Ref } from "react";
 import cn from "@/utils/cn";
 
-interface InputProps extends ComponentProps<"input"> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   ref: Ref<HTMLInputElement>;
 }
 
