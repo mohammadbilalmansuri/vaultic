@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { fadeUpAnimation } from "@/utils/animations";
 import { Button } from "@/components/ui";
 
-const HelpPage = () => {
+const HelpAndSupportPage = () => {
   return (
     <div className="w-full max-w-screen-md mx-auto py-16 px-4 space-y-12">
       <motion.h1 className="h1 text-center" {...fadeUpAnimation()}>
@@ -121,5 +121,5 @@ const HelpPage = () => {
   );
 };
 
-export default HelpPage;
+export default HelpAndSupportPage;
 //
