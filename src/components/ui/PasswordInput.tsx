@@ -1,9 +1,9 @@
 "use client";
-import { ComponentProps, Ref, useState } from "react";
+import { InputHTMLAttributes, Ref, useState } from "react";
 import EyeToggle from "./EyeToggle";
 import cn from "@/utils/cn";
 
-interface PasswordInputProps extends ComponentProps<"input"> {
+interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   ref: Ref<HTMLInputElement>;
 }
 
