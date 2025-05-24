@@ -38,22 +38,23 @@ const ForgotPassword = () => {
     <motion.div {...scaleUpAnimation()} className="box max-w-2xl p-12">
       <h2 className="-mt-1.5">Forgot your password?</h2>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2.5">
         <p>
-          For your security, Vaultic does not store your password. Your recovery
-          phrase is encrypted using your password — which means without it, we
-          can’t decrypt your accounts.
+          For your security, Vaultic never stores your password directly.
+          Instead, your password is used to create a secure encryption key
+          (AES-GCM, 256-bit) that encrypts your recovery phrase. Because only
+          this key can decrypt your recovery phrase — and the key itself is
+          derived from your password — we can’t unlock your accounts without it.
         </p>
 
         <p>
-          If you’ve lost your password, the safest solution is to reset Vaultic
-          and start fresh using your recovery phrase. You can re-import your
-          accounts tied to that phrase.
+          If you’ve lost your password, the only way to access your accounts is
+          to reset Vaultic and re-import your wallet using your recovery phrase.
+          This ensures your funds remain safe and only you can unlock them.
         </p>
 
         <p>
-          This process protects your assets and ensures that only you can access
-          your wallets. For more details, visit the{" "}
+          If you’re unsure or want more information, visit the{" "}
           <Link
             href="/help-and-support"
             target="_blank"
@@ -66,15 +67,18 @@ const ForgotPassword = () => {
       </div>
 
       <div
-        className="flex items-center gap-3 my-1.5 cursor-pointer select-none text-left"
+        className="flex items-center gap-3 my-2.5 cursor-pointer select-none text-left"
         onClick={() => setAgree((prev) => !prev)}
       >
         <Switch size="sm" state={agree} />
-        <p>I understand the recovery process and want to reset Vaultic</p>
+        <p className="leading-snug">
+          I understand this process will permanently remove Vaultic data and I’m
+          ready to re-import my wallet.
+        </p>
       </div>
 
       <Button
-        className={cn("w-full", {
+        className={cn("w-full mt-1.5", {
           "opacity-60 pointer-events-none": !agree,
         })}
         onClick={handleReset}
