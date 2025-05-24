@@ -7,7 +7,11 @@ const RecoveryPhrase = () => {
 
   return (
     <div className="w-full flex flex-col md:flex-row gap-6">
-      <MnemonicView mnemonic="" widthClassName="w-full md:w-[65%]" cols={4} />
+      <MnemonicView
+        mnemonic={mnemonic}
+        widthClassName="w-full md:w-[65%]"
+        cols={4}
+      />
 
       <div className="w-full md:w-[35%] p-5 rounded-2xl bg-warning text-center flex flex-col justify-center gap-3">
         <p className="font-semibold">
