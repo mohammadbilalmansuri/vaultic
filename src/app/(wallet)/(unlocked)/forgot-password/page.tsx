@@ -36,7 +36,7 @@ const ForgotPassword = () => {
 
   return (
     <motion.div {...scaleUpAnimation()} className="box max-w-2xl p-12">
-      <h2 className="-mt-2">Forgot your password?</h2>
+      <h2 className="-mt-1.5">Forgot your password?</h2>
 
       <div className="flex flex-col gap-2">
         <p>
