@@ -1,5 +1,5 @@
-import { FAUCET_PRESET_AMOUNTS } from "@/constants";
 import * as z from "zod";
+import { FAUCET_PRESET_AMOUNTS } from "@/constants";
 
 const PasswordSchema = z
   .string()
@@ -39,9 +39,9 @@ export const SolanaAirdropSchema = z.object({
   address: z
     .string()
     .trim()
-    .min(32, { message: "Enter a valid Solana wallet address" })
-    .max(44, { message: "Invalid Solana wallet address" }),
-  amount: z.enum(FAUCET_PRESET_AMOUNTS, {
+    .min(32, { message: "Enter a valid Solana address" })
+    .max(44, { message: "Invalid Solana address" }),
+  amount: z.enum(FAUCET_PRESET_AMOUNTS as [string, ...string[]], {
     errorMap: () => ({ message: "Please select an amount" }),
   }),
 });
