@@ -26,4 +26,4 @@ export const NETWORK_TOKENS = {
   solana: "SOL",
 } as const;
 
-export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"] as const;
+export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"];
