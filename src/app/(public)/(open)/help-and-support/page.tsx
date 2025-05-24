@@ -1,6 +1,5 @@
 "use client";
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui";
 import { fadeUpAnimation } from "@/utils/animations";
 
@@ -159,7 +158,7 @@ const HelpAndSupportPage = () => {
           {...fadeUpAnimation({ delay: 0.3 * (index + 1) })}
         >
           <h2 className="h2">{guide.title}</h2>
-          <div className="text-base text-foreground/80">{guide.content}</div>
+          <div>{guide.content}</div>
         </motion.section>
       ))}
     </div>
