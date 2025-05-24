@@ -5,11 +5,12 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SolanaAirdropSchema, TSolanaAirdropForm } from "@/utils/validations";
-import { useNotificationStore } from "@/stores";
+import { useNotificationStore, useAccountsStore } from "@/stores";
 import { useBlockchain } from "@/hooks";
 import { FAUCET_PRESET_AMOUNTS, NETWORK_TOKENS } from "@/constants";
 import {
   Input,
+  Combobox,
   PresetSelect,
   Button,
   Loader,
@@ -20,8 +21,10 @@ import getShortAddress from "@/utils/getShortAddress";
 import cn from "@/utils/cn";
 
 const SolanaFaucet = () => {
+  const accounts = useAccountsStore((state) => state.accounts);
   const notify = useNotificationStore((state) => state.notify);
   const { requestAirdrop } = useBlockchain();
+
   const {
     register,
     handleSubmit,
@@ -34,6 +37,7 @@ const SolanaFaucet = () => {
   });
 
   const [airdropping, startAirdropping] = useTransition();
+
   const handleAirdrop = async ({ address, amount }: TSolanaAirdropForm) => {
     startAirdropping(async () => {
       try {
@@ -51,7 +55,7 @@ const SolanaFaucet = () => {
           message:
             error instanceof Error
               ? error.message
-              : "Airdrop failed. Please check the address and try again.",
+              : "Airdrop failed. Please try again later.",
         });
       }
     });
@@ -71,13 +75,28 @@ const SolanaFaucet = () => {
         className="w-full flex flex-col gap-4 mt-3"
       >
         <div className="flex items-center gap-2.5">
-          <Input
-            {...register("address")}
-            placeholder="Enter Solana address"
-            autoFocus
-            autoComplete="off"
-            autoCapitalize="off"
-          />
+          {Object.keys(accounts).length > 0 ? (
+            <Combobox
+              name="address"
+              control={control}
+              placeholder="Enter or select Solana address"
+              options={Object.entries(accounts).map(([key, account]) => ({
+                label: `Account ${Number(key) + 1}`,
+                value: account.solana.address,
+              }))}
+              autoFocus
+              autoComplete="off"
+              autoCapitalize="off"
+            />
+          ) : (
+            <Input
+              {...register("address")}
+              placeholder="Enter Solana address"
+              autoFocus
+              autoComplete="off"
+              autoCapitalize="off"
+            />
+          )}
           <PresetSelect
             name="amount"
             control={control}
