@@ -1,12 +1,17 @@
 import { IChildren } from "@/types";
-import { Sidebar } from "../layout";
+import { Sidebar, TestnetNotice } from "../layout";
 
 const DashboardShell = ({ children }: IChildren) => {
   return (
-    <>
+    <div className="w-full relative flex-1 flex overflow-hidden">
       <Sidebar />
-      <main className="flex-1 overflow-y-auto p-6">{children}</main>
-    </>
+      <main className="w-full relative flex flex-col">
+        <TestnetNotice />
+        <div className="w-full relative flex flex-col items-center p-8">
+          {children}
+        </div>
+      </main>
+    </div>
   );
 };
 
