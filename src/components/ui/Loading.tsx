@@ -2,7 +2,7 @@ import Loader from "./Loader";
 
 const Loading = () => {
   return (
-    <main>
+    <main className="page-main">
       <Loader />
     </main>
   );
