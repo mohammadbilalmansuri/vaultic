@@ -68,9 +68,17 @@
   @apply icon-btn size-10 flex items-center justify-center rounded-xl hover:bg-primary;
 }
 
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+}
+
 @layer base {
   .dark {
     color-scheme: dark;
+  }
+
+  html {
+    @apply scrollbar-thin;
   }
 
   ::selection {
