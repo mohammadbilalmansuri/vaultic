@@ -33,7 +33,7 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const classes = cn(
-    "font-medium transition-all duration-300 flex items-center justify-center rounded-2xl hover:rounded-3xl active:scale-95",
+    "font-medium transition-all duration-300 flex items-center justify-center rounded-2xl hover:rounded-3xl",
     {
       "text-zinc-800 bg-teal-500": variant === "teal",
       "heading-color bg-secondary": variant === "zinc",

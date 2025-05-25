@@ -62,7 +62,7 @@ const PresetSelect = ({
                       key={option}
                       type="button"
                       className={cn(
-                        "w-full flex items-center justify-center border border-color p-2 rounded-xl transition duration-300 active:scale-95",
+                        "w-full flex items-center justify-center border border-color p-2 rounded-xl transition duration-300",
                         {
                           "bg-primary": value === option,
                           "hover:bg-primary": value !== option,

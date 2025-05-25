@@ -23,7 +23,7 @@ const CopyToggle = ({
         "icon-btn",
         {
           "pointer-events-none heading-color": hasCopied,
-          "flex items-center gap-2 active:scale-100": !!labels,
+          "flex items-center gap-2": !!labels,
         },
         className
       )}

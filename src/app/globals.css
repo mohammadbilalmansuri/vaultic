@@ -61,7 +61,7 @@
 }
 
 @utility icon-btn {
-  @apply text-color hover:heading-color transition-all duration-300 active:scale-90;
+  @apply text-color hover:heading-color transition-all duration-300;
 }
 
 @utility icon-btn-bg {
