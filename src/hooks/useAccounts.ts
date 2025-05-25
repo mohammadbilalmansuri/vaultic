@@ -72,14 +72,6 @@ const useAccounts = () => {
     }
   };
 
-  const listAccounts = (): string[] => {
-    const { accounts } = useAccountsStore.getState();
-    return Object.keys(accounts)
-      .map((key) => Number(key))
-      .sort((a, b) => a - b)
-      .map((i) => `Account ${i + 1}`);
-  };
-
   const updateActiveAccountBalances = async (): Promise<void> => {
     const { getActiveAccount, activeAccountIndex } =
       useAccountsStore.getState();
@@ -106,7 +98,6 @@ const useAccounts = () => {
     createAccount,
     deleteAccount,
     loadAccounts,
-    listAccounts,
     updateActiveAccountBalances,
   };
 };
