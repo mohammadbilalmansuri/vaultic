@@ -30,7 +30,9 @@ const Combobox = ({
   containerClassName = "",
 }: ComboboxProps) => {
   const [opened, setOpened] = useState(false);
-  const containerRef = useOutsideClick(() => setOpened(false), opened);
+  const containerRef = useOutsideClick(() => {
+    if (opened) setOpened(false);
+  }, opened);
 
   return (
     <Controller
