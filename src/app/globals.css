@@ -85,7 +85,7 @@
     @apply w-full min-h-dvh relative flex flex-col items-center;
   }
 
-  main {
+  .page-main {
     @apply w-full relative flex flex-col items-center justify-center flex-1 px-5;
   }
 
