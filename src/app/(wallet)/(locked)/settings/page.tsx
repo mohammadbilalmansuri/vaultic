@@ -17,7 +17,7 @@ const TABS = new Map<string, JSX.Element>([
   ["Remove Account", <RemoveAccount />],
 ]);
 
-const Account = () => {
+const SettingsPage = () => {
   const [tab, setTab] = useState<string>("Recovery Phrase");
 
   return (
@@ -67,4 +67,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default SettingsPage;
