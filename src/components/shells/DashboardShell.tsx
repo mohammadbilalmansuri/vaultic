@@ -3,7 +3,7 @@ import { Sidebar, TestnetNotice } from "../layout";
 
 const DashboardShell = ({ children }: IChildren) => {
   return (
-    <div className="w-full relative max-h-dvh flex-1 flex overflow-hidden">
+    <div className="w-full max-h-dvh relative flex-1 flex overflow-hidden">
       <Sidebar />
       <main className="w-full relative flex flex-col">
         <TestnetNotice />
