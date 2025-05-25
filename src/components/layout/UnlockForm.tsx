@@ -56,7 +56,7 @@ const UnlockForm = () => {
         href="/forgot-password"
         className="mt-2 leading-snug border-b border-current hover:heading-color transition-colors duration-300"
       >
-        Forgot Password?
+        Forgot Password
       </Link>
     </motion.div>
   );
