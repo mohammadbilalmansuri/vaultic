@@ -92,7 +92,9 @@ const Combobox = ({
                     >
                       <span className="flex items-center gap-2">
                         {option.label}
-                        {value === option.value && <Check className="w-5" />}
+                        {value === option.value && (
+                          <Check className="w-5 text-teal-500" />
+                        )}
                       </span>
                       <span>{getShortAddress(option.value)}</span>
                     </button>
