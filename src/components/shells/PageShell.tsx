@@ -5,7 +5,7 @@ const PageShell = ({ children }: IChildren) => {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className="page-main">{children}</main>
       <Footer />
     </>
   );
