@@ -39,6 +39,7 @@ const SettingUpWallet = ({
           type: "error",
           message: "Failed to set up wallet. Please try again.",
         });
+        setStep(3);
       }
     })();
   }, []);
