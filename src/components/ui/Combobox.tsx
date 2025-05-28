@@ -83,7 +83,7 @@ const Combobox = ({
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="absolute top-full mt-1.5 w-[98%] bg-default border border-color rounded-2xl z-10 overflow-hidden"
+                className="absolute top-full mt-1.5 w-[98%] bg-default border border-color rounded-2xl z-10 overflow-hidden shadow-xl"
               >
                 <div className="flex flex-col gap-2 p-2 bg-input">
                   {options.map((option) => (

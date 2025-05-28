@@ -56,7 +56,7 @@ const PresetSelect = ({
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.8, y: -10 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="absolute top-full mt-1.5 min-w-32 bg-default border border-color rounded-2xl z-10 overflow-hidden"
+                className="absolute top-full mt-1.5 min-w-32 bg-default border border-color rounded-2xl z-10 overflow-hidden shadow-xl"
               >
                 <div className="grid grid-cols-2 gap-2 p-3 bg-input">
                   {options.map((option) => (
