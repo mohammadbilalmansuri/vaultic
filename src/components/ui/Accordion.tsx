@@ -1,5 +1,5 @@
 "use client";
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { AngleDown } from "./icons";
 import Tooltip from "./Tooltip";
@@ -9,7 +9,7 @@ interface AccordionProps {
   isOpen: boolean;
   toggleAccordion: MouseEventHandler<HTMLDivElement>;
   question: string;
-  answer: string;
+  answer: ReactNode;
 }
 
 const Accordion = ({
