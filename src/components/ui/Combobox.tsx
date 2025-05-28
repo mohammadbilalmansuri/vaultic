@@ -1,5 +1,5 @@
 "use client";
-import { useState, InputHTMLAttributes } from "react";
+import { useState, InputHTMLAttributes, SVGProps, JSX } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Controller, Control, FieldValues } from "react-hook-form";
 import { useOutsideClick } from "@/hooks";
@@ -12,7 +12,11 @@ interface ComboboxProps {
   name: string;
   placeholder?: string;
   control: Control<FieldValues | any>;
-  options: Array<{ label: string; value: string }>;
+  options: Array<{
+    label: string;
+    value: string;
+    valueIcon?: ({ ...props }: SVGProps<SVGSVGElement>) => JSX.Element;
+  }>;
   autoFocus?: InputHTMLAttributes<HTMLInputElement>["autoFocus"];
   autoComplete?: InputHTMLAttributes<HTMLInputElement>["autoComplete"];
   autoCapitalize?: InputHTMLAttributes<HTMLInputElement>["autoCapitalize"];
@@ -86,19 +90,36 @@ const Combobox = ({
                     <button
                       key={option.value}
                       type="button"
-                      className="w-full flex items-center justify-between gap-3 hover:bg-primary px-3 py-2 rounded-xl transition-colors duration-300"
+                      className={cn(
+                        "w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl transition-colors duration-300",
+                        {
+                          "bg-primary": value === option.value,
+                          "hover:bg-primary": value !== option.value,
+                        }
+                      )}
                       onClick={() => {
                         onChange(value === option.value ? "" : option.value);
                         setOpened(false);
                       }}
                     >
-                      <span className="flex items-center gap-2">
-                        {option.label}
+                      <span
+                        className={cn("flex items-center gap-2", {
+                          "heading-color": value === option.value,
+                        })}
+                      >
+                        <span>{option.label}</span>
                         {value === option.value && (
                           <Check className="w-5 text-teal-500" />
                         )}
                       </span>
-                      <span>{getShortAddress(option.value)}</span>
+                      <span className="flex items-center gap-2 leading-none">
+                        {option.valueIcon && (
+                          <option.valueIcon className="h-3" />
+                        )}
+                        <span className="mt-[0.5px]">
+                          {getShortAddress(option.value)}
+                        </span>
+                      </span>
                     </button>
                   ))}
                 </div>
