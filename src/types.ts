@@ -12,8 +12,6 @@ export interface INotification {
 
 export type TWalletStatus = "checking" | "ready";
 
-export type TAuthentication = "not" | "yes" | "locked";
-
 export type TNetwork = "ethereum" | "solana";
 
 export type TNetworkMode = "mainnet" | "devnet";
