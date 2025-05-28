@@ -1,6 +1,6 @@
 import { SVGProps } from "react";
 
-const Help = ({ ...props }: SVGProps<SVGSVGElement>) => {
+const QuestionMark = ({ ...props }: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,4 +19,4 @@ const Help = ({ ...props }: SVGProps<SVGSVGElement>) => {
   );
 };
 
-export default Help;
+export default QuestionMark;
