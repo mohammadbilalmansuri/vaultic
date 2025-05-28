@@ -1,6 +1,10 @@
 import { useRouter } from "next/navigation";
 import { UseFormSetError } from "react-hook-form";
-import { useWalletStore, useNotificationStore } from "@/stores";
+import {
+  useWalletStore,
+  useNotificationStore,
+  useAccountsStore,
+} from "@/stores";
 import { useStorage, useAccounts } from "@/hooks";
 import { TVerifyPasswordForm } from "@/utils/validations";
 import delay from "@/utils/delay";
@@ -10,6 +14,7 @@ const useWallet = () => {
   const { isWalletStored, loadWallet, removeWallet } = useStorage();
   const { loadAccounts } = useAccounts();
   const setWalletState = useWalletStore((state) => state.setWalletState);
+  const clearAccounts = useAccountsStore((state) => state.clearAccounts);
   const notify = useNotificationStore((state) => state.notify);
 
   const checkWalletExists = async () => {
@@ -62,7 +67,17 @@ const useWallet = () => {
     }
   };
 
-  return { checkWalletExists, unlockWallet };
+  const lockWallet = () => {
+    setWalletState({
+      authenticated: false,
+      mnemonic: "",
+      password: "",
+      indexes: { inUse: [], deleted: [] },
+    });
+    clearAccounts();
+  };
+
+  return { checkWalletExists, unlockWallet, lockWallet };
 };
 
 export default useWallet;
