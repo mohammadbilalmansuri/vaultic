@@ -1,6 +1,7 @@
 export { default as AngleDown } from "./AngleDown";
 export { default as ArrowLeft } from "./ArrowLeft";
 export { default as Cancel } from "./Cancel";
+export { default as Cards } from "./Cards";
 export { default as Check } from "./Check";
 export { default as ChevronsUpDown } from "./ChevronsUpDown";
 export { default as Clock } from "./Clock";
