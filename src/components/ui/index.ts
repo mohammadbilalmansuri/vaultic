@@ -11,6 +11,7 @@ export { default as Loading } from "./Loading";
 export { default as NavLink } from "./NavLink";
 export { default as PasswordInput } from "./PasswordInput";
 export { default as PresetSelect } from "./PresetSelect";
+export { default as SidebarNavLink } from "./SidebarNavLink";
 export { default as Switch } from "./Switch";
 export { default as ThemeSwitcher } from "./ThemeSwitcher";
 export { default as Tooltip } from "./Tooltip";
