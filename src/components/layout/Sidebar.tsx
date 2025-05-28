@@ -1,7 +1,7 @@
 "use client";
-import { useWalletStore } from "@/stores";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useWallet } from "@/hooks";
 import { Button, ThemeSwitcher, SidebarNavLink } from "../ui";
 import {
   Logo,
@@ -35,7 +35,7 @@ const navLinks = [
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const setWalletState = useWalletStore((state) => state.setWalletState);
+  const { lockWallet } = useWallet();
 
   return (
     <aside className="w-full max-w-72 bg-input border-r border-color flex flex-col justify-between gap-5 p-5 overflow-y-auto scrollbar-thin">
@@ -65,10 +65,7 @@ const Sidebar = () => {
 
       <div className="w-full flex flex-col gap-5">
         <AccountSwitcher />
-        <Button
-          className="gap-2.5"
-          onClick={() => setWalletState({ authenticated: false })}
-        >
+        <Button className="gap-2.5" onClick={lockWallet}>
           <Lock className="w-5 -mt-px" />
           <span className="leading-none">Lock Vaultic</span>
         </Button>
