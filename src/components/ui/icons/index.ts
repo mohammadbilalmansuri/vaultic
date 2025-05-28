@@ -1,4 +1,3 @@
-export { default as Airdrop } from "./Airdrop";
 export { default as AngleDown } from "./AngleDown";
 export { default as ArrowLeft } from "./ArrowLeft";
 export { default as Cancel } from "./Cancel";
