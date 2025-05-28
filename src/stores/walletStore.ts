@@ -1,17 +1,12 @@
 import { create } from "zustand";
-import {
-  IIndexes,
-  TNetworkMode,
-  TWalletStatus,
-  TAuthentication,
-} from "@/types";
+import { IIndexes, TNetworkMode, TWalletStatus } from "@/types";
 import { IS_DEV } from "@/constants";
 
 interface IWalletStore {
   walletStatus: TWalletStatus;
   suppressRedirect: boolean;
   walletExists: boolean;
-  authenticated: TAuthentication;
+  authenticated: boolean;
   password: string;
   mnemonic: string;
   indexes: IIndexes;
@@ -22,12 +17,12 @@ interface IWalletStore {
 
 const getDefaultState = (): Omit<
   IWalletStore,
-  "setWalletState" | "lockWallet" | "clearWallet"
+  "setWalletState" | "clearWallet"
 > => ({
   walletStatus: "checking",
   suppressRedirect: false,
   walletExists: false,
-  authenticated: "not",
+  authenticated: false,
   password: "",
   mnemonic: "",
   indexes: { inUse: [], deleted: [] },
