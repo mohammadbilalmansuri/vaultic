@@ -19,6 +19,7 @@ import {
 import { scaleUpAnimation } from "@/utils/animations";
 import getShortAddress from "@/utils/getShortAddress";
 import cn from "@/utils/cn";
+import { Solana } from "@/components/ui/icons";
 
 const SolanaFaucetPage = () => {
   const accounts = useAccountsStore((state) => state.accounts);
@@ -83,6 +84,7 @@ const SolanaFaucetPage = () => {
               options={Object.entries(accounts).map(([key, account]) => ({
                 label: `Account ${Number(key) + 1}`,
                 value: account.solana.address,
+                valueIcon: Solana,
               }))}
               autoFocus
               autoComplete="off"
