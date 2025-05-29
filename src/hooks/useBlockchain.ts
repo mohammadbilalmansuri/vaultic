@@ -1,18 +1,18 @@
 import {
   sendEthereum,
-  getEthereumHistory,
+  getEthereumActivity,
   getEthereumBalance,
   resetEthereumConnection,
 } from "@/services/ethereum";
 import {
   sendSolana,
-  getSolanaHistory,
+  getSolanaActivity,
   getSolanaBalance,
   resetSolanaConnection,
   requestSolanaAirdrop,
 } from "@/services/solana";
 import { useWalletStore, useAccountsStore } from "@/stores";
-import { ITxHistoryItem, TNetwork, TNetworkMode } from "@/types";
+import { IActivity, TNetwork, TNetworkMode } from "@/types";
 import { useStorage } from "@/hooks";
 
 const useBlockchain = () => {
@@ -68,19 +68,18 @@ const useBlockchain = () => {
     }
   };
 
-  const fetchTransactionHistory = async (): Promise<ITxHistoryItem[]> => {
+  const fetchActivity = async (): Promise<IActivity[]> => {
     try {
       const account = getActiveAccount();
-      if (!account) throw new Error("No active account found");
 
       const historyPromises = (
         Object.entries(account) as [TNetwork, { address: string }][]
       ).map(async ([network, { address }]) => {
         switch (network) {
-          case "solana":
-            return await getSolanaHistory(address);
           case "ethereum":
-            return await getEthereumHistory(address);
+            return await getEthereumActivity(address);
+          case "solana":
+            return await getSolanaActivity(address);
           default:
             return [];
         }
@@ -130,7 +129,7 @@ const useBlockchain = () => {
   return {
     sendTransaction,
     fetchBalance,
-    fetchTransactionHistory,
+    fetchActivity,
     switchNetworkMode,
     requestAirdrop,
   };
