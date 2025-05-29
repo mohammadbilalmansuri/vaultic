@@ -1,3 +1,5 @@
+import { Ethereum, Solana } from "./components/ui/icons";
+
 export const IS_DEV = process.env.NODE_ENV === "development";
 
 export const DEV_PASSWORD = process.env.NEXT_PUBLIC_DEV_PASSWORD!;
@@ -21,9 +23,17 @@ export const RPC_URLs = {
 
 export const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY!;
 
-export const NETWORK_TOKENS = {
-  ethereum: "ETH",
-  solana: "SOL",
+export const NETWORKS_METADATA = {
+  ethereum: {
+    name: "Ethereum",
+    token: "ETH",
+    icon: Ethereum,
+  },
+  solana: {
+    name: "Solana",
+    token: "SOL",
+    icon: Solana,
+  },
 } as const;
 
 export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"];
