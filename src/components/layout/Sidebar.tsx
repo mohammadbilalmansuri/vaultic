@@ -21,7 +21,7 @@ const navLinks = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
   { name: "Send", href: "/send", icon: Send },
   { name: "Receive", href: "/receive", icon: QR },
-  { name: "Transactions", href: "/transactions", icon: Clock },
+  { name: "Activity", href: "/activity", icon: Clock },
   { name: "Accounts", href: "/accounts", icon: Cards },
   { name: "Manage Wallet", href: "/manage-wallet", icon: Wallet },
   { name: "Faucet", href: "/faucet", icon: WalletMoney },
