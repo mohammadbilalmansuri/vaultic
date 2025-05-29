@@ -40,7 +40,7 @@ export interface IStoredWalletData {
   readonly networkMode: TNetworkMode;
 }
 
-export interface ITxHistoryItem {
+export interface ITransaction {
   readonly hash: string;
   readonly from: string;
   readonly to: string;
@@ -48,6 +48,7 @@ export interface ITxHistoryItem {
   readonly timestamp: number;
   readonly network: string;
   readonly status: "success" | "failed";
+  readonly type: "send" | "receive";
 }
 
 export type TSetupPath = "create" | "import";
