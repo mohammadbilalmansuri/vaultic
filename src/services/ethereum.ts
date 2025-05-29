@@ -93,7 +93,7 @@ export const getEthereumActivity = async (
     withMetadata: true,
   });
 
-  const transactions = await Promise.all(
+  const transactions: (IActivity | null)[] = await Promise.all(
     transfers.map(async (tx) => {
       try {
         const block = await provider.getBlock(tx.blockNum);
