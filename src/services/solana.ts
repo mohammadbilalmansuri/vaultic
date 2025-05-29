@@ -11,7 +11,6 @@ import bs58 from "bs58";
 import { derivePath } from "ed25519-hd-key";
 import { ITxHistoryItem, TNetworkAccount } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
-import { formatBalance } from "@/utils/balance";
 
 let solanaConnection: Connection | null = null;
 
@@ -80,7 +79,7 @@ export const sendSolana = async (
 export const getSolanaBalance = async (address: string): Promise<string> => {
   const pubkey = new PublicKey(address);
   const balance = await getSolanaConnection().getBalance(pubkey, "confirmed");
-  return formatBalance((balance / LAMPORTS_PER_SOL).toString());
+  return (balance / LAMPORTS_PER_SOL).toString();
 };
 
 export const getSolanaHistory = async (
@@ -118,9 +117,7 @@ export const getSolanaHistory = async (
           hash: sig.signature,
           from: parsed.info.source,
           to: parsed.info.destination,
-          amount: formatBalance(
-            (parsed.info.lamports / LAMPORTS_PER_SOL).toString()
-          ),
+          amount: (parsed.info.lamports / LAMPORTS_PER_SOL).toString(),
           timestamp: (tx.blockTime ?? 0) * 1000,
           network: "solana",
           status: sig.err ? "failed" : "success",
