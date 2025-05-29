@@ -11,7 +11,7 @@ import bs58 from "bs58";
 import { derivePath } from "ed25519-hd-key";
 import { ITxHistoryItem, TNetworkAccount } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
-import formatBalance from "@/utils/formatBalance";
+import { formatBalance } from "@/utils/balance";
 
 let solanaConnection: Connection | null = null;
 

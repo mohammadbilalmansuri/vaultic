@@ -12,7 +12,7 @@ import { ALCHEMY_API_KEY } from "@/constants";
 import { ITxHistoryItem, TNetworkAccount } from "@/types";
 import { useWalletStore } from "@/stores";
 import getRpcUrl from "@/utils/getRpcUrl";
-import formatBalance from "@/utils/formatBalance";
+import { formatBalance } from "@/utils/balance";
 
 let ethereumProvider: JsonRpcProvider | null = null;
 let alchemyInstance: Alchemy | null = null;
