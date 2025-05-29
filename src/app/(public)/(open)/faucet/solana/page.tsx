@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SolanaAirdropSchema, TSolanaAirdropForm } from "@/utils/validations";
 import { useNotificationStore, useAccountsStore } from "@/stores";
 import { useBlockchain } from "@/hooks";
-import { FAUCET_PRESET_AMOUNTS, NETWORK_TOKENS } from "@/constants";
+import { FAUCET_PRESET_AMOUNTS, NETWORKS_METADATA } from "@/constants";
 import {
   Input,
   Combobox,
@@ -104,7 +104,7 @@ const SolanaFaucetPage = () => {
             control={control}
             placeholder="Amount"
             options={FAUCET_PRESET_AMOUNTS}
-            valueSuffix={NETWORK_TOKENS.solana}
+            valueSuffix={NETWORKS_METADATA.solana.token}
           />
         </div>
         <Button
