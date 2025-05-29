@@ -9,7 +9,7 @@ import {
 } from "ethers";
 import { Alchemy, Network, AssetTransfersCategory } from "alchemy-sdk";
 import { ALCHEMY_API_KEY } from "@/constants";
-import { ITxHistoryItem, TNetworkAccount } from "@/types";
+import { IActivity, TNetworkAccount } from "@/types";
 import { useWalletStore } from "@/stores";
 import getRpcUrl from "@/utils/getRpcUrl";
 
@@ -74,9 +74,9 @@ export const getEthereumBalance = async (address: string): Promise<string> => {
   return formatEther(balance);
 };
 
-export const getEthereumHistory = async (
+export const getEthereumActivity = async (
   address: string
-): Promise<ITxHistoryItem[]> => {
+): Promise<IActivity[]> => {
   if (!isValidEthereumAddress(address)) {
     throw new Error("Invalid Ethereum address");
   }
@@ -106,6 +106,7 @@ export const getEthereumHistory = async (
           timestamp: (block?.timestamp ?? 0) * 1000,
           network: "ethereum",
           status: tx.category === "external" ? "success" : "failed",
+          type: address === tx.from ? "send" : "receive",
         };
       } catch (err) {
         console.warn(`Error processing Ethereum tx ${tx.hash}`, err);
@@ -115,7 +116,7 @@ export const getEthereumHistory = async (
   );
 
   return transactions
-    .filter((tx): tx is ITxHistoryItem => tx !== null)
+    .filter((tx): tx is IActivity => tx !== null)
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
