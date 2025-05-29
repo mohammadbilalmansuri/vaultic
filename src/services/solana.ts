@@ -9,7 +9,7 @@ import {
 } from "@solana/web3.js";
 import bs58 from "bs58";
 import { derivePath } from "ed25519-hd-key";
-import { ITxHistoryItem, TNetworkAccount } from "@/types";
+import { IActivity, TNetworkAccount } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 
 let solanaConnection: Connection | null = null;
@@ -82,9 +82,9 @@ export const getSolanaBalance = async (address: string): Promise<string> => {
   return (balance / LAMPORTS_PER_SOL).toString();
 };
 
-export const getSolanaHistory = async (
+export const getSolanaActivity = async (
   address: string
-): Promise<ITxHistoryItem[]> => {
+): Promise<IActivity[]> => {
   const connection = getSolanaConnection();
   const pubkey = new PublicKey(address);
 
@@ -92,7 +92,7 @@ export const getSolanaHistory = async (
     limit: 20,
   });
 
-  const transactions = await Promise.all(
+  const transactions: (IActivity | null)[] = await Promise.all(
     signatures.map(async (sig) => {
       try {
         const tx = await connection.getParsedTransaction(sig.signature, {
@@ -121,6 +121,7 @@ export const getSolanaHistory = async (
           timestamp: (tx.blockTime ?? 0) * 1000,
           network: "solana",
           status: sig.err ? "failed" : "success",
+          type: parsed.info.source === address ? "send" : "receive",
         };
       } catch (err) {
         console.warn(`Failed to process transaction ${sig.signature}`, err);
@@ -130,7 +131,7 @@ export const getSolanaHistory = async (
   );
 
   return transactions
-    .filter((tx): tx is ITxHistoryItem => tx !== null)
+    .filter((tx): tx is IActivity => tx !== null)
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
