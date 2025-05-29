@@ -8,9 +8,8 @@ interface IAccountsStore {
   removeAccount: (index: number) => void;
   setAccounts: (accounts: TAccounts) => void;
   clearAccounts: () => void;
-  getAccount: (index: number) => TAccount | null;
+  getAccount: (index: number) => TAccount;
   setActiveAccountIndex: (index: number) => void;
-  getActiveAccount: () => TAccount | null;
   updateBalances: (index: number, balances: Record<TNetwork, string>) => void;
 }
 
@@ -31,14 +30,9 @@ const useAccountsStore = create<IAccountsStore>((set, get) => ({
 
   clearAccounts: () => set(() => ({ accounts: {}, activeAccountIndex: 0 })),
 
-  getAccount: (index) => get().accounts[index] || null,
+  getAccount: (index) => get().accounts[index] || {},
 
   setActiveAccountIndex: (index) => set(() => ({ activeAccountIndex: index })),
-
-  getActiveAccount: () => {
-    const { accounts, activeAccountIndex } = get();
-    return accounts[activeAccountIndex] || null;
-  },
 
   updateBalances: (index, balances) =>
     set((state) => {
