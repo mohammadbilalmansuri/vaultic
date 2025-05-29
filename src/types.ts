@@ -40,7 +40,7 @@ export interface IStoredWalletData {
   readonly networkMode: TNetworkMode;
 }
 
-export interface ITransaction {
+export interface IActivity {
   readonly hash: string;
   readonly from: string;
   readonly to: string;
