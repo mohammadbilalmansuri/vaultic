@@ -12,7 +12,6 @@ import { ALCHEMY_API_KEY } from "@/constants";
 import { ITxHistoryItem, TNetworkAccount } from "@/types";
 import { useWalletStore } from "@/stores";
 import getRpcUrl from "@/utils/getRpcUrl";
-import { formatBalance } from "@/utils/balance";
 
 let ethereumProvider: JsonRpcProvider | null = null;
 let alchemyInstance: Alchemy | null = null;
@@ -72,7 +71,7 @@ export const getEthereumBalance = async (address: string): Promise<string> => {
 
   const provider = getEthereumProvider();
   const balance = await provider.getBalance(address);
-  return formatBalance(formatEther(balance));
+  return formatEther(balance);
 };
 
 export const getEthereumHistory = async (
@@ -103,7 +102,7 @@ export const getEthereumHistory = async (
           hash: tx.hash,
           from: tx.from,
           to: tx.to!,
-          amount: tx.value ? formatBalance(formatEther(tx.value)) : "0",
+          amount: tx.value ? formatEther(tx.value) : "0",
           timestamp: (block?.timestamp ?? 0) * 1000,
           network: "ethereum",
           status: tx.category === "external" ? "success" : "failed",
