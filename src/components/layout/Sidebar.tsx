@@ -38,7 +38,7 @@ const Sidebar = () => {
   const { lockWallet } = useWallet();
 
   return (
-    <aside className="w-full max-w-72 bg-input border-r border-color flex flex-col justify-between gap-5 p-5 overflow-y-auto scrollbar-thin">
+    <aside className="w-[18rem] bg-input border-r border-color flex flex-col justify-between gap-5 p-5 overflow-y-auto scrollbar-thin">
       <div className="w-full flex flex-col gap-5">
         <div className="w-full flex items-center justify-between gap-4 -mt-0.5">
           <Link href="/dashboard" className="px-0.5">
