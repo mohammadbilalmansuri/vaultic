@@ -47,7 +47,7 @@ const AccountSwitcher = ({
     <div
       ref={containerRef}
       className={cn(
-        "relative w-full min-w-50 flex flex-col items-center border border-color rounded-2xl transition-all duration-300",
+        "relative w-full min-w-50 flex flex-col items-center border-1.5 border-color rounded-2xl transition-all duration-300",
         { "hover:border-focus": !opened },
         { "border-focus": opened && variant === "dropdown" },
         containerClassName
@@ -57,7 +57,7 @@ const AccountSwitcher = ({
         type="button"
         className={cn(
           "w-full flex items-center justify-between gap-4 h-12 pl-4 pr-2 py-3 rounded-2xl",
-          { "border-b border-color": opened && variant === "inline" }
+          { "border-b-1.5 border-color": opened && variant === "inline" }
         )}
         onClick={() => setOpened((prev) => !prev)}
       >
@@ -78,7 +78,7 @@ const AccountSwitcher = ({
             transition={{ duration: 0.15, ease: "easeOut" }}
             className={cn("overflow-hidden", {
               "w-full": variant === "inline",
-              "w-[98%] absolute top-full mt-1.5 bg-default border border-color rounded-2xl z-10 shadow-xl":
+              "w-[98%] absolute top-full mt-1.5 bg-default border-1.5 border-color rounded-2xl z-10 shadow-xl":
                 variant === "dropdown",
             })}
           >
