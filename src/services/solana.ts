@@ -114,7 +114,7 @@ export const getSolanaActivity = async (
         const parsed = instruction.parsed;
 
         return {
-          hash: sig.signature,
+          signature: sig.signature,
           from: parsed.info.source,
           to: parsed.info.destination,
           amount: (parsed.info.lamports / LAMPORTS_PER_SOL).toString(),
