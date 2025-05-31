@@ -99,7 +99,7 @@ export const getEthereumActivity = async (
         const block = await provider.getBlock(tx.blockNum);
 
         return {
-          hash: tx.hash,
+          signature: tx.hash,
           from: tx.from,
           to: tx.to!,
           amount: tx.value ? formatEther(tx.value) : "0",

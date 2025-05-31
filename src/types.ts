@@ -41,7 +41,7 @@ export interface IStoredWalletData {
 }
 
 export interface IActivity {
-  readonly hash: string;
+  readonly signature: string;
   readonly from: string;
   readonly to: string;
   readonly amount: string;
