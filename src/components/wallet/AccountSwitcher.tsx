@@ -47,7 +47,7 @@ const AccountSwitcher = ({
     <div
       ref={containerRef}
       className={cn(
-        "relative w-full flex flex-col items-center border border-color rounded-2xl transition-all duration-300",
+        "relative w-full min-w-50 flex flex-col items-center border border-color rounded-2xl transition-all duration-300",
         { "hover:border-focus": !opened },
         { "border-focus": opened && variant === "dropdown" },
         containerClassName
