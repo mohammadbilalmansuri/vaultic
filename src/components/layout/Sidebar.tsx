@@ -6,24 +6,18 @@ import { Button, ThemeSwitcher, SidebarNavLink } from "../ui";
 import {
   Logo,
   Home,
-  Send,
-  QR,
-  Clock,
-  Wallet,
   Cards,
-  QuestionMark,
+  Setting,
   WalletMoney,
+  QuestionMark,
   Lock,
 } from "../ui/icons";
 import { AccountSwitcher } from "../wallet";
 
 const navLinks = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
-  { name: "Send", href: "/send", icon: Send },
-  { name: "Receive", href: "/receive", icon: QR },
-  { name: "Activity", href: "/activity", icon: Clock },
-  { name: "Accounts", href: "/accounts", icon: Cards },
-  { name: "Manage Wallet", href: "/manage-wallet", icon: Wallet },
+  { name: "Manage Accounts", href: "/accounts", icon: Cards },
+  { name: "Settings", href: "/settings", icon: Setting },
   { name: "Faucet", href: "/faucet", icon: WalletMoney },
   {
     name: "Help & Support",
