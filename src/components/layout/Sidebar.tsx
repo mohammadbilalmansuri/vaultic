@@ -5,7 +5,7 @@ import { useWallet } from "@/hooks";
 import { Button, ThemeSwitcher, SidebarNavLink } from "../ui";
 import {
   Logo,
-  Home,
+  Wallet,
   Cards,
   Setting,
   WalletMoney,
@@ -15,7 +15,7 @@ import {
 import { AccountSwitcher } from "../wallet";
 
 const navLinks = [
-  { name: "Dashboard", href: "/dashboard", icon: Home },
+  { name: "Dashboard", href: "/dashboard", icon: Wallet },
   { name: "Manage Accounts", href: "/accounts", icon: Cards },
   { name: "Settings", href: "/settings", icon: Setting },
   { name: "Faucet", href: "/faucet", icon: WalletMoney },
@@ -59,7 +59,7 @@ const Sidebar = () => {
 
       <div className="w-full flex flex-col gap-5">
         <AccountSwitcher />
-        <Button className="gap-2.5" onClick={lockWallet}>
+        <Button onClick={lockWallet}>
           <Lock className="w-5 -mt-px" />
           <span className="leading-none">Lock Vaultic</span>
         </Button>
