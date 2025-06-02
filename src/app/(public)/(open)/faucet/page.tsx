@@ -22,7 +22,7 @@ const FaucetPage = () => {
           href="https://cloud.google.com/application/web3/faucet/ethereum/sepolia"
           rel="noopener noreferrer"
           target="_blank"
-          className="gap-2.5 w-full"
+          className="w-full"
         >
           <Ethereum className="h-6 min-w-fit" />
           <span className="mt-px">Ethereum Sepolia</span>
@@ -32,7 +32,7 @@ const FaucetPage = () => {
           variant="zinc"
           as="link"
           href="/faucet/solana"
-          className="gap-2.5 w-full"
+          className="w-full"
         >
           <Solana className="h-4 min-w-fit" />
           <span className="mt-px">Solana Devnet</span>
