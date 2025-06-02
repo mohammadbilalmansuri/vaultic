@@ -2,7 +2,7 @@ import { TNetwork } from "@/types";
 
 const getShortAddress = (
   address: string,
-  network: TNetwork,
+  network?: TNetwork,
   chars = 4
 ): string => {
   if (!address || address.length <= chars * 2 + 2) return address;
