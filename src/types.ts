@@ -1,4 +1,4 @@
-import { ReactNode, Dispatch, SetStateAction } from "react";
+import { ReactNode, Dispatch, SetStateAction, SVGProps, JSX } from "react";
 
 export interface IChildren {
   children: ReactNode;
@@ -58,3 +58,5 @@ export type TSetupStep = 1 | 2 | 3 | 4 | 5;
 export type TSetupSetPath = Dispatch<SetStateAction<TSetupPath>>;
 
 export type TSetupSetStep = Dispatch<SetStateAction<TSetupStep>>;
+
+export type TIcon = ({ ...props }: SVGProps<SVGSVGElement>) => JSX.Element;
