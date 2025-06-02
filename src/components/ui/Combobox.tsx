@@ -1,8 +1,9 @@
 "use client";
-import { useState, InputHTMLAttributes, SVGProps, JSX } from "react";
+import { useState, InputHTMLAttributes } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Controller, Control, FieldValues } from "react-hook-form";
 import { useOutsideClick } from "@/hooks";
+import { TIcon } from "@/types";
 import Input from "./Input";
 import { AngleDown, Check } from "./icons";
 import getShortAddress from "@/utils/getShortAddress";
@@ -15,7 +16,7 @@ interface ComboboxProps {
   options: Array<{
     label: string;
     value: string;
-    valueIcon?: ({ ...props }: SVGProps<SVGSVGElement>) => JSX.Element;
+    valueIcon?: TIcon;
   }>;
   autoFocus?: InputHTMLAttributes<HTMLInputElement>["autoFocus"];
   autoComplete?: InputHTMLAttributes<HTMLInputElement>["autoComplete"];
