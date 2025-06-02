@@ -30,12 +30,12 @@ const NetworkCard = ({
   return (
     <div
       key={network}
-      className="w-full relative flex items-center justify-between rounded-3xl border-1.5 border-color p-6"
+      className="w-full relative flex items-center justify-between rounded-3xl border border-color px-5 py-6 bg-primary"
     >
       <div className="flex items-center gap-3">
         <div
           className={cn(
-            "size-10 bg-white dark:bg-zinc-950 rounded-xl flex items-center justify-center p-2.5",
+            "size-10 bg-zinc-50 dark:bg-zinc-950 rounded-xl flex items-center justify-center p-2.5",
             { "p-3": network === "ethereum" }
           )}
         >
@@ -74,7 +74,7 @@ const NetworkCard = ({
         </p>
       ) : (
         <Tooltip content={`${original} ${token}`}>
-          <p className="text-lg leading-none cursor-default">
+          <p className="text-md leading-none cursor-default">
             {fixed} {token}
           </p>
         </Tooltip>
