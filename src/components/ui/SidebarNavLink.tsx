@@ -1,13 +1,14 @@
 "use client";
-import { SVGProps, JSX, HTMLAttributeAnchorTarget } from "react";
+import { HTMLAttributeAnchorTarget } from "react";
 import { LinkProps } from "next/link";
 import Link from "next/link";
+import { TIcon } from "@/types";
 import cn from "@/utils/cn";
 
 interface SidebarNavLinkProps extends LinkProps {
   name: string;
   href: string;
-  icon: ({ ...props }: SVGProps<SVGSVGElement>) => JSX.Element;
+  icon: TIcon;
   isActive: boolean;
   target?: HTMLAttributeAnchorTarget;
 }
