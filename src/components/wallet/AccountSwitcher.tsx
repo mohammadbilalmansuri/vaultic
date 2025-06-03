@@ -3,7 +3,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useAccountsStore, useNotificationStore } from "@/stores";
 import cn from "@/utils/cn";
-import { useOutsideClick } from "@/hooks";
+import { useOutsideClick, useAccounts } from "@/hooks";
+import { Loader } from "../ui";
 import { Check, ChevronsUpDown } from "../ui/icons";
 
 interface AccountSwitcherProps {
@@ -15,32 +16,50 @@ const AccountSwitcher = ({
   variant = "inline",
   containerClassName = "",
 }: AccountSwitcherProps) => {
-  const notify = useNotificationStore((state) => state.notify);
   const [opened, setOpened] = useState(false);
   const containerRef = useOutsideClick(() => {
     if (opened) setOpened(false);
   }, opened);
 
+  const { switchActiveAccount } = useAccounts();
+  const notify = useNotificationStore((state) => state.notify);
   const accounts = useAccountsStore((state) => state.accounts);
   const activeAccountIndex = useAccountsStore(
     (state) => state.activeAccountIndex
   );
-  const setActiveAccountIndex = useAccountsStore(
-    (state) => state.setActiveAccountIndex
+  const switchingActiveAccount = useAccountsStore(
+    (state) => state.switchingActiveAccount
+  );
+  const setSwitchingActiveAccount = useAccountsStore(
+    (state) => state.setSwitchingActiveAccount
   );
 
-  const handleAccountSwitch = (index: number) => {
+  const handleAccountSwitch = async (index: number) => {
+    if (switchingActiveAccount) return;
+
     if (index === activeAccountIndex) {
       setOpened(false);
       return;
     }
-    setActiveAccountIndex(index);
-    setOpened(false);
-    notify({
-      type: "success",
-      message: `Switched to Account ${index + 1}`,
-      duration: 3000,
-    });
+
+    setSwitchingActiveAccount(index);
+
+    try {
+      await switchActiveAccount(index);
+      setOpened(false);
+      notify({
+        type: "success",
+        message: `Switched to Account ${index + 1}`,
+        duration: 3000,
+      });
+    } catch {
+      notify({
+        type: "error",
+        message: `Failed to switch to Account ${index + 1}`,
+      });
+    } finally {
+      setSwitchingActiveAccount(false);
+    }
   };
 
   return (
@@ -107,8 +126,13 @@ const AccountSwitcher = ({
                     onClick={() => handleAccountSwitch(index)}
                   >
                     <span>{`Account ${index + 1}`}</span>
-                    {activeAccountIndex === index && (
-                      <Check className="w-5 text-teal-500" />
+                    {switchingActiveAccount === index ? (
+                      <Loader size="xs" />
+                    ) : (
+                      activeAccountIndex === index &&
+                      !switchingActiveAccount && (
+                        <Check className="w-5 text-teal-500" />
+                      )
                     )}
                   </button>
                 ))}
