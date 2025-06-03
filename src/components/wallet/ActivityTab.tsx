@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/icons";
 
 const ActivityTab = () => {
-  const activities = useActivityStore((s) => s.activities);
+  const activities = useActivityStore((state) => state.activities);
   const getNetworkIcon = (network: string) => {
     switch (network) {
       case "ethereum":
