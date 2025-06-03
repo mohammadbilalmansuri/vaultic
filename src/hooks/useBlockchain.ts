@@ -1,3 +1,5 @@
+import { TNetwork, TNetworkMode } from "@/types";
+import { useWalletStore, useAccountsStore, useActivityStore } from "@/stores";
 import {
   sendEthereum,
   getEthereumActivity,
@@ -11,14 +13,13 @@ import {
   resetSolanaConnection,
   requestSolanaAirdrop,
 } from "@/services/solana";
-import { useWalletStore, useAccountsStore } from "@/stores";
-import { IActivity, TNetwork, TNetworkMode } from "@/types";
 import { useStorage } from "@/hooks";
 
 const useBlockchain = () => {
-  const { setWalletState } = useWalletStore.getState();
-  const { getActiveAccount } = useAccountsStore.getState();
   const { updateWallet } = useStorage();
+  const { setWalletState } = useWalletStore.getState();
+  const { getActiveAccount, updateActiveAccount } = useAccountsStore.getState();
+  const { setActivities } = useActivityStore.getState();
 
   const sendTransaction = async ({
     network,
@@ -46,51 +47,72 @@ const useBlockchain = () => {
     }
   };
 
-  const fetchBalance = async ({
-    network,
-    address,
-  }: {
-    network: TNetwork;
-    address: string;
-  }): Promise<string> => {
+  const fetchActiveAccountBalances = async (): Promise<void> => {
     try {
-      switch (network) {
-        case "ethereum":
-          return await getEthereumBalance(address);
-        case "solana":
-          return await getSolanaBalance(address);
-        default:
-          throw new Error("Unsupported network");
-      }
+      const activeAccount = getActiveAccount();
+
+      const updatePromises = Object.entries(activeAccount).map(
+        async ([network, { address, privateKey, balance }]) => {
+          try {
+            let newBalance = balance;
+            switch (network as TNetwork) {
+              case "ethereum":
+                newBalance = await getEthereumBalance(address);
+                break;
+              case "solana":
+                newBalance = await getSolanaBalance(address);
+                break;
+              default:
+                break;
+            }
+            return [network, { address, privateKey, balance: newBalance }];
+          } catch (error) {
+            console.error(`Error fetching balance for ${network}:`, error);
+            return [network, { address, privateKey, balance }];
+          }
+        }
+      );
+
+      const updatedAccount = await Promise.all(updatePromises);
+      const updatedAccountObject = Object.fromEntries(updatedAccount);
+      updateActiveAccount(updatedAccountObject);
     } catch (error) {
-      console.error(`Error fetching ${network} balance:`, error);
+      console.error("Error fetching active account balances:", error);
       throw error;
     }
   };
 
-  const fetchActivity = async (): Promise<IActivity[]> => {
+  const fetchActiveAccountActivity = async (): Promise<void> => {
     try {
-      const account = getActiveAccount();
+      const activeAccount = getActiveAccount();
 
-      const historyPromises = (
-        Object.entries(account) as [TNetwork, { address: string }][]
-      ).map(async ([network, { address }]) => {
-        switch (network) {
-          case "ethereum":
-            return await getEthereumActivity(address);
-          case "solana":
-            return await getSolanaActivity(address);
-          default:
+      const activityPromises = Object.entries(activeAccount).map(
+        async ([network, { address }]) => {
+          try {
+            switch (network) {
+              case "ethereum":
+                return await getEthereumActivity(address);
+              case "solana":
+                return await getSolanaActivity(address);
+              default:
+                return [];
+            }
+          } catch (error) {
+            console.error(`Failed to fetch activity for ${network}:`, error);
             return [];
+          }
         }
-      });
+      );
 
-      const allHistories = await Promise.all(historyPromises);
-      const flattened = allHistories.flat();
+      const allActivities = (await Promise.all(activityPromises)).flat();
 
-      return flattened.sort((a, b) => b.timestamp - a.timestamp);
+      const sortedActivities = allActivities
+        .filter((activity) => activity?.timestamp)
+        .sort((a, b) => b.timestamp - a.timestamp);
+
+      setActivities(sortedActivities);
     } catch (error) {
-      console.error("Error fetching transaction history:", error);
+      console.error("Error fetching active account activity:", error);
       throw error;
     }
   };
@@ -100,6 +122,8 @@ const useBlockchain = () => {
       resetEthereumConnection();
       resetSolanaConnection();
       setWalletState({ networkMode: mode });
+      await fetchActiveAccountBalances();
+      await fetchActiveAccountActivity();
       await updateWallet();
     } catch (error) {
       console.error("Error switching network mode:", error);
@@ -115,12 +139,12 @@ const useBlockchain = () => {
       return await requestSolanaAirdrop(address, amount);
     } catch (error) {
       const msg =
-        error instanceof Error
-          ? error.message.includes("airdrop limit") ||
-            error.message.includes("limit")
-            ? "You’ve either reached your airdrop limit or the airdrop faucet has run dry. Try again later or use the official faucet."
-            : error.message
+        error instanceof Error &&
+        (error.message.includes("airdrop limit") ||
+          error.message.includes("limit"))
+          ? "You’ve either reached your airdrop limit or the airdrop faucet has run dry. Try again later or use the official faucet."
           : "Airdrop failed. Please try again.";
+
       console.error("Airdrop error:", error);
       throw new Error(msg);
     }
@@ -128,8 +152,8 @@ const useBlockchain = () => {
 
   return {
     sendTransaction,
-    fetchBalance,
-    fetchActivity,
+    fetchActiveAccountBalances,
+    fetchActiveAccountActivity,
     switchNetworkMode,
     requestAirdrop,
   };
