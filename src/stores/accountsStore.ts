@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { TNetwork, TAccount, TAccounts } from "@/types";
+import { TAccount, TAccounts } from "@/types";
 
 interface IAccountsStore {
   accounts: TAccounts;
@@ -10,7 +10,7 @@ interface IAccountsStore {
   clearAccounts: () => void;
   getActiveAccount: () => TAccount;
   setActiveAccountIndex: (index: number) => void;
-  updateBalances: (index: number, balances: Record<TNetwork, string>) => void;
+  updateActiveAccount: (account: TAccount) => void;
 }
 
 const useAccountsStore = create<IAccountsStore>((set, get) => ({
@@ -37,36 +37,13 @@ const useAccountsStore = create<IAccountsStore>((set, get) => ({
 
   setActiveAccountIndex: (index) => set(() => ({ activeAccountIndex: index })),
 
-  updateBalances: (index, balances) =>
-    set((state) => {
-      const current = state.accounts[index];
-      if (!current) return state;
-
-      const updated: TAccount = { ...current };
-      let changed = false;
-
-      for (const network of Object.keys(balances) as TNetwork[]) {
-        const currentNet = updated[network];
-        const newBal = balances[network];
-
-        if (currentNet && currentNet.balance !== newBal) {
-          updated[network] = {
-            ...currentNet,
-            balance: newBal,
-          };
-          changed = true;
-        }
-      }
-
-      if (!changed) return state;
-
-      return {
-        accounts: {
-          ...state.accounts,
-          [index]: updated,
-        },
-      };
-    }),
+  updateActiveAccount: (account) =>
+    set(({ accounts, activeAccountIndex }) => ({
+      accounts: {
+        ...accounts,
+        [activeAccountIndex]: account,
+      },
+    })),
 }));
 
 export default useAccountsStore;
