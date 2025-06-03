@@ -9,8 +9,13 @@ const useAccounts = () => {
     useBlockchain();
   const { saveWallet, updateWallet } = useStorage();
   const { setWalletState } = useWalletStore.getState();
-  const { addAccount, removeAccount, setAccounts, setActiveAccountIndex } =
-    useAccountsStore.getState();
+  const {
+    addAccount,
+    removeAccount,
+    setAccounts,
+    setActiveAccountIndex,
+    setSwitchingActiveAccount,
+  } = useAccountsStore.getState();
 
   const createAccount = async (isInitialSetup = false): Promise<void> => {
     try {
@@ -97,6 +102,7 @@ const useAccounts = () => {
   };
 
   const switchActiveAccount = async (index: number): Promise<void> => {
+    setSwitchingActiveAccount(true);
     try {
       const { indexes } = useWalletStore.getState();
       if (!indexes.inUse.includes(index)) {
@@ -109,6 +115,8 @@ const useAccounts = () => {
     } catch (error) {
       console.error("Error switching active account:", error);
       throw error;
+    } finally {
+      setSwitchingActiveAccount(false);
     }
   };
 
