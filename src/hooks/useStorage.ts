@@ -9,17 +9,45 @@ import {
   encryptMnemonic,
   decryptMnemonic,
 } from "@/utils/crypto";
-import { useWalletStore, useAccountsStore } from "@/stores";
+import { useWalletStore, useAccountsStore, useActivityStore } from "@/stores";
 
 const useStorage = () => {
   const { setWalletState, clearWallet } = useWalletStore.getState();
-  const { clearAccounts } = useAccountsStore.getState();
+  const { setActiveAccountIndex, clearAccounts } = useAccountsStore.getState();
+  const { clearActivities } = useActivityStore.getState();
 
   const isWalletStored = async (): Promise<boolean> => {
     try {
       return Boolean(await getWalletData("wallet"));
     } catch (error) {
       console.error("Error checking wallet existence:", error);
+      throw error;
+    }
+  };
+
+  const saveWallet = async (): Promise<void> => {
+    try {
+      const { mnemonic, password, indexes, networkMode } =
+        useWalletStore.getState();
+      const { activeAccountIndex } = useAccountsStore.getState();
+
+      if (!mnemonic || !password)
+        throw new Error("Missing mnemonic or password");
+
+      const [encryptedMnemonic, hashedPassword] = await Promise.all([
+        encryptMnemonic(mnemonic, password),
+        hashPassword(password),
+      ]);
+
+      await saveWalletData("wallet", {
+        encryptedMnemonic,
+        hashedPassword,
+        indexes,
+        networkMode,
+        activeAccountIndex,
+      });
+    } catch (error) {
+      console.error("Error saving wallet:", error);
       throw error;
     }
   };
@@ -46,33 +74,9 @@ const useStorage = () => {
         indexes: wallet.indexes,
         networkMode: wallet.networkMode,
       });
+      setActiveAccountIndex(wallet.activeAccountIndex);
     } catch (error) {
       console.error("Error loading wallet:", error);
-      throw error;
-    }
-  };
-
-  const saveWallet = async (): Promise<void> => {
-    try {
-      const { mnemonic, password, indexes, networkMode } =
-        useWalletStore.getState();
-
-      if (!mnemonic || !password)
-        throw new Error("Missing mnemonic or password");
-
-      const [encryptedMnemonic, hashedPassword] = await Promise.all([
-        encryptMnemonic(mnemonic, password),
-        hashPassword(password),
-      ]);
-
-      await saveWalletData("wallet", {
-        encryptedMnemonic,
-        hashedPassword,
-        indexes,
-        networkMode,
-      });
-    } catch (error) {
-      console.error("Error saving wallet:", error);
       throw error;
     }
   };
@@ -80,6 +84,7 @@ const useStorage = () => {
   const updateWallet = async (): Promise<void> => {
     try {
       const { indexes, networkMode } = useWalletStore.getState();
+      const { activeAccountIndex } = useAccountsStore.getState();
 
       const wallet = await getWalletData("wallet");
       if (!wallet) throw new Error("Wallet not found");
@@ -88,6 +93,7 @@ const useStorage = () => {
         ...wallet,
         indexes,
         networkMode,
+        activeAccountIndex,
       });
     } catch (error) {
       console.error("Error updating wallet:", error);
@@ -128,7 +134,7 @@ const useStorage = () => {
   const removeWallet = async (): Promise<void> => {
     try {
       await clearWalletData();
-      await Promise.all([clearWallet(), clearAccounts()]);
+      await Promise.all([clearWallet(), clearAccounts(), clearActivities()]);
     } catch (error) {
       console.error("Error removing wallet:", error);
       throw error;
