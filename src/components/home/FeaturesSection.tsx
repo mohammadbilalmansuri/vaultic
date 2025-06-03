@@ -1,6 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
+import { fadeUpAnimation } from "@/utils/animations";
 import {
   ShieldTick,
   Wallet,
@@ -9,7 +10,6 @@ import {
   WalletRecovery,
   Code,
 } from "@/components/ui/icons";
-import { fadeUpAnimation } from "@/utils/animations";
 
 const features = [
   {

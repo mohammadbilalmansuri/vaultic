@@ -5,9 +5,9 @@ import {
   useNotificationStore,
   useAccountsStore,
 } from "@/stores";
-import { useStorage, useAccounts } from "@/hooks";
-import { TVerifyPasswordForm } from "@/utils/validations";
 import delay from "@/utils/delay";
+import { TVerifyPasswordForm } from "@/utils/validations";
+import { useStorage, useAccounts } from "@/hooks";
 
 const useWallet = () => {
   const router = useRouter();

@@ -1,13 +1,12 @@
 "use client";
-
 import { useState } from "react";
 import { NETWORKS_METADATA } from "@/constants";
 import { TNetwork, TNetworkMode } from "@/types";
-import { useClipboard } from "@/hooks";
-import { CopyToggle, Tooltip } from "@/components/ui";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import cn from "@/utils/cn";
+import { useClipboard } from "@/hooks";
+import { CopyToggle, Tooltip } from "@/components/ui";
 
 interface NetworkCardProps {
   network: TNetwork;

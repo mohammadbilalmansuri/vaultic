@@ -1,5 +1,5 @@
-import { IStoredWalletData } from "@/types";
 import { INDEXED_DB } from "@/constants";
+import { IStoredWalletData } from "@/types";
 
 let dbInstance: IDBDatabase | null = null;
 

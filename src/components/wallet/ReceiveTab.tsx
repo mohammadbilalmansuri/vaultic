@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
+import QRCode from "qrcode";
+import { TNetwork } from "@/types";
+import cn from "@/utils/cn";
 import { Button, Loader } from "@/components/ui";
 import { QR, Ethereum, Solana, Copy, CopyCheck } from "@/components/ui/icons";
-import { TNetwork } from "@/types";
-import QRCode from "qrcode";
-import cn from "@/utils/cn";
 
 interface ReceiveTabProps {
   activeAccount: any;

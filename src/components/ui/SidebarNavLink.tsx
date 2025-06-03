@@ -1,7 +1,6 @@
 "use client";
 import { HTMLAttributeAnchorTarget } from "react";
-import { LinkProps } from "next/link";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 import { TIcon } from "@/types";
 import cn from "@/utils/cn";
 

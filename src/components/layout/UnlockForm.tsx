@@ -4,13 +4,13 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";
-import { useWallet } from "@/hooks";
 import { IS_DEV, DEV_PASSWORD } from "@/constants";
-import { Button, FormError, Loader, PasswordInput } from "../ui";
-import { Logo } from "../ui/icons";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
+import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";
+import { useWallet } from "@/hooks";
+import { Button, FormError, Loader, PasswordInput } from "../ui";
+import { Logo } from "../ui/icons";
 
 const UnlockForm = () => {
   const { unlockWallet } = useWallet();

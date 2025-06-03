@@ -1,9 +1,9 @@
 "use client";
 import { MouseEventHandler, ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { AngleDown } from "./icons";
-import Tooltip from "./Tooltip";
 import cn from "@/utils/cn";
+import Tooltip from "./Tooltip";
+import { AngleDown } from "./icons";
 
 interface AccordionProps {
   isOpen: boolean;

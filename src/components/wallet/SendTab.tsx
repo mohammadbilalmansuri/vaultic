@@ -1,11 +1,11 @@
 "use client";
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Input, Loader, Tooltip } from "@/components/ui";
-import { Send, Ethereum, Solana, WalletMoney, QR } from "@/components/ui/icons";
+import jsQR from "jsqr";
 import { TNetwork } from "@/types";
 import cn from "@/utils/cn";
-import jsQR from "jsqr";
+import { Button, Input, Loader, Tooltip } from "@/components/ui";
+import { Send, Ethereum, Solana, WalletMoney, QR } from "@/components/ui/icons";
 
 interface SendFormData {
   toAddress: string;

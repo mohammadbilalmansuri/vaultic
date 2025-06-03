@@ -1,8 +1,8 @@
 "use client";
 import { useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
-import { Accordion } from "../ui";
 import { fadeUpAnimation } from "@/utils/animations";
+import { Accordion } from "../ui";
 
 const faqs = [
   {

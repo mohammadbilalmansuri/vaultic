@@ -1,10 +1,10 @@
 "use client";
 import { motion } from "motion/react";
 import { useWalletStore } from "@/stores";
+import { scaleUpAnimation } from "@/utils/animations";
 import { PageShell } from "@/components/shells";
 import { Button } from "@/components/ui";
 import { QuestionMark } from "@/components/ui/icons";
-import { scaleUpAnimation } from "@/utils/animations";
 
 const NotFound = () => {
   const walletExists = useWalletStore((state) => state.walletExists);

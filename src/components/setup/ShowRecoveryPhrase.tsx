@@ -2,12 +2,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { generateMnemonic } from "bip39";
-import { useWalletStore } from "@/stores";
 import { TSetupSetStep } from "@/types";
-import SetupProgress from "./SetupProgress";
-import { MnemonicView, Button, Switch } from "../ui";
+import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
+import { MnemonicView, Button, Switch } from "../ui";
+import SetupProgress from "./SetupProgress";
 
 const ShowRecoveryPhrase = ({ setStep }: { setStep: TSetupSetStep }) => {
   const setWalletState = useWalletStore((state) => state.setWalletState);

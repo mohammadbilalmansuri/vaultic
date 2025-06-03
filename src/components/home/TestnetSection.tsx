@@ -1,9 +1,9 @@
 "use client";
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
+import { fadeUpAnimation } from "@/utils/animations";
 import { Button } from "../ui";
 import { Swap, WalletMoney } from "../ui/icons";
-import { fadeUpAnimation } from "@/utils/animations";
 
 const content = [
   {

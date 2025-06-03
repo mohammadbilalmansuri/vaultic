@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { IIndexes, TNetworkMode, TWalletStatus } from "@/types";
 import { IS_DEV } from "@/constants";
+import { IIndexes, TNetworkMode, TWalletStatus } from "@/types";
 
 interface IWalletStore {
   walletStatus: TWalletStatus;

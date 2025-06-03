@@ -1,13 +1,15 @@
 "use client";
 import { useState, useTransition } from "react";
 import { motion } from "motion/react";
+import { TNetwork } from "@/types";
 import {
   useAccountsStore,
   useWalletStore,
   useNotificationStore,
 } from "@/stores";
-import { useAccounts, useBlockchain, useClipboard } from "@/hooks";
-import { TNetwork } from "@/types";
+import { fadeUpAnimation } from "@/utils/animations";
+import cn from "@/utils/cn";
+import { useAccounts, useClipboard } from "@/hooks";
 import { Button, Loader, Tooltip } from "@/components/ui";
 import {
   Wallet,
@@ -17,8 +19,6 @@ import {
   Check,
 } from "@/components/ui/icons";
 import { NetworkCard, AccountSwitcher } from "@/components/wallet";
-import { fadeUpAnimation } from "@/utils/animations";
-import cn from "@/utils/cn";
 import { RecoveryPhrase } from "@/components/settings";
 
 const AccountsPage = () => {
@@ -29,12 +29,10 @@ const AccountsPage = () => {
   const setActiveAccountIndex = useAccountsStore(
     (state) => state.setActiveAccountIndex
   );
-  const updateBalances = useAccountsStore((state) => state.updateBalances);
   const networkMode = useWalletStore((state) => state.networkMode);
   const notify = useNotificationStore((state) => state.notify);
 
   const { createAccount } = useAccounts();
-  const { fetchBalance } = useBlockchain();
   const copyToClipboard = useClipboard();
   const [creating, startCreating] = useTransition();
   const [refreshing, setRefreshing] = useState<Set<string>>(new Set());
@@ -45,6 +43,7 @@ const AccountsPage = () => {
     index: parseInt(index),
     account,
   }));
+
   const handleCreateAccount = () => {
     startCreating(async () => {
       try {
@@ -64,110 +63,6 @@ const AccountsPage = () => {
         });
       }
     });
-  };
-  const handleRefreshBalance = async (
-    accountIndex: number,
-    network: TNetwork
-  ) => {
-    const account = accounts[accountIndex];
-    if (!account) return;
-
-    const refreshKey = `${accountIndex}-${network}`;
-    setRefreshing((prev) => new Set(prev).add(refreshKey));
-
-    try {
-      const balance = await fetchBalance({
-        network,
-        address: account[network].address,
-      });
-      updateBalances(accountIndex, {
-        ethereum: account.ethereum.balance,
-        solana: account.solana.balance,
-        [network]: balance,
-      } as Record<TNetwork, string>);
-
-      notify({
-        type: "success",
-        message: `${
-          network.charAt(0).toUpperCase() + network.slice(1)
-        } balance updated`,
-        duration: 2000,
-      });
-    } catch (error) {
-      notify({
-        type: "error",
-        message: `Failed to refresh ${network} balance`,
-        duration: 3000,
-      });
-    } finally {
-      setRefreshing((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(refreshKey);
-        return newSet;
-      });
-    }
-  };
-
-  const handleRefreshBalances = async (accountIndex: number) => {
-    const account = accounts[accountIndex];
-    if (!account) return;
-
-    setRefreshing((prev) => new Set(prev).add(accountIndex.toString()));
-
-    try {
-      const ethBalance = await fetchBalance({
-        network: "ethereum",
-        address: account.ethereum.address,
-      });
-
-      const solBalance = await fetchBalance({
-        network: "solana",
-        address: account.solana.address,
-      });
-
-      updateBalances(accountIndex, {
-        ethereum: ethBalance,
-        solana: solBalance,
-      });
-
-      notify({
-        type: "success",
-        message: "Balances updated successfully",
-        duration: 2000,
-      });
-    } catch (error) {
-      notify({
-        type: "error",
-        message: "Failed to refresh balances",
-        duration: 3000,
-      });
-    } finally {
-      setRefreshing((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(accountIndex.toString());
-        return newSet;
-      });
-    }
-  };
-  const handleCopyAddress = async (address: string, network: TNetwork) => {
-    const key = `${address}-${network}`;
-    const success = await copyToClipboard(
-      address,
-      copiedStates[key] || false,
-      (copied) => {
-        setCopiedStates((prev) => ({ ...prev, [key]: copied as boolean }));
-      }
-    );
-
-    if (success) {
-      notify({
-        type: "success",
-        message: `${
-          network.charAt(0).toUpperCase() + network.slice(1)
-        } address copied!`,
-        duration: 2000,
-      });
-    }
   };
 
   return (
@@ -329,7 +224,7 @@ const AccountsPage = () => {
                 )}{" "}
                 <Button
                   variant="zinc"
-                  onClick={() => handleRefreshBalances(item.index)}
+                  // onClick={() => handleRefreshBalances(item.index)}
                   disabled={refreshing.has(item.index.toString())}
                 >
                   {refreshing.has(item.index.toString()) ? (

@@ -1,14 +1,14 @@
 "use client";
 import { useEffect } from "react";
 import { motion } from "motion/react";
-import { useWalletStore, useNotificationStore } from "@/stores";
-import { useAccounts, useStorage } from "@/hooks";
 import { TSetupPath, TSetupSetStep } from "@/types";
-import SetupProgress from "./SetupProgress";
-import { Loader } from "../ui";
-import { Logo } from "../ui/icons";
+import { useWalletStore, useNotificationStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import delay from "@/utils/delay";
+import { useAccounts, useStorage } from "@/hooks";
+import { Loader } from "../ui";
+import { Logo } from "../ui/icons";
+import SetupProgress from "./SetupProgress";
 
 const SettingUpWallet = ({
   path,

@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
-import { useClipboard } from "@/hooks";
-import EyeToggle from "./EyeToggle";
-import CopyToggle from "./CopyToggle";
 import cn from "@/utils/cn";
+import { useClipboard } from "@/hooks";
+import CopyToggle from "./CopyToggle";
+import EyeToggle from "./EyeToggle";
 
 interface MnemonicViewProps {
   mnemonic: string;
