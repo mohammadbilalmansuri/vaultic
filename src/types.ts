@@ -38,6 +38,7 @@ export interface IStoredWalletData {
   readonly encryptedMnemonic: string;
   readonly indexes: IIndexes;
   readonly networkMode: TNetworkMode;
+  readonly activeAccountIndex: number;
 }
 
 export interface IActivity {
