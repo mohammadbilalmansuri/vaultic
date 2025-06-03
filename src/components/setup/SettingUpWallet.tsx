@@ -5,7 +5,7 @@ import { TSetupPath, TSetupSetStep } from "@/types";
 import { useWalletStore, useNotificationStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import delay from "@/utils/delay";
-import { useAccounts, useStorage } from "@/hooks";
+import { useAccounts } from "@/hooks";
 import { Loader } from "../ui";
 import { Logo } from "../ui/icons";
 import SetupProgress from "./SetupProgress";
@@ -18,15 +18,13 @@ const SettingUpWallet = ({
   setStep: TSetupSetStep;
 }) => {
   const { createAccount } = useAccounts();
-  const { saveWallet } = useStorage();
   const setWalletState = useWalletStore((state) => state.setWalletState);
   const notify = useNotificationStore((state) => state.notify);
 
   useEffect(() => {
     (async () => {
       try {
-        await createAccount();
-        await saveWallet();
+        await createAccount(true);
         await delay(1500);
         setWalletState({
           suppressRedirect: true,
