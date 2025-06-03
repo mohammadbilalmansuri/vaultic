@@ -27,22 +27,22 @@ const AccountSwitcher = ({
   const activeAccountIndex = useAccountsStore(
     (state) => state.activeAccountIndex
   );
-  const switchingActiveAccount = useAccountsStore(
-    (state) => state.switchingActiveAccount
+  const switchingToAccount = useAccountsStore(
+    (state) => state.switchingToAccount
   );
-  const setSwitchingActiveAccount = useAccountsStore(
-    (state) => state.setSwitchingActiveAccount
+  const setSwitchingToAccount = useAccountsStore(
+    (state) => state.setSwitchingToAccount
   );
 
   const handleAccountSwitch = async (index: number) => {
-    if (switchingActiveAccount) return;
+    if (switchingToAccount !== null) return;
 
     if (index === activeAccountIndex) {
       setOpened(false);
       return;
     }
 
-    setSwitchingActiveAccount(index);
+    setSwitchingToAccount(index);
 
     try {
       await switchActiveAccount(index);
@@ -58,7 +58,7 @@ const AccountSwitcher = ({
         message: `Failed to switch to Account ${index + 1}`,
       });
     } finally {
-      setSwitchingActiveAccount(false);
+      setSwitchingToAccount(null);
     }
   };
 
@@ -126,11 +126,11 @@ const AccountSwitcher = ({
                     onClick={() => handleAccountSwitch(index)}
                   >
                     <span>{`Account ${index + 1}`}</span>
-                    {switchingActiveAccount === index ? (
+                    {switchingToAccount === index ? (
                       <Loader size="xs" />
                     ) : (
                       activeAccountIndex === index &&
-                      !switchingActiveAccount && (
+                      switchingToAccount === null && (
                         <Check className="w-5 text-teal-500" />
                       )
                     )}

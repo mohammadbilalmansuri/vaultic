@@ -1,10 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { TNetwork, TIcon } from "@/types";
-import { useWalletStore, useAccountsStore } from "@/stores";
+import {
+  useWalletStore,
+  useAccountsStore,
+  useNotificationStore,
+} from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
+import { useBlockchain } from "@/hooks";
 import { Button, Loader, Tooltip } from "@/components/ui";
 import { Send, QR, Clock, Refresh, Wallet } from "@/components/ui/icons";
 import { NetworkCard } from "@/components/wallet";
@@ -23,9 +28,48 @@ const TABS: {
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState<TTabLabel>("Send");
-  const networkMode = useWalletStore((s) => s.networkMode);
-  const activeAccountIndex = useAccountsStore((s) => s.activeAccountIndex);
-  const activeAccount = useAccountsStore((s) => s.getActiveAccount());
+
+  const notify = useNotificationStore((state) => state.notify);
+  const networkMode = useWalletStore((state) => state.networkMode);
+  const activeAccountIndex = useAccountsStore(
+    (state) => state.activeAccountIndex
+  );
+  const activeAccount = useAccountsStore((state) => state.getActiveAccount());
+  const switchingToAccount = useAccountsStore(
+    (state) => state.switchingToAccount
+  );
+
+  const { fetchActiveAccountBalances, fetchActiveAccountActivity } =
+    useBlockchain();
+
+  const [refreshing, startRefreshing] = useTransition();
+
+  const handleRefresh = () => {
+    startRefreshing(async () => {
+      try {
+        await fetchActiveAccountBalances();
+        await fetchActiveAccountActivity();
+        notify({
+          type: "success",
+          message: "Balances and activities refreshed successfully!",
+        });
+      } catch (error) {
+        notify({
+          type: "error",
+          message: "Failed to refresh balances and activities.",
+        });
+      }
+    });
+  };
+
+  if (switchingToAccount !== null) {
+    return (
+      <div className="size-full flex flex-col items-center justify-center gap-8">
+        <Loader />
+        <p className="text-lg">Switching to Account {switchingToAccount + 1}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-screen-lg relative flex flex-col gap-8 flex-1">
@@ -42,17 +86,12 @@ const DashboardPage = () => {
               Account {activeAccountIndex + 1} Dashboard
             </h2>
             <p>Manage your active account assets</p>
-            {/* <p>Manage your wallet assets</p> */}
           </div>
         </div>
 
         <Tooltip content="Refresh Balances & Activities" position="bottom">
-          <Button
-            variant="zinc"
-            // onClick={handleRefreshBalances}
-            // disabled={refreshing}
-          >
-            {true ? <Loader size="sm" /> : <Refresh className="w-4" />}
+          <Button variant="zinc" onClick={handleRefresh} disabled={refreshing}>
+            {refreshing ? <Loader size="sm" /> : <Refresh className="w-4" />}
             Refresh
           </Button>
         </Tooltip>
@@ -87,8 +126,8 @@ const DashboardPage = () => {
           <motion.div
             className="absolute bg-secondary rounded-xl h-[calc(100%-8px)] top-1"
             style={{
-              left: `calc(${["send", "receive", "activity"].indexOf(
-                activeTab
+              left: `calc(${TABS.findIndex(
+                (tab) => tab.label === activeTab
               )} * 33.333% + 4px)`,
               width: "calc(33.333% - 8px)",
             }}
@@ -131,7 +170,7 @@ const DashboardPage = () => {
             )}
 
             {activeTab === "Activity" && <ActivityTab />}
-          </motion.div>{" "}
+          </motion.div>
         </AnimatePresence>
       </motion.div>
     </div>
