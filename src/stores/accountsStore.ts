@@ -4,6 +4,7 @@ import { TAccount, TAccounts } from "@/types";
 interface IAccountsStore {
   accounts: TAccounts;
   activeAccountIndex: number;
+  switchingActiveAccount: boolean;
   addAccount: (index: number, account: TAccount) => void;
   removeAccount: (index: number) => void;
   setAccounts: (accounts: TAccounts) => void;
@@ -11,11 +12,13 @@ interface IAccountsStore {
   getActiveAccount: () => TAccount;
   setActiveAccountIndex: (index: number) => void;
   updateActiveAccount: (account: TAccount) => void;
+  setSwitchingActiveAccount: (switching: boolean) => void;
 }
 
 const useAccountsStore = create<IAccountsStore>((set, get) => ({
   accounts: {},
   activeAccountIndex: 0,
+  switchingActiveAccount: false,
 
   addAccount: (index, account) =>
     set(({ accounts }) => ({ accounts: { ...accounts, [index]: account } })),
@@ -44,6 +47,9 @@ const useAccountsStore = create<IAccountsStore>((set, get) => ({
         [activeAccountIndex]: account,
       },
     })),
+
+  setSwitchingActiveAccount: (switching) =>
+    set(() => ({ switchingActiveAccount: switching })),
 }));
 
 export default useAccountsStore;
