@@ -6,8 +6,8 @@ import { useBlockchain } from "@/hooks";
 import { Switch } from "../ui";
 
 const TestnetMode = () => {
-  const notify = useNotificationStore((s) => s.notify);
-  const networkMode = useWalletStore((s) => s.networkMode);
+  const notify = useNotificationStore((state) => state.notify);
+  const networkMode = useWalletStore((state) => state.networkMode);
   const { switchNetworkMode } = useBlockchain();
   const [switching, startSwitching] = useTransition();
 
