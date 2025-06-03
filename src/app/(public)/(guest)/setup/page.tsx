@@ -1,5 +1,6 @@
 "use client";
 import { useState, JSX } from "react";
+import { TSetupPath, TSetupStep, TSetupSetPath, TSetupSetStep } from "@/types";
 import {
   ChoosePath,
   CreatePassword,
@@ -9,7 +10,6 @@ import {
   SetupComplete,
 } from "@/components/setup";
 import { Loader } from "@/components/ui";
-import { TSetupPath, TSetupStep, TSetupSetPath, TSetupSetStep } from "@/types";
 
 interface IGetStepComponent {
   step: TSetupStep;

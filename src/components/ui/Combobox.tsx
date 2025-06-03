@@ -2,12 +2,12 @@
 import { useState, InputHTMLAttributes } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Controller, Control, FieldValues } from "react-hook-form";
-import { useOutsideClick } from "@/hooks";
 import { TIcon } from "@/types";
+import cn from "@/utils/cn";
+import getShortAddress from "@/utils/getShortAddress";
+import { useOutsideClick } from "@/hooks";
 import Input from "./Input";
 import { AngleDown, Check } from "./icons";
-import getShortAddress from "@/utils/getShortAddress";
-import cn from "@/utils/cn";
 
 interface ComboboxProps {
   name: string;

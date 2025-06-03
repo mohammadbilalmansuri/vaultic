@@ -1,4 +1,9 @@
 "use client";
+import { useState } from "react";
+import { TNetwork, IActivity } from "@/types";
+import useActivityStore from "@/stores/activityStore";
+import getShortAddress from "@/utils/getShortAddress";
+import cn from "@/utils/cn";
 import { Button, Loader } from "@/components/ui";
 import {
   Clock,
@@ -8,11 +13,6 @@ import {
   Solana,
   WalletMoney,
 } from "@/components/ui/icons";
-import useActivityStore from "@/stores/activityStore";
-import { TNetwork, IActivity } from "@/types";
-import cn from "@/utils/cn";
-import getShortAddress from "@/utils/getShortAddress";
-import { useState } from "react";
 
 const ActivityTab = () => {
   const activities = useActivityStore((s) => s.activities);

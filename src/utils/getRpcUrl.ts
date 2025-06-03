@@ -1,6 +1,6 @@
-import { useWalletStore } from "@/stores";
-import { TNetwork, TNetworkMode } from "@/types";
 import { RPC_URLs } from "@/constants";
+import { TNetwork, TNetworkMode } from "@/types";
+import { useWalletStore } from "@/stores";
 
 const getRpcUrl = (network: TNetwork, mode?: TNetworkMode): string => {
   const networkMode = mode ?? useWalletStore.getState().networkMode;

@@ -1,13 +1,13 @@
 "use client";
 import { JSX, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { fadeUpAnimation } from "@/utils/animations";
+import cn from "@/utils/cn";
 import {
   ChangePassword,
   TestnetMode,
   RemoveAccount,
 } from "@/components/settings";
-import cn from "@/utils/cn";
-import { fadeUpAnimation } from "@/utils/animations";
 
 const TABS = new Map<string, JSX.Element>([
   ["Testnet Mode", <TestnetMode />],

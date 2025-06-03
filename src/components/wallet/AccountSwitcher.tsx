@@ -2,9 +2,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useAccountsStore, useNotificationStore } from "@/stores";
+import cn from "@/utils/cn";
 import { useOutsideClick } from "@/hooks";
 import { Check, ChevronsUpDown } from "../ui/icons";
-import cn from "@/utils/cn";
 
 interface AccountSwitcherProps {
   variant?: "inline" | "dropdown";

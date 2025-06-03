@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "motion/react";
-import { WiFiOff } from "../ui/icons";
 import { scaleUpAnimation } from "@/utils/animations";
+import { WiFiOff } from "../ui/icons";
 
 const OfflineView = () => {
   return (

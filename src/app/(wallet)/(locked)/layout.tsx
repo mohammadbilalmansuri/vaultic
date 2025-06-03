@@ -1,9 +1,9 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { IChildren } from "@/types";
 import { useWalletStore } from "@/stores";
 import { useNetworkStatus } from "@/hooks";
-import { IChildren } from "@/types";
 import { Loading } from "@/components/ui";
 import { PageShell, DashboardShell } from "@/components/shells";
 import { UnlockForm, OfflineView } from "@/components/layout";

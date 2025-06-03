@@ -1,8 +1,8 @@
 "use client";
 import { motion } from "motion/react";
+import { scaleUpAnimation } from "@/utils/animations";
 import { Button } from "@/components/ui";
 import { Solana, Ethereum, Logo } from "@/components/ui/icons";
-import { scaleUpAnimation } from "@/utils/animations";
 
 const FaucetPage = () => {
   return (

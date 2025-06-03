@@ -1,3 +1,4 @@
+import { useWalletStore, useAccountsStore, useActivityStore } from "@/stores";
 import {
   getWalletData,
   saveWalletData,
@@ -9,7 +10,6 @@ import {
   encryptMnemonic,
   decryptMnemonic,
 } from "@/utils/crypto";
-import { useWalletStore, useAccountsStore, useActivityStore } from "@/stores";
 
 const useStorage = () => {
   const { setWalletState, clearWallet } = useWalletStore.getState();

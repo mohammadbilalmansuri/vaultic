@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";
-import { useWalletStore, useNotificationStore } from "@/stores";
-import { useStorage } from "@/hooks";
 import { DEV_PASSWORD, IS_DEV } from "@/constants";
-import { Button, Loader, PasswordInput, FormError } from "../ui";
+import { useWalletStore, useNotificationStore } from "@/stores";
 import cn from "@/utils/cn";
+import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";
+import { useStorage } from "@/hooks";
+import { Button, Loader, PasswordInput, FormError } from "../ui";
 
 const RemoveAccount = () => {
   const router = useRouter();

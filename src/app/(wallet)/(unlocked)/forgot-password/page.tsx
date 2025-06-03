@@ -4,10 +4,10 @@ import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useNotificationStore } from "@/stores";
-import { useStorage } from "@/hooks";
-import { Button, Loader, Switch } from "@/components/ui";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
+import { useStorage } from "@/hooks";
+import { Button, Loader, Switch } from "@/components/ui";
 
 const ForgotPassword = () => {
   const router = useRouter();

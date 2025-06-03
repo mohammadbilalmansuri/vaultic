@@ -1,5 +1,5 @@
-import { TAccount } from "@/types";
 import { mnemonicToSeed } from "bip39";
+import { TAccount } from "@/types";
 import { deriveEthereumAccount } from "./ethereum";
 import { deriveSolanaAccount } from "./solana";
 

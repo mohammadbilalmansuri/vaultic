@@ -2,14 +2,14 @@
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreatePasswordSchema, TCreatePasswordForm } from "@/utils/validations";
 import { IS_DEV, DEV_PASSWORD } from "@/constants";
 import { TSetupSetStep } from "@/types";
 import { useWalletStore } from "@/stores";
-import SetupProgress from "./SetupProgress";
-import { Button, FormError, PasswordInput } from "../ui";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
+import { CreatePasswordSchema, TCreatePasswordForm } from "@/utils/validations";
+import { Button, FormError, PasswordInput } from "../ui";
+import SetupProgress from "./SetupProgress";
 
 const CreatePassword = ({ setStep }: { setStep: TSetupSetStep }) => {
   const setWalletState = useWalletStore((state) => state.setWalletState);

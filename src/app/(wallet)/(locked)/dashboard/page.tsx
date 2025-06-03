@@ -1,15 +1,14 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { TNetwork, TIcon } from "@/types";
 import { useWalletStore, useAccountsStore } from "@/stores";
-import useActivityStore from "@/stores/activityStore";
+import { fadeUpAnimation } from "@/utils/animations";
+import cn from "@/utils/cn";
 import { Button, Loader, Tooltip } from "@/components/ui";
 import { Send, QR, Clock, Refresh, Wallet } from "@/components/ui/icons";
 import { NetworkCard } from "@/components/wallet";
 import { SendTab, ReceiveTab, ActivityTab } from "@/components/wallet";
-import { TNetwork, TIcon } from "@/types";
-import cn from "@/utils/cn";
-import { fadeUpAnimation } from "@/utils/animations";
 
 type TTabLabel = "Send" | "Receive" | "Activity";
 
@@ -27,11 +26,9 @@ const DashboardPage = () => {
   const networkMode = useWalletStore((s) => s.networkMode);
   const activeAccountIndex = useAccountsStore((s) => s.activeAccountIndex);
   const activeAccount = useAccountsStore((s) => s.getActiveAccount());
-  const activities = useActivityStore((s: any) => s.activities);
 
   return (
     <div className="w-full max-w-screen-lg relative flex flex-col gap-8 flex-1">
-      {/* Header Section */}
       <motion.div
         className="w-full relative flex items-center justify-between gap-4"
         {...fadeUpAnimation()}

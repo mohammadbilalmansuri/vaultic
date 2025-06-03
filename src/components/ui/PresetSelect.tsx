@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Controller, Control, FieldValues } from "react-hook-form";
-import { useOutsideClick } from "@/hooks";
 import cn from "@/utils/cn";
+import { useOutsideClick } from "@/hooks";
 
 interface PresetSelectProps {
   name: string;
