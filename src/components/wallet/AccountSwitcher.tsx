@@ -36,12 +36,6 @@ const AccountSwitcher = ({
 
   const handleAccountSwitch = async (index: number) => {
     if (switchingToAccount !== null) return;
-
-    if (index === activeAccountIndex) {
-      setOpened(false);
-      return;
-    }
-
     setSwitchingToAccount(index);
 
     try {
@@ -117,7 +111,7 @@ const AccountSwitcher = ({
                     className={cn(
                       "w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl transition-all duration-300",
                       {
-                        "bg-primary heading-color":
+                        "bg-primary heading-color cursor-default pointer-events-none":
                           activeAccountIndex === index,
                         "hover:bg-primary hover:heading-color":
                           activeAccountIndex !== index,
