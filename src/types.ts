@@ -1,4 +1,7 @@
 import { ReactNode, Dispatch, SetStateAction, SVGProps, JSX } from "react";
+import type { TNetwork } from "./constants";
+
+export type { TNetwork } from "./constants";
 
 export interface IChildren {
   children: ReactNode;
@@ -10,24 +13,22 @@ export interface INotification {
   duration?: number;
 }
 
-export type TWalletStatus = "checking" | "ready";
-
-export type TNetwork = "ethereum" | "solana";
-
 export type TNetworkMode = "mainnet" | "devnet";
+
+export type TWalletStatus = "checking" | "ready";
 
 export interface IIndexes {
   inUse: number[];
   deleted: number[];
 }
 
-export interface TNetworkAccount {
+export interface INetworkAccount {
   address: string;
   privateKey: string;
   balance: string;
 }
 
-export type TAccount = Record<TNetwork, TNetworkAccount>;
+export type TAccount = Record<TNetwork, INetworkAccount>;
 
 export type TAccounts = Record<number, TAccount>;
 
@@ -60,4 +61,4 @@ export type TSetupSetPath = Dispatch<SetStateAction<TSetupPath>>;
 
 export type TSetupSetStep = Dispatch<SetStateAction<TSetupStep>>;
 
-export type TIcon = ({ ...props }: SVGProps<SVGSVGElement>) => JSX.Element;
+export type TIcon = (props: SVGProps<SVGSVGElement>) => JSX.Element;
