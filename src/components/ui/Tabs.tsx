@@ -25,7 +25,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
   return (
     <div className="w-full relative flex flex-col items-center gap-8">
       <motion.div
-        className="w-full relative bg-primary rounded-2xl p-[5px] h-14"
+        className="w-full relative bg-primary rounded-2xl h-14 flex items-center"
         style={{
           display: "grid",
           gridTemplateColumns: `repeat(${tabKeys.length}, 1fr)`,
@@ -33,7 +33,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
         {...fadeUpAnimation({ delay: delay?.header })}
       >
         <motion.div
-          className="absolute bg-secondary rounded-xl h-[calc(100%-10px)] top-[5px]"
+          className="absolute bg-secondary rounded-xl h-[calc(100%-10px)]"
           style={{
             left: `calc(${activeIndex} * ${100 / tabKeys.length}% + 5px)`,
             width: `calc(${100 / tabKeys.length}% - 10px)`,
@@ -48,9 +48,10 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
             <button
               key={label}
               className={cn(
-                "px-3 transition-all duration-300 relative z-10 flex items-center justify-center gap-2 group",
+                "h-full px-3 transition-all duration-300 relative z-10 flex items-center justify-center gap-2 group",
                 {
-                  "heading-color": activeTab === label,
+                  "heading-color cursor-default pointer-events-none":
+                    activeTab === label,
                   "hover:heading-color": activeTab !== label,
                 }
               )}
