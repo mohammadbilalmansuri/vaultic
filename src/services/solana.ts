@@ -9,7 +9,7 @@ import {
 } from "@solana/web3.js";
 import bs58 from "bs58";
 import { derivePath } from "ed25519-hd-key";
-import { IActivity, TNetworkAccount } from "@/types";
+import { IActivity, INetworkAccount } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 
 let solanaConnection: Connection | null = null;
@@ -153,7 +153,7 @@ export const requestSolanaAirdrop = async (
 export const deriveSolanaAccount = async (
   seed: Buffer,
   index: number
-): Promise<TNetworkAccount> => {
+): Promise<INetworkAccount> => {
   const path = `m/44'/501'/${index}'/0'`;
   const { key } = derivePath(path, seed.toString("hex"));
   const keypair = Keypair.fromSeed(key);

@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FAUCET_PRESET_AMOUNTS, NETWORKS_METADATA } from "@/constants";
+import { FAUCET_PRESET_AMOUNTS, NETWORKS } from "@/constants";
 import { useNotificationStore, useAccountsStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
@@ -104,7 +104,7 @@ const SolanaFaucetPage = () => {
             control={control}
             placeholder="Amount"
             options={FAUCET_PRESET_AMOUNTS}
-            valueSuffix={NETWORKS_METADATA.solana.token}
+            valueSuffix={NETWORKS.solana.token}
           />
         </div>
         <Button

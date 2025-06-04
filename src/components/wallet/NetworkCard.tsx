@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { NETWORKS_METADATA } from "@/constants";
+import { NETWORKS } from "@/constants";
 import { TNetwork, TNetworkMode } from "@/types";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
@@ -21,7 +21,7 @@ const NetworkCard = ({
   balance,
   networkMode,
 }: NetworkCardProps) => {
-  const { name, token, icon: Icon } = NETWORKS_METADATA[network];
+  const { name, token, icon: Icon } = NETWORKS[network];
   const copyToClipboard = useClipboard();
   const [copied, setCopied] = useState(false);
   const { original, fixed, isFixed } = parseBalance(balance);
@@ -41,10 +41,10 @@ const NetworkCard = ({
           <Icon />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <h3 className="text-lg font-medium heading-color leading-none">
-            {name}
-          </h3>
+        <div className="flex flex-col items-start gap-2">
+          <h4 className="text-lg font-medium heading-color leading-none">
+            {name} {networkMode === "devnet" ? "(Testnet)" : ""}
+          </h4>
 
           <Tooltip
             content={copied ? "Copied!" : "Copy address"}
