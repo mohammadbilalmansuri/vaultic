@@ -29,7 +29,7 @@ const NetworkCard = ({
   return (
     <div
       key={network}
-      className="w-full relative flex items-center justify-between rounded-3xl border-1.5 border-color px-5 py-6"
+      className="w-full relative flex items-center justify-between rounded-3xl bg-primary px-5 py-6"
     >
       <div className="flex items-center gap-3">
         <div
@@ -41,8 +41,8 @@ const NetworkCard = ({
           <Icon />
         </div>
 
-        <div className="flex flex-col items-start gap-2">
-          <h4 className="text-lg font-medium heading-color leading-none">
+        <div className="flex flex-col items-start gap-1">
+          <h4 className="font-medium heading-color">
             {name}{" "}
             {networkMode === "devnet" && `(${NETWORKS[network].testnetName})`}
           </h4>
