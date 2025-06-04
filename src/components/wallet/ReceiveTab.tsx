@@ -4,7 +4,15 @@ import QRCode from "qrcode";
 import { TNetwork } from "@/types";
 import cn from "@/utils/cn";
 import { Button, Loader } from "@/components/ui";
-import { QR, Ethereum, Solana, Copy, CopyCheck } from "@/components/ui/icons";
+import {
+  QR,
+  Ethereum,
+  Solana,
+  Copy,
+  CopyCheck,
+  Download,
+  Share,
+} from "@/components/ui/icons";
 
 interface ReceiveTabProps {
   activeAccount: any;
@@ -92,9 +100,8 @@ const ReceiveTab = ({ activeAccount }: ReceiveTabProps) => {
                           className="w-[200px] h-[200px]"
                         />
                         <div className="flex gap-2 mt-2">
-                          <Button
-                            variant="zinc"
-                            size="sm"
+                          <button
+                            className="icon-btn-bg"
                             onClick={() => {
                               const link = document.createElement("a");
                               link.href = qrCodes[networkAccount.address];
@@ -102,11 +109,10 @@ const ReceiveTab = ({ activeAccount }: ReceiveTabProps) => {
                               link.click();
                             }}
                           >
-                            Download QR
-                          </Button>
-                          <Button
-                            variant="teal"
-                            size="sm"
+                            <Download />
+                          </button>
+                          <button
+                            className="icon-btn-bg"
                             onClick={async () => {
                               if (navigator.share) {
                                 await navigator.share({
@@ -131,8 +137,8 @@ const ReceiveTab = ({ activeAccount }: ReceiveTabProps) => {
                               }
                             }}
                           >
-                            Share QR
-                          </Button>
+                            <Share />
+                          </button>
                         </div>
                       </>
                     ) : (
