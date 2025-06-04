@@ -33,10 +33,10 @@ const SidebarNavLink = ({
       {...props}
     >
       <Icon
-        className={cn(
-          "w-5.5 transition-all duration-300",
-          isActive ? "text-teal-500 scale-110" : "group-hover:scale-110"
-        )}
+        className={cn("w-5.5 transition-all duration-300", {
+          "text-teal-500 scale-110": isActive,
+          "group-hover:scale-110": !isActive,
+        })}
       />
       <span className="font-medium mt-px">{name}</span>
     </Link>
