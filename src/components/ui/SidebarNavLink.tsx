@@ -26,7 +26,8 @@ const SidebarNavLink = ({
       className={cn(
         "transition-all duration-300 px-4 py-3 h-12 rounded-2xl flex items-center gap-3 group",
         {
-          "bg-primary heading-color": isActive,
+          "bg-primary heading-color cursor-default pointer-events-none":
+            isActive,
           "hover:bg-primary hover:heading-color": !isActive,
         }
       )}
