@@ -38,7 +38,7 @@ const SidebarNavLink = ({
           isActive ? "text-teal-500 scale-110" : "group-hover:scale-110"
         )}
       />
-      <span className="font-medium">{name}</span>
+      <span className="font-medium mt-px">{name}</span>
     </Link>
   );
 };
