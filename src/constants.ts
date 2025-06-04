@@ -1,11 +1,7 @@
 import { Ethereum, Solana } from "./components/ui/icons";
 
-// === Environment Flags ===
-
 export const IS_DEV = process.env.NODE_ENV === "development";
 export const DEV_PASSWORD = process.env.NEXT_PUBLIC_DEV_PASSWORD!;
-
-// === IndexedDB Config ===
 
 export const INDEXED_DB = {
   NAME: process.env.NEXT_PUBLIC_INDEXED_DB_NAME!,
@@ -13,7 +9,7 @@ export const INDEXED_DB = {
   VERSION: parseInt(process.env.NEXT_PUBLIC_INDEXED_DB_VERSION!),
 } as const;
 
-// === Supported Networks ===
+export const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY!;
 
 export const NETWORKS = {
   ethereum: {
@@ -41,8 +37,6 @@ export const NETWORKS = {
 } as const;
 
 export type TNetwork = keyof typeof NETWORKS;
-
-// === App Config ===
 
 export const BALANCE_DECIMALS = 4 as const;
 
