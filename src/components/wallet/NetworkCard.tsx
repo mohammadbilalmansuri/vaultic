@@ -12,7 +12,7 @@ interface NetworkCardProps {
   network: TNetwork;
   address: string;
   balance: string;
-  networkMode?: TNetworkMode;
+  networkMode: TNetworkMode;
 }
 
 const NetworkCard = ({
@@ -29,7 +29,7 @@ const NetworkCard = ({
   return (
     <div
       key={network}
-      className="w-full relative flex items-center justify-between rounded-3xl border border-color px-5 py-6 bg-primary"
+      className="w-full relative flex items-center justify-between rounded-3xl border-1.5 border-color px-5 py-6"
     >
       <div className="flex items-center gap-3">
         <div
@@ -43,7 +43,8 @@ const NetworkCard = ({
 
         <div className="flex flex-col items-start gap-2">
           <h4 className="text-lg font-medium heading-color leading-none">
-            {name} {networkMode === "devnet" ? "(Testnet)" : ""}
+            {name}{" "}
+            {networkMode === "devnet" && `(${NETWORKS[network].testnetName})`}
           </h4>
 
           <Tooltip
