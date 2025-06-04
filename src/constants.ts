@@ -46,4 +46,4 @@ export type TNetwork = keyof typeof NETWORKS;
 
 export const BALANCE_DECIMALS = 4 as const;
 
-export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"] as const;
+export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"];

@@ -9,7 +9,7 @@ import {
 } from "ethers";
 import { Alchemy, Network, AssetTransfersCategory } from "alchemy-sdk";
 import { ALCHEMY_API_KEY } from "@/constants";
-import { IActivity, TNetworkAccount } from "@/types";
+import { IActivity, INetworkAccount } from "@/types";
 import { useWalletStore } from "@/stores";
 import getRpcUrl from "@/utils/getRpcUrl";
 
@@ -123,7 +123,7 @@ export const getEthereumActivity = async (
 export const deriveEthereumAccount = async (
   seed: Buffer,
   index: number
-): Promise<TNetworkAccount> => {
+): Promise<INetworkAccount> => {
   const path = `m/44'/60'/${index}'/0/0`;
   const hdNode = HDNodeWallet.fromSeed(seed);
   const child = hdNode.derivePath(path);
