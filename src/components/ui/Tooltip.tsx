@@ -49,8 +49,8 @@ const Tooltip = ({
             className={cn(
               "absolute z-50 whitespace-nowrap rounded-lg p-2 text-sm pointer-events-none bg-zinc-950 text-zinc-200 leading-none font-medium dark:font-normal shadow-lg select-none",
               {
-                "bottom-full mb-1.5": position === "top",
-                "top-full mt-1.5": position === "bottom",
+                "bottom-full mb-1": position === "top",
+                "top-full mt-1": position === "bottom",
               }
             )}
           >
