@@ -6,13 +6,8 @@ import cn from "@/utils/cn";
 import { Loader } from "../ui";
 import { ChevronsUpDown, Check } from "../ui/icons";
 
-export interface SelectOption<T> {
-  label: string;
-  value: T;
-}
-
 interface SelectProps<T> {
-  options: SelectOption<T>[];
+  options: { label: string; value: T }[];
   value: T;
   onChange: (value: T) => void;
   selecting?: boolean;
