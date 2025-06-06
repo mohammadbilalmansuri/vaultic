@@ -116,9 +116,9 @@ const Combobox = <T extends FieldValues>({
                       </span>
                       <span className="flex items-center gap-2 leading-none">
                         {option.valueIcon && (
-                          <option.valueIcon className="h-3" />
+                          <option.valueIcon className="w-3" />
                         )}
-                        <span className="mt-[0.5px]">
+                        <span className="mt-px">
                           {getShortAddress(option.value)}
                         </span>
                       </span>
