@@ -13,7 +13,7 @@ interface SelectProps<T> {
     value: T;
   }>;
   value: T;
-  onChange: (value: T) => Promise<boolean> | boolean;
+  onChange: (value: T) => Promise<void> | void;
   selecting?: boolean;
   variant?: TSelectVariant;
   style?: TSelectStyle;
@@ -111,8 +111,11 @@ const Select = <T,>({
                         }
                       )}
                       onClick={async () => {
-                        const isChanged = await onChange(option.value);
-                        if (isChanged) setOpened(false);
+                        try {
+                          if (selecting || isSelected) return;
+                          await onChange(option.value);
+                          setOpened(false);
+                        } catch {}
                       }}
                     >
                       <span>{option.label}</span>
