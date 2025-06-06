@@ -21,7 +21,7 @@ interface ComboboxProps<T extends FieldValues> {
   autoFocus?: InputHTMLAttributes<HTMLInputElement>["autoFocus"];
   autoComplete?: InputHTMLAttributes<HTMLInputElement>["autoComplete"];
   autoCapitalize?: InputHTMLAttributes<HTMLInputElement>["autoCapitalize"];
-  containerClassName?: string;
+  widthClassName?: string;
 }
 
 const Combobox = <T extends FieldValues>({
@@ -32,7 +32,7 @@ const Combobox = <T extends FieldValues>({
   autoFocus,
   autoComplete,
   autoCapitalize,
-  containerClassName = "",
+  widthClassName = "w-full",
 }: ComboboxProps<T>) => {
   const [opened, setOpened] = useState(false);
   const outsideClickRef = useOutsideClick(
@@ -47,10 +47,7 @@ const Combobox = <T extends FieldValues>({
       render={({ field: { onChange, value, ref } }) => (
         <div
           ref={outsideClickRef}
-          className={cn(
-            "relative w-full flex flex-col items-center",
-            containerClassName
-          )}
+          className={cn("relative flex flex-col items-center", widthClassName)}
         >
           <div className="w-full relative flex items-center">
             <Input
