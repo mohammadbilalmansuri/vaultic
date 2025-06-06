@@ -47,7 +47,10 @@ const Combobox = <T extends FieldValues>({
       render={({ field: { onChange, value, ref } }) => (
         <div
           ref={outsideClickRef}
-          className={cn("relative flex flex-col items-center", widthClassName)}
+          className={cn(
+            "relative min-w-fit flex flex-col items-center",
+            widthClassName
+          )}
         >
           <div className="w-full relative flex items-center">
             <Input

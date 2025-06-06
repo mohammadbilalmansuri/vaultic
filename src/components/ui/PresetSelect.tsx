@@ -36,7 +36,10 @@ const PresetSelect = <T extends FieldValues>({
       render={({ field: { onChange, value } }) => (
         <div
           ref={outsideClickRef}
-          className={cn("relative flex flex-col items-center", widthClassName)}
+          className={cn(
+            "relative min-w-fit flex flex-col items-center",
+            widthClassName
+          )}
         >
           <button
             type="button"
