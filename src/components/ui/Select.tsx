@@ -55,7 +55,7 @@ const Select = <T,>({
       <button
         type="button"
         className={cn(
-          "w-full flex items-center justify-between gap-8 h-12 pl-4 pr-2 py-3 rounded-2xl border-color",
+          "w-full flex items-center justify-between gap-8 h-13 pl-4 pr-2 py-3 rounded-2xl border-color",
           {
             "border-b-1.5":
               opened && variant === "inline" && style === "default",
