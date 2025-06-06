@@ -7,12 +7,15 @@ import { Loader } from "../ui";
 import { ChevronsUpDown, Check } from "../ui/icons";
 
 interface SelectProps<T> {
-  options: { label: string; value: T }[];
+  options: Array<{
+    label: string;
+    value: T;
+  }>;
   value: T;
   onChange: (value: T) => Promise<void> | void;
   selecting?: boolean;
   variant?: "inline" | "dropdown";
-  bg?: "transparent" | "input";
+  bg?: "default" | "input";
   containerClassName?: string;
 }
 
@@ -22,17 +25,17 @@ const Select = <T,>({
   onChange,
   selecting = false,
   variant = "dropdown",
+  bg = "default",
   containerClassName = "",
-  bg = "transparent",
 }: SelectProps<T>) => {
   const [opened, setOpened] = useState(false);
   const outsideClickRef = useOutsideClick(
     () => opened && setOpened(false),
     opened
   );
+
   const selectedLabel =
-    options.find((opt) => opt.value === (value ?? options[0]?.value))?.label ||
-    "Invalid Option";
+    options.find((opt) => opt.value === value)?.label || "Invalid Option";
 
   return (
     <div
@@ -42,7 +45,7 @@ const Select = <T,>({
         {
           "hover:border-focus": !opened,
           "border-focus": opened && variant === "dropdown",
-          "border-1.5": bg === "transparent",
+          "border-1.5": bg === "default",
           "bg-input border": bg === "input",
         },
         containerClassName
@@ -52,7 +55,7 @@ const Select = <T,>({
         type="button"
         className={cn(
           "w-full flex items-center justify-between gap-8 h-12 pl-4 pr-2 py-3 rounded-2xl border-color",
-          opened && variant === "inline" && bg === "transparent"
+          opened && variant === "inline" && bg === "default"
             ? "border-b-1.5"
             : "border-b"
         )}
@@ -76,7 +79,7 @@ const Select = <T,>({
               "w-[98%] absolute top-full mt-1 rounded-2xl z-10 shadow-xl":
                 variant === "dropdown",
               "bg-default border-color": variant === "dropdown",
-              "border-1.5": variant === "dropdown" && bg === "transparent",
+              "border-1.5": variant === "dropdown" && bg === "default",
               border: variant === "dropdown" && bg === "input",
             })}
           >
