@@ -25,7 +25,7 @@ const PresetSelect = <T extends FieldValues = FieldValues>({
   gridCols = 2,
 }: PresetSelectProps<T>) => {
   const [opened, setOpened] = useState(false);
-  const containerRef = useOutsideClick(() => {
+  const outsideClickRef = useOutsideClick(() => {
     if (opened) setOpened(false);
   }, opened);
 
@@ -35,7 +35,7 @@ const PresetSelect = <T extends FieldValues = FieldValues>({
       control={control}
       render={({ field: { onChange, value } }) => (
         <div
-          ref={containerRef}
+          ref={outsideClickRef}
           className={cn(
             "relative flex flex-col items-center",
             containerClassName
