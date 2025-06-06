@@ -89,7 +89,7 @@ export const getSolanaActivity = async (
   const pubkey = new PublicKey(address);
 
   const signatures = await connection.getSignaturesForAddress(pubkey, {
-    limit: 20,
+    limit: 10,
   });
 
   const transactions: (IActivity | null)[] = await Promise.all(

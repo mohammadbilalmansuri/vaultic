@@ -89,7 +89,7 @@ export const getEthereumActivity = async (
     fromBlock: ethers.toBeHex(latestBlock - 10000),
     toAddress: address,
     category: [AssetTransfersCategory.EXTERNAL],
-    maxCount: 20,
+    maxCount: 10,
     withMetadata: true,
   });
 
