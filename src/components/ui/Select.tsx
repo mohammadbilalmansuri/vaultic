@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { TSelectStyle, TSelectVariant } from "@/types";
 import { useOutsideClick } from "@/hooks";
 import cn from "@/utils/cn";
 import { Loader } from "../ui";
@@ -14,8 +15,8 @@ interface SelectProps<T> {
   value: T;
   onChange: (value: T) => Promise<void> | void;
   selecting?: boolean;
-  variant?: "inline" | "dropdown";
-  bg?: "default" | "input";
+  variant?: TSelectVariant;
+  style?: TSelectStyle;
   containerClassName?: string;
 }
 
@@ -25,7 +26,7 @@ const Select = <T,>({
   onChange,
   selecting = false,
   variant = "dropdown",
-  bg = "default",
+  style = "default",
   containerClassName = "",
 }: SelectProps<T>) => {
   const [opened, setOpened] = useState(false);
@@ -45,8 +46,8 @@ const Select = <T,>({
         {
           "hover:border-focus": !opened,
           "border-focus": opened && variant === "dropdown",
-          "border-1.5": bg === "default",
-          "bg-input border": bg === "input",
+          "border-1.5": style === "default",
+          "bg-input border": style === "input",
         },
         containerClassName
       )}
@@ -55,7 +56,7 @@ const Select = <T,>({
         type="button"
         className={cn(
           "w-full flex items-center justify-between gap-8 h-12 pl-4 pr-2 py-3 rounded-2xl border-color",
-          opened && variant === "inline" && bg === "default"
+          opened && variant === "inline" && style === "default"
             ? "border-b-1.5"
             : "border-b"
         )}
@@ -79,14 +80,14 @@ const Select = <T,>({
               "w-[98%] absolute top-full mt-1 rounded-2xl z-10 shadow-xl":
                 variant === "dropdown",
               "bg-default border-color": variant === "dropdown",
-              "border-1.5": variant === "dropdown" && bg === "default",
-              border: variant === "dropdown" && bg === "input",
+              "border-1.5": variant === "dropdown" && style === "default",
+              border: variant === "dropdown" && style === "input",
             })}
           >
             <div
               className={cn(
                 "w-full flex flex-col gap-2 p-2 max-h-62 overflow-y-auto scrollbar-thin",
-                { "bg-input": variant === "dropdown" && bg === "input" }
+                { "bg-input": variant === "dropdown" && style === "input" }
               )}
             >
               {options.length === 0 ? (
