@@ -13,7 +13,7 @@ interface SelectProps<T> {
     value: T;
   }>;
   value: T;
-  onChange: (value: T) => Promise<void> | void;
+  onChange: (value: T) => Promise<boolean> | boolean;
   selecting?: boolean;
   variant?: TSelectVariant;
   style?: TSelectStyle;
@@ -56,9 +56,11 @@ const Select = <T,>({
         type="button"
         className={cn(
           "w-full flex items-center justify-between gap-8 h-12 pl-4 pr-2 py-3 rounded-2xl border-color",
-          opened && variant === "inline" && style === "default"
-            ? "border-b-1.5"
-            : "border-b"
+          {
+            "border-b-1.5":
+              opened && variant === "inline" && style === "default",
+            "border-b": opened && variant === "inline" && style === "input",
+          }
         )}
         onClick={() => setOpened((prev) => !prev)}
       >
@@ -99,6 +101,7 @@ const Select = <T,>({
                     <button
                       key={String(option.value)}
                       type="button"
+                      disabled={isSelected || selecting}
                       className={cn(
                         "w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl transition-all duration-300",
                         {
@@ -108,12 +111,8 @@ const Select = <T,>({
                         }
                       )}
                       onClick={async () => {
-                        try {
-                          await onChange(option.value);
-                          setOpened(false);
-                        } catch (error) {
-                          console.error("Select onChange failed:", error);
-                        }
+                        const isChanged = await onChange(option.value);
+                        if (isChanged) setOpened(false);
                       }}
                     >
                       <span>{option.label}</span>
