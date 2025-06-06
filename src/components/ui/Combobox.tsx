@@ -1,7 +1,7 @@
 "use client";
 import { useState, InputHTMLAttributes } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Controller, Control, FieldValues } from "react-hook-form";
+import { Controller, Control, FieldValues, Path } from "react-hook-form";
 import { TIcon } from "@/types";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
@@ -9,10 +9,10 @@ import { useOutsideClick } from "@/hooks";
 import Input from "./Input";
 import { AngleDown, Check } from "./icons";
 
-interface ComboboxProps {
-  name: string;
+interface ComboboxProps<T extends FieldValues> {
+  name: Path<T>;
   placeholder?: string;
-  control: Control<FieldValues | any>;
+  control: Control<T>;
   options: Array<{
     label: string;
     value: string;
@@ -24,7 +24,7 @@ interface ComboboxProps {
   containerClassName?: string;
 }
 
-const Combobox = ({
+const Combobox = <T extends FieldValues>({
   name,
   placeholder = "Enter or select value",
   control,
@@ -33,11 +33,12 @@ const Combobox = ({
   autoComplete,
   autoCapitalize,
   containerClassName = "",
-}: ComboboxProps) => {
+}: ComboboxProps<T>) => {
   const [opened, setOpened] = useState(false);
-  const outsideClickRef = useOutsideClick(() => {
-    if (opened) setOpened(false);
-  }, opened);
+  const outsideClickRef = useOutsideClick(
+    () => opened && setOpened(false),
+    opened
+  );
 
   return (
     <Controller
@@ -89,7 +90,7 @@ const Combobox = ({
                 <div className="flex flex-col gap-2 p-2 bg-input">
                   {options.map((option) => (
                     <button
-                      key={option.value}
+                      key={String(option.value)}
                       type="button"
                       className={cn(
                         "w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl transition-colors duration-300",
