@@ -17,7 +17,7 @@ interface SelectProps<T> {
   selecting?: boolean;
   variant?: TSelectVariant;
   style?: TSelectStyle;
-  containerClassName?: string;
+  widthClassName?: string;
 }
 
 const Select = <T,>({
@@ -27,7 +27,7 @@ const Select = <T,>({
   selecting = false,
   variant = "dropdown",
   style = "default",
-  containerClassName = "",
+  widthClassName = "w-full",
 }: SelectProps<T>) => {
   const [opened, setOpened] = useState(false);
   const outsideClickRef = useOutsideClick(
@@ -42,14 +42,14 @@ const Select = <T,>({
     <div
       ref={outsideClickRef}
       className={cn(
-        "relative w-full flex flex-col items-center border-color rounded-2xl transition-all duration-300",
+        "relative flex flex-col items-center border-color rounded-2xl transition-all duration-300",
         {
           "hover:border-focus": !opened,
           "border-focus": opened && variant === "dropdown",
           "border-1.5": style === "default",
           "bg-input border": style === "input",
         },
-        containerClassName
+        widthClassName
       )}
     >
       <button
