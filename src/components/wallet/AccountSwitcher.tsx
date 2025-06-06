@@ -22,14 +22,17 @@ const AccountSwitcher = ({
     (s) => s.setSwitchingToAccount
   );
 
-  const handleSwitch = async (index: number) => {
-    if (switchingToAccount !== null) return;
+  const handleSwitch = async (index: number): Promise<boolean> => {
+    if (switchingToAccount !== null || index === activeAccountIndex)
+      return false;
     setSwitchingToAccount(index);
     try {
       await switchActiveAccount(index);
       notify({ type: "success", message: `Switched to Account ${index + 1}` });
+      return true;
     } catch {
       notify({ type: "error", message: `Failed to switch account` });
+      return false;
     } finally {
       setSwitchingToAccount(null);
     }
