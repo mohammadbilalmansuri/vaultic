@@ -58,7 +58,7 @@ const Sidebar = () => {
       </div>
 
       <div className="w-full flex flex-col gap-5">
-        <AccountSwitcher />
+        <AccountSwitcher varient="inline" />
         <Button onClick={lockWallet}>
           <Lock className="w-5 -mt-px" />
           <span className="leading-none">Lock Vaultic</span>
