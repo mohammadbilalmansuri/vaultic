@@ -35,7 +35,7 @@ const Combobox = ({
   containerClassName = "",
 }: ComboboxProps) => {
   const [opened, setOpened] = useState(false);
-  const containerRef = useOutsideClick(() => {
+  const outsideClickRef = useOutsideClick(() => {
     if (opened) setOpened(false);
   }, opened);
 
@@ -45,7 +45,7 @@ const Combobox = ({
       control={control}
       render={({ field: { onChange, value, ref } }) => (
         <div
-          ref={containerRef}
+          ref={outsideClickRef}
           className={cn(
             "relative w-full flex flex-col items-center",
             containerClassName
