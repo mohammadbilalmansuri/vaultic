@@ -5,7 +5,7 @@ import { Controller, Control, FieldValues, Path } from "react-hook-form";
 import cn from "@/utils/cn";
 import { useOutsideClick } from "@/hooks";
 
-interface PresetSelectProps<T extends FieldValues = FieldValues> {
+interface PresetSelectProps<T extends FieldValues> {
   name: Path<T>;
   control: Control<T>;
   options: string[];
@@ -15,7 +15,7 @@ interface PresetSelectProps<T extends FieldValues = FieldValues> {
   gridCols?: number;
 }
 
-const PresetSelect = <T extends FieldValues = FieldValues>({
+const PresetSelect = <T extends FieldValues>({
   name,
   control,
   options,
