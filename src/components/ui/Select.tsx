@@ -9,9 +9,8 @@ import { ChevronsUpDown, Check } from "../ui/icons";
 interface SelectProps<T> {
   options: { label: string; value: T }[];
   value: T;
-  onChange: (value: T) => void;
+  onChange: (value: T) => Promise<void> | void;
   selecting?: boolean;
-  disabled?: boolean;
   variant?: "inline" | "dropdown";
   bg?: "transparent" | "input";
   containerClassName?: string;
@@ -24,7 +23,6 @@ const Select = <T,>({
   selecting = false,
   variant = "dropdown",
   containerClassName = "",
-  disabled = false,
   bg = "transparent",
 }: SelectProps<T>) => {
   const [opened, setOpened] = useState(false);
@@ -42,11 +40,10 @@ const Select = <T,>({
       className={cn(
         "relative w-full flex flex-col items-center border-color rounded-2xl transition-all duration-300",
         {
-          "hover:border-focus": !opened && !disabled,
+          "hover:border-focus": !opened,
           "border-focus": opened && variant === "dropdown",
           "border-1.5": bg === "transparent",
           "bg-input border": bg === "input",
-          "opacity-60 pointer-events-none select-none": disabled,
         },
         containerClassName
       )}
@@ -59,7 +56,7 @@ const Select = <T,>({
             ? "border-b-1.5"
             : "border-b"
         )}
-        onClick={() => !disabled && setOpened((prev) => !prev)}
+        onClick={() => setOpened((prev) => !prev)}
       >
         <span className="heading-color font-medium">{selectedLabel}</span>
         <span className={cn("icon-btn-bg-sm", { "heading-color": opened })}>
@@ -106,7 +103,14 @@ const Select = <T,>({
                           "hover:bg-primary hover:heading-color": !isSelected,
                         }
                       )}
-                      onClick={() => onChange(option.value)}
+                      onClick={async () => {
+                        try {
+                          await onChange(option.value);
+                          setOpened(false);
+                        } catch (error) {
+                          console.error("Select onChange failed:", error);
+                        }
+                      }}
                     >
                       <span>{option.label}</span>
                       {selecting && isSelected ? (
