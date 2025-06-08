@@ -19,7 +19,7 @@ export const NETWORKS = {
     icon: Ethereum,
     testnetName: "Sepolia",
     decimals: 18,
-    fee: 0.0002,
+    fee: 0.0001,
     rpc: {
       mainnet: process.env.NEXT_PUBLIC_ETH_MAINNET_RPC!,
       devnet: process.env.NEXT_PUBLIC_ETH_SEPOLIA_RPC!,
@@ -32,7 +32,7 @@ export const NETWORKS = {
     icon: Solana,
     testnetName: "Devnet",
     decimals: 9,
-    fee: 0.000005,
+    fee: 0.00008,
     rpc: {
       mainnet: process.env.NEXT_PUBLIC_SOLANA_MAINNET_RPC!,
       devnet: process.env.NEXT_PUBLIC_SOLANA_DEVNET_RPC!,
