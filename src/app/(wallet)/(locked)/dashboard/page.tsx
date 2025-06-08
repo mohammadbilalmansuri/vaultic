@@ -12,7 +12,7 @@ import { useBlockchain } from "@/hooks";
 import { Button, Loader, Tooltip, Tabs } from "@/components/ui";
 import { Send, QR, Clock, Refresh, Wallet } from "@/components/ui/icons";
 import { NetworkCard } from "@/components/wallet";
-import { SendTab, ReceiveTab, ActivityTab } from "@/components/wallet";
+import { SendTab, ReceiveTab, ActivityTab } from "@/components/dashboard";
 import cn from "@/utils/cn";
 
 const TABS = {
