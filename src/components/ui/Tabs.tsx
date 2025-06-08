@@ -18,8 +18,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
   const [shouldUseDelay, setShouldUseDelay] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShouldUseDelay(false), 0);
-    return () => clearTimeout(timer);
+    setShouldUseDelay(false);
   }, []);
 
   return (
