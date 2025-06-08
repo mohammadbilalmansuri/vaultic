@@ -47,17 +47,19 @@ const AddressSchema = (network: string) => {
         .trim()
         .min(32, "Invalid Solana address")
         .max(44, "Invalid Solana address")
-        .refine((value) => isValidSolanaAddress(value), {
-          message: "Invalid Solana address",
-        });
+        .refine(
+          (value) => isValidSolanaAddress(value),
+          "Invalid Solana address"
+        );
     case "ethereum":
       return z
         .string()
         .trim()
         .length(42, "Invalid Ethereum address")
-        .refine((value) => isValidEthereumAddress(value), {
-          message: "Invalid Ethereum address",
-        });
+        .refine(
+          (value) => isValidEthereumAddress(value),
+          "Invalid Ethereum address"
+        );
     default:
       return z.string().trim().min(1, "Address is required");
   }
@@ -70,31 +72,22 @@ export const SolanaAirdropSchema = z.object({
   }),
 });
 
-export const SendTransactionSchema = (
-  network: TNetwork,
-  availableBalance: string
-) => {
+export const SendSchema = (network: TNetwork, availableBalance: string) => {
   return z.object({
     toAddress: AddressSchema(network),
     amount: z
       .string()
       .trim()
-      .refine(
-        (value) => {
-          const num = parseFloat(value);
-          return !isNaN(num) && num > 0;
-        },
-        { message: "Amount must be a positive number" }
-      )
-      .refine(
-        (value) => {
-          const num = parseFloat(value);
-          const balance = parseFloat(availableBalance);
-          const fee = NETWORKS[network].fee;
-          return !isNaN(balance) && num <= balance - fee;
-        },
-        { message: "Insufficient balance" }
-      ),
+      .refine((value) => {
+        const num = parseFloat(value);
+        return !isNaN(num) && num > 0;
+      }, "")
+      .refine((value) => {
+        const num = parseFloat(value);
+        const balance = parseFloat(availableBalance);
+        const fee = NETWORKS[network].fee;
+        return !isNaN(balance) && num <= balance - fee;
+      }, "Insufficient balance"),
   });
 };
 
@@ -102,6 +95,4 @@ export type TCreatePasswordForm = z.infer<typeof CreatePasswordSchema>;
 export type TVerifyPasswordForm = z.infer<typeof VerifyPasswordSchema>;
 export type TChangePasswordForm = z.infer<typeof ChangePasswordSchema>;
 export type TSolanaAirdropForm = z.infer<typeof SolanaAirdropSchema>;
-export type TSendTransactionForm = z.infer<
-  ReturnType<typeof SendTransactionSchema>
->;
+export type TSendForm = z.infer<ReturnType<typeof SendSchema>>;
