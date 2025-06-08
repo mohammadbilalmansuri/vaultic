@@ -43,10 +43,10 @@ export const fadeHorizontalAnimation = ({
   distance?: number;
 } = {}): MotionProps => {
   const offset = direction === "left" ? -distance : distance;
-
   return {
     initial: { opacity: 0, x: offset },
     animate: inView ? { opacity: 1, x: 0 } : undefined,
+    exit: { opacity: 0, x: offset },
     transition: { duration, delay, ease },
   };
 };
