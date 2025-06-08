@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { Controller, Control, FieldValues, Path } from "react-hook-form";
 import { TIcon } from "@/types";
 import cn from "@/utils/cn";
-import getShortAddress from "@/utils/getShortAddress";
 import { useOutsideClick } from "@/hooks";
 import Input from "./Input";
 import { AngleDown, Check } from "./icons";
@@ -16,6 +15,7 @@ interface ComboboxProps<T extends FieldValues> {
   options: Array<{
     label: string;
     value: string;
+    shortValue: string;
     valueIcon?: TIcon;
   }>;
   autoFocus?: InputHTMLAttributes<HTMLInputElement>["autoFocus"];
@@ -118,9 +118,7 @@ const Combobox = <T extends FieldValues>({
                         {option.valueIcon && (
                           <option.valueIcon className="w-3" />
                         )}
-                        <span className="mt-px">
-                          {getShortAddress(option.value)}
-                        </span>
+                        <span className="mt-px">{option.shortValue}</span>
                       </span>
                     </button>
                   ))}
