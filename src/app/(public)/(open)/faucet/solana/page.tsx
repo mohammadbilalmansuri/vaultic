@@ -85,6 +85,7 @@ const SolanaFaucetPage = () => {
                 label: `Account ${Number(key) + 1}`,
                 value: account.solana.address,
                 valueIcon: Solana,
+                shortValue: getShortAddress(account.solana.address, "solana"),
               }))}
               autoFocus
               autoComplete="off"
