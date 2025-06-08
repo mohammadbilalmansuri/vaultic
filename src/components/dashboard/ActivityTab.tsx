@@ -113,7 +113,7 @@ const ActivityTab = () => {
 
   return (
     <div className="w-full">
-      <div className="border border-color rounded-3xl p-0 bg-gradient-to-br from-primary/40 to-secondary/30 shadow-2xl overflow-hidden">
+      <div className="">
         {/* Filter & Sort Controls */}
         <div className="flex flex-wrap gap-3 px-6 pt-6 pb-2 items-center justify-between bg-primary/60 border-b border-color/60">
           <div className="flex gap-2 flex-wrap">
@@ -226,9 +226,7 @@ const ActivityTab = () => {
                 return (
                   <div
                     key={activity.signature}
-                    className={cn(
-                      "flex flex-col md:flex-row md:items-center gap-4 p-5 border border-color rounded-2xl bg-white/95 hover:bg-primary/30 transition-colors shadow group focus-within:ring-2 focus-within:ring-teal-400"
-                    )}
+                    className="flex flex-col md:flex-row md:items-center gap-4 p-5 border border-color rounded-2xl bg-white/95 hover:bg-primary/30 transition-colors shadow group focus-within:ring-2 focus-within:ring-teal-400"
                     tabIndex={0}
                     aria-label={`Transaction ${activity.signature}`}
                   >

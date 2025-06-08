@@ -13,14 +13,12 @@ import {
   Download,
   Share,
 } from "@/components/ui/icons";
+import { useAccountsStore } from "@/stores";
 
-interface ReceiveTabProps {
-  activeAccount: any;
-}
-
-const ReceiveTab = ({ activeAccount }: ReceiveTabProps) => {
+const ReceiveTab = () => {
   const [qrCodes, setQrCodes] = useState<Record<string, string>>({});
   const [loadingQRs, setLoadingQRs] = useState<Record<string, boolean>>({});
+  const activeAccount = useAccountsStore((state) => state.getActiveAccount)();
 
   const getNetworkIcon = (network: string) => {
     switch (network) {
@@ -61,7 +59,7 @@ const ReceiveTab = ({ activeAccount }: ReceiveTabProps) => {
 
   return (
     <div className="w-full">
-      <div className="border border-color rounded-2xl p-6 bg-primary/30">
+      <div className="p-6 bg-primary/30">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {(["ethereum", "solana"] as TNetwork[]).map((network) => {
             const networkAccount = activeAccount[network];
@@ -87,9 +85,9 @@ const ReceiveTab = ({ activeAccount }: ReceiveTabProps) => {
 
                 <div className="flex flex-col items-center gap-6">
                   {/* QR Code */}
-                  <div className="bg-white p-4 rounded-xl shadow-sm flex flex-col items-center gap-2">
+                  <div className="p-4 rounded-xl shadow-sm flex flex-col items-center gap-2">
                     {loadingQRs[networkAccount.address] ? (
-                      <div className="w-[200px] h-[200px] flex items-center justify-center">
+                      <div className="size-40 flex items-center justify-center">
                         <Loader />
                       </div>
                     ) : qrCodes[networkAccount.address] ? (
@@ -97,7 +95,7 @@ const ReceiveTab = ({ activeAccount }: ReceiveTabProps) => {
                         <img
                           src={qrCodes[networkAccount.address]}
                           alt={`${network} address QR code`}
-                          className="w-[200px] h-[200px]"
+                          className="size-40 rounded-lg"
                         />
                         <div className="flex gap-2 mt-2">
                           <button
