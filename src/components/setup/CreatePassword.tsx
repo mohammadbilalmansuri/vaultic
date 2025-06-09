@@ -35,7 +35,7 @@ const CreatePassword = ({
 
   const handleCreatePassword = ({ password }: TCreatePasswordForm) => {
     setWalletState({ password });
-    setStep(2);
+    setStep(3);
   };
 
   return (
