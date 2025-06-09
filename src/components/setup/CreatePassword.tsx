@@ -1,4 +1,5 @@
 "use client";
+import { JSX } from "react";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,9 +10,14 @@ import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { CreatePasswordSchema, TCreatePasswordForm } from "@/utils/validations";
 import { Button, FormError, PasswordInput } from "../ui";
-import SetupProgress from "./SetupProgress";
 
-const CreatePassword = ({ setStep }: { setStep: TSetupSetStep }) => {
+const CreatePassword = ({
+  setStep,
+  StepProgress,
+}: {
+  setStep: TSetupSetStep;
+  StepProgress: JSX.Element;
+}) => {
   const setWalletState = useWalletStore((state) => state.setWalletState);
 
   const {
@@ -29,12 +35,16 @@ const CreatePassword = ({ setStep }: { setStep: TSetupSetStep }) => {
 
   const handleCreatePassword = ({ password }: TCreatePasswordForm) => {
     setWalletState({ password });
-    setStep(3);
+    setStep(2);
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="box gap-0">
-      <SetupProgress step={2} back={() => setStep(1)} />
+    <motion.div
+      key="create-password"
+      {...scaleUpAnimation()}
+      className="box gap-0"
+    >
+      {StepProgress}
 
       <div className="p-6 w-full flex flex-col items-center gap-3">
         <h2>Create password</h2>
