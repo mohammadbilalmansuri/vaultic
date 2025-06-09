@@ -8,8 +8,9 @@ import { Logo } from "../ui/icons";
 const SetupComplete = ({ path }: { path: TSetupPath }) => {
   return (
     <motion.div
+      key="setup-complete"
       {...scaleUpAnimation()}
-      className="box p-12 text-center flex flex-col items-center"
+      className="box p-12"
     >
       <Logo className="w-15 text-teal-500" />
       <h2 className="mt-3">Your wallet is ready</h2>
