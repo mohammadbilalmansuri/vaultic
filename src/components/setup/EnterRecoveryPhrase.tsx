@@ -1,5 +1,5 @@
 "use client";
-import { useState, ClipboardEvent } from "react";
+import { useState, ClipboardEvent, JSX } from "react";
 import { motion } from "motion/react";
 import { validateMnemonic, wordlists } from "bip39";
 import { useForm } from "react-hook-form";
@@ -8,7 +8,6 @@ import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { Button, FormError } from "../ui";
-import SetupProgress from "./SetupProgress";
 
 type TEnterMnemonicForm = { [key: `word${number}`]: string };
 type TMnemonicLength = 12 | 24;
@@ -21,7 +20,13 @@ const mnemonicWordValidator = (index: number) => (value: string) => {
   return true;
 };
 
-const EnterRecoveryPhrase = ({ setStep }: { setStep: TSetupSetStep }) => {
+const EnterRecoveryPhrase = ({
+  setStep,
+  StepProgress,
+}: {
+  setStep: TSetupSetStep;
+  StepProgress: JSX.Element;
+}) => {
   const [mnemonicLength, setMnemonicLength] = useState<TMnemonicLength>(12);
   const setWalletState = useWalletStore((state) => state.setWalletState);
 
@@ -92,8 +97,12 @@ const EnterRecoveryPhrase = ({ setStep }: { setStep: TSetupSetStep }) => {
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="box gap-0">
-      <SetupProgress step={3} back={() => setStep(2)} />
+    <motion.div
+      key="enter-recovery-phrase"
+      {...scaleUpAnimation()}
+      className="box gap-0"
+    >
+      {StepProgress}
 
       <div className="p-6 w-full flex flex-col items-center gap-3">
         <h2>Enter your recovery phrase</h2>
