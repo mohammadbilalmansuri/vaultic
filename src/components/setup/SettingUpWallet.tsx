@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, JSX } from "react";
 import { motion } from "motion/react";
 import { TSetupPath, TSetupSetStep } from "@/types";
 import { useWalletStore, useNotificationStore } from "@/stores";
@@ -8,14 +8,15 @@ import delay from "@/utils/delay";
 import { useAccounts } from "@/hooks";
 import { Loader } from "../ui";
 import { Logo } from "../ui/icons";
-import SetupProgress from "./SetupProgress";
 
 const SettingUpWallet = ({
   path,
   setStep,
+  StepProgress,
 }: {
   path: TSetupPath;
   setStep: TSetupSetStep;
+  StepProgress: JSX.Element;
 }) => {
   const { createAccount } = useAccounts();
   const setWalletState = useWalletStore((state) => state.setWalletState);
@@ -43,8 +44,12 @@ const SettingUpWallet = ({
   }, []);
 
   return (
-    <motion.div {...scaleUpAnimation()} className="box gap-0">
-      <SetupProgress step={4} />
+    <motion.div
+      key="setting-up-wallet"
+      {...scaleUpAnimation()}
+      className="box gap-0"
+    >
+      {StepProgress}
 
       <div className="p-10 w-full flex flex-col items-center gap-3">
         <div className="relative flex items-center justify-center">
