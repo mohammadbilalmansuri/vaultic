@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, JSX } from "react";
 import { motion } from "motion/react";
 import { generateMnemonic } from "bip39";
 import { TSetupSetStep } from "@/types";
@@ -7,9 +7,14 @@ import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { MnemonicView, Button, Switch } from "../ui";
-import SetupProgress from "./SetupProgress";
 
-const ShowRecoveryPhrase = ({ setStep }: { setStep: TSetupSetStep }) => {
+const ShowRecoveryPhrase = ({
+  setStep,
+  StepProgress,
+}: {
+  setStep: TSetupSetStep;
+  StepProgress: JSX.Element;
+}) => {
   const setWalletState = useWalletStore((state) => state.setWalletState);
   const [saved, setSaved] = useState(false);
   const [mnemonic, setMnemonic] = useState<string>("");
@@ -25,8 +30,12 @@ const ShowRecoveryPhrase = ({ setStep }: { setStep: TSetupSetStep }) => {
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="box gap-0">
-      <SetupProgress step={3} />
+    <motion.div
+      key="show-recovery-phrase"
+      {...scaleUpAnimation()}
+      className="box gap-0"
+    >
+      {StepProgress}
 
       <div className="p-6 w-full flex flex-col items-center gap-4">
         <h2>Your recovery phrase</h2>
