@@ -18,7 +18,7 @@ const ChoosePath = ({
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="box p-12">
+    <motion.div key="choose-path" {...scaleUpAnimation()} className="box p-12">
       <Logo className="w-15 text-teal-500" />
       <h2 className="mt-3">Set up your wallet</h2>
       <p>To get started, create a new wallet or import an existing one.</p>
