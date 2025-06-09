@@ -16,7 +16,7 @@ const StepProgress = ({ dots, activeDot, back }: StepProgressProps) => {
   }
 
   return (
-    <div className="w-[calc(100%+3px)] -mt-[1.5px] relative flex items-center justify-center py-5 border-1.5 rounded-3xl border-color">
+    <div className="w-[calc(100%+3px)] -mt-[1.5px] relative flex items-center justify-center py-4.5 border-1.5 rounded-3xl border-color">
       {back && (
         <button
           type="button"
