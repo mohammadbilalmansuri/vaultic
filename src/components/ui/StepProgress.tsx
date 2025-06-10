@@ -15,11 +15,11 @@ const StepProgress = ({ dots, activeDot, back }: StepProgressProps) => {
   }
 
   return (
-    <div className="w-[calc(100%+3px)] -mt-[1.5px] relative flex items-center justify-center py-4.5 border-1.5 rounded-3xl border-color">
+    <div className="w-full relative flex items-center justify-center py-4.5 border-b-1.5 border-color">
       {back && (
         <button
           type="button"
-          className="icon-btn-bg-sm absolute left-2"
+          className="icon-btn-bg-sm absolute left-2 mt-px"
           onClick={back}
         >
           <ArrowLeft />
