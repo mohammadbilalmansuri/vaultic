@@ -24,7 +24,7 @@ const NetworkCard = ({
   const { name, token, icon: Icon } = NETWORKS[network];
   const copyToClipboard = useClipboard();
   const [copied, setCopied] = useState(false);
-  const { original, fixed, isFixed } = parseBalance(balance);
+  const { original, display, wasRounded } = parseBalance(balance);
 
   return (
     <div
@@ -68,16 +68,16 @@ const NetworkCard = ({
         </div>
       </div>
 
-      {isFixed ? (
-        <p className="text-lg font-semibold leading-none">
-          {fixed} {token}
-        </p>
-      ) : (
+      {wasRounded ? (
         <Tooltip content={`${original} ${token}`}>
-          <p className="text-md leading-none cursor-default">
-            {fixed} {token}
+          <p className="text-md font-semibold leading-none cursor-default">
+            {display} {token}
           </p>
         </Tooltip>
+      ) : (
+        <p className="text-md font-semibold leading-none">
+          {display} {token}
+        </p>
       )}
     </div>
   );
