@@ -32,7 +32,7 @@ const ShowRecoveryPhrase = ({
   return (
     <motion.div
       key="show-recovery-phrase"
-      {...scaleUpAnimation()}
+      {...scaleUpAnimation({ duration: 0.15 })}
       className="box gap-0"
     >
       {StepProgress}

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { AnimatePresence } from "motion/react";
 import { TSetupPath, TSetupStep } from "@/types";
+import { useMounted } from "@/hooks";
 import { StepProgress } from "@/components/ui";
 import {
   ChoosePath,
@@ -17,6 +18,7 @@ const getStepProgress = (activeDot: number, backFn?: () => void) => (
 );
 
 const SetupPage = () => {
+  const hasMounted = useMounted();
   const [step, setStep] = useState<TSetupStep>(1);
   const [path, setPath] = useState<TSetupPath>("create");
 
@@ -24,7 +26,12 @@ const SetupPage = () => {
     <div className="w-full max-w-screen-lg relative flex flex-col items-center">
       <AnimatePresence mode="wait">
         {step === 1 && (
-          <ChoosePath setPath={setPath} setStep={setStep} key="choose-path" />
+          <ChoosePath
+            setPath={setPath}
+            setStep={setStep}
+            hasMounted={hasMounted}
+            key="choose-path"
+          />
         )}
 
         {step === 2 && (

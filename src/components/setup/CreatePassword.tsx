@@ -41,7 +41,7 @@ const CreatePassword = ({
   return (
     <motion.div
       key="create-password"
-      {...scaleUpAnimation()}
+      {...scaleUpAnimation({ duration: 0.15 })}
       className="box gap-0"
     >
       {StepProgress}

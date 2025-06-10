@@ -9,7 +9,7 @@ const SetupComplete = ({ path }: { path: TSetupPath }) => {
   return (
     <motion.div
       key="setup-complete"
-      {...scaleUpAnimation()}
+      {...scaleUpAnimation({ duration: 0.15 })}
       className="box p-12"
     >
       <Logo className="w-15 text-teal-500" />

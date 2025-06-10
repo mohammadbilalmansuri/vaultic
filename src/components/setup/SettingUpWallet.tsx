@@ -4,7 +4,6 @@ import { motion } from "motion/react";
 import { TSetupPath, TSetupSetStep } from "@/types";
 import { useWalletStore, useNotificationStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
-import delay from "@/utils/delay";
 import { useAccounts } from "@/hooks";
 import { Loader } from "../ui";
 import { Logo } from "../ui/icons";
@@ -26,7 +25,6 @@ const SettingUpWallet = ({
     (async () => {
       try {
         await createAccount(true);
-        await delay(1500);
         setWalletState({
           suppressRedirect: true,
           walletExists: true,
@@ -46,7 +44,7 @@ const SettingUpWallet = ({
   return (
     <motion.div
       key="setting-up-wallet"
-      {...scaleUpAnimation()}
+      {...scaleUpAnimation({ duration: 0.15 })}
       className="box gap-0"
     >
       {StepProgress}
