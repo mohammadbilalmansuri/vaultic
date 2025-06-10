@@ -1,9 +1,10 @@
 "use client";
-import { useEffect, useState, ReactNode } from "react";
+import { useState, ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { TIcon } from "@/types";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import { TIcon } from "@/types";
+import { useMounted } from "@/hooks";
 
 interface TabsProps {
   tabs: Record<string, { icon?: TIcon; content: ReactNode }>;
@@ -14,12 +15,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
   const tabKeys = Object.keys(tabs);
   const [activeTab, setActiveTab] = useState(tabKeys[0]);
   const activeIndex = tabKeys.indexOf(activeTab);
-
-  const [shouldUseDelay, setShouldUseDelay] = useState(true);
-
-  useEffect(() => {
-    setShouldUseDelay(false);
-  }, []);
+  const hasMounted = useMounted();
 
   return (
     <div className="w-full relative flex flex-col items-center gap-8">
@@ -74,7 +70,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
         <motion.div
           key={activeTab}
           {...fadeUpAnimation({
-            delay: shouldUseDelay ? delay?.content : undefined,
+            delay: !hasMounted ? delay?.content : undefined,
           })}
           className="w-full relative px-4 flex flex-col items-center"
         >
