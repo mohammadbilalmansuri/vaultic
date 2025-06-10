@@ -1,12 +1,11 @@
 "use client";
-import { MouseEventHandler } from "react";
 import cn from "@/utils/cn";
 import { ArrowLeft } from "../ui/icons";
 
 interface StepProgressProps {
   dots: number;
   activeDot: number;
-  back?: MouseEventHandler<HTMLButtonElement>;
+  back?: () => void;
 }
 
 const StepProgress = ({ dots, activeDot, back }: StepProgressProps) => {
