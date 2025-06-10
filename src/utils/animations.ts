@@ -8,7 +8,7 @@ interface BaseAnimationConfig {
 }
 
 export const fadeUpAnimation = ({
-  y = 30,
+  y = 20,
   delay = 0,
   duration = 0.3,
   ease = "easeOut",
@@ -20,10 +20,10 @@ export const fadeUpAnimation = ({
 });
 
 export const scaleUpAnimation = ({
-  scale = 0.8,
+  scale = 0.95,
   delay = 0,
-  duration = 0.2,
-  ease = "easeOut",
+  duration = 0.3,
+  ease = "backOut",
   inView = true,
 }: BaseAnimationConfig & { scale?: number } = {}): MotionProps => ({
   initial: { opacity: 0, scale },
