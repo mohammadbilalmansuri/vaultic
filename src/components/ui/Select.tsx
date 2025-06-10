@@ -55,7 +55,7 @@ const Select = <T,>({
       <button
         type="button"
         className={cn(
-          "w-full flex items-center justify-between gap-8 h-13 pl-4 pr-2 py-3 rounded-2xl border-color",
+          "w-full flex items-center justify-between gap-8 h-13 pl-4 pr-2 py-3 border-color",
           {
             "border-b-1.5":
               opened && variant === "inline" && style === "default",
@@ -88,7 +88,7 @@ const Select = <T,>({
           >
             <div
               className={cn(
-                "w-full flex flex-col gap-2 p-2 max-h-62 overflow-y-auto scrollbar-thin",
+                "w-full flex flex-col gap-2 p-2.5 max-h-64 overflow-y-auto scrollbar-thin",
                 { "bg-input": variant === "dropdown" && style === "input" }
               )}
             >
