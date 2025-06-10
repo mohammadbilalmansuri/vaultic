@@ -87,7 +87,7 @@ const Combobox = <T extends FieldValues>({
                 transition={{ duration: 0.15, ease: "easeOut" }}
                 className="absolute top-full mt-1.5 w-[98%] bg-default border border-color rounded-2xl z-10 overflow-hidden shadow-xl"
               >
-                <div className="flex flex-col gap-2 p-2 bg-input">
+                <div className="flex flex-col gap-2 p-2.5 bg-input">
                   {options.map((option) => (
                     <button
                       key={String(option.value)}
