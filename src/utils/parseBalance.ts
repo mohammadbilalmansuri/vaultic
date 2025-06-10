@@ -5,28 +5,32 @@ const parseBalance = (
   balance: string,
   network?: TNetwork
 ): {
-  raw: string;
-  fixed: string;
+  original: string;
+  display: string;
   max?: string;
-  isFixed: boolean;
+  wasRounded: boolean;
 } => {
-  const raw = balance.trim();
-  const bn = new BigNumber(raw);
+  const bn = new BigNumber(balance.trim());
 
   if (!bn.isFinite() || bn.isNegative()) {
-    return { raw: "0", fixed: "0", isFixed: true };
+    return { original: "0", display: "0", wasRounded: false };
   }
 
-  const fixed = bn.toFixed(BALANCE_DECIMALS, BigNumber.ROUND_DOWN);
-  const isFixed = bn.eq(new BigNumber(fixed));
+  const original = bn.toString();
 
-  if (network && network in NETWORKS) {
+  const rounded = bn.toFixed(BALANCE_DECIMALS, BigNumber.ROUND_DOWN);
+  const display = new BigNumber(rounded).toString();
+  const wasRounded = !bn.eq(rounded);
+
+  const result = { original, display, wasRounded } as const;
+
+  if (network && NETWORKS[network]) {
     const fee = new BigNumber(NETWORKS[network].fee ?? 0);
     const max = BigNumber.max(bn.minus(fee), 0).toString();
-    return { raw, fixed, max, isFixed };
+    return { ...result, max };
   }
 
-  return { raw, fixed, isFixed };
+  return result;
 };
 
 export default parseBalance;
