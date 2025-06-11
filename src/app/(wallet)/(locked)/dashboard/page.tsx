@@ -1,7 +1,7 @@
 "use client";
 import { useTransition } from "react";
 import { motion } from "motion/react";
-import { TNetwork } from "@/types";
+import { TNetwork, TTabs } from "@/types";
 import {
   useWalletStore,
   useAccountsStore,
@@ -9,16 +9,16 @@ import {
 } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useBlockchain } from "@/hooks";
-import { Button, Loader, Tooltip, Tabs } from "@/components/ui";
+import { Loader, Tooltip, Tabs } from "@/components/ui";
 import { Send, QR, Clock, Refresh, Wallet } from "@/components/ui/icons";
 import { NetworkCard } from "@/components/wallet";
 import { SendTab, ReceiveTab, ActivityTab } from "@/components/dashboard";
 import cn from "@/utils/cn";
 
-const TABS = {
-  Send: { icon: Send, content: <SendTab /> },
-  Receive: { icon: QR, content: <ReceiveTab /> },
-  Activity: { icon: Clock, content: <ActivityTab /> },
+const TABS: TTabs = {
+  Send: { icon: Send, content: SendTab },
+  Receive: { icon: QR, content: ReceiveTab },
+  Activity: { icon: Clock, content: ActivityTab },
 } as const;
 
 const DashboardPage = () => {
