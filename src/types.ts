@@ -59,8 +59,8 @@ export type TSelectVariant = "inline" | "dropdown";
 export type TSelectStyle = "default" | "input";
 
 export interface ITabContentProps {
-  delay?: number;
-  hasMounted?: boolean;
+  initialAnimationDelay?: number;
+  showInitialAnimation?: boolean;
 }
 export type TTabs = Record<
   string,
