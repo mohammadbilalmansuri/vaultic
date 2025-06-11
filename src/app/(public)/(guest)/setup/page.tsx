@@ -18,9 +18,9 @@ const getStepProgress = (activeDot: number, backFn?: () => void) => (
 );
 
 const SetupPage = () => {
-  const hasMounted = useMounted();
   const [step, setStep] = useState<TSetupStep>(1);
   const [path, setPath] = useState<TSetupPath>("create");
+  const hasMounted = useMounted();
 
   return (
     <div className="w-full max-w-screen-lg relative flex flex-col items-center">
