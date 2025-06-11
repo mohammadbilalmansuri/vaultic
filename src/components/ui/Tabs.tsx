@@ -12,16 +12,21 @@ interface TabsProps {
 }
 
 const Tabs = ({ tabs, delay }: TabsProps) => {
-  const hasMounted = useMounted();
   const tabKeys = Object.keys(tabs);
-
   if (tabKeys.length === 0) return null;
 
   const [activeTab, setActiveTab] = useState(tabKeys[0]);
+  const [hasEverSwitchedTab, setHasEverSwitchedTab] = useState(false);
   const activeIndex = tabKeys.indexOf(activeTab);
-  const ActiveTabContent = tabs[activeTab]?.content;
+  const ActiveTabContent = tabs[activeTab].content;
 
-  if (!ActiveTabContent) return null;
+  const handleTabChange = (newTab: string) => {
+    if (newTab === activeTab) return;
+    if (!hasEverSwitchedTab) setHasEverSwitchedTab(true);
+    setActiveTab(newTab);
+  };
+
+  const hasMounted = useMounted();
 
   return (
     <div className="w-full relative flex flex-col items-center gap-8">
@@ -46,6 +51,8 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
 
         {tabKeys.map((label) => {
           const Icon = tabs[label]?.icon;
+          const isActive = activeTab === label;
+
           return (
             <button
               key={label}
@@ -53,18 +60,19 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
               className={cn(
                 "h-full px-3 transition-all duration-300 relative z-10 flex items-center justify-center gap-2 group",
                 {
-                  "heading-color cursor-default pointer-events-none":
-                    activeTab === label,
-                  "hover:heading-color": activeTab !== label,
+                  "heading-color cursor-default pointer-events-none": isActive,
+                  "hover:heading-color": !isActive,
                 }
               )}
-              onClick={() => setActiveTab(label)}
+              onClick={() => handleTabChange(label)}
+              aria-selected={isActive}
+              role="tab"
             >
               {Icon && (
                 <Icon
                   className={cn("w-5 transition-all duration-300", {
-                    "group-hover:scale-110": activeTab !== label,
-                    "scale-110": activeTab === label,
+                    "group-hover:scale-110": !isActive,
+                    "scale-110": isActive,
                   })}
                 />
               )}
@@ -75,7 +83,10 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
       </motion.div>
 
       <div className="w-full relative px-4 flex flex-col items-center">
-        <ActiveTabContent delay={delay?.content} hasMounted={hasMounted} />
+        <ActiveTabContent
+          initialAnimationDelay={delay?.content}
+          showInitialAnimation={!hasEverSwitchedTab && hasMounted}
+        />
       </div>
     </div>
   );
