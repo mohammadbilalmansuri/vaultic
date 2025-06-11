@@ -1,21 +1,27 @@
 "use client";
-import { useState, ReactNode } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { TIcon } from "@/types";
+import { useState } from "react";
+import { motion } from "motion/react";
+import { TTabs } from "@/types";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { useMounted } from "@/hooks";
 
 interface TabsProps {
-  tabs: Record<string, { icon?: TIcon; content: ReactNode }>;
+  tabs: TTabs;
   delay?: { header: number; content: number };
 }
 
 const Tabs = ({ tabs, delay }: TabsProps) => {
+  const hasMounted = useMounted();
   const tabKeys = Object.keys(tabs);
+
+  if (tabKeys.length === 0) return null;
+
   const [activeTab, setActiveTab] = useState(tabKeys[0]);
   const activeIndex = tabKeys.indexOf(activeTab);
-  const hasMounted = useMounted();
+  const ActiveTabContent = tabs[activeTab]?.content;
+
+  if (!ActiveTabContent) return null;
 
   return (
     <div className="w-full relative flex flex-col items-center gap-8">
@@ -28,6 +34,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
         {...fadeUpAnimation({ delay: delay?.header })}
       >
         <motion.div
+          key={`tab-indicator-${activeTab}`}
           className="absolute bg-secondary rounded-xl h-[calc(100%-10px)]"
           style={{
             left: `calc(${activeIndex} * ${100 / tabKeys.length}% + 5px)`,
@@ -38,10 +45,11 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
         />
 
         {tabKeys.map((label) => {
-          const Icon = tabs[label].icon;
+          const Icon = tabs[label]?.icon;
           return (
             <button
               key={label}
+              type="button"
               className={cn(
                 "h-full px-3 transition-all duration-300 relative z-10 flex items-center justify-center gap-2 group",
                 {
@@ -66,17 +74,9 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
         })}
       </motion.div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeTab}
-          {...fadeUpAnimation({
-            delay: !hasMounted ? delay?.content : undefined,
-          })}
-          className="w-full relative px-4 flex flex-col items-center"
-        >
-          {tabs[activeTab].content}
-        </motion.div>
-      </AnimatePresence>
+      <div className="w-full relative px-4 flex flex-col items-center">
+        <ActiveTabContent delay={delay?.content} hasMounted={hasMounted} />
+      </div>
     </div>
   );
 };
