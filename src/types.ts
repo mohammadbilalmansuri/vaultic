@@ -57,3 +57,12 @@ export type TSetupSetStep = Dispatch<SetStateAction<TSetupStep>>;
 
 export type TSelectVariant = "inline" | "dropdown";
 export type TSelectStyle = "default" | "input";
+
+export interface ITabContentProps {
+  delay?: number;
+  hasMounted?: boolean;
+}
+export type TTabs = Record<
+  string,
+  { icon?: TIcon; content: (props: ITabContentProps) => JSX.Element }
+>;
