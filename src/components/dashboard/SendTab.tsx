@@ -32,15 +32,21 @@ const SendTab = ({
   initialAnimationDelay,
   showInitialAnimation,
 }: ITabContentProps) => {
-  const [step, setStep] = useState<TSendStep>(1);
-  const [network, setNetwork] = useState<TNetwork>("ethereum");
-
   const accounts = useAccountsStore((state) => state.accounts);
   const activeAccountIndex = useAccountsStore(
     (state) => state.activeAccountIndex
   );
   const activeAccount = useAccountsStore((state) => state.getActiveAccount)();
   const notify = useNotificationStore((state) => state.notify);
+
+  const [step, setStep] = useState<TSendStep>(1);
+  const [network, setNetwork] = useState<TNetwork>("ethereum");
+  const {
+    name: networkName,
+    token: networkToken,
+    icon: NetworkIcon,
+    decimals: networkDecimals,
+  } = NETWORKS[network];
 
   const {
     register,
@@ -56,10 +62,13 @@ const SendTab = ({
     defaultValues: { toAddress: "", amount: "" },
   });
 
-  const networkOptions = Object.entries(activeAccount).map(([network]) => ({
-    label: NETWORKS[network as TNetwork].name,
-    value: network,
-  }));
+  const networkOptions = Object.entries(activeAccount).map(
+    ([network, { balance }]) => {
+      const { name, token } = NETWORKS[network as TNetwork];
+      const { display } = parseBalance(balance);
+      return { label: `${name} - ${display} ${token}`, value: network };
+    }
+  );
 
   const accountOptions = Object.entries(accounts)
     .filter(([key]) => Number(key) !== activeAccountIndex)
@@ -82,7 +91,7 @@ const SendTab = ({
       {step === 1 && (
         <motion.div
           key="send-form"
-          className="w-full max-w-lg flex flex-col items-center gap-4"
+          className="w-full flex flex-col items-center gap-4"
           {...(showInitialAnimation
             ? fadeUpAnimation({ delay: initialAnimationDelay })
             : scaleUpAnimation(
@@ -97,26 +106,22 @@ const SendTab = ({
               reset();
             }}
             widthClassName="w-full max-w-lg"
-          />{" "}
+          />
+
           <form
             onSubmit={handleSubmit(() => setStep(2))}
             className="box max-w-lg p-6"
           >
-            {(() => {
-              const Icon = NETWORKS[network].icon;
-              return (
-                <div
-                  className={cn(
-                    "size-15 bg-zinc-50 dark:bg-zinc-950 rounded-full flex items-center justify-center p-4",
-                    { "p-4.5": network === "ethereum" }
-                  )}
-                >
-                  <Icon />
-                </div>
-              );
-            })()}
+            <div
+              className={cn(
+                "size-15 bg-zinc-50 dark:bg-zinc-950 rounded-full flex items-center justify-center p-4",
+                { "p-4.5": network === "ethereum" }
+              )}
+            >
+              <NetworkIcon />
+            </div>
 
-            <h2 className="my-1">Send {NETWORKS[network].token}</h2>
+            <h2 className="my-1">Send {networkToken}</h2>
 
             {Object.keys(accounts).length > 1 ? (
               <Combobox
@@ -153,14 +158,9 @@ const SendTab = ({
                     value = parts[0] + "." + parts.slice(1).join("");
                   }
 
-                  if (
-                    parts[1] &&
-                    parts[1].length > NETWORKS[network].decimals
-                  ) {
+                  if (parts[1] && parts[1].length > networkDecimals) {
                     value =
-                      parts[0] +
-                      "." +
-                      parts[1].substring(0, NETWORKS[network].decimals);
+                      parts[0] + "." + parts[1].substring(0, networkDecimals);
                   }
 
                   if (value.startsWith(".")) {
@@ -172,9 +172,7 @@ const SendTab = ({
               />
 
               <div className="absolute right-3.5 flex items-center gap-4">
-                <span className="text-sm text-gray-500">
-                  {NETWORKS[network].token}
-                </span>
+                <span className="text-sm text-gray-500">{networkToken}</span>
                 <button
                   type="button"
                   onClick={() => {
@@ -212,7 +210,7 @@ const SendTab = ({
           className="box max-w-lg gap-0"
           {...scaleUpAnimation({ duration: 0.15 })}
         >
-          <StepProgress dots={3} activeDot={step} back={() => setStep(1)} />
+          {getStepProgress(2, () => setStep(1))}
           <div className="p-6 w-full flex flex-col items-center gap-4">
             <h2 className="h3">Confirm Transaction</h2>
             <div className="w-full flex flex-col gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
@@ -227,14 +225,14 @@ const SendTab = ({
                   Amount:
                 </span>
                 <span>
-                  {getValues().amount} {NETWORKS[network].token}
+                  {getValues().amount} {networkToken}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">
                   Network:
                 </span>
-                <span>{NETWORKS[network].name}</span>
+                <span>{networkName}</span>
               </div>
             </div>{" "}
             <div className="w-full flex gap-4">
@@ -255,7 +253,7 @@ const SendTab = ({
           className="box max-w-lg gap-0"
           {...scaleUpAnimation({ duration: 0.15 })}
         >
-          <StepProgress dots={3} activeDot={step} />
+          {getStepProgress(3)}
           <div className="p-6 w-full flex flex-col items-center gap-6">
             <div className="flex flex-col items-center gap-4">
               <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
