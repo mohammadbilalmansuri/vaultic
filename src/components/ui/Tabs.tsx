@@ -85,7 +85,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
       <div className="w-full relative px-4 flex flex-col items-center">
         <ActiveTabContent
           initialAnimationDelay={delay?.content}
-          showInitialAnimation={!hasEverSwitchedTab && hasMounted}
+          showInitialAnimation={!hasMounted || !hasEverSwitchedTab}
         />
       </div>
     </div>
