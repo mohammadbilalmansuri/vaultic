@@ -4,7 +4,6 @@ import { NETWORKS } from "@/constants";
 import { TNetwork, TNetworkMode } from "@/types";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
-import cn from "@/utils/cn";
 import { useClipboard } from "@/hooks";
 import { CopyToggle, Tooltip, NetworkLogo } from "@/components/ui";
 
@@ -21,7 +20,7 @@ const NetworkCard = ({
   balance,
   networkMode,
 }: NetworkCardProps) => {
-  const { name, token, icon: Icon } = NETWORKS[network];
+  const { name: networkName, token: networkToken } = NETWORKS[network];
   const copyToClipboard = useClipboard();
   const [copied, setCopied] = useState(false);
   const { original, display, wasRounded } = parseBalance(balance);
@@ -36,7 +35,7 @@ const NetworkCard = ({
 
         <div className="flex flex-col items-start gap-1">
           <h4 className="font-medium heading-color">
-            {name}
+            {networkName}
             {networkMode === "devnet" && (
               <>&nbsp;&#8226;&nbsp;{NETWORKS[network].testnetName}</>
             )}
@@ -64,14 +63,14 @@ const NetworkCard = ({
       </div>
 
       {wasRounded ? (
-        <Tooltip content={`${original} ${token}`}>
+        <Tooltip content={`${original} ${networkToken}`}>
           <p className="text-md font-semibold leading-none cursor-default">
-            {display} {token}
+            {display} {networkToken}
           </p>
         </Tooltip>
       ) : (
         <p className="text-md font-semibold leading-none">
-          {display} {token}
+          {display} {networkToken}
         </p>
       )}
     </div>
