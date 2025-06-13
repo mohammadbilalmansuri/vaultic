@@ -6,7 +6,7 @@ import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import cn from "@/utils/cn";
 import { useClipboard } from "@/hooks";
-import { CopyToggle, Tooltip } from "@/components/ui";
+import { CopyToggle, Tooltip, NetworkLogo } from "@/components/ui";
 
 interface NetworkCardProps {
   network: TNetwork;
@@ -32,14 +32,7 @@ const NetworkCard = ({
       className="w-full relative flex items-center justify-between rounded-3xl bg-primary px-5 py-6"
     >
       <div className="flex items-center gap-3">
-        <div
-          className={cn(
-            "size-10 bg-zinc-50 dark:bg-zinc-950 rounded-xl flex items-center justify-center p-2.5",
-            { "p-3": network === "ethereum" }
-          )}
-        >
-          <Icon />
-        </div>
+        <NetworkLogo network={network} size="md" />
 
         <div className="flex flex-col items-start gap-1">
           <h4 className="font-medium heading-color">
