@@ -35,10 +35,11 @@ const NetworkCard = ({
 
         <div className="flex flex-col items-start gap-1">
           <h4 className="font-medium heading-color">
-            {networkName}
-            {networkMode === "devnet" && (
-              <>&nbsp;&#8226;&nbsp;{NETWORKS[network].testnetName}</>
-            )}
+            {`${networkName}${
+              networkMode === "devnet"
+                ? ` • ${NETWORKS[network].testnetName}`
+                : ""
+            }`}
           </h4>
 
           <Tooltip
