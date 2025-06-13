@@ -9,6 +9,7 @@ export { default as MnemonicView } from "./MnemonicView";
 export { default as Loader } from "./Loader";
 export { default as Loading } from "./Loading";
 export { default as NavLink } from "./NavLink";
+export { default as NetworkLogo } from "./NetworkLogo";
 export { default as PasswordInput } from "./PasswordInput";
 export { default as PresetSelect } from "./PresetSelect";
 export { default as Select } from "./Select";
