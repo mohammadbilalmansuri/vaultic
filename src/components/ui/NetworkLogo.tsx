@@ -31,7 +31,7 @@ const paddingClasses = {
 
 const NetworkLogo = ({
   network,
-  size = "xl",
+  size = "md",
   className = "",
 }: NetworkLogoProps) => {
   const networkConfig = NETWORKS[network];
