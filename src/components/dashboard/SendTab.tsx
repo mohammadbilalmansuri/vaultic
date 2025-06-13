@@ -5,7 +5,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NETWORKS } from "@/constants";
 import { TNetwork, ITabContentProps } from "@/types";
-import { useAccountsStore, useNotificationStore } from "@/stores";
+import {
+  useAccountsStore,
+  useNotificationStore,
+  useWalletStore,
+} from "@/stores";
 import cn from "@/utils/cn";
 import parseBalance from "@/utils/parseBalance";
 import { TSendForm, SendSchema } from "@/utils/validations";
@@ -17,10 +21,12 @@ import {
   Loader,
   Combobox,
   StepProgress,
+  NetworkLogo,
 } from "../ui";
 import getShortAddress from "@/utils/getShortAddress";
 import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
 import { useMounted } from "@/hooks";
+import { Ethereum, Solana } from "../ui/icons";
 
 type TSendStep = 1 | 2 | 3;
 
@@ -32,6 +38,7 @@ const SendTab = ({
   initialAnimationDelay,
   showInitialAnimation,
 }: ITabContentProps) => {
+  const networkMode = useWalletStore((state) => state.networkMode);
   const accounts = useAccountsStore((state) => state.accounts);
   const activeAccountIndex = useAccountsStore(
     (state) => state.activeAccountIndex
@@ -39,13 +46,14 @@ const SendTab = ({
   const activeAccount = useAccountsStore((state) => state.getActiveAccount)();
   const notify = useNotificationStore((state) => state.notify);
 
-  const [step, setStep] = useState<TSendStep>(1);
+  const [step, setStep] = useState<TSendStep>(3);
   const [network, setNetwork] = useState<TNetwork>("ethereum");
   const {
     name: networkName,
     token: networkToken,
-    icon: NetworkIcon,
     decimals: networkDecimals,
+    fee: networkFee,
+    icon: NetworkIcon,
   } = NETWORKS[network];
 
   const {
@@ -59,14 +67,20 @@ const SendTab = ({
   } = useForm<TSendForm>({
     resolver: zodResolver(SendSchema(network, activeAccount[network].balance)),
     mode: "onChange",
-    defaultValues: { toAddress: "", amount: "" },
+    defaultValues: {
+      toAddress: "0xE9D74275a70C0c03082B3BbA0FB01EeDe2FcEa83",
+      amount: "0.00001",
+    },
   });
 
   const networkOptions = Object.entries(activeAccount).map(
     ([network, { balance }]) => {
       const { name, token } = NETWORKS[network as TNetwork];
       const { display } = parseBalance(balance);
-      return { label: `${name} - ${display} ${token}`, value: network };
+      return {
+        label: `${name} - ${display} ${token}`,
+        value: network as TNetwork,
+      };
     }
   );
 
@@ -102,8 +116,8 @@ const SendTab = ({
             options={networkOptions}
             value={network}
             onChange={(value) => {
-              setNetwork(value as TNetwork);
               reset();
+              setNetwork(value);
             }}
             widthClassName="w-full max-w-lg"
           />
@@ -112,15 +126,7 @@ const SendTab = ({
             onSubmit={handleSubmit(() => setStep(2))}
             className="box max-w-lg p-6"
           >
-            <div
-              className={cn(
-                "size-15 bg-zinc-50 dark:bg-zinc-950 rounded-full flex items-center justify-center p-4",
-                { "p-4.5": network === "ethereum" }
-              )}
-            >
-              <NetworkIcon />
-            </div>
-
+            <NetworkLogo network={network} size="xl" />
             <h2 className="my-1">Send {networkToken}</h2>
 
             {Object.keys(accounts).length > 1 ? (
@@ -171,18 +177,19 @@ const SendTab = ({
                 }}
               />
 
-              <div className="absolute right-3.5 flex items-center gap-4">
-                <span className="text-sm text-gray-500">{networkToken}</span>
+              <div className="absolute right-2.5 flex items-center gap-3">
+                <span className="font-medium">{networkToken}</span>
+
                 <button
                   type="button"
-                  onClick={() => {
-                    const { max } = parseBalance(
-                      activeAccount[network].balance,
-                      network
-                    );
-                    setValue("amount", max, { shouldValidate: true });
-                  }}
-                  className="text-sm text-teal-500 hover:text-teal-600 transition-colors"
+                  onClick={() =>
+                    setValue(
+                      "amount",
+                      parseBalance(activeAccount[network].balance, network).max,
+                      { shouldValidate: true }
+                    )
+                  }
+                  className="bg-primary p-2 leading-none heading-color rounded-lg transition-colors duration-300 hover:bg-secondary"
                 >
                   Max
                 </button>
@@ -192,7 +199,7 @@ const SendTab = ({
             <Button
               type="submit"
               disabled={!isValid}
-              className={cn("w-full", {
+              className={cn("w-full mt-0.5", {
                 "opacity-60 pointer-events-none": !isValid,
               })}
             >
@@ -211,31 +218,44 @@ const SendTab = ({
           {...scaleUpAnimation({ duration: 0.15 })}
         >
           {getStepProgress(2, () => setStep(1))}
+
           <div className="p-6 w-full flex flex-col items-center gap-4">
-            <h2 className="h3">Confirm Transaction</h2>
-            <div className="w-full flex flex-col gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">To:</span>
-                <span className="font-mono">
-                  {getShortAddress(getValues().toAddress, network)}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">
-                  Amount:
-                </span>
-                <span>
-                  {getValues().amount} {networkToken}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">
-                  Network:
-                </span>
-                <span>{networkName}</span>
-              </div>
-            </div>{" "}
-            <div className="w-full flex gap-4">
+            <h2 className="my-1">Confirm Transaction</h2>
+
+            <div className="w-full flex flex-col gap-0.5">
+              {[
+                {
+                  label: "Amount",
+                  value: `${getValues("amount")} ${networkToken}`,
+                },
+                {
+                  label: "To",
+                  value: getShortAddress(getValues("toAddress"), network),
+                },
+                {
+                  label: "Network",
+                  value: `${networkName}${
+                    networkMode === "devnet"
+                      ? ` • ${NETWORKS[network].testnetName}`
+                      : ""
+                  }`,
+                },
+                {
+                  label: "Network Fee",
+                  value: `${networkFee} ${networkToken}`,
+                },
+              ].map(({ label, value }) => (
+                <div
+                  key={label}
+                  className="w-full flex justify-between items-center bg-primary p-4 leading-none rounded-xl"
+                >
+                  <span className="font-medium">{label}</span>
+                  <span className="heading-color font-medium">{value}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="w-full flex gap-4 mt-0.5">
               <Button onClick={handleReset} variant="zinc" className="w-1/2">
                 Cancel
               </Button>
@@ -247,35 +267,25 @@ const SendTab = ({
         </motion.div>
       )}
 
-      {step === 3 && (
+      {step === 3 && isValid && (
         <motion.div
           key="transaction-success"
           className="box max-w-lg gap-0"
           {...scaleUpAnimation({ duration: 0.15 })}
         >
           {getStepProgress(3)}
+
           <div className="p-6 w-full flex flex-col items-center gap-6">
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-              <h2 className="h3">Transaction Sent!</h2>
-              <p className="text-center text-gray-600 dark:text-gray-400">
-                Your transaction has been successfully submitted to the network.
-              </p>
-            </div>{" "}
+            <div className="relative flex items-center justify-center">
+              <NetworkIcon
+                className={cn(
+                  "absolute",
+                  network === "ethereum" ? "w-7" : "w-8.5"
+                )}
+              />
+              <Loader size="xl" />
+            </div>
+
             <Button variant="zinc" className="w-full" onClick={handleReset}>
               Close
             </Button>
