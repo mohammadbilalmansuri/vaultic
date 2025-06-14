@@ -86,7 +86,7 @@ export const SendSchema = (network: TNetwork, availableBalance: string) => {
         } catch {
           return false;
         }
-      }, "Amount must be greater than 0")
+      }, "")
       .refine((value) => {
         try {
           return new BigNumber(value).isLessThanOrEqualTo(
