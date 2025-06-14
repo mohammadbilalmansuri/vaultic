@@ -3,12 +3,13 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import BigNumber from "bignumber.js";
+import Link from "next/link";
 import { NETWORKS } from "@/constants";
-import { TNetwork, ITabContentProps } from "@/types";
-import { useAccountsStore, useWalletStore } from "@/stores";
+import { TNetwork, ITabContentProps, IActivity } from "@/types";
+import { useAccountsStore, useActivityStore, useWalletStore } from "@/stores";
 import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import delay from "@/utils/delay";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import { TSendForm, SendSchema } from "@/utils/validations";
@@ -18,7 +19,6 @@ import {
   Input,
   FormError,
   Select,
-  Loader,
   Combobox,
   StepProgress,
   NetworkLogo,
@@ -42,15 +42,21 @@ const SendTab = ({
     (state) => state.activeAccountIndex
   );
   const activeAccount = useAccountsStore((state) => state.getActiveAccount)();
+  const addActivity = useActivityStore((state) => state.addActivity);
+  const updateActiveAccount = useAccountsStore(
+    (state) => state.updateActiveAccount
+  );
 
-  const [step, setStep] = useState<TSendStep>(1);
+  const [step, setStep] = useState<TSendStep>(3);
   const [network, setNetwork] = useState<TNetwork>("ethereum");
+
   const {
     name: networkName,
     token: networkToken,
     decimals: networkDecimals,
     fee: networkFee,
     icon: NetworkIcon,
+    explorerUrl: getNetworkExplorerUrl,
   } = NETWORKS[network];
   const { max: networkMaxBalance } = parseBalance(
     activeAccount[network].balance,
@@ -62,7 +68,6 @@ const SendTab = ({
     handleSubmit,
     control,
     reset,
-    clearErrors,
     setValue,
     getValues,
     formState: { errors, isValid },
@@ -93,12 +98,11 @@ const SendTab = ({
 
   const handleReset = () => {
     reset();
-    clearErrors();
     setStep(1);
     setTxStatus({ state: "sending" });
   };
 
-  const { sendTransaction, fetchActiveAccountBalances } = useBlockchain();
+  const { sendTransaction } = useBlockchain();
   const [txStatus, setTxStatus] = useState<{
     state: "sending" | "success" | "error";
     message?: string;
@@ -115,12 +119,32 @@ const SendTab = ({
         toAddress,
         amount,
       });
+      const newActivity: IActivity = {
+        signature,
+        from: activeAccount[network].address,
+        to: toAddress,
+        amount,
+        timestamp: Date.now(),
+        network,
+        status: "success",
+        type: "send",
+      };
       setTxStatus({
         state: "success",
         message: "Transaction sent successfully!",
         signature,
       });
-      await fetchActiveAccountBalances();
+      addActivity(newActivity);
+      const balanceNow = new BigNumber(activeAccount[network].balance).minus(
+        new BigNumber(amount)
+      );
+      updateActiveAccount({
+        ...activeAccount,
+        [network]: {
+          ...activeAccount[network],
+          balance: balanceNow.toString(),
+        },
+      });
     } catch {
       setTxStatus({
         state: "error",
@@ -148,7 +172,6 @@ const SendTab = ({
             value={network}
             onChange={(value) => {
               reset();
-              clearErrors();
               setNetwork(value);
             }}
             widthClassName="w-full max-w-lg"
@@ -294,68 +317,69 @@ const SendTab = ({
           {...scaleUpAnimation({ duration: 0.15 })}
         >
           {getStepProgress(3)}
-          <div className="p-6 w-full flex flex-col items-center gap-6 text-center">
-            <div className="relative flex items-center justify-center">
-              {txStatus.state === "sending" && (
-                <IconProcessing>
-                  <NetworkIcon
-                    className={cn(
-                      "absolute",
-                      network === "ethereum" ? "w-7" : "w-8.5"
-                    )}
-                  />
-                </IconProcessing>
-              )}
-              {txStatus.state === "success" && (
-                <div className="w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center">
-                  <Check className="w-8 h-8 text-white" />
-                </div>
-              )}
-              {txStatus.state === "error" && (
-                <div className="w-16 h-16 bg-rose-500 rounded-full flex items-center justify-center">
-                  <Cancel className="w-8 h-8 text-white" />
-                </div>
-              )}
-            </div>
 
-            <div>
-              {txStatus.state === "sending" && <p>Sending transaction...</p>}
-              {txStatus.state === "success" && (
-                <>
-                  <p className="text-green-500">{txStatus.message}</p>
-                  <p className="text-sm heading-color mt-1">
-                    Tx Hash: <br />
-                    {getShortAddress(txStatus.signature!, network)}
-                  </p>
-                </>
-              )}
-              {txStatus.state === "error" && (
-                <p className="text-red-500">{txStatus.message}</p>
-              )}
+          {txStatus.state === "sending" && (
+            <div className="p-6 w-full flex flex-col items-center gap-6 text-center">
+              <IconProcessing>
+                <NetworkIcon
+                  className={cn(network === "ethereum" ? "w-7" : "w-8.5")}
+                />
+              </IconProcessing>
+              <h2>Sending</h2>
+              <p className="-mt-2">
+                {getValues("amount")} {networkToken}&nbsp;to&nbsp;
+                {getShortAddress(getValues("toAddress"), network)}
+              </p>
             </div>
+          )}
 
-            {txStatus.state !== "sending" && (
-              <div className="w-full flex gap-4">
-                <Button onClick={handleReset} variant="zinc" className="w-1/2">
-                  Close
-                </Button>
-                {txStatus.state === "success" && txStatus.signature && (
-                  <Button variant="zinc" className="w-1/2">
-                    <a
-                      href={`${"NETWORKS[network].explorerTxUrl"}/${
-                        txStatus.signature
-                      }`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2"
-                    >
-                      View Tx
-                    </a>
-                  </Button>
-                )}
+          {txStatus.state === "success" && (
+            <div className="p-6 w-full flex flex-col items-center gap-4 text-center">
+              <div className="size-20 rounded-full flex items-center justify-center bg-teal-500/15 dark:bg-teal-500/10">
+                <Check className="w-10 text-teal-500" />
               </div>
-            )}
-          </div>
+              <h2 className="mt-3 leading-none">Sent!</h2>
+              <p>
+                {getValues("amount")} {networkToken}&nbsp;was successfully sent
+                to&nbsp;{getShortAddress(getValues("toAddress"), network)}
+              </p>
+              <Link
+                href={getNetworkExplorerUrl(
+                  "tx",
+                  networkMode,
+                  txStatus.signature!
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-teal-500 leading-none border-b border-transparent hover:border-current transition-colors duration-300"
+              >
+                View Transaction
+              </Link>
+              <Button
+                onClick={handleReset}
+                variant="zinc"
+                className="w-full mt-4"
+              >
+                Close
+              </Button>
+            </div>
+          )}
+          {txStatus.state === "error" && (
+            <div className="p-6 w-full flex flex-col items-center gap-4 text-center">
+              <div className="size-20 rounded-full flex items-center justify-center bg-rose-500/15 dark:bg-rose-500/10">
+                <Cancel className="w-10 text-rose-500" />
+              </div>
+              <h2 className="mt-3 leading-none">Transaction Failed</h2>
+              <p>{txStatus.message}</p>
+              <Button
+                onClick={handleReset}
+                variant="zinc"
+                className="w-full mt-4"
+              >
+                Close
+              </Button>
+            </div>
+          )}
         </motion.div>
       )}
     </AnimatePresence>
