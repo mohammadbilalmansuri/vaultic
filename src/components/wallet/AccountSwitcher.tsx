@@ -5,12 +5,12 @@ import { useAccounts } from "@/hooks";
 import { Select } from "../ui";
 
 interface AccountSwitcherProps {
-  varient?: TSelectVariant;
+  variant?: TSelectVariant;
   style?: TSelectStyle;
 }
 
 const AccountSwitcher = ({
-  varient = "dropdown",
+  variant = "dropdown",
   style = "default",
 }: AccountSwitcherProps) => {
   const { switchActiveAccount } = useAccounts();
@@ -44,7 +44,7 @@ const AccountSwitcher = ({
       value={activeAccountIndex}
       onChange={handleSwitch}
       selecting={switchingToAccount !== null}
-      variant={varient}
+      variant={variant}
       style={style}
     />
   );

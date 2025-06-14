@@ -36,8 +36,8 @@ const NetworkCard = ({
         <div className="flex flex-col items-start gap-1">
           <h4 className="font-medium heading-color">
             {`${networkName}${
-              networkMode === "devnet"
-                ? ` • ${NETWORKS[network].testnetName}`
+              networkMode === "testnet"
+                ? ` ${NETWORKS[network].testnetName}`
                 : ""
             }`}
           </h4>

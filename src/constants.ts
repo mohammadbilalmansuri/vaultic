@@ -28,11 +28,11 @@ export const NETWORKS = {
       value: string
     ) =>
       `https://${
-        networkMode === "devnet" ? "sepolia." : ""
+        networkMode === "testnet" ? "sepolia." : ""
       }etherscan.io/${type}/${value}`,
     rpc: {
       mainnet: process.env.NEXT_PUBLIC_ETH_MAINNET_RPC!,
-      devnet: process.env.NEXT_PUBLIC_ETH_SEPOLIA_RPC!,
+      testnet: process.env.NEXT_PUBLIC_ETH_SEPOLIA_RPC!,
     },
   },
   solana: {
@@ -50,16 +50,14 @@ export const NETWORKS = {
       value: string
     ) =>
       `https://solscan.io/${type}/${value}${
-        networkMode === "devnet" ? "?cluster=devnet" : ""
+        networkMode === "testnet" ? "?cluster=devnet" : ""
       }`,
     rpc: {
       mainnet: process.env.NEXT_PUBLIC_SOLANA_MAINNET_RPC!,
-      devnet: process.env.NEXT_PUBLIC_SOLANA_DEVNET_RPC!,
+      testnet: process.env.NEXT_PUBLIC_SOLANA_DEVNET_RPC!,
     },
   },
 } as const;
-
-export type TNetwork = keyof typeof NETWORKS;
 
 export const BALANCE_DECIMALS = 4 as const;
 

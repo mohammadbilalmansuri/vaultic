@@ -1,7 +1,5 @@
 import { ReactNode, Dispatch, SetStateAction, SVGProps, JSX } from "react";
-
-import type { TNetwork } from "./constants";
-export type { TNetwork } from "./constants";
+import { NETWORKS } from "./constants";
 
 export interface IChildren {
   children: ReactNode;
@@ -15,7 +13,8 @@ export interface INotification {
   duration?: number;
 }
 
-export type TNetworkMode = "mainnet" | "devnet";
+export type TNetwork = keyof typeof NETWORKS;
+export type TNetworkMode = "mainnet" | "testnet";
 export type TWalletStatus = "checking" | "ready";
 export interface IIndexes {
   inUse: number[];

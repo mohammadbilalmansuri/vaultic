@@ -81,7 +81,7 @@ const DashboardPage = () => {
               Account {activeAccountIndex + 1} Dashboard
             </h2>
             <p>
-              {networkMode === "devnet"
+              {networkMode === "testnet"
                 ? "Safe to explore — these are test assets only"
                 : "Live network — real funds at stake"}
             </p>

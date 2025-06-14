@@ -70,7 +70,7 @@ const AccountsPage = () => {
       <motion.div className="w-full flex flex-col gap-4" {...fadeUpAnimation()}>
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold heading-color">Accounts</h1>
-          {networkMode === "devnet" && (
+          {networkMode === "testnet" && (
             <span className="bg-warning px-3 py-1.5 rounded-xl text-sm font-medium">
               Testnet Mode
             </span>
@@ -165,8 +165,8 @@ const AccountsPage = () => {
         className="w-full max-w-sm"
         {...fadeUpAnimation({ delay: 0.2 })}
       >
-        <AccountSwitcher variant="dropdown" />
-      </motion.div>{" "}
+        <AccountSwitcher />
+      </motion.div>
       {/* Accounts List with NetworkCards */}
       <motion.div className="space-y-6" {...fadeUpAnimation({ delay: 0.3 })}>
         {accountsList.map((item, index) => (
@@ -303,7 +303,7 @@ const AccountsPage = () => {
               <li>• You can switch between accounts anytime</li>
               <li>• All accounts are derived from your recovery phrase</li>
               <li>• Refresh balances to get the latest amounts</li>
-              {networkMode === "devnet" && (
+              {networkMode === "testnet" && (
                 <li>• You're on testnet - these are test tokens only</li>
               )}
             </ul>
