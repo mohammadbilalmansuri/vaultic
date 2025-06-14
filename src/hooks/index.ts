@@ -1,4 +1,5 @@
 export { default as useAccounts } from "./useAccounts";
+export { default as useAddressQRUpload } from "./useAddressQRUpload";
 export { default as useBlockchain } from "./useBlockchain";
 export { default as useMounted } from "./useMounted";
 export { default as useClipboard } from "./useClipboard";
