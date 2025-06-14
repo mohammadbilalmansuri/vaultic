@@ -32,8 +32,11 @@ function parseBalance(
   const base = { original, display, wasRounded };
 
   if (network && NETWORKS[network]) {
-    const fee = new BigNumber(NETWORKS[network].fee ?? 0);
-    const max = BigNumber.max(bn.minus(fee), 0).toString();
+    const { fee, rentExemption } = NETWORKS[network];
+    const max = BigNumber.max(
+      bn.minus(new BigNumber(fee).plus(rentExemption)),
+      0
+    ).toFixed(BALANCE_DECIMALS, BigNumber.ROUND_DOWN);
     return { ...base, max };
   }
 
