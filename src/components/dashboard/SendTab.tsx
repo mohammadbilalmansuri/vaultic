@@ -5,14 +5,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NETWORKS } from "@/constants";
 import { TNetwork, ITabContentProps } from "@/types";
-import {
-  useAccountsStore,
-  useNotificationStore,
-  useWalletStore,
-} from "@/stores";
+import { useAccountsStore, useWalletStore } from "@/stores";
+import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
+import delay from "@/utils/delay";
+import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import { TSendForm, SendSchema } from "@/utils/validations";
+import { useBlockchain, useMounted } from "@/hooks";
 import {
   Button,
   Input,
@@ -22,11 +22,9 @@ import {
   Combobox,
   StepProgress,
   NetworkLogo,
+  IconProcessing,
 } from "../ui";
-import getShortAddress from "@/utils/getShortAddress";
-import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
-import { useMounted } from "@/hooks";
-import { Ethereum, Solana } from "../ui/icons";
+import { Check, Cancel } from "../ui/icons";
 
 type TSendStep = 1 | 2 | 3;
 
@@ -44,9 +42,8 @@ const SendTab = ({
     (state) => state.activeAccountIndex
   );
   const activeAccount = useAccountsStore((state) => state.getActiveAccount)();
-  const notify = useNotificationStore((state) => state.notify);
 
-  const [step, setStep] = useState<TSendStep>(3);
+  const [step, setStep] = useState<TSendStep>(1);
   const [network, setNetwork] = useState<TNetwork>("ethereum");
   const {
     name: networkName,
@@ -55,31 +52,32 @@ const SendTab = ({
     fee: networkFee,
     icon: NetworkIcon,
   } = NETWORKS[network];
+  const { max: networkMaxBalance } = parseBalance(
+    activeAccount[network].balance,
+    network
+  );
 
   const {
     register,
     handleSubmit,
     control,
     reset,
+    clearErrors,
     setValue,
     getValues,
     formState: { errors, isValid },
   } = useForm<TSendForm>({
-    resolver: zodResolver(SendSchema(network, activeAccount[network].balance)),
+    resolver: zodResolver(SendSchema(network, networkMaxBalance)),
     mode: "onChange",
-    defaultValues: {
-      toAddress: "0xE9D74275a70C0c03082B3BbA0FB01EeDe2FcEa83",
-      amount: "0.00001",
-    },
+    defaultValues: { toAddress: "", amount: "" },
   });
 
   const networkOptions = Object.entries(activeAccount).map(
-    ([network, { balance }]) => {
-      const { name, token } = NETWORKS[network as TNetwork];
-      const { display } = parseBalance(balance);
+    ([net, { balance }]) => {
+      const { name, token } = NETWORKS[net as TNetwork];
       return {
-        label: `${name} - ${display} ${token}`,
-        value: network as TNetwork,
+        label: `${name} - ${parseBalance(balance).display} ${token}`,
+        value: net as TNetwork,
       };
     }
   );
@@ -95,7 +93,40 @@ const SendTab = ({
 
   const handleReset = () => {
     reset();
+    clearErrors();
     setStep(1);
+    setTxStatus({ state: "sending" });
+  };
+
+  const { sendTransaction, fetchActiveAccountBalances } = useBlockchain();
+  const [txStatus, setTxStatus] = useState<{
+    state: "sending" | "success" | "error";
+    message?: string;
+    signature?: string;
+  }>({ state: "sending" });
+
+  const handleSend = async () => {
+    setStep(3);
+    try {
+      const { toAddress, amount } = getValues();
+      const signature = await sendTransaction({
+        network,
+        fromPrivateKey: activeAccount[network].privateKey,
+        toAddress,
+        amount,
+      });
+      setTxStatus({
+        state: "success",
+        message: "Transaction sent successfully!",
+        signature,
+      });
+      await fetchActiveAccountBalances();
+    } catch {
+      setTxStatus({
+        state: "error",
+        message: "Transaction failed. Please try again.",
+      });
+    }
   };
 
   const hasTabMounted = useMounted();
@@ -117,6 +148,7 @@ const SendTab = ({
             value={network}
             onChange={(value) => {
               reset();
+              clearErrors();
               setNetwork(value);
             }}
             widthClassName="w-full max-w-lg"
@@ -155,23 +187,14 @@ const SendTab = ({
                 autoCapitalize="off"
                 onInput={(e) => {
                   const target = e.target as HTMLInputElement;
-                  let value = target.value;
-
-                  value = value.replace(/[^0-9.]/g, "");
+                  let value = target.value.replace(/[^0-9.]/g, "");
 
                   const parts = value.split(".");
-                  if (parts.length > 2) {
+                  if (parts.length > 2)
                     value = parts[0] + "." + parts.slice(1).join("");
-                  }
-
-                  if (parts[1] && parts[1].length > networkDecimals) {
-                    value =
-                      parts[0] + "." + parts[1].substring(0, networkDecimals);
-                  }
-
-                  if (value.startsWith(".")) {
-                    value = "0" + value;
-                  }
+                  if (parts[1]?.length > networkDecimals)
+                    value = parts[0] + "." + parts[1].slice(0, networkDecimals);
+                  if (value.startsWith(".")) value = "0" + value;
 
                   target.value = value;
                 }}
@@ -179,15 +202,12 @@ const SendTab = ({
 
               <div className="absolute right-2.5 flex items-center gap-3">
                 <span className="font-medium">{networkToken}</span>
-
                 <button
                   type="button"
                   onClick={() =>
-                    setValue(
-                      "amount",
-                      parseBalance(activeAccount[network].balance, network).max,
-                      { shouldValidate: true }
-                    )
+                    setValue("amount", networkMaxBalance, {
+                      shouldValidate: true,
+                    })
                   }
                   className="bg-primary p-2 leading-none heading-color rounded-lg transition-colors duration-300 hover:bg-secondary"
                 >
@@ -235,7 +255,7 @@ const SendTab = ({
                 {
                   label: "Network",
                   value: `${networkName}${
-                    networkMode === "devnet"
+                    networkMode === "testnet"
                       ? ` • ${NETWORKS[network].testnetName}`
                       : ""
                   }`,
@@ -259,7 +279,7 @@ const SendTab = ({
               <Button onClick={handleReset} variant="zinc" className="w-1/2">
                 Cancel
               </Button>
-              <Button onClick={() => setStep(3)} className="w-1/2">
+              <Button onClick={handleSend} className="w-1/2">
                 Send
               </Button>
             </div>
@@ -267,28 +287,74 @@ const SendTab = ({
         </motion.div>
       )}
 
-      {step === 3 && isValid && (
+      {step === 3 && (
         <motion.div
-          key="transaction-success"
+          key="transaction-status"
           className="box max-w-lg gap-0"
           {...scaleUpAnimation({ duration: 0.15 })}
         >
           {getStepProgress(3)}
-
-          <div className="p-6 w-full flex flex-col items-center gap-6">
+          <div className="p-6 w-full flex flex-col items-center gap-6 text-center">
             <div className="relative flex items-center justify-center">
-              <NetworkIcon
-                className={cn(
-                  "absolute",
-                  network === "ethereum" ? "w-7" : "w-8.5"
-                )}
-              />
-              <Loader size="xl" />
+              {txStatus.state === "sending" && (
+                <IconProcessing>
+                  <NetworkIcon
+                    className={cn(
+                      "absolute",
+                      network === "ethereum" ? "w-7" : "w-8.5"
+                    )}
+                  />
+                </IconProcessing>
+              )}
+              {txStatus.state === "success" && (
+                <div className="w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center">
+                  <Check className="w-8 h-8 text-white" />
+                </div>
+              )}
+              {txStatus.state === "error" && (
+                <div className="w-16 h-16 bg-rose-500 rounded-full flex items-center justify-center">
+                  <Cancel className="w-8 h-8 text-white" />
+                </div>
+              )}
             </div>
 
-            <Button variant="zinc" className="w-full" onClick={handleReset}>
-              Close
-            </Button>
+            <div>
+              {txStatus.state === "sending" && <p>Sending transaction...</p>}
+              {txStatus.state === "success" && (
+                <>
+                  <p className="text-green-500">{txStatus.message}</p>
+                  <p className="text-sm heading-color mt-1">
+                    Tx Hash: <br />
+                    {getShortAddress(txStatus.signature!, network)}
+                  </p>
+                </>
+              )}
+              {txStatus.state === "error" && (
+                <p className="text-red-500">{txStatus.message}</p>
+              )}
+            </div>
+
+            {txStatus.state !== "sending" && (
+              <div className="w-full flex gap-4">
+                <Button onClick={handleReset} variant="zinc" className="w-1/2">
+                  Close
+                </Button>
+                {txStatus.state === "success" && txStatus.signature && (
+                  <Button variant="zinc" className="w-1/2">
+                    <a
+                      href={`${"NETWORKS[network].explorerTxUrl"}/${
+                        txStatus.signature
+                      }`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2"
+                    >
+                      View Tx
+                    </a>
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
         </motion.div>
       )}
