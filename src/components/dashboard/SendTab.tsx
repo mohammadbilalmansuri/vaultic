@@ -47,7 +47,7 @@ const SendTab = ({
     (state) => state.updateActiveAccount
   );
 
-  const [step, setStep] = useState<TSendStep>(3);
+  const [step, setStep] = useState<TSendStep>(1);
   const [network, setNetwork] = useState<TNetwork>("ethereum");
 
   const {
