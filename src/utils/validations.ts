@@ -1,4 +1,5 @@
 import * as z from "zod";
+import BigNumber from "bignumber.js";
 import { FAUCET_PRESET_AMOUNTS, NETWORKS } from "@/constants";
 import { TNetwork } from "@/types";
 import { isValidEthereumAddress } from "@/services/ethereum";
@@ -79,14 +80,21 @@ export const SendSchema = (network: TNetwork, availableBalance: string) => {
       .string()
       .trim()
       .refine((value) => {
-        const num = parseFloat(value);
-        return !isNaN(num) && num > 0;
-      }, "")
+        try {
+          const amount = new BigNumber(value);
+          return amount.isGreaterThan(0) && amount.isFinite();
+        } catch {
+          return false;
+        }
+      }, "Amount must be greater than 0")
       .refine((value) => {
-        const num = parseFloat(value);
-        const balance = parseFloat(availableBalance);
-        const fee = NETWORKS[network].fee;
-        return !isNaN(balance) && num <= balance - fee;
+        try {
+          return new BigNumber(value).isLessThanOrEqualTo(
+            new BigNumber(availableBalance)
+          );
+        } catch {
+          return false;
+        }
       }, "Insufficient balance"),
   });
 };
