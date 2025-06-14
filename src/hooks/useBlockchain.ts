@@ -5,6 +5,7 @@ import {
   getEthereumActivity,
   getEthereumBalance,
   resetEthereumConnection,
+  isValidEthereumAddress,
 } from "@/services/ethereum";
 import {
   sendSolana,
@@ -12,6 +13,7 @@ import {
   getSolanaBalance,
   resetSolanaConnection,
   requestSolanaAirdrop,
+  isValidSolanaAddress,
 } from "@/services/solana";
 import { useStorage } from "@/hooks";
 
@@ -150,12 +152,25 @@ const useBlockchain = () => {
     }
   };
 
+  const isValidAddress = (network: TNetwork, address: string): boolean => {
+    switch (network) {
+      case "ethereum":
+        return isValidEthereumAddress(address);
+      case "solana":
+        return isValidSolanaAddress(address);
+      default:
+        console.warn(`Unsupported network for address validation: ${network}`);
+        return false;
+    }
+  };
+
   return {
     sendTransaction,
     fetchActiveAccountBalances,
     fetchActiveAccountActivity,
     switchNetworkMode,
     requestAirdrop,
+    isValidAddress,
   };
 };
 
