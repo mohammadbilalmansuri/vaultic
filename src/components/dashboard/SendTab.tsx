@@ -144,6 +144,11 @@ const SendTab = ({
     setStep(3);
     try {
       const { toAddress, amount } = getValues();
+      if (toAddress === activeAccount[network].address) {
+        throw new Error(
+          "You cannot send funds to your own address. Please enter a different recipient."
+        );
+      }
       const signature = await sendTransaction({
         network,
         fromPrivateKey: activeAccount[network].privateKey,
