@@ -4,6 +4,7 @@ export { default as Combobox } from "./Combobox";
 export { default as CopyToggle } from "./CopyToggle";
 export { default as EyeToggle } from "./EyeToggle";
 export { default as FormError } from "./FormError";
+export { default as IconProcessing } from "./IconProcessing";
 export { default as Input } from "./Input";
 export { default as MnemonicView } from "./MnemonicView";
 export { default as Loader } from "./Loader";
