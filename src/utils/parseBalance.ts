@@ -1,5 +1,6 @@
 import BigNumber from "bignumber.js";
-import { BALANCE_DECIMALS, NETWORKS, TNetwork } from "@/constants";
+import { BALANCE_DECIMALS, NETWORKS } from "@/constants";
+import { TNetwork } from "@/types";
 
 type ParsedBalanceBase = {
   original: string;
