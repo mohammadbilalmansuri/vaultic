@@ -1,6 +1,6 @@
 import * as z from "zod";
 import BigNumber from "bignumber.js";
-import { FAUCET_PRESET_AMOUNTS, NETWORKS } from "@/constants";
+import { FAUCET_PRESET_AMOUNTS } from "@/constants";
 import { TNetwork } from "@/types";
 import { isValidEthereumAddress } from "@/services/ethereum";
 import { isValidSolanaAddress } from "@/services/solana";

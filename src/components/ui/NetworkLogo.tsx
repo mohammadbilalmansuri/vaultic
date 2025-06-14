@@ -1,4 +1,5 @@
-import { NETWORKS, TNetwork } from "@/constants";
+import { NETWORKS } from "@/constants";
+import { TNetwork } from "@/types";
 import cn from "@/utils/cn";
 
 interface NetworkLogoProps {
