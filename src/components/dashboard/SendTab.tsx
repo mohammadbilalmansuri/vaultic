@@ -28,6 +28,14 @@ import {
 } from "../ui";
 import { Check, Cancel, Upload } from "../ui/icons";
 
+type TSendStep = 1 | 2 | 3 | 4;
+
+type TSendStatus = {
+  state: "sending" | "success" | "error";
+  message: string;
+  signature: string;
+};
+
 const getStepProgress = (activeDot: number, backFn?: () => void) => (
   <StepProgress dots={3} activeDot={activeDot} back={backFn} />
 );
@@ -47,13 +55,13 @@ const SendTab = ({
     (state) => state.updateActiveAccount
   );
 
-  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
+  const [step, setStep] = useState<TSendStep>(1);
   const [network, setNetwork] = useState<TNetwork>("ethereum");
-  const [txStatus, setTxStatus] = useState<{
-    state: "sending" | "success" | "error";
-    message: string;
-    signature: string;
-  }>({ state: "sending", message: "", signature: "" });
+  const [sendStatus, setSendStatus] = useState<TSendStatus>({
+    state: "sending",
+    message: "",
+    signature: "",
+  });
 
   const networkConfig = NETWORKS[network];
   const networkMaxBalance = parseBalance(
@@ -105,7 +113,7 @@ const SendTab = ({
   const handleReset = () => {
     reset();
     setStep(1);
-    setTxStatus({ state: "sending", message: "", signature: "" });
+    setSendStatus({ state: "sending", message: "", signature: "" });
   };
 
   const handleNetworkChange = (value: TNetwork) => {
@@ -161,7 +169,7 @@ const SendTab = ({
             .toString(),
         },
       });
-      setTxStatus({
+      setSendStatus({
         state: "success",
         message: "Transaction sent successfully!",
         signature,
@@ -172,7 +180,7 @@ const SendTab = ({
           ? error.message
           : "Transaction failed. Please try again.";
 
-      setTxStatus({
+      setSendStatus({
         state: "error",
         message: errorMessage,
         signature: "",
@@ -374,13 +382,13 @@ const SendTab = ({
               "size-20 rounded-full flex items-center justify-center",
               {
                 "bg-teal-500/15 dark:bg-teal-500/10":
-                  txStatus.state === "success",
+                  sendStatus.state === "success",
                 "bg-rose-500/15 dark:bg-rose-500/10":
-                  txStatus.state === "error",
+                  sendStatus.state === "error",
               }
             )}
           >
-            {txStatus.state === "success" ? (
+            {sendStatus.state === "success" ? (
               <Check className="w-10 text-teal-500" />
             ) : (
               <Cancel className="w-10 text-rose-500" />
@@ -388,24 +396,24 @@ const SendTab = ({
           </div>
 
           <h2 className="mt-3 leading-none">
-            {txStatus.state === "success" ? "Sent!" : "Transaction Failed"}
+            {sendStatus.state === "success" ? "Sent!" : "Transaction Failed"}
           </h2>
 
           <p>
-            {txStatus.state === "success"
+            {sendStatus.state === "success"
               ? `${getValues("amount")} ${
                   networkConfig.token
                 } was successfully sent
         to ${getShortAddress(getValues("toAddress"), network)}`
-              : txStatus.message}
+              : sendStatus.message}
           </p>
 
-          {txStatus.state === "success" && (
+          {sendStatus.state === "success" && (
             <Link
               href={networkConfig.explorerUrl(
                 "tx",
                 networkMode,
-                txStatus.signature
+                sendStatus.signature
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -416,7 +424,7 @@ const SendTab = ({
           )}
 
           <Button onClick={handleReset} variant="zinc" className="w-full mt-4">
-            {txStatus.state === "success" ? "Done" : "Try Again"}
+            {sendStatus.state === "success" ? "Done" : "Try Again"}
           </Button>
         </motion.div>
       )}
