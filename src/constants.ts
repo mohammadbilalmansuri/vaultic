@@ -1,3 +1,4 @@
+import { TNetworkMode } from "./types";
 import { Ethereum, Solana } from "./components/ui/icons";
 
 export const IS_DEV = process.env.NODE_ENV === "development";
@@ -20,6 +21,15 @@ export const NETWORKS = {
     testnetName: "Sepolia",
     decimals: 18,
     fee: 0.0001,
+    rentExemption: 0,
+    explorerUrl: (
+      type: "tx" | "address",
+      networkMode: TNetworkMode,
+      value: string
+    ) =>
+      `https://${
+        networkMode === "devnet" ? "sepolia." : ""
+      }etherscan.io/${type}/${value}`,
     rpc: {
       mainnet: process.env.NEXT_PUBLIC_ETH_MAINNET_RPC!,
       devnet: process.env.NEXT_PUBLIC_ETH_SEPOLIA_RPC!,
@@ -33,6 +43,15 @@ export const NETWORKS = {
     testnetName: "Devnet",
     decimals: 9,
     fee: 0.00008,
+    rentExemption: 0.00089088,
+    explorerUrl: (
+      type: "tx" | "account",
+      networkMode: TNetworkMode,
+      value: string
+    ) =>
+      `https://solscan.io/${type}/${value}${
+        networkMode === "devnet" ? "?cluster=devnet" : ""
+      }`,
     rpc: {
       mainnet: process.env.NEXT_PUBLIC_SOLANA_MAINNET_RPC!,
       devnet: process.env.NEXT_PUBLIC_SOLANA_DEVNET_RPC!,
