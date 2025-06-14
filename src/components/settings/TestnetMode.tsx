@@ -14,8 +14,8 @@ const TestnetMode = () => {
   const toggleNetworkMode = () => {
     startSwitching(async () => {
       try {
-        const enableTestnet = networkMode !== "devnet";
-        await switchNetworkMode(enableTestnet ? "devnet" : "mainnet");
+        const enableTestnet = networkMode !== "testnet";
+        await switchNetworkMode(enableTestnet ? "testnet" : "mainnet");
         notify({
           type: "success",
           message: enableTestnet
@@ -60,7 +60,7 @@ const TestnetMode = () => {
 
       <div className="min-w-fit w-[10%] flex justify-end">
         <Switch
-          state={networkMode === "devnet"}
+          state={networkMode === "testnet"}
           disabled={switching}
           onClick={toggleNetworkMode}
         />

@@ -26,7 +26,7 @@ const getDefaultState = (): Omit<
   password: "",
   mnemonic: "",
   indexes: { inUse: [], deleted: [] },
-  networkMode: IS_DEV ? "devnet" : "mainnet",
+  networkMode: IS_DEV ? "testnet" : "mainnet",
 });
 
 const useWalletStore = create<IWalletStore>((set) => ({

@@ -143,8 +143,8 @@ export const requestSolanaAirdrop = async (
   if (lamports > 5 * LAMPORTS_PER_SOL)
     throw new Error("You can only request up to 5 SOL at a time.");
 
-  const devnetRpc = getRpcUrl("solana", "devnet");
-  const connection = new Connection(devnetRpc, "confirmed");
+  const testnetRpc = getRpcUrl("solana", "testnet");
+  const connection = new Connection(testnetRpc, "confirmed");
   const pubkey = new PublicKey(toAddress);
 
   return connection.requestAirdrop(pubkey, lamports);
