@@ -5,7 +5,7 @@ import { TSetupPath, TSetupSetStep } from "@/types";
 import { useWalletStore, useNotificationStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import { useAccounts } from "@/hooks";
-import { Loader } from "../ui";
+import { IconProcessing } from "../ui";
 import { Logo } from "../ui/icons";
 
 const SettingUpWallet = ({
@@ -50,10 +50,9 @@ const SettingUpWallet = ({
       {StepProgress}
 
       <div className="p-10 w-full flex flex-col items-center gap-3">
-        <div className="relative flex items-center justify-center">
-          <Logo className="w-10 text-teal-500 absolute" />
-          <Loader size="xl" />
-        </div>
+        <IconProcessing>
+          <Logo className="w-9 text-teal-500" />
+        </IconProcessing>
 
         <h2 className="text-2xl mt-5">
           {path === "create"
