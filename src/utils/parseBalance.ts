@@ -31,12 +31,13 @@ function parseBalance(
 
   const base = { original, display, wasRounded };
 
-  if (network && NETWORKS[network]) {
+  if (network) {
     const { fee, rentExemption } = NETWORKS[network];
-    const max = BigNumber.max(
-      bn.minus(new BigNumber(fee).plus(rentExemption)),
-      0
-    ).toFixed(BALANCE_DECIMALS, BigNumber.ROUND_DOWN);
+    const totalDeductions = new BigNumber(fee).plus(rentExemption);
+    const remainingBalance = bn.minus(totalDeductions);
+    const max = remainingBalance.isPositive()
+      ? remainingBalance.toString()
+      : "0";
     return { ...base, max };
   }
 
