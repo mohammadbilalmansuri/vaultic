@@ -87,12 +87,10 @@ const SolanaFaucetPage = () => {
               name="address"
               control={control}
               options={accountsOptions}
-              inputProps={{
-                placeholder: "Solana address",
-                autoFocus: true,
-                autoComplete: "off",
-                autoCapitalize: "off",
-              }}
+              placeholder="Solana address"
+              autoFocus
+              autoComplete="off"
+              autoCapitalize="off"
             />
           ) : (
             <Input
