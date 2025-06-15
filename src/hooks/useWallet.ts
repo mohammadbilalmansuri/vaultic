@@ -59,7 +59,7 @@ const useWallet = () => {
       const message =
         error instanceof Error ? error.message : "An unexpected error occurred";
 
-      if (message.includes("password")) {
+      if (message.toLowerCase().includes("password")) {
         setError("password", { message });
       } else {
         await handleSecureFailure(message);

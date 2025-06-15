@@ -16,6 +16,7 @@ import {
   isValidSolanaAddress,
 } from "@/services/solana";
 import { useStorage } from "@/hooks";
+import { it } from "node:test";
 
 const useBlockchain = () => {
   const { updateWallet } = useStorage();
@@ -140,7 +141,7 @@ const useBlockchain = () => {
     try {
       return await requestSolanaAirdrop(address, amount);
     } catch (error) {
-      const msg =
+      const message =
         error instanceof Error &&
         (error.message.includes("airdrop limit") ||
           error.message.includes("limit"))
@@ -148,7 +149,7 @@ const useBlockchain = () => {
           : "Airdrop failed. Please try again.";
 
       console.error("Airdrop error:", error);
-      throw new Error(msg);
+      throw new Error(message);
     }
   };
 
