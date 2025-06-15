@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, FormEvent, ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,13 +26,13 @@ import {
   IconProcessing,
   Tooltip,
 } from "../ui";
-import { Check, Cancel, Upload } from "../ui/icons";
+import { Check, Cancel, QR } from "../ui/icons";
 
 type TSendStep = 1 | 2 | 3 | 4;
 
 type TSendStatus = {
   state: "sending" | "success" | "error";
-  message: string;
+  message: ReactNode;
   signature: string;
 };
 
@@ -64,10 +64,7 @@ const SendTab = ({
   });
 
   const networkConfig = NETWORKS[network];
-  const networkMaxBalance = parseBalance(
-    activeAccount[network].balance,
-    network
-  ).max;
+  const networkBalance = parseBalance(activeAccount[network].balance, network);
 
   const networkOptions = Object.entries(activeAccount).map(
     ([net, { balance }]) => {
@@ -97,7 +94,7 @@ const SendTab = ({
     getValues,
     formState: { errors, isValid },
   } = useForm<TSendForm>({
-    resolver: zodResolver(SendSchema(network, networkMaxBalance)),
+    resolver: zodResolver(SendSchema(network, networkBalance.max)),
     mode: "onChange",
     defaultValues: { toAddress: "", amount: "" },
   });
@@ -121,7 +118,7 @@ const SendTab = ({
     setNetwork(value);
   };
 
-  const handleAmountInput = (e: React.FormEvent<HTMLInputElement>) => {
+  const handleAmountInput = (e: FormEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     let value = target.value.replace(/[^0-9.]/g, "");
 
@@ -135,20 +132,20 @@ const SendTab = ({
   };
 
   const handleMaxAmount = () => {
-    setValue("amount", networkMaxBalance, {
-      shouldValidate: true,
-    });
+    setValue("amount", networkBalance.max, { shouldValidate: true });
   };
 
   const handleSend = async () => {
     setStep(3);
     try {
       const { toAddress, amount } = getValues();
+
       if (toAddress === activeAccount[network].address) {
         throw new Error(
           "You cannot send funds to your own address. Please enter a different recipient."
         );
       }
+
       const signature = await sendTransaction({
         network,
         fromPrivateKey: activeAccount[network].privateKey,
@@ -169,25 +166,23 @@ const SendTab = ({
         ...activeAccount,
         [network]: {
           ...activeAccount[network],
-          balance: new BigNumber(activeAccount[network].balance)
+          balance: new BigNumber(networkBalance.original)
             .minus(new BigNumber(amount))
             .toString(),
         },
       });
       setSendStatus({
         state: "success",
-        message: "Transaction sent successfully!",
+        message: `${amount} ${
+          networkConfig.token
+        } was successfully sent to ${getShortAddress(toAddress, network)}`,
         signature,
       });
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Transaction failed. Please try again.";
-
+    } catch {
       setSendStatus({
         state: "error",
-        message: errorMessage,
+        message:
+          "Failed to send. It could be due to insufficient balance, network issues, or an invalid address. Please check the details and try again.",
         signature: "",
       });
     } finally {
@@ -225,25 +220,25 @@ const SendTab = ({
             <h2 className="my-1">Send {networkConfig.token}</h2>
 
             <div className="w-full relative flex items-center gap-2">
-              {Object.keys(accounts).length > 1 ? (
+              {accountOptions.length > 0 ? (
                 <Combobox
                   name="toAddress"
                   control={control}
-                  placeholder={`Recipient ${network} address`}
                   options={accountOptions}
+                  placeholder={`Recipient's ${networkConfig.name} address`}
                   autoComplete="off"
                   autoCapitalize="off"
                 />
               ) : (
                 <Input
                   {...register("toAddress")}
-                  placeholder={`Recipient's ${network} address`}
+                  placeholder={`Recipient's ${networkConfig.name} address`}
                   autoComplete="off"
                   autoCapitalize="off"
                 />
               )}
 
-              <Tooltip content="Upload Address QR">
+              <Tooltip content={`Upload ${networkConfig.name} Address QR`}>
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -254,10 +249,13 @@ const SendTab = ({
 
                 <button
                   type="button"
-                  onClick={triggerUpload}
-                  className="flex items-center justify-center size-13 transition-all duration-300 hover:heading-color bg-input border border-color hover:border-focus rounded-2xl"
+                  onClick={({ currentTarget }) => {
+                    triggerUpload();
+                    currentTarget.blur();
+                  }}
+                  className="flex items-center justify-center size-13 hover:heading-color bg-input border border-color rounded-2xl transition-all duration-300"
                 >
-                  <Upload className="w-5.5" />
+                  <QR className="w-6" />
                 </button>
               </Tooltip>
             </div>
@@ -290,7 +288,7 @@ const SendTab = ({
                 "opacity-60 pointer-events-none": !isValid,
               })}
             >
-              Next
+              Continue
             </Button>
             <FormError errors={errors} />
           </form>
@@ -299,16 +297,16 @@ const SendTab = ({
 
       {step === 2 && isValid && (
         <motion.div
-          key="confirm-send"
+          key="confirm-transaction"
           className="box max-w-lg gap-0"
           {...scaleUpAnimation({ duration: 0.15 })}
         >
           {getStepProgress(2, () => setStep(1))}
 
           <div className="p-6 w-full flex flex-col items-center gap-4">
-            <h2 className="my-1">Confirm Send</h2>
+            <h2 className="my-1">Confirm Transaction</h2>
 
-            <div className="w-full flex flex-col gap-0.5">
+            <div className="w-full bg-primary flex flex-col gap-5 p-5 rounded-2xl">
               {[
                 {
                   label: "Amount",
@@ -322,7 +320,7 @@ const SendTab = ({
                   label: "Network",
                   value: `${networkConfig.name}${
                     networkMode === "testnet"
-                      ? ` • ${NETWORKS[network].testnetName}`
+                      ? ` ${networkConfig.testnetName}`
                       : ""
                   }`,
                 },
@@ -333,10 +331,10 @@ const SendTab = ({
               ].map(({ label, value }) => (
                 <div
                   key={label}
-                  className="w-full flex justify-between items-center bg-primary p-4 leading-none rounded-xl"
+                  className="w-full flex justify-between items-center leading-none font-medium"
                 >
-                  <span className="font-medium">{label}</span>
-                  <span className="heading-color font-medium">{value}</span>
+                  <span>{label}</span>
+                  <span className="heading-color">{value}</span>
                 </div>
               ))}
             </div>
@@ -353,7 +351,7 @@ const SendTab = ({
         </motion.div>
       )}
 
-      {step === 3 && (
+      {step === 3 && isValid && (
         <motion.div
           key="sending"
           className="box max-w-lg gap-0"
@@ -361,16 +359,29 @@ const SendTab = ({
         >
           {getStepProgress(3)}
 
-          <div className="p-6 w-full flex flex-col items-center gap-6 text-center">
+          <div className="p-6 w-full flex flex-col items-center gap-4 text-center">
             <IconProcessing>
               <networkConfig.icon
                 className={cn(network === "ethereum" ? "w-7" : "w-8.5")}
               />
             </IconProcessing>
-            <h2>Sending</h2>
-            <p className="-mt-2">
-              {getValues("amount")} {networkConfig.token}&nbsp;to&nbsp;
-              {getShortAddress(getValues("toAddress"), network)}
+            <h2 className="mt-2">
+              Sending<span className="animate-pulse">...</span>
+            </h2>
+            <div className="flex items-center gap-2.5 heading-color">
+              <span>{`${getValues("amount")} ${networkConfig.token} `}</span>
+              <span className="font-bold -mt-0.5 text-teal-500">&#8594;</span>
+              <Tooltip
+                content={getValues("toAddress")}
+                position="bottom"
+                containerClassName="cursor-default"
+              >
+                {getShortAddress(getValues("toAddress"), network)}
+              </Tooltip>
+            </div>
+            <p className="text-sm max-w-sm">
+              Please wait while we process your transaction. This may take a few
+              moments depending on network conditions.
             </p>
           </div>
         </motion.div>
@@ -379,7 +390,7 @@ const SendTab = ({
       {step === 4 && (
         <motion.div
           key="send-result"
-          className="box max-w-lg p-6 pt-12"
+          className="box max-w-lg p-6 pt-10"
           {...scaleUpAnimation({ duration: 0.15 })}
         >
           <div
@@ -400,18 +411,13 @@ const SendTab = ({
             )}
           </div>
 
-          <h2 className="mt-3 leading-none">
-            {sendStatus.state === "success" ? "Sent!" : "Transaction Failed"}
+          <h2 className="mt-2">
+            {sendStatus.state === "success"
+              ? "Transaction Successful"
+              : "Transaction Failed"}
           </h2>
 
-          <p>
-            {sendStatus.state === "success"
-              ? `${getValues("amount")} ${
-                  networkConfig.token
-                } was successfully sent
-        to ${getShortAddress(getValues("toAddress"), network)}`
-              : sendStatus.message}
-          </p>
+          <p>{sendStatus.message}</p>
 
           {sendStatus.state === "success" && (
             <Link
@@ -422,9 +428,9 @@ const SendTab = ({
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-teal-500 leading-none border-b border-transparent hover:border-current transition-colors duration-300"
+              className="mt-1 text-teal-500 leading-none border-b border-transparent hover:border-current transition-colors duration-300"
             >
-              View Transaction
+              View Transaction on Explorer
             </Link>
           )}
 
