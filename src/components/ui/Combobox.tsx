@@ -18,10 +18,12 @@ interface ComboboxProps<T extends FieldValues> {
     shortValue: string;
     valueIcon?: TIcon;
   }>;
+  widthClassName?: string;
   autoFocus?: InputHTMLAttributes<HTMLInputElement>["autoFocus"];
   autoComplete?: InputHTMLAttributes<HTMLInputElement>["autoComplete"];
   autoCapitalize?: InputHTMLAttributes<HTMLInputElement>["autoCapitalize"];
-  widthClassName?: string;
+  minLength?: number;
+  maxLength?: number;
 }
 
 const Combobox = <T extends FieldValues>({
@@ -29,10 +31,8 @@ const Combobox = <T extends FieldValues>({
   placeholder = "Enter or select value",
   control,
   options,
-  autoFocus,
-  autoComplete,
-  autoCapitalize,
   widthClassName = "w-full",
+  ...inputProps
 }: ComboboxProps<T>) => {
   const [opened, setOpened] = useState(false);
   const outsideClickRef = useOutsideClick(
@@ -59,9 +59,7 @@ const Combobox = <T extends FieldValues>({
               onChange={(e) => onChange(e.target.value)}
               placeholder={placeholder}
               className={cn("pr-12", { "border-focus": opened })}
-              autoFocus={autoFocus}
-              autoComplete={autoComplete}
-              autoCapitalize={autoCapitalize}
+              {...inputProps}
             />
             {options.length > 0 && (
               <button
