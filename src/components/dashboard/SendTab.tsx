@@ -141,9 +141,13 @@ const SendTab = ({
       const { toAddress, amount } = getValues();
 
       if (toAddress === activeAccount[network].address) {
-        throw new Error(
-          "You can’t send funds to your own address. Please enter a different recipient address."
-        );
+        setSendStatus({
+          state: "error",
+          message:
+            "You can’t send funds to your own address. Please enter a different recipient address.",
+          signature: "",
+        });
+        return;
       }
 
       const signature = await sendTransaction({
@@ -176,19 +180,22 @@ const SendTab = ({
 
       setSendStatus({
         state: "success",
-        message: `${amount} ${
-          networkConfig.token
-        } has been sent successfully to ${getShortAddress(
-          toAddress,
-          network
-        )}.`,
+        message: (
+          <>
+            <span className="heading-color">{`${amount} ${networkConfig.token}`}</span>
+            <span> has been sent successfully to </span>
+            <span className="heading-color">
+              {getShortAddress(toAddress, network)}
+            </span>
+          </>
+        ),
         signature,
       });
     } catch {
       setSendStatus({
         state: "error",
         message:
-          "This may be due to low balance, network congestion, or temporary issues with the blockchain connection. Please review the details and try again.",
+          "This could be due to network congestion or temporary connectivity issues. Please check your transaction details and try again.",
         signature: "",
       });
     } finally {
@@ -244,7 +251,7 @@ const SendTab = ({
                 />
               )}
 
-              <Tooltip content={`Upload ${networkConfig.name} Address QR`}>
+              <Tooltip content={`Upload ${networkConfig.name} Address QR Code`}>
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -278,7 +285,7 @@ const SendTab = ({
               <div className="absolute right-2.5 flex items-center gap-3">
                 <span className="font-medium">{networkConfig.token}</span>
                 <Tooltip
-                  content="Max Transferable Amount"
+                  content="Set to Max Transferable Amount"
                   containerClassName="max-w-sm"
                 >
                   <button
@@ -393,17 +400,11 @@ const SendTab = ({
             <div className="flex items-center gap-2.5 heading-color">
               <span>{`${getValues("amount")} ${networkConfig.token} `}</span>
               <span className="font-bold -mt-0.5 text-teal-500">&#8594;</span>
-              <Tooltip
-                content={getValues("toAddress")}
-                position="bottom"
-                containerClassName="cursor-default"
-              >
-                {getShortAddress(getValues("toAddress"), network)}
-              </Tooltip>
+              <span>{getShortAddress(getValues("toAddress"), network)}</span>
             </div>
             <p className="text-sm max-w-sm">
-              Your transaction is being processed. This typically takes a few
-              seconds, but may vary based on network traffic.
+              Processing your transaction. Confirmation usually takes a few
+              seconds, depending on blockchain traffic.
             </p>
           </div>
         </motion.div>
@@ -436,10 +437,10 @@ const SendTab = ({
           <h2 className="mt-2">
             {sendStatus.state === "success"
               ? "Transaction Successful"
-              : "We couldn’t complete your transaction."}
+              : "Transaction Failed"}
           </h2>
 
-          <p>{sendStatus.message}</p>
+          <div>{sendStatus.message}</div>
 
           {sendStatus.state === "success" && (
             <Link
@@ -452,11 +453,11 @@ const SendTab = ({
               rel="noopener noreferrer"
               className="mt-1 text-teal-500 leading-none border-b border-transparent hover:border-current transition-colors duration-300"
             >
-              View Transaction on Explorer
+              View Transaction
             </Link>
           )}
 
-          <Button onClick={handleReset} variant="zinc" className="w-full mt-4">
+          <Button onClick={handleReset} variant="zinc" className="w-full mt-3">
             {sendStatus.state === "success" ? "Done" : "Try Again"}
           </Button>
         </motion.div>
