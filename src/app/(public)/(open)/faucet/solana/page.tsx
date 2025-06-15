@@ -25,6 +25,14 @@ const SolanaFaucetPage = () => {
   const accounts = useAccountsStore((state) => state.accounts);
   const notify = useNotificationStore((state) => state.notify);
   const { requestAirdrop } = useBlockchain();
+  const [airdropping, startAirdropping] = useTransition();
+
+  const accountsOptions = Object.entries(accounts).map(([key, account]) => ({
+    label: `Account ${Number(key) + 1}`,
+    value: account.solana.address,
+    valueIcon: Solana,
+    shortValue: getShortAddress(account.solana.address, "solana"),
+  }));
 
   const {
     register,
@@ -36,8 +44,6 @@ const SolanaFaucetPage = () => {
     resolver: zodResolver(SolanaAirdropSchema),
     mode: "onChange",
   });
-
-  const [airdropping, startAirdropping] = useTransition();
 
   const handleAirdrop = async ({ address, amount }: TSolanaAirdropForm) => {
     startAirdropping(async () => {
@@ -76,25 +82,22 @@ const SolanaFaucetPage = () => {
         className="w-full flex flex-col gap-4 mt-3"
       >
         <div className="flex items-center gap-2">
-          {Object.keys(accounts).length > 0 ? (
+          {accountsOptions.length > 0 ? (
             <Combobox
               name="address"
               control={control}
-              placeholder="Enter or select Solana address"
-              options={Object.entries(accounts).map(([key, account]) => ({
-                label: `Account ${Number(key) + 1}`,
-                value: account.solana.address,
-                valueIcon: Solana,
-                shortValue: getShortAddress(account.solana.address, "solana"),
-              }))}
-              autoFocus
-              autoComplete="off"
-              autoCapitalize="off"
+              options={accountsOptions}
+              inputProps={{
+                placeholder: "Solana address",
+                autoFocus: true,
+                autoComplete: "off",
+                autoCapitalize: "off",
+              }}
             />
           ) : (
             <Input
               {...register("address")}
-              placeholder="Enter Solana address"
+              placeholder="Solana address"
               autoFocus
               autoComplete="off"
               autoCapitalize="off"
