@@ -78,12 +78,15 @@ const SendTab = ({
 
   const accountOptions = Object.entries(accounts)
     .filter(([key]) => Number(key) !== activeAccountIndex)
-    .map(([key, account]) => ({
-      label: `Account ${Number(key) + 1}`,
-      value: account[network].address,
-      valueIcon: NETWORKS[network].icon,
-      shortValue: getShortAddress(account[network].address, network),
-    }));
+    .map(([key, account]) => {
+      const address = account[network].address;
+      return {
+        label: `Account ${Number(key) + 1}`,
+        value: address,
+        valueIcon: NETWORKS[network].icon,
+        shortValue: getShortAddress(address, network),
+      };
+    });
 
   const {
     register,
@@ -114,6 +117,7 @@ const SendTab = ({
   };
 
   const handleNetworkChange = (value: TNetwork) => {
+    if (value === network) return;
     reset();
     setNetwork(value);
   };
@@ -122,12 +126,16 @@ const SendTab = ({
     const target = e.target as HTMLInputElement;
     let value = target.value.replace(/[^0-9.]/g, "");
 
-    const parts = value.split(".");
-    if (parts.length > 2) value = parts[0] + "." + parts.slice(1).join("");
-    if (parts[1]?.length > networkConfig.decimals)
-      value = parts[0] + "." + parts[1].slice(0, networkConfig.decimals);
-    if (value.startsWith(".")) value = "0" + value;
+    const dotIndex = value.indexOf(".");
+    if (dotIndex !== -1) {
+      const beforeDot = value.substring(0, dotIndex);
+      const afterDot = value.substring(dotIndex + 1).replace(/\./g, "");
 
+      const limitedDecimals = afterDot.substring(0, networkConfig.decimals);
+      value = beforeDot + "." + limitedDecimals;
+    }
+
+    if (value.startsWith(".")) value = "0" + value;
     target.value = value;
   };
 
@@ -173,7 +181,7 @@ const SendTab = ({
         [network]: {
           ...activeAccount[network],
           balance: new BigNumber(networkBalance.original)
-            .minus(new BigNumber(amount))
+            .minus(amount)
             .toString(),
         },
       });
@@ -210,7 +218,7 @@ const SendTab = ({
     <AnimatePresence mode="wait">
       {step === 1 && (
         <motion.div
-          key="send-form"
+          key="send-form-step"
           className="w-full flex flex-col items-center gap-4"
           {...(showInitialAnimation
             ? fadeUpAnimation({ delay: initialAnimationDelay })
@@ -315,7 +323,7 @@ const SendTab = ({
 
       {step === 2 && isValid && (
         <motion.div
-          key="confirm-transaction"
+          key="confirm-transaction-step"
           className="box max-w-lg gap-0"
           {...scaleUpAnimation({ duration: 0.15 })}
         >
@@ -380,9 +388,9 @@ const SendTab = ({
         </motion.div>
       )}
 
-      {step === 3 && isValid && (
+      {step === 3 && (
         <motion.div
-          key="sending"
+          key="sending-step"
           className="box max-w-lg gap-0"
           {...scaleUpAnimation({ duration: 0.15 })}
         >
@@ -412,19 +420,16 @@ const SendTab = ({
 
       {step === 4 && (
         <motion.div
-          key="send-result"
+          key="send-result-step"
           className="box max-w-lg p-6 pt-10"
           {...scaleUpAnimation({ duration: 0.15 })}
         >
           <div
             className={cn(
               "size-20 rounded-full flex items-center justify-center",
-              {
-                "bg-teal-500/15 dark:bg-teal-500/10":
-                  sendStatus.state === "success",
-                "bg-rose-500/15 dark:bg-rose-500/10":
-                  sendStatus.state === "error",
-              }
+              sendStatus.state === "success"
+                ? "bg-teal-500/15 dark:bg-teal-500/10"
+                : "bg-rose-500/15 dark:bg-rose-500/10"
             )}
           >
             {sendStatus.state === "success" ? (
