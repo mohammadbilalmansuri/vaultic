@@ -142,7 +142,7 @@ const SendTab = ({
 
       if (toAddress === activeAccount[network].address) {
         throw new Error(
-          "You cannot send funds to your own address. Please enter a different recipient."
+          "You can’t send funds to your own address. Please enter a different recipient address."
         );
       }
 
@@ -152,6 +152,7 @@ const SendTab = ({
         toAddress,
         amount,
       });
+
       addActivity({
         signature,
         from: activeAccount[network].address,
@@ -162,6 +163,7 @@ const SendTab = ({
         status: "success",
         type: "send",
       });
+
       updateActiveAccount({
         ...activeAccount,
         [network]: {
@@ -171,18 +173,22 @@ const SendTab = ({
             .toString(),
         },
       });
+
       setSendStatus({
         state: "success",
         message: `${amount} ${
           networkConfig.token
-        } was successfully sent to ${getShortAddress(toAddress, network)}`,
+        } has been sent successfully to ${getShortAddress(
+          toAddress,
+          network
+        )}.`,
         signature,
       });
     } catch {
       setSendStatus({
         state: "error",
         message:
-          "Failed to send. It could be due to insufficient balance, network issues, or an invalid address. Please check the details and try again.",
+          "This may be due to low balance, network congestion, or temporary issues with the blockchain connection. Please review the details and try again.",
         signature: "",
       });
     } finally {
@@ -271,13 +277,18 @@ const SendTab = ({
 
               <div className="absolute right-2.5 flex items-center gap-3">
                 <span className="font-medium">{networkConfig.token}</span>
-                <button
-                  type="button"
-                  onClick={handleMaxAmount}
-                  className="bg-primary p-2 leading-none heading-color rounded-lg transition-colors duration-300 hover:bg-secondary"
+                <Tooltip
+                  content="Max Transferable Amount"
+                  containerClassName="max-w-sm"
                 >
-                  Max
-                </button>
+                  <button
+                    type="button"
+                    onClick={handleMaxAmount}
+                    className="bg-primary p-2 leading-none heading-color rounded-lg transition-colors duration-300 hover:bg-secondary"
+                  >
+                    Max
+                  </button>
+                </Tooltip>
               </div>
             </div>
 
@@ -288,7 +299,7 @@ const SendTab = ({
                 "opacity-60 pointer-events-none": !isValid,
               })}
             >
-              Continue
+              Next
             </Button>
             <FormError errors={errors} />
           </form>
@@ -314,7 +325,14 @@ const SendTab = ({
                 },
                 {
                   label: "To",
-                  value: getShortAddress(getValues("toAddress"), network),
+                  value: (
+                    <Tooltip
+                      content={getValues("toAddress")}
+                      containerClassName="cursor-default heading-color"
+                    >
+                      {getShortAddress(getValues("toAddress"), network)}
+                    </Tooltip>
+                  ),
                 },
                 {
                   label: "Network",
@@ -325,8 +343,8 @@ const SendTab = ({
                   }`,
                 },
                 {
-                  label: "Network Fee",
-                  value: `${networkConfig.fee} ${networkConfig.token}`,
+                  label: "Estimated Network Fee",
+                  value: `Up to ${networkConfig.fee} ${networkConfig.token}`,
                 },
               ].map(({ label, value }) => (
                 <div
@@ -334,7 +352,11 @@ const SendTab = ({
                   className="w-full flex justify-between items-center leading-none font-medium"
                 >
                   <span>{label}</span>
-                  <span className="heading-color">{value}</span>
+                  {typeof value === "object" ? (
+                    value
+                  ) : (
+                    <span className="heading-color">{value}</span>
+                  )}
                 </div>
               ))}
             </div>
@@ -380,8 +402,8 @@ const SendTab = ({
               </Tooltip>
             </div>
             <p className="text-sm max-w-sm">
-              Please wait while we process your transaction. This may take a few
-              moments depending on network conditions.
+              Your transaction is being processed. This typically takes a few
+              seconds, but may vary based on network traffic.
             </p>
           </div>
         </motion.div>
@@ -414,7 +436,7 @@ const SendTab = ({
           <h2 className="mt-2">
             {sendStatus.state === "success"
               ? "Transaction Successful"
-              : "Transaction Failed"}
+              : "We couldn’t complete your transaction."}
           </h2>
 
           <p>{sendStatus.message}</p>
