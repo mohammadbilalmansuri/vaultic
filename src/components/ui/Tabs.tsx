@@ -16,17 +16,10 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
   if (tabKeys.length === 0) return null;
 
   const [activeTab, setActiveTab] = useState(tabKeys[0]);
-  const [hasEverSwitchedTab, setHasEverSwitchedTab] = useState(false);
   const activeIndex = tabKeys.indexOf(activeTab);
   const ActiveTabContent = tabs[activeTab].content;
 
-  const handleTabChange = (newTab: string) => {
-    if (newTab === activeTab) return;
-    if (!hasEverSwitchedTab) setHasEverSwitchedTab(true);
-    setActiveTab(newTab);
-  };
-
-  const hasMounted = useMounted();
+  const hasMounted = useMounted(1000);
 
   return (
     <div className="w-full relative flex flex-col items-center gap-8">
@@ -64,9 +57,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
                   "hover:heading-color": !isActive,
                 }
               )}
-              onClick={() => handleTabChange(label)}
-              aria-selected={isActive}
-              role="tab"
+              onClick={() => setActiveTab(label)}
             >
               {Icon && (
                 <Icon
@@ -85,7 +76,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
       <div className="w-full relative px-4 flex flex-col items-center">
         <ActiveTabContent
           initialAnimationDelay={delay?.content}
-          showInitialAnimation={!hasMounted || !hasEverSwitchedTab}
+          showInitialAnimation={!hasMounted}
         />
       </div>
     </div>
