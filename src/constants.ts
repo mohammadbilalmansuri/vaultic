@@ -62,3 +62,9 @@ export const NETWORKS = {
 export const BALANCE_DECIMALS = 4 as const;
 
 export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"];
+
+export const QR_CONFIG = {
+  width: 200,
+  margin: 2,
+  color: { dark: "#000000", light: "#FFFFFF" },
+};
