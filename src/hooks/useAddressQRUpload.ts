@@ -1,8 +1,8 @@
 "use client";
 import { useRef, ChangeEvent } from "react";
-import jsQR from "jsqr";
 import { TNetwork } from "@/types";
 import { useNotificationStore } from "@/stores";
+import { scanQRCode } from "@/services/qr";
 
 type AddressQRUploadConfig = {
   network: TNetwork;
@@ -20,54 +20,35 @@ const useAddressQRUpload = ({
 
   const triggerUpload = () => fileInputRef.current?.click();
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
+    try {
+      const address = await scanQRCode(file);
+      const isValid = validateAddress(network, address);
 
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, imageData.width, imageData.height);
-
-        if (code) {
-          const address = code.data.trim();
-          const isValid = validateAddress(network, address);
-
-          if (isValid) {
-            onAddressScanned(address);
-            notify({
-              type: "success",
-              message: "Address scanned successfully from QR code!",
-              duration: 2000,
-            });
-          } else {
-            notify({
-              type: "error",
-              message: `Invalid ${network} address found in QR code`,
-              duration: 3000,
-            });
-          }
-        } else {
-          notify({
-            type: "error",
-            message: "No QR code found in the image",
-            duration: 3000,
-          });
-        }
-      };
-      img.src = e.target?.result as string;
-    };
-    reader.readAsDataURL(file);
+      if (isValid) {
+        onAddressScanned(address);
+        notify({
+          type: "success",
+          message: "Address scanned successfully from QR code!",
+          duration: 2000,
+        });
+      } else {
+        notify({
+          type: "error",
+          message: `Invalid ${network} address found in QR code`,
+        });
+      }
+    } catch (error) {
+      notify({
+        type: "error",
+        message:
+          error instanceof Error ? error.message : "Failed to scan QR code",
+        duration: 3000,
+      });
+    }
 
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
