@@ -2,7 +2,7 @@ import QRCode from "qrcode";
 import jsQR from "jsqr";
 import { QR_CONFIG } from "../constants";
 
-export const generateQRCode = async (text: string): Promise<string> => {
+export const generateQRCode = (text: string): Promise<string> => {
   return QRCode.toDataURL(text, QR_CONFIG);
 };
 
