@@ -49,7 +49,7 @@ const SendTab = ({
   const activeAccountIndex = useAccountsStore(
     (state) => state.activeAccountIndex
   );
-  const activeAccount = useAccountsStore((state) => state.getActiveAccount)();
+  const activeAccount = useAccountsStore((state) => state.getActiveAccount());
   const addActivity = useActivityStore((state) => state.addActivity);
   const updateActiveAccount = useAccountsStore(
     (state) => state.updateActiveAccount
