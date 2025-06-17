@@ -34,7 +34,7 @@ export const NETWORKS = {
       `https://${
         networkMode === "testnet" ? "sepolia." : ""
       }etherscan.io/${type}/${value}`,
-    svg: "/ethereum.svg",
+    svgUrlForQR: "/ethereum.svg",
   },
   solana: {
     id: "solana",
@@ -57,10 +57,10 @@ export const NETWORKS = {
       `https://solscan.io/${type}/${value}${
         networkMode === "testnet" ? "?cluster=devnet" : ""
       }`,
-    svg: "/solana.svg",
+    svgUrlForQR: "/solana.svg",
   },
 } as const;
 
-export const BALANCE_DECIMALS = 4 as const;
+export const BALANCE_DISPLAY_DECIMALS = 4 as const;
 
 export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"];
