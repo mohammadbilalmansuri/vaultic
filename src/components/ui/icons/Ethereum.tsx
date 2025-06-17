@@ -2,42 +2,36 @@ import { SVGProps } from "react";
 
 const Ethereum = ({ ...props }: SVGProps<SVGSVGElement>) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115 182" {...props}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 115 182"
+      stroke="#1616B4"
+      strokeLinejoin="round"
+      {...props}
+    >
       <path
+        d="M57.5054 181V135.84L1.64064 103.171L57.5054 181Z"
         fill="#F0CDC2"
-        stroke="#1616B4"
-        strokeLinejoin="round"
-        d="M57.505 181v-45.16L1.641 103.171z"
       />
       <path
+        d="M57.6906 181V135.84L113.555 103.171L57.6906 181Z"
         fill="#C9B3F5"
-        stroke="#1616B4"
-        strokeLinejoin="round"
-        d="M57.69 181v-45.16l55.865-32.669z"
       />
       <path
+        d="M57.5055 124.615V66.9786L1 92.2811L57.5055 124.615Z"
         fill="#88AAF1"
-        stroke="#1616B4"
-        strokeLinejoin="round"
-        d="M57.506 124.615V66.979L1 92.28z"
       />
       <path
+        d="M57.6903 124.615V66.9786L114.196 92.2811L57.6903 124.615Z"
         fill="#C9B3F5"
-        stroke="#1616B4"
-        strokeLinejoin="round"
-        d="M57.69 124.615V66.979l56.506 25.302z"
       />
       <path
+        d="M1.00006 92.2811L57.5054 1V66.9786L1.00006 92.2811Z"
         fill="#F0CDC2"
-        stroke="#1616B4"
-        strokeLinejoin="round"
-        d="M1 92.281 57.505 1v65.979z"
       />
       <path
+        d="M114.196 92.2811L57.6906 1V66.9786L114.196 92.2811Z"
         fill="#B8FAF6"
-        stroke="#1616B4"
-        strokeLinejoin="round"
-        d="M114.196 92.281 57.691 1v65.979z"
       />
     </svg>
   );
