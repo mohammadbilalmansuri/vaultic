@@ -1,5 +1,4 @@
 import { TNetworkMode } from "./types";
-import { QRCodeToDataURLOptions } from "qrcode";
 import { Ethereum, Solana } from "./components/ui/icons";
 
 export const IS_DEV = process.env.NODE_ENV === "development";
@@ -23,6 +22,10 @@ export const NETWORKS = {
     decimals: 18,
     fee: 0.0001,
     rentExemption: 0,
+    rpc: {
+      mainnet: process.env.NEXT_PUBLIC_ETH_MAINNET_RPC!,
+      testnet: process.env.NEXT_PUBLIC_ETH_SEPOLIA_RPC!,
+    },
     explorerUrl: (
       type: "tx" | "address",
       networkMode: TNetworkMode,
@@ -31,10 +34,7 @@ export const NETWORKS = {
       `https://${
         networkMode === "testnet" ? "sepolia." : ""
       }etherscan.io/${type}/${value}`,
-    rpc: {
-      mainnet: process.env.NEXT_PUBLIC_ETH_MAINNET_RPC!,
-      testnet: process.env.NEXT_PUBLIC_ETH_SEPOLIA_RPC!,
-    },
+    svg: "/ethereum.svg",
   },
   solana: {
     id: "solana",
@@ -45,6 +45,10 @@ export const NETWORKS = {
     decimals: 9,
     fee: 0.00008,
     rentExemption: 0.00089088,
+    rpc: {
+      mainnet: process.env.NEXT_PUBLIC_SOLANA_MAINNET_RPC!,
+      testnet: process.env.NEXT_PUBLIC_SOLANA_DEVNET_RPC!,
+    },
     explorerUrl: (
       type: "tx" | "account",
       networkMode: TNetworkMode,
@@ -53,20 +57,10 @@ export const NETWORKS = {
       `https://solscan.io/${type}/${value}${
         networkMode === "testnet" ? "?cluster=devnet" : ""
       }`,
-    rpc: {
-      mainnet: process.env.NEXT_PUBLIC_SOLANA_MAINNET_RPC!,
-      testnet: process.env.NEXT_PUBLIC_SOLANA_DEVNET_RPC!,
-    },
+    svg: "/solana.svg",
   },
 } as const;
 
 export const BALANCE_DECIMALS = 4 as const;
 
 export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"];
-
-export const QR_CONFIG: QRCodeToDataURLOptions = {
-  width: 240,
-  margin: 2,
-  color: { dark: "#000000", light: "#FFFFFF" },
-  errorCorrectionLevel: "H",
-};
