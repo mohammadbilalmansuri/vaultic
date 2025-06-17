@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { BALANCE_DECIMALS, NETWORKS } from "@/constants";
+import { BALANCE_DISPLAY_DECIMALS, NETWORKS } from "@/constants";
 import { TNetwork } from "@/types";
 
 type ParsedBalanceBase = {
@@ -26,7 +26,7 @@ function parseBalance(
   }
 
   const original = bn.toString();
-  const rounded = bn.toFixed(BALANCE_DECIMALS, BigNumber.ROUND_DOWN);
+  const rounded = bn.toFixed(BALANCE_DISPLAY_DECIMALS, BigNumber.ROUND_DOWN);
   const display = new BigNumber(rounded).toString();
   const wasRounded = !bn.eq(rounded);
 
