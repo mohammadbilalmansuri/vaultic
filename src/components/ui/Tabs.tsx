@@ -32,13 +32,11 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
         {...fadeUpAnimation({ delay: delay?.header })}
       >
         <motion.div
-          key={`tab-indicator-${activeTab}`}
           className="absolute bg-secondary rounded-xl h-[calc(100%-10px)]"
-          style={{
+          animate={{
             left: `calc(${activeIndex} * ${100 / tabKeys.length}% + 5px)`,
             width: `calc(${100 / tabKeys.length}% - 10px)`,
           }}
-          layout
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         />
 
