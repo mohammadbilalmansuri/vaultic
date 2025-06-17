@@ -1,4 +1,5 @@
 import { TNetworkMode } from "./types";
+import { QRCodeToDataURLOptions } from "qrcode";
 import { Ethereum, Solana } from "./components/ui/icons";
 
 export const IS_DEV = process.env.NODE_ENV === "development";
@@ -63,8 +64,8 @@ export const BALANCE_DECIMALS = 4 as const;
 
 export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"];
 
-export const QR_CONFIG = {
+export const QR_CONFIG: QRCodeToDataURLOptions = {
   width: 200,
-  margin: 2,
+  margin: 1,
   color: { dark: "#000000", light: "#FFFFFF" },
 };
