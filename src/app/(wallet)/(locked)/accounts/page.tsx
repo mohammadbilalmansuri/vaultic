@@ -249,6 +249,7 @@ const AccountsPage = () => {
                     network={network}
                     address={networkAccount.address}
                     balance={networkAccount.balance}
+                    networkMode={networkMode}
                   />
                 );
               })}
