@@ -16,6 +16,7 @@ const EyeToggle = ({
   iconProps,
   ...restProps
 }: EyeToggleProps) => {
+  const Icon = isVisible ? EyeSlash : Eye;
   return (
     <button
       type="button"
@@ -26,7 +27,7 @@ const EyeToggle = ({
       )}
       {...restProps}
     >
-      {isVisible ? <EyeSlash {...iconProps} /> : <Eye {...iconProps} />}
+      <Icon {...iconProps} />
       {labels && (
         <span className="leading-none">
           {isVisible ? labels.hide : labels.show}
