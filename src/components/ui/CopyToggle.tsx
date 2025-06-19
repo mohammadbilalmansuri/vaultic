@@ -30,10 +30,7 @@ const CopyToggle = ({
       )}
       {...props}
     >
-      <Icon
-        className={cn(labels ? "w-4.5" : "w-5", iconClassName)}
-        {...iconProps}
-      />
+      <Icon className={cn("w-4.5", iconClassName)} {...iconProps} />
       {labels && (
         <span className="leading-none">
           {hasCopied ? labels.copied : labels.copy}
