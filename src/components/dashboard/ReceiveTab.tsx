@@ -82,7 +82,7 @@ const ReceiveTab = () => {
               <motion.div
                 key={network}
                 className="w-full flex flex-col items-center border-1.5 border-color rounded-3xl"
-                {...fadeUpAnimation({ delay: 0.1 * (index + 1) })}
+                {...fadeUpAnimation({ delay: 0.1 * index })}
               >
                 <div className="w-full flex items-center justify-between border-b-1.5 border-color px-4 py-3">
                   <h4 className="text-lg font-medium heading-color">
@@ -160,7 +160,7 @@ const ReceiveTab = () => {
         </AnimatePresence>
       </div>
 
-      <motion.p {...fadeUpAnimation({ delay: qrDataList.length * 0.1 + 0.1 })}>
+      <motion.p {...fadeUpAnimation({ delay: qrDataList.length * 0.1 })}>
         Use these QR codes or addresses to receive tokens on each supported
         network.
       </motion.p>
