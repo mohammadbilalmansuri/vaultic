@@ -33,7 +33,7 @@ const useAddressQRUpload = ({
         notify({
           type: "success",
           message: "Address scanned successfully from QR code!",
-          duration: 2000,
+          duration: 3000,
         });
       } else {
         notify({
@@ -46,7 +46,6 @@ const useAddressQRUpload = ({
         type: "error",
         message:
           error instanceof Error ? error.message : "Failed to scan QR code",
-        duration: 3000,
       });
     }
 
