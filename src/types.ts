@@ -38,16 +38,19 @@ export interface IStoredWalletData {
   readonly activeAccountIndex: number;
 }
 
-export interface IActivity {
+export type ITransaction = {
+  readonly network: TNetwork;
   readonly signature: string;
   readonly from: string;
   readonly to: string;
   readonly amount: string;
+  readonly block: number;
+  readonly fee: string;
   readonly timestamp: number;
-  readonly network: string;
   readonly status: "success" | "failed";
   readonly type: "send" | "receive";
-}
+};
+export type TTransactions = Record<TNetwork, ITransaction[]>;
 
 export type TSetupPath = "create" | "import";
 export type TSetupStep = 1 | 2 | 3 | 4 | 5;
