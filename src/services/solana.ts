@@ -152,9 +152,9 @@ export const getSolanaTransactions = async (
   if (signatures.length === 0) return [];
 
   const transactions: (ITransaction | null)[] = await Promise.all(
-    signatures.map(async (sig) => {
+    signatures.map(async ({ signature, err }) => {
       try {
-        const tx = await connection.getParsedTransaction(sig.signature, {
+        const tx = await connection.getParsedTransaction(signature, {
           maxSupportedTransactionVersion: 0,
         });
 
@@ -176,18 +176,18 @@ export const getSolanaTransactions = async (
 
         return {
           network: "solana",
-          signature: sig.signature,
+          signature,
           from: source,
           to: destination,
           amount: convertLamportsToSol(lamports),
           block: tx.slot.toString(),
           fee: tx.meta.fee ? convertLamportsToSol(tx.meta.fee) : "0",
           timestamp: tx.blockTime ? tx.blockTime * 1000 : Date.now(),
-          status: sig.err || tx.meta.err ? "failed" : "success",
+          status: err || tx.meta.err ? "failed" : "success",
           type: address === source ? "send" : "receive",
         };
       } catch (err) {
-        console.warn(`Failed to process transaction ${sig.signature}:`, err);
+        console.warn(`Failed to process transaction ${signature}:`, err);
         return null;
       }
     })
