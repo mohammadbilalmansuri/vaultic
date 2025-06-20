@@ -9,7 +9,8 @@ import {
 } from "@solana/web3.js";
 import bs58 from "bs58";
 import { derivePath } from "ed25519-hd-key";
-import { IActivity, INetworkAccount } from "@/types";
+import BigNumber from "bignumber.js";
+import { ITransaction, INetworkAccount } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 
 let solanaConnection: Connection | null = null;
@@ -23,15 +24,35 @@ const getSolanaConnection = (): Connection => {
 };
 
 const getSolanaKeypairFromPrivateKey = (privateKey: string): Keypair => {
-  const decoded = bs58.decode(privateKey);
-  if (decoded.length !== 64) throw new Error("Invalid private key");
-  return Keypair.fromSecretKey(decoded);
+  try {
+    const decoded = bs58.decode(privateKey);
+    if (decoded.length !== 64) {
+      throw new Error("Invalid private key length");
+    }
+    return Keypair.fromSecretKey(decoded);
+  } catch {
+    throw new Error("Invalid private key format");
+  }
 };
 
-const convertSolToLamports = (amount: string): number => {
-  const parsed = Number(amount);
-  if (isNaN(parsed) || parsed <= 0) throw new Error("Invalid amount");
-  return Math.floor(parsed * LAMPORTS_PER_SOL);
+const convertSolToLamports = (sol: string): number => {
+  const parsed = new BigNumber(sol);
+  if (parsed.isNaN() || parsed.isNegative() || parsed.isZero()) {
+    throw new Error("Invalid SOL amount");
+  }
+  return parsed.multipliedBy(LAMPORTS_PER_SOL).integerValue().toNumber();
+};
+
+const convertLamportsToSol = (lamports: number): string => {
+  return new BigNumber(lamports).dividedBy(LAMPORTS_PER_SOL).toString();
+};
+
+const validateAndGetSolanaPublicKey = (address: string): PublicKey => {
+  try {
+    return new PublicKey(address);
+  } catch (error) {
+    throw new Error("Invalid Solana address");
+  }
 };
 
 export const resetSolanaConnection = () => {
@@ -40,21 +61,27 @@ export const resetSolanaConnection = () => {
 
 export const isValidSolanaAddress = (address: string): boolean => {
   try {
-    new PublicKey(address);
+    validateAndGetSolanaPublicKey(address);
     return true;
   } catch {
     return false;
   }
 };
 
+export const getSolanaBalance = async (address: string): Promise<string> => {
+  const pubkey = validateAndGetSolanaPublicKey(address);
+  const balance = await getSolanaConnection().getBalance(pubkey, "confirmed");
+  return convertLamportsToSol(balance);
+};
+
 export const sendSolana = async (
   fromPrivateKey: string,
   toAddress: string,
   amount: string
-): Promise<string> => {
+): Promise<ITransaction> => {
+  const toPubkey = validateAndGetSolanaPublicKey(toAddress);
   const lamports = convertSolToLamports(amount);
   const fromKeypair = getSolanaKeypairFromPrivateKey(fromPrivateKey);
-  const toPubkey = new PublicKey(toAddress);
   const connection = getSolanaConnection();
 
   const transaction = new Transaction().add(
@@ -73,26 +100,41 @@ export const sendSolana = async (
     fromKeypair,
   ]);
 
-  return signature;
+  const txDetails = await connection.getTransaction(signature, {
+    maxSupportedTransactionVersion: 0,
+  });
+
+  if (!txDetails) {
+    throw new Error(
+      "Transaction not found. It may still be pending, rejected, or dropped by the network."
+    );
+  }
+
+  return {
+    network: "solana",
+    signature,
+    from: fromKeypair.publicKey.toBase58(),
+    to: toAddress,
+    amount: convertLamportsToSol(lamports),
+    block: txDetails.slot,
+    fee: txDetails.meta?.fee ? convertLamportsToSol(txDetails.meta.fee) : "0",
+    timestamp: txDetails.blockTime ? txDetails.blockTime * 1000 : Date.now(),
+    status: txDetails.meta?.err ? "failed" : "success",
+    type: "send",
+  };
 };
 
-export const getSolanaBalance = async (address: string): Promise<string> => {
-  const pubkey = new PublicKey(address);
-  const balance = await getSolanaConnection().getBalance(pubkey, "confirmed");
-  return (balance / LAMPORTS_PER_SOL).toString();
-};
-
-export const getSolanaActivity = async (
+export const getSolanaTransactions = async (
   address: string
-): Promise<IActivity[]> => {
+): Promise<ITransaction[]> => {
+  const pubkey = validateAndGetSolanaPublicKey(address);
   const connection = getSolanaConnection();
-  const pubkey = new PublicKey(address);
 
   const signatures = await connection.getSignaturesForAddress(pubkey, {
     limit: 10,
   });
 
-  const transactions: (IActivity | null)[] = await Promise.all(
+  const transactions: (ITransaction | null)[] = await Promise.all(
     signatures.map(async (sig) => {
       try {
         const tx = await connection.getParsedTransaction(sig.signature, {
@@ -111,17 +153,21 @@ export const getSolanaActivity = async (
 
         if (!instruction || !("parsed" in instruction)) return null;
 
-        const parsed = instruction.parsed;
+        const { source, destination, lamports } = instruction.parsed.info;
+
+        if (!source || !destination || !lamports) return null;
 
         return {
-          signature: sig.signature,
-          from: parsed.info.source,
-          to: parsed.info.destination,
-          amount: (parsed.info.lamports / LAMPORTS_PER_SOL).toString(),
-          timestamp: (tx.blockTime ?? 0) * 1000,
           network: "solana",
+          signature: sig.signature,
+          from: source,
+          to: destination,
+          amount: convertLamportsToSol(lamports),
+          block: tx.slot,
+          fee: tx.meta?.fee ? convertLamportsToSol(tx.meta.fee) : "0",
+          timestamp: tx.blockTime ? tx.blockTime * 1000 : Date.now(),
           status: sig.err ? "failed" : "success",
-          type: parsed.info.source === address ? "send" : "receive",
+          type: address === source ? "send" : "receive",
         };
       } catch (err) {
         console.warn(`Failed to process transaction ${sig.signature}`, err);
@@ -131,7 +177,7 @@ export const getSolanaActivity = async (
   );
 
   return transactions
-    .filter((tx): tx is IActivity => tx !== null)
+    .filter((tx): tx is ITransaction => tx !== null)
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
@@ -139,14 +185,13 @@ export const requestSolanaAirdrop = async (
   toAddress: string,
   amount: string
 ): Promise<string> => {
+  const pubkey = validateAndGetSolanaPublicKey(toAddress);
   const lamports = convertSolToLamports(amount);
-  if (lamports > 5 * LAMPORTS_PER_SOL)
+  if (lamports > 5 * LAMPORTS_PER_SOL) {
     throw new Error("You can only request up to 5 SOL at a time.");
-
+  }
   const testnetRpc = getRpcUrl("solana", "testnet");
   const connection = new Connection(testnetRpc, "confirmed");
-  const pubkey = new PublicKey(toAddress);
-
   return connection.requestAirdrop(pubkey, lamports);
 };
 
