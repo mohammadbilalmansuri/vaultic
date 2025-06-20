@@ -216,8 +216,7 @@ export const deriveSolanaAccount = async (
   seed: Buffer,
   index: number
 ): Promise<INetworkAccount> => {
-  if (!seed || seed.length === 0) throw new Error("Seed cannot be empty");
-
+  if (!seed?.length) throw new Error("Seed cannot be empty");
   if (index < 0 || !Number.isInteger(index)) {
     throw new Error("Index must be a non-negative integer");
   }
