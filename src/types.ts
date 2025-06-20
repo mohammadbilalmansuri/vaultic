@@ -44,7 +44,7 @@ export type ITransaction = {
   readonly from: string;
   readonly to: string;
   readonly amount: string;
-  readonly block: number;
+  readonly block: string;
   readonly fee: string;
   readonly timestamp: number;
   readonly status: "success" | "failed";
