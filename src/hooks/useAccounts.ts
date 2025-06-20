@@ -5,7 +5,7 @@ import useBlockchain from "./useBlockchain";
 import useStorage from "./useStorage";
 
 const useAccounts = () => {
-  const { fetchActiveAccountBalances, fetchActiveAccountActivity } =
+  const { fetchActiveAccountBalances, fetchActiveAccountTransactions } =
     useBlockchain();
   const { saveWallet, updateWallet } = useStorage();
   const { setWalletState } = useWalletStore.getState();
@@ -37,7 +37,7 @@ const useAccounts = () => {
       });
 
       isInitialSetup ? await saveWallet() : await updateWallet();
-      await fetchActiveAccountActivity();
+      await fetchActiveAccountTransactions();
     } catch (error) {
       console.error("Error creating account:", error);
       throw error;
@@ -57,7 +57,7 @@ const useAccounts = () => {
       }
 
       setAccounts(accounts);
-      await fetchActiveAccountActivity();
+      await fetchActiveAccountTransactions();
     } catch (error) {
       console.error("Error loading accounts:", error);
       throw error;
@@ -79,7 +79,7 @@ const useAccounts = () => {
         const nextActiveIndex = Math.min(...updatedInUseIndexes);
         setActiveAccountIndex(nextActiveIndex);
         await fetchActiveAccountBalances();
-        await fetchActiveAccountActivity();
+        await fetchActiveAccountTransactions();
       }
 
       removeAccount(index);
@@ -104,7 +104,7 @@ const useAccounts = () => {
       }
       setActiveAccountIndex(index);
       await fetchActiveAccountBalances();
-      await fetchActiveAccountActivity();
+      await fetchActiveAccountTransactions();
       await updateWallet();
     } catch (error) {
       console.error("Error switching active account:", error);
