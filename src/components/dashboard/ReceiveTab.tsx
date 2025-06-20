@@ -20,8 +20,10 @@ interface IQRCodeData {
 }
 
 const ReceiveTab = () => {
-  const activeAccount = useAccountsStore((s) => s.getActiveAccount());
-  const activeAccountIndex = useAccountsStore((s) => s.activeAccountIndex);
+  const activeAccount = useAccountsStore((state) => state.getActiveAccount());
+  const activeAccountIndex = useAccountsStore(
+    (state) => state.activeAccountIndex
+  );
 
   const [qrDataList, setQrDataList] = useState<IQRCodeData[] | null>(null);
   const [error, setError] = useState<string | null>(null);
