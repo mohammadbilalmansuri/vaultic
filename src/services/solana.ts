@@ -71,7 +71,7 @@ export const resetSolanaConnection = (): void => {
 
 export const isValidSolanaAddress = (address: string): boolean => {
   try {
-    validateAndGetSolanaPublicKey(address);
+    new PublicKey(address);
     return true;
   } catch {
     return false;
