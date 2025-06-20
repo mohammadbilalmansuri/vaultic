@@ -14,12 +14,16 @@ const AccountSwitcher = ({
   style = "default",
 }: AccountSwitcherProps) => {
   const { switchActiveAccount } = useAccounts();
-  const notify = useNotificationStore((s) => s.notify);
-  const accounts = useAccountsStore((s) => s.accounts);
-  const activeAccountIndex = useAccountsStore((s) => s.activeAccountIndex);
-  const switchingToAccount = useAccountsStore((s) => s.switchingToAccount);
+  const notify = useNotificationStore((state) => state.notify);
+  const accounts = useAccountsStore((state) => state.accounts);
+  const activeAccountIndex = useAccountsStore(
+    (state) => state.activeAccountIndex
+  );
+  const switchingToAccount = useAccountsStore(
+    (state) => state.switchingToAccount
+  );
   const setSwitchingToAccount = useAccountsStore(
-    (s) => s.setSwitchingToAccount
+    (state) => state.setSwitchingToAccount
   );
 
   const handleSwitch = async (index: number) => {
