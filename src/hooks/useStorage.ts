@@ -1,4 +1,8 @@
-import { useWalletStore, useAccountsStore, useActivityStore } from "@/stores";
+import {
+  useWalletStore,
+  useAccountsStore,
+  useTransactionsStore,
+} from "@/stores";
 import {
   getWalletData,
   saveWalletData,
@@ -14,7 +18,7 @@ import {
 const useStorage = () => {
   const { setWalletState, clearWallet } = useWalletStore.getState();
   const { setActiveAccountIndex, clearAccounts } = useAccountsStore.getState();
-  const { clearActivities } = useActivityStore.getState();
+  const { clearTransactions } = useTransactionsStore.getState();
 
   const isWalletStored = async (): Promise<boolean> => {
     try {
@@ -134,7 +138,7 @@ const useStorage = () => {
   const removeWallet = async (): Promise<void> => {
     try {
       await clearWalletData();
-      await Promise.all([clearWallet(), clearAccounts(), clearActivities()]);
+      await Promise.all([clearWallet(), clearAccounts(), clearTransactions()]);
     } catch (error) {
       console.error("Error removing wallet:", error);
       throw error;
