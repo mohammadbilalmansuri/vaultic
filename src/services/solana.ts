@@ -6,6 +6,7 @@ import {
   Transaction,
   sendAndConfirmTransaction,
   LAMPORTS_PER_SOL,
+  Commitment,
 } from "@solana/web3.js";
 import bs58 from "bs58";
 import { derivePath } from "ed25519-hd-key";
@@ -16,10 +17,12 @@ import getRpcUrl from "@/utils/getRpcUrl";
 
 let solanaConnection: Connection | null = null;
 
+const DEFAULT_COMMITMENT: Commitment = "confirmed";
+
 const getSolanaConnection = (): Connection => {
   if (!solanaConnection) {
     const rpc = getRpcUrl("solana");
-    solanaConnection = new Connection(rpc, "confirmed");
+    solanaConnection = new Connection(rpc, DEFAULT_COMMITMENT);
   }
   return solanaConnection;
 };
@@ -80,7 +83,8 @@ export const isValidSolanaAddress = (address: string): boolean => {
 
 export const getSolanaBalance = async (address: string): Promise<string> => {
   const pubkey = validateAndGetSolanaPublicKey(address);
-  const balance = await getSolanaConnection().getBalance(pubkey, "confirmed");
+  const connection = getSolanaConnection();
+  const balance = await connection.getBalance(pubkey);
   return convertLamportsToSol(balance);
 };
 
@@ -110,7 +114,7 @@ export const sendSolana = async (
     connection,
     transaction,
     [fromKeypair],
-    { maxRetries: 3 }
+    { maxRetries: 3, commitment: DEFAULT_COMMITMENT }
   );
 
   const txDetails = await connection.getTransaction(signature, {
@@ -204,7 +208,7 @@ export const requestSolanaAirdrop = async (
     throw new Error("You can only request up to 5 SOL at a time.");
   }
   const testnetRpc = getRpcUrl("solana", "testnet");
-  const connection = new Connection(testnetRpc, "confirmed");
+  const connection = new Connection(testnetRpc, DEFAULT_COMMITMENT);
   return await connection.requestAirdrop(pubkey, lamports);
 };
 
