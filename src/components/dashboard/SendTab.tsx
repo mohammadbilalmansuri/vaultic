@@ -7,7 +7,11 @@ import BigNumber from "bignumber.js";
 import Link from "next/link";
 import { NETWORKS } from "@/constants";
 import { TNetwork, ITabContentProps } from "@/types";
-import { useAccountsStore, useActivityStore, useWalletStore } from "@/stores";
+import {
+  useAccountsStore,
+  useTransactionsStore,
+  useWalletStore,
+} from "@/stores";
 import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
@@ -50,7 +54,7 @@ const SendTab = ({
     (state) => state.activeAccountIndex
   );
   const activeAccount = useAccountsStore((state) => state.getActiveAccount());
-  const addActivity = useActivityStore((state) => state.addActivity);
+  const addTransaction = useTransactionsStore((state) => state.addTransaction);
   const updateActiveAccount = useAccountsStore(
     (state) => state.updateActiveAccount
   );
@@ -158,30 +162,21 @@ const SendTab = ({
         return;
       }
 
-      const signature = await sendTransaction({
+      const transaction = await sendTransaction({
         network,
         fromPrivateKey: activeAccount[network].privateKey,
         toAddress,
         amount,
       });
 
-      addActivity({
-        signature,
-        from: activeAccount[network].address,
-        to: toAddress,
-        amount,
-        timestamp: Date.now(),
-        network,
-        status: "success",
-        type: "send",
-      });
+      addTransaction(network, transaction);
 
       updateActiveAccount({
         ...activeAccount,
         [network]: {
           ...activeAccount[network],
-          balance: new BigNumber(networkBalance.original)
-            .minus(amount)
+          balance: new BigNumber(activeAccount[network].balance)
+            .minus(new BigNumber(amount).plus(new BigNumber(transaction.fee)))
             .toString(),
         },
       });
@@ -197,7 +192,7 @@ const SendTab = ({
             </span>
           </>
         ),
-        signature,
+        signature: transaction.signature,
       });
     } catch {
       setSendStatus({
