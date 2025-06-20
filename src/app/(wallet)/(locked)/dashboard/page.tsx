@@ -32,7 +32,7 @@ const DashboardPage = () => {
     (state) => state.switchingToAccount
   );
 
-  const { fetchActiveAccountBalances, fetchActiveAccountActivity } =
+  const { fetchActiveAccountBalances, fetchActiveAccountTransactions } =
     useBlockchain();
 
   const [refreshing, startRefreshing] = useTransition();
@@ -41,7 +41,7 @@ const DashboardPage = () => {
     startRefreshing(async () => {
       try {
         await fetchActiveAccountBalances();
-        await fetchActiveAccountActivity();
+        await fetchActiveAccountTransactions();
         notify({
           type: "success",
           message: "Balances and activities refreshed successfully!",
