@@ -212,7 +212,13 @@ const SendTab = ({
     }
   };
 
-  const hasTabMounted = useMounted();
+  const hasTabMounted = useMounted(1000);
+
+  const firstStepAnimationProps = hasTabMounted
+    ? scaleUpAnimation({ duration: 0.15 })
+    : fadeUpAnimation({
+        delay: showInitialAnimation ? initialAnimationDelay : undefined,
+      });
 
   return (
     <AnimatePresence mode="wait">
@@ -220,11 +226,7 @@ const SendTab = ({
         <motion.div
           key="send-form-step"
           className="w-full flex flex-col items-center gap-4"
-          {...(showInitialAnimation
-            ? fadeUpAnimation({ delay: initialAnimationDelay })
-            : scaleUpAnimation(
-                hasTabMounted ? { duration: 0.15 } : { withExit: false }
-              ))}
+          {...firstStepAnimationProps}
         >
           <Select
             options={networkOptions}
