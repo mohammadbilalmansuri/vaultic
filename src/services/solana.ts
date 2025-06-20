@@ -10,6 +10,7 @@ import {
 import bs58 from "bs58";
 import { derivePath } from "ed25519-hd-key";
 import BigNumber from "bignumber.js";
+import { TRANSACTION_LIMIT } from "@/constants";
 import { ITransaction, INetworkAccount } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 
@@ -38,24 +39,33 @@ const getSolanaKeypairFromPrivateKey = (privateKey: string): Keypair => {
 const convertSolToLamports = (sol: string): number => {
   const parsed = new BigNumber(sol);
   if (parsed.isNaN() || parsed.isNegative() || parsed.isZero()) {
-    throw new Error("Invalid SOL amount");
+    throw new Error(
+      "Invalid SOL amount - must be a positive number greater than zero"
+    );
   }
-  return parsed.multipliedBy(LAMPORTS_PER_SOL).integerValue().toNumber();
+
+  const result = parsed.multipliedBy(LAMPORTS_PER_SOL).integerValue();
+  if (result.isGreaterThan(Number.MAX_SAFE_INTEGER)) {
+    throw new Error("Amount too large - exceeds maximum safe integer");
+  }
+
+  return result.toNumber();
 };
 
 const convertLamportsToSol = (lamports: number): string => {
+  if (lamports < 0) throw new Error("Lamports cannot be negative");
   return new BigNumber(lamports).dividedBy(LAMPORTS_PER_SOL).toString();
 };
 
 const validateAndGetSolanaPublicKey = (address: string): PublicKey => {
   try {
     return new PublicKey(address);
-  } catch (error) {
+  } catch {
     throw new Error("Invalid Solana address");
   }
 };
 
-export const resetSolanaConnection = () => {
+export const resetSolanaConnection = (): void => {
   solanaConnection = null;
 };
 
@@ -96,18 +106,19 @@ export const sendSolana = async (
   const { blockhash } = await connection.getLatestBlockhash();
   transaction.recentBlockhash = blockhash;
 
-  const signature = await sendAndConfirmTransaction(connection, transaction, [
-    fromKeypair,
-  ]);
+  const signature = await sendAndConfirmTransaction(
+    connection,
+    transaction,
+    [fromKeypair],
+    { maxRetries: 3 }
+  );
 
   const txDetails = await connection.getTransaction(signature, {
     maxSupportedTransactionVersion: 0,
   });
 
   if (!txDetails) {
-    throw new Error(
-      "Transaction not found. It may still be pending, rejected, or dropped by the network."
-    );
+    throw new Error("Transaction not confirmed or dropped by the network");
   }
 
   return {
@@ -131,8 +142,10 @@ export const getSolanaTransactions = async (
   const connection = getSolanaConnection();
 
   const signatures = await connection.getSignaturesForAddress(pubkey, {
-    limit: 10,
+    limit: TRANSACTION_LIMIT,
   });
+
+  if (signatures.length === 0) return [];
 
   const transactions: (ITransaction | null)[] = await Promise.all(
     signatures.map(async (sig) => {
@@ -141,7 +154,7 @@ export const getSolanaTransactions = async (
           maxSupportedTransactionVersion: 0,
         });
 
-        if (!tx) return null;
+        if (!tx || !tx.meta) return null;
 
         const instruction = tx.transaction.message.instructions.find(
           (ix) =>
@@ -155,7 +168,7 @@ export const getSolanaTransactions = async (
 
         const { source, destination, lamports } = instruction.parsed.info;
 
-        if (!source || !destination || !lamports) return null;
+        if (!source || !destination || lamports === null) return null;
 
         return {
           network: "solana",
@@ -164,13 +177,13 @@ export const getSolanaTransactions = async (
           to: destination,
           amount: convertLamportsToSol(lamports),
           block: tx.slot,
-          fee: tx.meta?.fee ? convertLamportsToSol(tx.meta.fee) : "0",
+          fee: tx.meta.fee ? convertLamportsToSol(tx.meta.fee) : "0",
           timestamp: tx.blockTime ? tx.blockTime * 1000 : Date.now(),
-          status: sig.err ? "failed" : "success",
+          status: sig.err || tx.meta.err ? "failed" : "success",
           type: address === source ? "send" : "receive",
         };
       } catch (err) {
-        console.warn(`Failed to process transaction ${sig.signature}`, err);
+        console.warn(`Failed to process transaction ${sig.signature}:`, err);
         return null;
       }
     })
@@ -192,13 +205,19 @@ export const requestSolanaAirdrop = async (
   }
   const testnetRpc = getRpcUrl("solana", "testnet");
   const connection = new Connection(testnetRpc, "confirmed");
-  return connection.requestAirdrop(pubkey, lamports);
+  return await connection.requestAirdrop(pubkey, lamports);
 };
 
 export const deriveSolanaAccount = async (
   seed: Buffer,
   index: number
 ): Promise<INetworkAccount> => {
+  if (!seed || seed.length === 0) throw new Error("Seed cannot be empty");
+
+  if (index < 0 || !Number.isInteger(index)) {
+    throw new Error("Index must be a non-negative integer");
+  }
+
   const path = `m/44'/501'/${index}'/0'`;
   const { key } = derivePath(path, seed.toString("hex"));
   const keypair = Keypair.fromSeed(key);
