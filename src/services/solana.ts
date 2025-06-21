@@ -19,7 +19,7 @@ import {
   TFetchBalanceFunction,
   TDeriveNetworkAccountFunction,
   TFetchTransactionsFunction,
-  TSendFunction,
+  TSendTokensFunction,
   TGetExplorerUrlFunction,
   TRequestAirdropFunction,
 } from "@/types";
@@ -176,7 +176,7 @@ export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
-export const sendSolana: TSendFunction = async (
+export const sendSolana: TSendTokensFunction = async (
   fromPrivateKey,
   toAddress,
   amount
