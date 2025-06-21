@@ -3,19 +3,13 @@ import { useState, FormEvent, ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import BigNumber from "bignumber.js";
 import Link from "next/link";
 import { NETWORKS } from "@/constants";
 import { TNetwork, ITabContentProps } from "@/types";
-import {
-  useAccountsStore,
-  useTransactionsStore,
-  useWalletStore,
-} from "@/stores";
+import { useAccountsStore, useWalletStore } from "@/stores";
 import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
-import delay from "@/utils/delay";
 import parseBalance from "@/utils/parseBalance";
 import { TSendForm, SendSchema } from "@/utils/validations";
 import { useBlockchain, useMounted, useAddressQRUpload } from "@/hooks";
@@ -54,10 +48,6 @@ const SendTab = ({
     (state) => state.activeAccountIndex
   );
   const activeAccount = useAccountsStore((state) => state.getActiveAccount());
-  const addTransaction = useTransactionsStore((state) => state.addTransaction);
-  const updateActiveAccount = useAccountsStore(
-    (state) => state.updateActiveAccount
-  );
 
   const [step, setStep] = useState<TSendStep>(1);
   const [network, setNetwork] = useState<TNetwork>("ethereum");
@@ -106,7 +96,7 @@ const SendTab = ({
     defaultValues: { toAddress: "", amount: "" },
   });
 
-  const { sendTransaction, isValidAddress } = useBlockchain();
+  const { sendTokensFromActiveAccount, isValidAddress } = useBlockchain();
   const { fileInputRef, triggerUpload, handleFileChange } = useAddressQRUpload({
     network,
     onAddressScanned: (address) =>
@@ -162,23 +152,10 @@ const SendTab = ({
         return;
       }
 
-      const transaction = await sendTransaction({
+      const { signature } = await sendTokensFromActiveAccount({
         network,
-        fromPrivateKey: activeAccount[network].privateKey,
         toAddress,
         amount,
-      });
-
-      addTransaction(network, transaction);
-
-      updateActiveAccount({
-        ...activeAccount,
-        [network]: {
-          ...activeAccount[network],
-          balance: new BigNumber(activeAccount[network].balance)
-            .minus(new BigNumber(amount).plus(new BigNumber(transaction.fee)))
-            .toString(),
-        },
       });
 
       setSendStatus({
@@ -192,7 +169,7 @@ const SendTab = ({
             </span>
           </>
         ),
-        signature: transaction.signature,
+        signature,
       });
     } catch {
       setSendStatus({
@@ -202,7 +179,6 @@ const SendTab = ({
         signature: "",
       });
     } finally {
-      await delay(1000);
       setStep(4);
     }
   };
@@ -446,7 +422,7 @@ const SendTab = ({
 
           {sendStatus.state === "success" && (
             <Link
-              href={networkConfig.explorerUrl(
+              href={networkConfig.functions.getExplorerUrl(
                 "tx",
                 networkMode,
                 sendStatus.signature
