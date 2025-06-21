@@ -98,17 +98,25 @@ const useBlockchain = () => {
     }
   };
 
+  const refreshActiveAccount = async (): Promise<void> => {
+    try {
+      await Promise.all([
+        fetchActiveAccountBalances(),
+        fetchActiveAccountTransactions(),
+      ]);
+    } catch (error) {
+      console.error("Failed to refresh active account:", error);
+      throw error;
+    }
+  };
+
   const switchNetworkMode = async (mode: TNetworkMode): Promise<void> => {
     try {
       Object.values(NETWORKS).forEach(({ functions: { resetConnection } }) => {
         resetConnection();
       });
       setWalletState({ networkMode: mode });
-      await Promise.all([
-        fetchActiveAccountBalances(),
-        fetchActiveAccountTransactions(),
-        updateWallet(),
-      ]);
+      await Promise.all([refreshActiveAccount(), updateWallet()]);
     } catch (error) {
       console.error("Failed to switch network mode:", error);
       throw error;
@@ -120,6 +128,7 @@ const useBlockchain = () => {
     fetchActiveAccountBalances,
     fetchActiveAccountTransactions,
     sendTokensFromActiveAccount,
+    refreshActiveAccount,
     switchNetworkMode,
   };
 };
