@@ -12,7 +12,17 @@ import bs58 from "bs58";
 import { derivePath } from "ed25519-hd-key";
 import BigNumber from "bignumber.js";
 import { TRANSACTION_LIMIT } from "@/constants";
-import { ITransaction, INetworkAccount } from "@/types";
+import {
+  ITransaction,
+  TResetConnectionFunction,
+  TIsValidAddressFunction,
+  TFetchBalanceFunction,
+  TDeriveNetworkAccountFunction,
+  TFetchTransactionsFunction,
+  TSendFunction,
+  TGetExplorerUrlFunction,
+  TRequestAirdropFunction,
+} from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 
 let solanaConnection: Connection | null = null;
@@ -38,6 +48,11 @@ const getSolanaKeypairFromPrivateKey = (privateKey: string): Keypair => {
   }
 };
 
+const convertLamportsToSol = (lamports: number): string => {
+  if (lamports < 0) throw new Error("Lamports cannot be negative");
+  return new BigNumber(lamports).dividedBy(LAMPORTS_PER_SOL).toString();
+};
+
 const convertSolToLamports = (sol: string): number => {
   const parsed = new BigNumber(sol);
   if (parsed.isNaN() || parsed.isNegative() || parsed.isZero()) {
@@ -54,11 +69,6 @@ const convertSolToLamports = (sol: string): number => {
   return result.toNumber();
 };
 
-const convertLamportsToSol = (lamports: number): string => {
-  if (lamports < 0) throw new Error("Lamports cannot be negative");
-  return new BigNumber(lamports).dividedBy(LAMPORTS_PER_SOL).toString();
-};
-
 const validateAndGetSolanaPublicKey = (address: string): PublicKey => {
   try {
     return new PublicKey(address);
@@ -67,11 +77,11 @@ const validateAndGetSolanaPublicKey = (address: string): PublicKey => {
   }
 };
 
-export const resetSolanaConnection = (): void => {
+export const resetSolanaConnection: TResetConnectionFunction = () => {
   solanaConnection = null;
 };
 
-export const isValidSolanaAddress = (address: string): boolean => {
+export const isValidSolanaAddress: TIsValidAddressFunction = (address) => {
   try {
     new PublicKey(address);
     return true;
@@ -80,67 +90,36 @@ export const isValidSolanaAddress = (address: string): boolean => {
   }
 };
 
-export const getSolanaBalance = async (address: string): Promise<string> => {
+export const fetchSolanaBalance: TFetchBalanceFunction = async (address) => {
   const pubkey = validateAndGetSolanaPublicKey(address);
   const connection = getSolanaConnection();
   const balance = await connection.getBalance(pubkey);
   return convertLamportsToSol(balance);
 };
 
-export const sendSolana = async (
-  fromPrivateKey: string,
-  toAddress: string,
-  amount: string
-): Promise<ITransaction> => {
-  const toPubkey = validateAndGetSolanaPublicKey(toAddress);
-  const lamports = convertSolToLamports(amount);
-  const fromKeypair = getSolanaKeypairFromPrivateKey(fromPrivateKey);
-  const connection = getSolanaConnection();
-
-  const transaction = new Transaction().add(
-    SystemProgram.transfer({
-      fromPubkey: fromKeypair.publicKey,
-      toPubkey,
-      lamports,
-    })
-  );
-
-  transaction.feePayer = fromKeypair.publicKey;
-  const { blockhash } = await connection.getLatestBlockhash();
-  transaction.recentBlockhash = blockhash;
-
-  const signature = await sendAndConfirmTransaction(
-    connection,
-    transaction,
-    [fromKeypair],
-    { maxRetries: 3, commitment: DEFAULT_COMMITMENT }
-  );
-
-  const txDetails = await connection.getTransaction(signature, {
-    maxSupportedTransactionVersion: 0,
-  });
-
-  if (!txDetails) {
-    throw new Error("Transaction not confirmed or dropped by the network");
+export const deriveSolanaAccount: TDeriveNetworkAccountFunction = async (
+  seed,
+  index
+) => {
+  if (!seed?.length) throw new Error("Seed cannot be empty");
+  if (index < 0 || !Number.isInteger(index)) {
+    throw new Error("Index must be a non-negative integer");
   }
 
-  return {
-    network: "solana",
-    signature,
-    from: fromKeypair.publicKey.toBase58(),
-    to: toAddress,
-    amount: convertLamportsToSol(lamports),
-    block: txDetails.slot.toString(),
-    fee: txDetails.meta?.fee ? convertLamportsToSol(txDetails.meta.fee) : "0",
-    timestamp: txDetails.blockTime ? txDetails.blockTime * 1000 : Date.now(),
-    status: txDetails.meta?.err ? "failed" : "success",
-    type: "send",
-  };
+  const path = `m/44'/501'/${index}'/0'`;
+  const { key } = derivePath(path, seed.toString("hex"));
+  const keypair = Keypair.fromSeed(key);
+
+  const address = keypair.publicKey.toBase58();
+  const privateKey = bs58.encode(keypair.secretKey);
+  const balance = await fetchSolanaBalance(address);
+
+  return { address, privateKey, balance };
 };
 
-export const getSolanaTransactions = async (
-  address: string
-): Promise<ITransaction[]> => {
+export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
+  address
+) => {
   const pubkey = validateAndGetSolanaPublicKey(address);
   const connection = getSolanaConnection();
 
@@ -197,10 +176,71 @@ export const getSolanaTransactions = async (
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
-export const requestSolanaAirdrop = async (
-  toAddress: string,
-  amount: string
-): Promise<string> => {
+export const sendSolana: TSendFunction = async (
+  fromPrivateKey,
+  toAddress,
+  amount
+) => {
+  const toPubkey = validateAndGetSolanaPublicKey(toAddress);
+  const lamports = convertSolToLamports(amount);
+  const fromKeypair = getSolanaKeypairFromPrivateKey(fromPrivateKey);
+  const connection = getSolanaConnection();
+
+  const transaction = new Transaction().add(
+    SystemProgram.transfer({
+      fromPubkey: fromKeypair.publicKey,
+      toPubkey,
+      lamports,
+    })
+  );
+
+  transaction.feePayer = fromKeypair.publicKey;
+  const { blockhash } = await connection.getLatestBlockhash();
+  transaction.recentBlockhash = blockhash;
+
+  const signature = await sendAndConfirmTransaction(
+    connection,
+    transaction,
+    [fromKeypair],
+    { maxRetries: 3, commitment: DEFAULT_COMMITMENT }
+  );
+
+  const txDetails = await connection.getTransaction(signature, {
+    maxSupportedTransactionVersion: 0,
+  });
+
+  if (!txDetails) {
+    throw new Error("Transaction not confirmed or dropped by the network");
+  }
+
+  return {
+    network: "solana",
+    signature,
+    from: fromKeypair.publicKey.toBase58(),
+    to: toAddress,
+    amount: convertLamportsToSol(lamports),
+    block: txDetails.slot.toString(),
+    fee: txDetails.meta?.fee ? convertLamportsToSol(txDetails.meta.fee) : "0",
+    timestamp: txDetails.blockTime ? txDetails.blockTime * 1000 : Date.now(),
+    status: txDetails.meta?.err ? "failed" : "success",
+    type: "send",
+  };
+};
+
+export const getSolanaExplorerUrl: TGetExplorerUrlFunction = (
+  type,
+  networkMode,
+  value
+) => {
+  return `https://solscan.io/${type}/${value}${
+    networkMode === "testnet" ? "?cluster=devnet" : ""
+  }`;
+};
+
+export const requestSolanaAirdrop: TRequestAirdropFunction = async (
+  toAddress,
+  amount
+) => {
   const pubkey = validateAndGetSolanaPublicKey(toAddress);
   const lamports = convertSolToLamports(amount);
   if (lamports > 5 * LAMPORTS_PER_SOL) {
@@ -209,24 +249,4 @@ export const requestSolanaAirdrop = async (
   const testnetRpc = getRpcUrl("solana", "testnet");
   const connection = new Connection(testnetRpc, DEFAULT_COMMITMENT);
   return await connection.requestAirdrop(pubkey, lamports);
-};
-
-export const deriveSolanaAccount = async (
-  seed: Buffer,
-  index: number
-): Promise<INetworkAccount> => {
-  if (!seed?.length) throw new Error("Seed cannot be empty");
-  if (index < 0 || !Number.isInteger(index)) {
-    throw new Error("Index must be a non-negative integer");
-  }
-
-  const path = `m/44'/501'/${index}'/0'`;
-  const { key } = derivePath(path, seed.toString("hex"));
-  const keypair = Keypair.fromSeed(key);
-
-  const address = keypair.publicKey.toBase58();
-  const privateKey = bs58.encode(keypair.secretKey);
-  const balance = await getSolanaBalance(address);
-
-  return { address, privateKey, balance };
 };
