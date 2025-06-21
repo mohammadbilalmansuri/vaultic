@@ -1,11 +1,15 @@
 import { ReactNode, Dispatch, SetStateAction, SVGProps, JSX } from "react";
 import { NETWORKS } from "./constants";
 
+// Global Types
+
 export interface IChildren {
   children: ReactNode;
 }
 
 export type TIcon = (props: SVGProps<SVGSVGElement>) => JSX.Element;
+
+// Notification Type
 
 export interface INotification {
   type?: "info" | "success" | "error";
@@ -13,22 +17,18 @@ export interface INotification {
   duration?: number;
 }
 
+// Network and Wallet Types
+
 export type TNetwork = keyof typeof NETWORKS;
+
 export type TNetworkMode = "mainnet" | "testnet";
+
 export type TWalletStatus = "checking" | "ready";
+
 export interface IIndexes {
   inUse: number[];
   deleted: number[];
 }
-
-export interface INetworkAccount {
-  address: string;
-  privateKey: string;
-  balance: string;
-}
-export type TAccount = Record<TNetwork, INetworkAccount>;
-export type TAccounts = Record<number, TAccount>;
-export type TUpdatedBalances = Record<TNetwork, string>;
 
 export interface IStoredWalletData {
   readonly hashedPassword: string;
@@ -38,7 +38,23 @@ export interface IStoredWalletData {
   readonly activeAccountIndex: number;
 }
 
-export type ITransaction = {
+// Account Types
+
+export interface INetworkAccount {
+  address: string;
+  privateKey: string;
+  balance: string;
+}
+
+export type TAccount = Record<TNetwork, INetworkAccount>;
+
+export type TAccounts = Record<number, TAccount>;
+
+export type TUpdatedBalances = Record<TNetwork, string>;
+
+// Transaction Types
+
+export interface ITransaction {
   readonly network: TNetwork;
   readonly signature: string;
   readonly from: string;
@@ -49,21 +65,76 @@ export type ITransaction = {
   readonly timestamp: number;
   readonly status: "success" | "failed";
   readonly type: "send" | "receive";
-};
+}
+
 export type TTransactions = Record<TNetwork, ITransaction[]>;
 
+// Network Functions Types
+
+export type TDeriveNetworkAccountFunction = (
+  seed: Buffer,
+  index: number
+) => Promise<INetworkAccount>;
+
+export type TFetchBalanceFunction = (address: string) => Promise<string>;
+
+export type TFetchTransactionsFunction = (
+  address: string
+) => Promise<ITransaction[]>;
+
+export type TGetExplorerUrlFunction = (
+  type: "tx" | "address",
+  networkMode: TNetworkMode,
+  value: string
+) => string;
+
+export type TIsValidAddressFunction = (address: string) => boolean;
+
+export type TRequestAirdropFunction = (
+  toAddress: string,
+  amount: string
+) => Promise<string>;
+
+export type TResetConnectionFunction = () => void;
+
+export type TSendFunction = (
+  fromPrivateKey: string,
+  toAddress: string,
+  amount: string
+) => Promise<ITransaction>;
+
+export interface INetworkFunctions {
+  deriveNetworkAccount: TDeriveNetworkAccountFunction;
+  fetchBalance: TFetchBalanceFunction;
+  fetchTransactions: TFetchTransactionsFunction;
+  getExplorerUrl: TGetExplorerUrlFunction;
+  isValidAddress: TIsValidAddressFunction;
+  requestAirdrop?: TRequestAirdropFunction;
+  resetConnection: TResetConnectionFunction;
+  send: TSendFunction;
+}
+
+// Wallet Setup Types
+
 export type TSetupPath = "create" | "import";
+
 export type TSetupStep = 1 | 2 | 3 | 4 | 5;
+
 export type TSetupSetPath = Dispatch<SetStateAction<TSetupPath>>;
+
 export type TSetupSetStep = Dispatch<SetStateAction<TSetupStep>>;
 
+// UI and Component Types
+
 export type TSelectVariant = "inline" | "dropdown";
+
 export type TSelectStyle = "default" | "input";
 
 export interface ITabContentProps {
   initialAnimationDelay?: number;
   showInitialAnimation?: boolean;
 }
+
 export type TTabs = Record<
   string,
   { icon?: TIcon; content: (props: ITabContentProps) => JSX.Element }
