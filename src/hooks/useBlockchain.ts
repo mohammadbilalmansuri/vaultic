@@ -103,11 +103,12 @@ const useBlockchain = () => {
       Object.values(NETWORKS).forEach(({ functions: { resetConnection } }) => {
         resetConnection();
       });
-
       setWalletState({ networkMode: mode });
-      await fetchActiveAccountBalances();
-      await fetchActiveAccountTransactions();
-      await updateWallet();
+      await Promise.all([
+        fetchActiveAccountBalances(),
+        fetchActiveAccountTransactions(),
+        updateWallet(),
+      ]);
     } catch (error) {
       console.error("Failed to switch network mode:", error);
       throw error;
