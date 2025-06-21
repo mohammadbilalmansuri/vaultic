@@ -15,7 +15,7 @@ import {
   TFetchBalanceFunction,
   TDeriveNetworkAccountFunction,
   TFetchTransactionsFunction,
-  TSendFunction,
+  TSendTokensFunction,
   TGetExplorerUrlFunction,
 } from "@/types";
 import { useWalletStore } from "@/stores";
@@ -156,7 +156,7 @@ export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
-export const sendEthereum: TSendFunction = async (
+export const sendEthereum: TSendTokensFunction = async (
   fromPrivateKey,
   toAddress,
   amount
