@@ -40,8 +40,10 @@ const DashboardPage = () => {
   const handleRefresh = () => {
     startRefreshing(async () => {
       try {
-        await fetchActiveAccountBalances();
-        await fetchActiveAccountTransactions();
+        await Promise.all([
+          fetchActiveAccountBalances(),
+          fetchActiveAccountTransactions(),
+        ]);
         notify({
           type: "success",
           message: "Balances and activities refreshed successfully!",
