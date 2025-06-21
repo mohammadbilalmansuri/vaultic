@@ -1,16 +1,16 @@
 "use client";
 import { useTransition } from "react";
+import Link from "next/link";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FAUCET_PRESET_AMOUNTS, NETWORKS } from "@/constants";
 import { useNotificationStore, useAccountsStore } from "@/stores";
+import { requestSolanaAirdrop } from "@/services/solana";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import { SolanaAirdropSchema, TSolanaAirdropForm } from "@/utils/validations";
-import { useBlockchain } from "@/hooks";
 import {
   Input,
   Combobox,
@@ -24,7 +24,6 @@ import { Solana } from "@/components/ui/icons";
 const SolanaFaucetPage = () => {
   const accounts = useAccountsStore((state) => state.accounts);
   const notify = useNotificationStore((state) => state.notify);
-  const { requestAirdrop } = useBlockchain();
   const [airdropping, startAirdropping] = useTransition();
 
   const accountsOptions = Object.entries(accounts).map(([key, account]) => ({
@@ -48,7 +47,7 @@ const SolanaFaucetPage = () => {
   const handleAirdrop = async ({ address, amount }: TSolanaAirdropForm) => {
     startAirdropping(async () => {
       try {
-        await requestAirdrop(address, amount);
+        await requestSolanaAirdrop(address, amount);
         notify({
           type: "success",
           message: `Airdrop complete — ${amount} SOL sent to ${getShortAddress(
@@ -56,13 +55,11 @@ const SolanaFaucetPage = () => {
           )}.`,
         });
         reset();
-      } catch (error) {
+      } catch {
         notify({
           type: "error",
           message:
-            error instanceof Error
-              ? error.message
-              : "Airdrop failed. Please try again later.",
+            "Airdrop request failed. You may have reached the rate limit (8-hour cooldown) or the faucet may be temporarily unavailable. Try the official Solana faucet if this persists.",
         });
       }
     });
