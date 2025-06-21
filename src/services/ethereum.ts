@@ -8,7 +8,16 @@ import {
 } from "ethers";
 import { Alchemy, Network, AssetTransfersCategory } from "alchemy-sdk";
 import { ALCHEMY_API_KEY, TRANSACTION_LIMIT } from "@/constants";
-import { ITransaction, INetworkAccount } from "@/types";
+import {
+  ITransaction,
+  TResetConnectionFunction,
+  TIsValidAddressFunction,
+  TFetchBalanceFunction,
+  TDeriveNetworkAccountFunction,
+  TFetchTransactionsFunction,
+  TSendFunction,
+  TGetExplorerUrlFunction,
+} from "@/types";
 import { useWalletStore } from "@/stores";
 import getRpcUrl from "@/utils/getRpcUrl";
 
@@ -41,16 +50,16 @@ const getEthereumTransactionFee = (
   return formatEther(gasUsed * gasPrice);
 };
 
-export const resetEthereumConnection = () => {
+export const resetEthereumConnection: TResetConnectionFunction = () => {
   ethereumProvider = null;
   alchemyInstance = null;
 };
 
-export const isValidEthereumAddress = (address: string): boolean => {
+export const isValidEthereumAddress: TIsValidAddressFunction = (address) => {
   return isAddress(address);
 };
 
-export const getEthereumBalance = async (address: string): Promise<string> => {
+export const fetchEthereumBalance: TFetchBalanceFunction = async (address) => {
   if (!isValidEthereumAddress(address)) {
     throw new Error("Invalid Ethereum address");
   }
@@ -59,44 +68,26 @@ export const getEthereumBalance = async (address: string): Promise<string> => {
   return formatEther(balance);
 };
 
-export const sendEthereum = async (
-  fromPrivateKey: string,
-  toAddress: string,
-  amount: string
-): Promise<ITransaction> => {
-  if (!isValidEthereumAddress(toAddress)) {
-    throw new Error("Invalid recipient address");
+export const deriveEthereumAccount: TDeriveNetworkAccountFunction = async (
+  seed,
+  index
+) => {
+  if (!seed?.length) throw new Error("Seed cannot be empty");
+  if (index < 0 || !Number.isInteger(index)) {
+    throw new Error("Index must be a non-negative integer");
   }
 
-  const provider = getEthereumProvider();
-  const wallet = new Wallet(fromPrivateKey, provider);
-  const value = parseEther(amount);
+  const path = `m/44'/60'/${index}'/0/0`;
+  const hdNode = HDNodeWallet.fromSeed(seed);
+  const { address, privateKey } = hdNode.derivePath(path);
+  const balance = await fetchEthereumBalance(address);
 
-  const tx = await wallet.sendTransaction({ to: toAddress, value });
-  const receipt = await tx.wait();
-
-  if (!receipt) throw new Error("Transaction failed or no receipt");
-
-  return {
-    timestamp: Date.now(),
-    network: "ethereum",
-    signature: tx.hash,
-    from: wallet.address,
-    to: toAddress,
-    amount,
-    block: receipt.blockNumber.toString(),
-    fee: getEthereumTransactionFee(
-      receipt.gasUsed,
-      receipt.gasPrice ?? tx.gasPrice ?? 0n
-    ),
-    status: receipt.status === 1 ? "success" : "failed",
-    type: "send",
-  };
+  return { address, privateKey, balance };
 };
 
-export const getEthereumTransactions = async (
-  address: string
-): Promise<ITransaction[]> => {
+export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
+  address
+) => {
   if (!isValidEthereumAddress(address)) {
     throw new Error("Invalid Ethereum address");
   }
@@ -165,19 +156,50 @@ export const getEthereumTransactions = async (
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
-export const deriveEthereumAccount = async (
-  seed: Buffer,
-  index: number
-): Promise<INetworkAccount> => {
-  if (!seed?.length) throw new Error("Seed cannot be empty");
-  if (index < 0 || !Number.isInteger(index)) {
-    throw new Error("Index must be a non-negative integer");
+export const sendEthereum: TSendFunction = async (
+  fromPrivateKey,
+  toAddress,
+  amount
+) => {
+  if (!isValidEthereumAddress(toAddress)) {
+    throw new Error("Invalid recipient address");
   }
 
-  const path = `m/44'/60'/${index}'/0/0`;
-  const hdNode = HDNodeWallet.fromSeed(seed);
-  const { address, privateKey } = hdNode.derivePath(path);
-  const balance = await getEthereumBalance(address);
+  const provider = getEthereumProvider();
+  const wallet = new Wallet(fromPrivateKey, provider);
+  const amountInWei = parseEther(amount);
 
-  return { address, privateKey, balance };
+  const tx = await wallet.sendTransaction({
+    to: toAddress,
+    value: amountInWei,
+  });
+  const receipt = await tx.wait();
+
+  if (!receipt) throw new Error("Transaction failed or no receipt");
+
+  return {
+    timestamp: Date.now(),
+    network: "ethereum",
+    signature: tx.hash,
+    from: wallet.address,
+    to: toAddress,
+    amount,
+    block: receipt.blockNumber.toString(),
+    fee: getEthereumTransactionFee(
+      receipt.gasUsed,
+      receipt.gasPrice ?? tx.gasPrice ?? 0n
+    ),
+    status: receipt.status === 1 ? "success" : "failed",
+    type: "send",
+  };
+};
+
+export const getEthereumExplorerUrl: TGetExplorerUrlFunction = (
+  type,
+  networkMode,
+  value
+) => {
+  return `https://${
+    networkMode === "testnet" ? "sepolia." : ""
+  }etherscan.io/${type}/${value}`;
 };
