@@ -1,9 +1,7 @@
 import * as z from "zod";
 import BigNumber from "bignumber.js";
-import { FAUCET_PRESET_AMOUNTS } from "@/constants";
+import { NETWORKS, FAUCET_PRESET_AMOUNTS } from "@/constants";
 import { TNetwork } from "@/types";
-import { isValidEthereumAddress } from "@/services/ethereum";
-import { isValidSolanaAddress } from "@/services/solana";
 
 const PasswordSchema = z
   .string()
@@ -40,30 +38,16 @@ export const ChangePasswordSchema = z
     path: ["newPassword"],
   });
 
-const AddressSchema = (network: string) => {
-  switch (network) {
-    case "solana":
-      return z
-        .string()
-        .trim()
-        .min(32, "Invalid Solana address")
-        .max(44, "Invalid Solana address")
-        .refine(
-          (value) => isValidSolanaAddress(value),
-          "Invalid Solana address"
-        );
-    case "ethereum":
-      return z
-        .string()
-        .trim()
-        .length(42, "Invalid Ethereum address")
-        .refine(
-          (value) => isValidEthereumAddress(value),
-          "Invalid Ethereum address"
-        );
-    default:
-      return z.string().trim().min(1, "Address is required");
-  }
+const AddressSchema = (network: TNetwork) => {
+  const {
+    name,
+    functions: { isValidAddress },
+  } = NETWORKS[network];
+  return z
+    .string()
+    .trim()
+    .min(1, "")
+    .refine((v) => isValidAddress(v), `Invalid ${name} address`);
 };
 
 export const SolanaAirdropSchema = z.object({
