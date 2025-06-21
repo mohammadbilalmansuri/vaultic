@@ -86,7 +86,7 @@ export type TFetchTransactionsFunction = (
   address: string
 ) => Promise<ITransaction[]>;
 
-export type TSendFunction = (
+export type TSendTokensFunction = (
   fromPrivateKey: string,
   toAddress: string,
   amount: string
@@ -109,7 +109,7 @@ export interface INetworkFunctions {
   fetchBalance: TFetchBalanceFunction;
   deriveNetworkAccount: TDeriveNetworkAccountFunction;
   fetchTransactions: TFetchTransactionsFunction;
-  send: TSendFunction;
+  sendTokens: TSendTokensFunction;
   getExplorerUrl: TGetExplorerUrlFunction;
   requestAirdrop?: TRequestAirdropFunction;
 }
