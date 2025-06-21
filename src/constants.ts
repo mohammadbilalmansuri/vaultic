@@ -1,4 +1,4 @@
-import { INetworkFunctions, TNetworkMode } from "./types";
+import { INetworkFunctions } from "./types";
 import {
   resetEthereumConnection,
   isValidEthereumAddress,
@@ -16,7 +16,6 @@ import {
   fetchSolanaTransactions,
   sendSolana,
   getSolanaExplorerUrl,
-  requestSolanaAirdrop,
 } from "@/services/solana";
 import { Ethereum, Solana } from "./components/ui/icons";
 
@@ -86,7 +85,6 @@ export const NETWORKS = {
       fetchTransactions: fetchSolanaTransactions,
       sendTokens: sendSolana,
       getExplorerUrl: getSolanaExplorerUrl,
-      requestAirdrop: requestSolanaAirdrop,
     } as INetworkFunctions,
   },
 } as const;

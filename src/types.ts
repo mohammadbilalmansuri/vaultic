@@ -111,7 +111,6 @@ export interface INetworkFunctions {
   fetchTransactions: TFetchTransactionsFunction;
   sendTokens: TSendTokensFunction;
   getExplorerUrl: TGetExplorerUrlFunction;
-  requestAirdrop?: TRequestAirdropFunction;
 }
 
 // Wallet Setup Types
