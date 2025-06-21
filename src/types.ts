@@ -71,31 +71,20 @@ export type TTransactions = Record<TNetwork, ITransaction[]>;
 
 // Network Functions Types
 
+export type TResetConnectionFunction = () => void;
+
+export type TIsValidAddressFunction = (address: string) => boolean;
+
+export type TFetchBalanceFunction = (address: string) => Promise<string>;
+
 export type TDeriveNetworkAccountFunction = (
   seed: Buffer,
   index: number
 ) => Promise<INetworkAccount>;
 
-export type TFetchBalanceFunction = (address: string) => Promise<string>;
-
 export type TFetchTransactionsFunction = (
   address: string
 ) => Promise<ITransaction[]>;
-
-export type TGetExplorerUrlFunction = (
-  type: "tx" | "address",
-  networkMode: TNetworkMode,
-  value: string
-) => string;
-
-export type TIsValidAddressFunction = (address: string) => boolean;
-
-export type TRequestAirdropFunction = (
-  toAddress: string,
-  amount: string
-) => Promise<string>;
-
-export type TResetConnectionFunction = () => void;
 
 export type TSendFunction = (
   fromPrivateKey: string,
@@ -103,15 +92,26 @@ export type TSendFunction = (
   amount: string
 ) => Promise<ITransaction>;
 
+export type TGetExplorerUrlFunction = (
+  type: "tx" | "address",
+  networkMode: TNetworkMode,
+  value: string
+) => string;
+
+export type TRequestAirdropFunction = (
+  toAddress: string,
+  amount: string
+) => Promise<string>;
+
 export interface INetworkFunctions {
-  deriveNetworkAccount: TDeriveNetworkAccountFunction;
-  fetchBalance: TFetchBalanceFunction;
-  fetchTransactions: TFetchTransactionsFunction;
-  getExplorerUrl: TGetExplorerUrlFunction;
-  isValidAddress: TIsValidAddressFunction;
-  requestAirdrop?: TRequestAirdropFunction;
   resetConnection: TResetConnectionFunction;
+  isValidAddress: TIsValidAddressFunction;
+  fetchBalance: TFetchBalanceFunction;
+  deriveNetworkAccount: TDeriveNetworkAccountFunction;
+  fetchTransactions: TFetchTransactionsFunction;
   send: TSendFunction;
+  getExplorerUrl: TGetExplorerUrlFunction;
+  requestAirdrop?: TRequestAirdropFunction;
 }
 
 // Wallet Setup Types
