@@ -21,8 +21,7 @@ const DEFAULT_COMMITMENT: Commitment = "confirmed";
 
 const getSolanaConnection = (): Connection => {
   if (!solanaConnection) {
-    const rpc = getRpcUrl("solana");
-    solanaConnection = new Connection(rpc, DEFAULT_COMMITMENT);
+    solanaConnection = new Connection(getRpcUrl("solana"), DEFAULT_COMMITMENT);
   }
   return solanaConnection;
 };
@@ -152,7 +151,7 @@ export const getSolanaTransactions = async (
   if (signatures.length === 0) return [];
 
   const transactions: (ITransaction | null)[] = await Promise.all(
-    signatures.map(async ({ signature, err }) => {
+    signatures.map(async ({ signature }) => {
       try {
         const tx = await connection.getParsedTransaction(signature, {
           maxSupportedTransactionVersion: 0,
@@ -172,7 +171,7 @@ export const getSolanaTransactions = async (
 
         const { source, destination, lamports } = instruction.parsed.info;
 
-        if (!source || !destination || lamports === null) return null;
+        if (!source || !destination || lamports == null) return null;
 
         return {
           network: "solana",
@@ -183,7 +182,7 @@ export const getSolanaTransactions = async (
           block: tx.slot.toString(),
           fee: tx.meta.fee ? convertLamportsToSol(tx.meta.fee) : "0",
           timestamp: tx.blockTime ? tx.blockTime * 1000 : Date.now(),
-          status: err || tx.meta.err ? "failed" : "success",
+          status: tx.meta.err ? "failed" : "success",
           type: address === source ? "send" : "receive",
         };
       } catch (err) {
