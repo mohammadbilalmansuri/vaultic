@@ -1,5 +1,4 @@
 import {
-  ethers,
   HDNodeWallet,
   JsonRpcProvider,
   Wallet,
@@ -18,8 +17,7 @@ let alchemyInstance: Alchemy | null = null;
 
 const getEthereumProvider = (): JsonRpcProvider => {
   if (!ethereumProvider) {
-    const rpc = getRpcUrl("ethereum");
-    ethereumProvider = new JsonRpcProvider(rpc);
+    ethereumProvider = new JsonRpcProvider(getRpcUrl("ethereum"));
   }
   return ethereumProvider;
 };
@@ -34,6 +32,13 @@ const getAlchemyInstance = (): Alchemy => {
     });
   }
   return alchemyInstance;
+};
+
+const getEthereumTransactionFee = (
+  gasUsed: bigint,
+  gasPrice: bigint
+): string => {
+  return formatEther(gasUsed * gasPrice);
 };
 
 export const resetEthereumConnection = () => {
@@ -69,6 +74,7 @@ export const sendEthereum = async (
 
   const tx = await wallet.sendTransaction({ to: toAddress, value });
   const receipt = await tx.wait();
+
   if (!receipt) throw new Error("Transaction failed or no receipt");
 
   return {
@@ -79,7 +85,10 @@ export const sendEthereum = async (
     to: toAddress,
     amount,
     block: receipt.blockNumber.toString(),
-    fee: formatEther(receipt.gasUsed * tx.gasPrice),
+    fee: getEthereumTransactionFee(
+      receipt.gasUsed,
+      receipt.gasPrice ?? tx.gasPrice ?? 0n
+    ),
     status: receipt.status === 1 ? "success" : "failed",
     type: "send",
   };
@@ -94,19 +103,15 @@ export const getEthereumTransactions = async (
 
   const provider = getEthereumProvider();
   const alchemy = getAlchemyInstance();
-  const latestBlock = await provider.getBlockNumber();
-  const fromBlock = ethers.toBeHex(latestBlock - 10000);
 
   const [incoming, outgoing] = await Promise.all([
     alchemy.core.getAssetTransfers({
-      fromBlock,
       toAddress: address,
       category: [AssetTransfersCategory.EXTERNAL],
       maxCount: TRANSACTION_LIMIT,
       withMetadata: true,
     }),
     alchemy.core.getAssetTransfers({
-      fromBlock,
       fromAddress: address,
       category: [AssetTransfersCategory.EXTERNAL],
       maxCount: TRANSACTION_LIMIT,
@@ -114,7 +119,7 @@ export const getEthereumTransactions = async (
     }),
   ]);
 
-  const transfers = [...incoming.transfers, ...outgoing.transfers]
+  const allTransfers = [...incoming.transfers, ...outgoing.transfers]
     .filter((tx) => tx.metadata?.blockTimestamp)
     .sort(
       (a, b) =>
@@ -124,7 +129,7 @@ export const getEthereumTransactions = async (
     .slice(0, TRANSACTION_LIMIT);
 
   const transactions: (ITransaction | null)[] = await Promise.all(
-    transfers.map(async ({ to, from, hash, metadata }) => {
+    allTransfers.map(async ({ to, from, hash, metadata }) => {
       try {
         const [txDetails, receipt] = await Promise.all([
           provider.getTransaction(hash),
@@ -139,10 +144,14 @@ export const getEthereumTransactions = async (
           to: to,
           amount: txDetails.value ? formatEther(txDetails.value) : "0",
           block: receipt.blockNumber.toString(),
-          fee: formatEther(receipt.gasUsed * txDetails.gasPrice),
+          fee: getEthereumTransactionFee(
+            receipt.gasUsed,
+            receipt.gasPrice ?? txDetails.gasPrice ?? 0n
+          ),
           timestamp: new Date(metadata.blockTimestamp).getTime(),
           status: receipt.status === 1 ? "success" : "failed",
-          type: from === address ? "send" : "receive",
+          type:
+            from.toLowerCase() === address.toLowerCase() ? "send" : "receive",
         };
       } catch (err) {
         console.warn(`Error processing Ethereum tx ${hash}:`, err);
@@ -164,9 +173,11 @@ export const deriveEthereumAccount = async (
   if (index < 0 || !Number.isInteger(index)) {
     throw new Error("Index must be a non-negative integer");
   }
+
   const path = `m/44'/60'/${index}'/0/0`;
   const hdNode = HDNodeWallet.fromSeed(seed);
   const { address, privateKey } = hdNode.derivePath(path);
   const balance = await getEthereumBalance(address);
+
   return { address, privateKey, balance };
 };
