@@ -116,7 +116,8 @@ const useBlockchain = () => {
         resetConnection();
       });
       setWalletState({ networkMode: mode });
-      await Promise.all([refreshActiveAccount(), updateWallet()]);
+      await updateWallet();
+      await refreshActiveAccount();
     } catch (error) {
       console.error("Failed to switch network mode:", error);
       throw error;
