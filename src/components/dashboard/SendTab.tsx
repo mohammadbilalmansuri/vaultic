@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
+import { DEFAULT_NETWORK } from "@/constants";
 import { TNetwork, ITabContentProps } from "@/types";
 import { useAccountsStore, useWalletStore } from "@/stores";
 import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
@@ -50,7 +51,7 @@ const SendTab = ({
   const activeAccount = useAccountsStore((state) => state.getActiveAccount());
 
   const [step, setStep] = useState<TSendStep>(1);
-  const [network, setNetwork] = useState<TNetwork>("ethereum");
+  const [network, setNetwork] = useState<TNetwork>(DEFAULT_NETWORK);
   const [sendStatus, setSendStatus] = useState<TSendStatus>({
     state: "sending",
     message: "",
