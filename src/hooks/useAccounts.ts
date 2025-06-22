@@ -5,7 +5,7 @@ import useBlockchain from "./useBlockchain";
 import useStorage from "./useStorage";
 
 const useAccounts = () => {
-  const { fetchActiveAccountBalances, fetchActiveAccountTransactions } =
+  const { fetchActiveAccountTransactions, refreshActiveAccount } =
     useBlockchain();
   const { saveWallet, updateWallet } = useStorage();
   const { setWalletState } = useWalletStore.getState();
@@ -78,8 +78,7 @@ const useAccounts = () => {
       if (activeAccountIndex === index) {
         const nextActiveIndex = Math.min(...updatedInUseIndexes);
         setActiveAccountIndex(nextActiveIndex);
-        await fetchActiveAccountBalances();
-        await fetchActiveAccountTransactions();
+        await refreshActiveAccount();
       }
 
       removeAccount(index);
@@ -103,9 +102,8 @@ const useAccounts = () => {
         throw new Error(`Account index ${index} does not exist`);
       }
       setActiveAccountIndex(index);
-      await fetchActiveAccountBalances();
-      await fetchActiveAccountTransactions();
       await updateWallet();
+      await refreshActiveAccount();
     } catch (error) {
       console.error("Error switching active account:", error);
       throw error;
