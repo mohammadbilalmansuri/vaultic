@@ -1,6 +1,7 @@
 import * as z from "zod";
 import BigNumber from "bignumber.js";
-import { NETWORKS, FAUCET_PRESET_AMOUNTS } from "@/constants";
+import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
+import { FAUCET_PRESET_AMOUNTS } from "@/constants";
 import { TNetwork } from "@/types";
 
 const PasswordSchema = z
@@ -39,15 +40,14 @@ export const ChangePasswordSchema = z
   });
 
 const AddressSchema = (network: TNetwork) => {
-  const {
-    name,
-    functions: { isValidAddress },
-  } = NETWORKS[network];
   return z
     .string()
     .trim()
     .min(1, "")
-    .refine((v) => isValidAddress(v), `Invalid ${name} address`);
+    .refine(
+      (value) => NETWORK_FUNCTIONS[network].isValidAddress(value),
+      `Invalid ${NETWORKS[network].name} address`
+    );
 };
 
 export const SolanaAirdropSchema = z.object({
