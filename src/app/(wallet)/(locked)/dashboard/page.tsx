@@ -12,13 +12,13 @@ import { useBlockchain } from "@/hooks";
 import { Loader, Tooltip, Tabs } from "@/components/ui";
 import { Send, QR, Clock, Refresh, Wallet } from "@/components/ui/icons";
 import { NetworkCard } from "@/components/wallet";
-import { SendTab, ReceiveTab, ActivityTab } from "@/components/dashboard";
+import { SendTab, ReceiveTab, TransactionsTab } from "@/components/dashboard";
 import cn from "@/utils/cn";
 
 const TABS: TTabs = {
   Send: { icon: Send, content: SendTab },
   Receive: { icon: QR, content: ReceiveTab },
-  Activity: { icon: Clock, content: ActivityTab },
+  Transactions: { icon: Clock, content: TransactionsTab },
 } as const;
 
 const DashboardPage = () => {
@@ -41,12 +41,12 @@ const DashboardPage = () => {
         await refreshActiveAccount();
         notify({
           type: "success",
-          message: "Balances and activities refreshed successfully!",
+          message: "Balances and transactions refreshed successfully!",
         });
       } catch {
         notify({
           type: "error",
-          message: "Failed to refresh balances and activities.",
+          message: "Failed to refresh balances and transactions.",
         });
       }
     });
@@ -86,7 +86,9 @@ const DashboardPage = () => {
         </div>
 
         <Tooltip
-          content={refreshing ? "Refreshing..." : "Refresh balances & activity"}
+          content={
+            refreshing ? "Refreshing..." : "Refresh balances & transactions"
+          }
         >
           <button
             className={cn("icon-btn-bg size-11", {
