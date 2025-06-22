@@ -1,5 +1,5 @@
 import { mnemonicToSeed } from "bip39";
-import { NETWORKS } from "@/constants";
+import { NETWORK_FUNCTIONS } from "@/config";
 import { TAccount } from "@/types";
 
 const deriveAccount = async (
@@ -9,10 +9,13 @@ const deriveAccount = async (
   const seed = await mnemonicToSeed(mnemonic);
 
   const accountEntries = await Promise.all(
-    Object.values(NETWORKS).map(
-      async ({ id, functions: { deriveNetworkAccount } }) => {
-        const { address, privateKey } = await deriveNetworkAccount(seed, index);
-        return [id, { address, privateKey, balance: "0" }] as const;
+    Object.entries(NETWORK_FUNCTIONS).map(
+      async ([network, { deriveNetworkAccount }]) => {
+        const { address, privateKey, balance } = await deriveNetworkAccount(
+          seed,
+          index
+        );
+        return [network, { address, privateKey, balance }] as const;
       }
     )
   );
