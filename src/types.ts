@@ -136,5 +136,5 @@ export interface ITabContentProps {
 
 export type TTabs = Record<
   string,
-  { icon?: TIcon; content: (props: ITabContentProps) => JSX.Element }
+  { icon?: TIcon; content: (props: ITabContentProps) => JSX.Element | null }
 >;
