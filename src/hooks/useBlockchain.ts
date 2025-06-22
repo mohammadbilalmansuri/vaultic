@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { NETWORKS } from "@/constants";
+import { NETWORK_FUNCTIONS } from "@/config";
 import { ITransaction, TNetwork, TNetworkMode } from "@/types";
 import {
   useWalletStore,
@@ -15,7 +15,7 @@ const useBlockchain = () => {
   const { setTransactions, addTransaction } = useTransactionsStore.getState();
 
   const isValidAddress = (network: TNetwork, address: string): boolean => {
-    return NETWORKS[network].functions.isValidAddress(address);
+    return NETWORK_FUNCTIONS[network].isValidAddress(address);
   };
 
   const fetchActiveAccountBalances = async (): Promise<void> => {
@@ -25,7 +25,7 @@ const useBlockchain = () => {
       Object.entries(activeAccount).map(
         async ([networkKey, { address, privateKey, balance }]) => {
           const network = networkKey as TNetwork;
-          const { fetchBalance } = NETWORKS[network].functions;
+          const { fetchBalance } = NETWORK_FUNCTIONS[network];
           try {
             const updatedBalance = await fetchBalance(address);
             return [network, { address, privateKey, balance: updatedBalance }];
@@ -46,7 +46,7 @@ const useBlockchain = () => {
     const transactionEntries = await Promise.all(
       Object.entries(activeAccount).map(async ([networkKey, { address }]) => {
         const network = networkKey as TNetwork;
-        const { fetchTransactions } = NETWORKS[network].functions;
+        const { fetchTransactions } = NETWORK_FUNCTIONS[network];
         try {
           const transactions = await fetchTransactions(address);
           return [network, transactions];
@@ -71,7 +71,7 @@ const useBlockchain = () => {
   }): Promise<ITransaction> => {
     const activeAccount = getActiveAccount();
     const networkAccount = activeAccount[network];
-    const { sendTokens } = NETWORKS[network].functions;
+    const { sendTokens } = NETWORK_FUNCTIONS[network];
 
     try {
       const transaction = await sendTokens(
@@ -112,7 +112,7 @@ const useBlockchain = () => {
 
   const switchNetworkMode = async (mode: TNetworkMode): Promise<void> => {
     try {
-      Object.values(NETWORKS).forEach(({ functions: { resetConnection } }) => {
+      Object.values(NETWORK_FUNCTIONS).forEach(({ resetConnection }) => {
         resetConnection();
       });
       setWalletState({ networkMode: mode });
