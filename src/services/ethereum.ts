@@ -135,7 +135,6 @@ export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
           from: from,
           to: to,
           amount: txDetails.value ? formatEther(txDetails.value) : "0",
-          block: receipt.blockNumber.toString(),
           fee: getEthereumTransactionFee(
             receipt.gasUsed,
             receipt.gasPrice ?? txDetails.gasPrice ?? 0n
@@ -185,7 +184,6 @@ export const sendEthereum: TSendTokensFunction = async (
     from: wallet.address,
     to: toAddress,
     amount,
-    block: receipt.blockNumber.toString(),
     fee: getEthereumTransactionFee(
       receipt.gasUsed,
       receipt.gasPrice ?? tx.gasPrice ?? 0n
