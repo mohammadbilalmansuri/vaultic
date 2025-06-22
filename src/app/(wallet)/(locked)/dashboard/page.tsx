@@ -32,23 +32,18 @@ const DashboardPage = () => {
     (state) => state.switchingToAccount
   );
 
-  const { fetchActiveAccountBalances, fetchActiveAccountTransactions } =
-    useBlockchain();
-
+  const { refreshActiveAccount } = useBlockchain();
   const [refreshing, startRefreshing] = useTransition();
 
   const handleRefresh = () => {
     startRefreshing(async () => {
       try {
-        await Promise.all([
-          fetchActiveAccountBalances(),
-          fetchActiveAccountTransactions(),
-        ]);
+        await refreshActiveAccount();
         notify({
           type: "success",
           message: "Balances and activities refreshed successfully!",
         });
-      } catch (error) {
+      } catch {
         notify({
           type: "error",
           message: "Failed to refresh balances and activities.",
