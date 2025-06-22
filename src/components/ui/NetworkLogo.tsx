@@ -1,4 +1,4 @@
-import { NETWORKS } from "@/constants";
+import { NETWORKS } from "@/config";
 import { TNetwork } from "@/types";
 import cn from "@/utils/cn";
 

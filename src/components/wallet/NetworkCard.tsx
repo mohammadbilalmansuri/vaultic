@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { NETWORKS } from "@/constants";
+import { NETWORKS } from "@/config";
 import { TNetwork, TNetworkMode } from "@/types";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
