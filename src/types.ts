@@ -1,5 +1,5 @@
 import { ReactNode, Dispatch, SetStateAction, SVGProps, JSX } from "react";
-import { NETWORKS } from "./constants";
+import { NETWORKS } from "@/config";
 
 // Global Types
 
@@ -103,15 +103,18 @@ export type TRequestAirdropFunction = (
   amount: string
 ) => Promise<string>;
 
-export interface INetworkFunctions {
-  resetConnection: TResetConnectionFunction;
-  isValidAddress: TIsValidAddressFunction;
-  fetchBalance: TFetchBalanceFunction;
-  deriveNetworkAccount: TDeriveNetworkAccountFunction;
-  fetchTransactions: TFetchTransactionsFunction;
-  sendTokens: TSendTokensFunction;
-  getExplorerUrl: TGetExplorerUrlFunction;
-}
+export type TNetworkFunctions = Record<
+  TNetwork,
+  {
+    resetConnection: TResetConnectionFunction;
+    isValidAddress: TIsValidAddressFunction;
+    fetchBalance: TFetchBalanceFunction;
+    deriveNetworkAccount: TDeriveNetworkAccountFunction;
+    fetchTransactions: TFetchTransactionsFunction;
+    sendTokens: TSendTokensFunction;
+    getExplorerUrl: TGetExplorerUrlFunction;
+  }
+>;
 
 // Wallet Setup Types
 
