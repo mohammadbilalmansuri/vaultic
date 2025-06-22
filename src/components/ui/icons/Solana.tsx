@@ -1,6 +1,6 @@
-import { SVGProps } from "react";
+import { TIcon } from "@/types";
 
-const Solana = ({ ...props }: SVGProps<SVGSVGElement>) => {
+const Solana: TIcon = (props) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 101 88" {...props}>
       <path

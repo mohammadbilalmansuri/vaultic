@@ -1,6 +1,6 @@
-import { SVGProps } from "react";
+import { TIcon } from "@/types";
 
-const Refresh = ({ ...props }: SVGProps<SVGSVGElement>) => {
+const Refresh: TIcon = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

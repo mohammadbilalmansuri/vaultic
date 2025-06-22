@@ -35,6 +35,8 @@ export { default as Trash } from "./Trash";
 export { default as Upload } from "./Upload";
 export { default as Wallet } from "./Wallet";
 export { default as WalletMoney } from "./WalletMoney";
+export { default as WalletReceive } from "./WalletReceive";
 export { default as WalletRecovery } from "./WalletRecovery";
+export { default as WalletSend } from "./WalletSend";
 export { default as Warning } from "./Warning";
 export { default as WiFiOff } from "./WiFiOff";

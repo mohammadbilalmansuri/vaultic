@@ -1,6 +1,6 @@
-import { SVGProps } from "react";
+import { TIcon } from "@/types";
 
-const Setting = ({ ...props }: SVGProps<SVGSVGElement>) => {
+const Setting: TIcon = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

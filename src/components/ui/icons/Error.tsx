@@ -1,6 +1,6 @@
-import { SVGProps } from "react";
+import { TIcon } from "@/types";
 
-const Error = ({ ...props }: SVGProps<SVGSVGElement>) => {
+const Error: TIcon = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
