@@ -107,13 +107,13 @@ export type TNetworkFunctions = Readonly<
   Record<
     TNetwork,
     Readonly<{
-      readonly resetConnection: TResetConnectionFunction;
-      readonly isValidAddress: TIsValidAddressFunction;
-      readonly fetchBalance: TFetchBalanceFunction;
-      readonly deriveNetworkAccount: TDeriveNetworkAccountFunction;
-      readonly fetchTransactions: TFetchTransactionsFunction;
-      readonly sendTokens: TSendTokensFunction;
-      readonly getExplorerUrl: TGetExplorerUrlFunction;
+      resetConnection: TResetConnectionFunction;
+      isValidAddress: TIsValidAddressFunction;
+      fetchBalance: TFetchBalanceFunction;
+      deriveNetworkAccount: TDeriveNetworkAccountFunction;
+      fetchTransactions: TFetchTransactionsFunction;
+      sendTokens: TSendTokensFunction;
+      getExplorerUrl: TGetExplorerUrlFunction;
     }>
   >
 >;
