@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
-import { NETWORKS } from "@/constants";
+import { NETWORKS } from "@/config";
 import { TNetwork } from "@/types";
 import { useAccountsStore } from "@/stores";
 import { generateQRCode } from "@/services/qr";

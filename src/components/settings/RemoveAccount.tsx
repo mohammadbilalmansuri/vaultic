@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DEV_PASSWORD, IS_DEV } from "@/constants";
+import { DEV_PASSWORD, IS_DEV } from "@/config";
 import { useWalletStore, useNotificationStore } from "@/stores";
 import cn from "@/utils/cn";
 import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";

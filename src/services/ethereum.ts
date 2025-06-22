@@ -7,7 +7,8 @@ import {
   formatEther,
 } from "ethers";
 import { Alchemy, Network, AssetTransfersCategory } from "alchemy-sdk";
-import { ALCHEMY_API_KEY, TRANSACTION_LIMIT } from "@/constants";
+import { ALCHEMY_API_KEY } from "@/config";
+import { TRANSACTION_LIMIT } from "@/constants";
 import {
   ITransaction,
   TResetConnectionFunction,

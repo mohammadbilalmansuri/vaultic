@@ -1,6 +1,6 @@
 import { create } from "zustand";
+import { NETWORKS } from "@/config";
 import { ITransaction, TNetwork, TTransactions } from "@/types";
-import { NETWORKS } from "@/constants";
 
 interface ITransactionsStore {
   transactions: TTransactions;

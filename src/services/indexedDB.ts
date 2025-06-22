@@ -1,4 +1,4 @@
-import { INDEXED_DB } from "@/constants";
+import { INDEXED_DB } from "@/config";
 import { IStoredWalletData } from "@/types";
 
 let dbInstance: IDBDatabase | null = null;

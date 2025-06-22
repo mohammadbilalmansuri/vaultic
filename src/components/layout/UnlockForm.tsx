@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IS_DEV, DEV_PASSWORD } from "@/constants";
+import { IS_DEV, DEV_PASSWORD } from "@/config";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";

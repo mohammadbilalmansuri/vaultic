@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { NETWORKS } from "@/constants";
+import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { TNetwork, ITabContentProps } from "@/types";
 import { useAccountsStore, useWalletStore } from "@/stores";
 import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
@@ -422,7 +422,7 @@ const SendTab = ({
 
           {sendStatus.state === "success" && (
             <Link
-              href={networkConfig.functions.getExplorerUrl(
+              href={NETWORK_FUNCTIONS[network].getExplorerUrl(
                 "tx",
                 networkMode,
                 sendStatus.signature
