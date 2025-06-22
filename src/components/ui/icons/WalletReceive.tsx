@@ -10,6 +10,7 @@ const WalletReceive: TIcon = (props) => {
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
+      {...props}
     >
       <path d="M18 2.91992V10.9199" />
       <path d="M21.2008 7.71997L18.0008 10.92L14.8008 7.71997" />
