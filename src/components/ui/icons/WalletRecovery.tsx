@@ -1,6 +1,6 @@
-import { SVGProps } from "react";
+import { TIcon } from "@/types";
 
-const WalletRecovery = ({ ...props }: SVGProps<SVGSVGElement>) => {
+const WalletRecovery: TIcon = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
