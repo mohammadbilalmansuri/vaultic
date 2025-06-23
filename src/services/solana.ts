@@ -159,6 +159,7 @@ export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
           to: destination,
           amount: convertLamportsToSol(lamports),
           fee: txn.meta.fee ? convertLamportsToSol(txn.meta.fee) : "0",
+          block: txn.slot.toString(),
           timestamp: txn.blockTime ? txn.blockTime * 1000 : Date.now(),
           status: txn.meta.err ? "failed" : "success",
           type:
@@ -222,6 +223,7 @@ export const sendSolana: TSendTokensFunction = async (
     to: toAddress,
     amount: convertLamportsToSol(lamports),
     fee: txDetails.meta?.fee ? convertLamportsToSol(txDetails.meta.fee) : "0",
+    block: txDetails.slot.toString(),
     timestamp: txDetails.blockTime ? txDetails.blockTime * 1000 : Date.now(),
     status: txDetails.meta?.err ? "failed" : "success",
     type: from === toAddress ? "self" : "out",
