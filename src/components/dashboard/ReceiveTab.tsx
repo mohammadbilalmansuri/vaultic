@@ -27,7 +27,7 @@ const ReceiveTab = () => {
 
   const [qrDataList, setQrDataList] = useState<IQRCodeData[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [copiedNetwork, setCopiedNetwork] = useState<TNetwork | null>(null);
+  const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
 
   const { downloadFile, shareFile } = useFileActions();
   const copyToClipboard = useClipboard();
@@ -145,12 +145,12 @@ const ReceiveTab = () => {
                     <CopyToggle
                       className="w-full justify-center border-t border-color p-3"
                       labels={{ copied: "Copied!", copy: "Copy Address" }}
-                      hasCopied={copiedNetwork === network}
+                      hasCopied={copiedAddress === network}
                       onClick={() =>
                         copyToClipboard(
                           address,
-                          copiedNetwork === network,
-                          (copied) => setCopiedNetwork(copied ? network : null)
+                          copiedAddress === network,
+                          (copied) => setCopiedAddress(copied ? address : null)
                         )
                       }
                     />
