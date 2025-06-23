@@ -132,13 +132,13 @@ export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
   const transactions: (ITransaction | null)[] = await Promise.all(
     signatures.map(async ({ signature }) => {
       try {
-        const tx = await connection.getParsedTransaction(signature, {
+        const txn = await connection.getParsedTransaction(signature, {
           maxSupportedTransactionVersion: 0,
         });
 
-        if (!tx || !tx.meta) return null;
+        if (!txn || !txn.meta) return null;
 
-        const instruction = tx.transaction.message.instructions.find(
+        const instruction = txn.transaction.message.instructions.find(
           (ix) =>
             "program" in ix &&
             ix.program === "system" &&
@@ -158,9 +158,9 @@ export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
           from: source,
           to: destination,
           amount: convertLamportsToSol(lamports),
-          fee: tx.meta.fee ? convertLamportsToSol(tx.meta.fee) : "0",
-          timestamp: tx.blockTime ? tx.blockTime * 1000 : Date.now(),
-          status: tx.meta.err ? "failed" : "success",
+          fee: txn.meta.fee ? convertLamportsToSol(txn.meta.fee) : "0",
+          timestamp: txn.blockTime ? txn.blockTime * 1000 : Date.now(),
+          status: txn.meta.err ? "failed" : "success",
           type:
             source === destination ? "self" : address === source ? "out" : "in",
         };
@@ -172,7 +172,7 @@ export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
   );
 
   return transactions
-    .filter((tx): tx is ITransaction => tx !== null)
+    .filter((txn): txn is ITransaction => txn !== null)
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
