@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import Image from "next/image";
 import { NETWORKS } from "@/config";
 import { TNetwork } from "@/types";
@@ -77,89 +77,87 @@ const ReceiveTab = () => {
   return (
     <div className="w-full flex flex-col items-center gap-8 text-center">
       <div className="w-full grid grid-cols-2 gap-7.5">
-        <AnimatePresence>
-          {qrDataList.map(({ network, address, qrCode }, index) => {
-            const networkName = NETWORKS[network].name;
-            return (
-              <motion.div
-                key={network}
-                className="w-full flex flex-col items-center border-1.5 border-color rounded-3xl"
-                {...fadeUpAnimation({ delay: 0.1 * index })}
-              >
-                <div className="w-full flex items-center justify-between border-b-1.5 border-color px-4 py-3">
-                  <h4 className="text-lg font-medium heading-color">
-                    {networkName} Address
-                  </h4>
+        {qrDataList.map(({ network, address, qrCode }, index) => {
+          const networkName = NETWORKS[network].name;
+          return (
+            <motion.div
+              key={network}
+              className="w-full flex flex-col items-center border-1.5 border-color rounded-3xl"
+              {...fadeUpAnimation({ delay: 0.1 * index })}
+            >
+              <div className="w-full flex items-center justify-between border-b-1.5 border-color px-4 py-3">
+                <h4 className="text-lg font-medium heading-color">
+                  {networkName} Address
+                </h4>
 
-                  <div className="flex items-center gap-5">
-                    <Tooltip content="Download QR Code">
-                      <button
-                        className="icon-btn"
-                        onClick={({ currentTarget }) => {
-                          downloadFile({
-                            file: qrCode,
-                            fileName: `${network}-${address}-qr-code.png`,
-                            successMessage: `${networkName} QR code downloaded successfully`,
-                          });
-                          currentTarget.blur();
-                        }}
-                      >
-                        <Download />
-                      </button>
-                    </Tooltip>
+                <div className="flex items-center gap-5">
+                  <Tooltip content="Download QR Code">
+                    <button
+                      className="icon-btn"
+                      onClick={({ currentTarget }) => {
+                        downloadFile({
+                          file: qrCode,
+                          fileName: `${network}-${address}-qr-code.png`,
+                          successMessage: `${networkName} QR code downloaded successfully`,
+                        });
+                        currentTarget.blur();
+                      }}
+                    >
+                      <Download />
+                    </button>
+                  </Tooltip>
 
-                    <Tooltip content="Share QR Code">
-                      <button
-                        className="icon-btn"
-                        onClick={async ({ currentTarget }) => {
-                          await shareFile({
-                            file: qrCode,
-                            fileName: `${network}-${address}-qr-code.png`,
-                            title: `${networkName} QR Code`,
-                            text: `Use this QR code to send funds to my ${networkName} wallet.`,
-                          });
-                          currentTarget.blur();
-                        }}
-                      >
-                        <Share />
-                      </button>
-                    </Tooltip>
-                  </div>
+                  <Tooltip content="Share QR Code">
+                    <button
+                      className="icon-btn"
+                      onClick={async ({ currentTarget }) => {
+                        await shareFile({
+                          file: qrCode,
+                          fileName: `${network}-${address}-qr-code.png`,
+                          title: `${networkName} QR Code`,
+                          text: `Use this QR code to send funds to my ${networkName} wallet.`,
+                        });
+                        currentTarget.blur();
+                      }}
+                    >
+                      <Share />
+                    </button>
+                  </Tooltip>
                 </div>
+              </div>
 
-                <div className="flex flex-col items-center gap-6 p-6">
-                  <Image
-                    src={qrCode}
-                    alt={`${networkName} QR Code`}
-                    width={200}
-                    height={200}
-                    className="size-40 rounded-lg"
-                    loading="lazy"
+              <div className="flex flex-col items-center gap-6 p-6">
+                <Image
+                  src={qrCode}
+                  alt={`${networkName} QR Code`}
+                  width={200}
+                  height={200}
+                  className="size-40 rounded-lg"
+                  loading="lazy"
+                />
+
+                <div className="w-full bg-input border border-color rounded-2xl">
+                  <p className="heading-color pt-4 pb-3 px-8 break-all">
+                    {address}
+                  </p>
+
+                  <CopyToggle
+                    className="w-full justify-center border-t border-color p-3"
+                    labels={{ copied: "Copied!", copy: "Copy Address" }}
+                    hasCopied={copiedAddress === network}
+                    onClick={() =>
+                      copyToClipboard(
+                        address,
+                        copiedAddress === network,
+                        (copied) => setCopiedAddress(copied ? address : null)
+                      )
+                    }
                   />
-
-                  <div className="w-full bg-input border border-color rounded-2xl">
-                    <p className="heading-color pt-4 pb-3 px-8 break-all">
-                      {address}
-                    </p>
-
-                    <CopyToggle
-                      className="w-full justify-center border-t border-color p-3"
-                      labels={{ copied: "Copied!", copy: "Copy Address" }}
-                      hasCopied={copiedAddress === network}
-                      onClick={() =>
-                        copyToClipboard(
-                          address,
-                          copiedAddress === network,
-                          (copied) => setCopiedAddress(copied ? address : null)
-                        )
-                      }
-                    />
-                  </div>
                 </div>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
 
       <motion.p {...fadeUpAnimation({ delay: qrDataList.length * 0.1 })}>
