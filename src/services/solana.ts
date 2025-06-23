@@ -161,7 +161,8 @@ export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
           fee: tx.meta.fee ? convertLamportsToSol(tx.meta.fee) : "0",
           timestamp: tx.blockTime ? tx.blockTime * 1000 : Date.now(),
           status: tx.meta.err ? "failed" : "success",
-          type: address === source ? "send" : "receive",
+          type:
+            source === destination ? "self" : address === source ? "out" : "in",
         };
       } catch (err) {
         console.warn(`Failed to process transaction ${signature}:`, err);
@@ -212,16 +213,18 @@ export const sendSolana: TSendTokensFunction = async (
     throw new Error("Transaction not confirmed or dropped by the network");
   }
 
+  const from = fromKeypair.publicKey.toBase58();
+
   return {
     network: "solana",
     signature,
-    from: fromKeypair.publicKey.toBase58(),
+    from,
     to: toAddress,
     amount: convertLamportsToSol(lamports),
     fee: txDetails.meta?.fee ? convertLamportsToSol(txDetails.meta.fee) : "0",
     timestamp: txDetails.blockTime ? txDetails.blockTime * 1000 : Date.now(),
     status: txDetails.meta?.err ? "failed" : "success",
-    type: "send",
+    type: from === toAddress ? "self" : "out",
   };
 };
 
