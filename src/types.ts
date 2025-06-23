@@ -54,8 +54,6 @@ export type TUpdatedBalances = Record<TNetwork, string>;
 
 // Transaction Types
 
-export type TTransactionType = "in" | "out" | "self";
-
 export interface ITransaction {
   readonly network: TNetwork;
   readonly signature: string;
@@ -65,7 +63,7 @@ export interface ITransaction {
   readonly fee: string;
   readonly timestamp: number;
   readonly status: "success" | "failed";
-  readonly type: TTransactionType;
+  readonly type: "in" | "out" | "self";
 }
 
 export type TTransactions = Record<TNetwork, ITransaction[]>;
