@@ -143,6 +143,16 @@ const SendTab = ({
     try {
       const { toAddress, amount } = getValues();
 
+      if (toAddress === activeAccount[network].address) {
+        setSendStatus({
+          state: "error",
+          message:
+            "It looks like you’re trying to send tokens to your own wallet. We’ve cancelled the transaction to save you from unnecessary network fees.",
+          signature: "",
+        });
+        return;
+      }
+
       const { signature } = await sendTokensFromActiveAccount({
         network,
         toAddress,
