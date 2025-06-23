@@ -141,6 +141,7 @@ export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
             receipt.gasPrice ?? txDetails.gasPrice ?? 0n
           ),
           timestamp: new Date(metadata.blockTimestamp).getTime(),
+          block: receipt.blockNumber.toString(),
           status: receipt.status === 1 ? "success" : "failed",
           type:
             from.toLowerCase() === to.toLowerCase()
@@ -193,6 +194,7 @@ export const sendEthereum: TSendTokensFunction = async (
       receipt.gasUsed,
       receipt.gasPrice ?? txn.gasPrice ?? 0n
     ),
+    block: receipt.blockNumber.toString(),
     status: receipt.status === 1 ? "success" : "failed",
     type:
       wallet.address.toLowerCase() === toAddress.toLowerCase() ? "self" : "out",
