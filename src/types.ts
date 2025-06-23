@@ -61,6 +61,7 @@ export interface ITransaction {
   readonly to: string;
   readonly amount: string;
   readonly fee: string;
+  readonly block: string;
   readonly timestamp: number;
   readonly status: "success" | "failed";
   readonly type: "in" | "out" | "self";
