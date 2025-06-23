@@ -36,8 +36,8 @@ const withTransaction = async <T>(
   const db = await openDB();
 
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(INDEXED_DB.STORE_NAME, mode);
-    const store = tx.objectStore(INDEXED_DB.STORE_NAME);
+    const txn = db.transaction(INDEXED_DB.STORE_NAME, mode);
+    const store = txn.objectStore(INDEXED_DB.STORE_NAME);
     const request = callback(store);
 
     request.onsuccess = () => resolve(request.result);

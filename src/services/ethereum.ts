@@ -112,7 +112,7 @@ export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
   ]);
 
   const allTransfers = [...incoming.transfers, ...outgoing.transfers]
-    .filter((tx) => tx.metadata?.blockTimestamp)
+    .filter((txn) => txn.metadata?.blockTimestamp)
     .sort(
       (a, b) =>
         new Date(b.metadata!.blockTimestamp).getTime() -
@@ -150,14 +150,14 @@ export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
               : "in",
         };
       } catch (err) {
-        console.warn(`Error processing Ethereum tx ${hash}:`, err);
+        console.warn(`Error processing Ethereum txn ${hash}:`, err);
         return null;
       }
     })
   );
 
   return transactions
-    .filter((tx): tx is ITransaction => tx !== null)
+    .filter((txn): txn is ITransaction => txn !== null)
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
@@ -174,24 +174,24 @@ export const sendEthereum: TSendTokensFunction = async (
   const wallet = new Wallet(fromPrivateKey, provider);
   const amountInWei = parseEther(amount);
 
-  const tx = await wallet.sendTransaction({
+  const txn = await wallet.sendTransaction({
     to: toAddress,
     value: amountInWei,
   });
-  const receipt = await tx.wait();
+  const receipt = await txn.wait();
 
   if (!receipt) throw new Error("Transaction failed or no receipt");
 
   return {
     timestamp: Date.now(),
     network: "ethereum",
-    signature: tx.hash,
+    signature: txn.hash,
     from: wallet.address,
     to: toAddress,
     amount,
     fee: getEthereumTransactionFee(
       receipt.gasUsed,
-      receipt.gasPrice ?? tx.gasPrice ?? 0n
+      receipt.gasPrice ?? txn.gasPrice ?? 0n
     ),
     status: receipt.status === 1 ? "success" : "failed",
     type:

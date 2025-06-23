@@ -414,7 +414,7 @@ const SendTab = ({
           {sendStatus.state === "success" && (
             <Link
               href={NETWORK_FUNCTIONS[network].getExplorerUrl(
-                "tx",
+                "txn",
                 networkMode,
                 sendStatus.signature
               )}
