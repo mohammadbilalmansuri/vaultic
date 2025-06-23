@@ -63,7 +63,7 @@ export interface ITransaction {
   readonly fee: string;
   readonly timestamp: number;
   readonly status: "success" | "failed";
-  readonly type: "send" | "receive";
+  readonly type: "in" | "out" | "self";
 }
 
 export type TTransactions = Record<TNetwork, ITransaction[]>;
