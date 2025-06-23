@@ -226,7 +226,7 @@ export const sendSolana: TSendTokensFunction = async (
     block: txDetails.slot.toString(),
     timestamp: txDetails.blockTime ? txDetails.blockTime * 1000 : Date.now(),
     status: txDetails.meta?.err ? "failed" : "success",
-    type: from === toAddress ? "self" : "out",
+    type: "out",
   };
 };
 

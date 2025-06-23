@@ -196,8 +196,7 @@ export const sendEthereum: TSendTokensFunction = async (
     ),
     block: receipt.blockNumber.toString(),
     status: receipt.status === 1 ? "success" : "failed",
-    type:
-      wallet.address.toLowerCase() === toAddress.toLowerCase() ? "self" : "out",
+    type: "out",
   };
 };
 
