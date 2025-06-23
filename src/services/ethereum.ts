@@ -127,13 +127,14 @@ export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
           provider.getTransaction(hash),
           provider.getTransactionReceipt(hash),
         ]);
+
         if (!txDetails || !receipt || !to) return null;
 
         return {
           network: "ethereum",
           signature: hash,
-          from: from,
-          to: to,
+          from,
+          to,
           amount: txDetails.value ? formatEther(txDetails.value) : "0",
           fee: getEthereumTransactionFee(
             receipt.gasUsed,
@@ -142,7 +143,11 @@ export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
           timestamp: new Date(metadata.blockTimestamp).getTime(),
           status: receipt.status === 1 ? "success" : "failed",
           type:
-            from.toLowerCase() === address.toLowerCase() ? "send" : "receive",
+            from.toLowerCase() === to.toLowerCase()
+              ? "self"
+              : from.toLowerCase() === address.toLowerCase()
+              ? "out"
+              : "in",
         };
       } catch (err) {
         console.warn(`Error processing Ethereum tx ${hash}:`, err);
@@ -189,7 +194,8 @@ export const sendEthereum: TSendTokensFunction = async (
       receipt.gasPrice ?? tx.gasPrice ?? 0n
     ),
     status: receipt.status === 1 ? "success" : "failed",
-    type: "send",
+    type:
+      wallet.address.toLowerCase() === toAddress.toLowerCase() ? "self" : "out",
   };
 };
 
