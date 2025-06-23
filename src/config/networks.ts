@@ -11,6 +11,7 @@ export const NETWORKS = {
     fee: "0.0001",
     rentExemption: "0",
     svgUrlForQR: "/ethereum.svg",
+    txnSignatureLabel: "Hash",
     rpc: {
       mainnet: process.env.NEXT_PUBLIC_ETH_MAINNET_RPC!,
       testnet: process.env.NEXT_PUBLIC_ETH_SEPOLIA_RPC!,
@@ -26,6 +27,7 @@ export const NETWORKS = {
     fee: "0.00008",
     rentExemption: "0.00089088",
     svgUrlForQR: "/solana.svg",
+    txnSignatureLabel: "Signature",
     rpc: {
       mainnet: process.env.NEXT_PUBLIC_SOLANA_MAINNET_RPC!,
       testnet: process.env.NEXT_PUBLIC_SOLANA_DEVNET_RPC!,
