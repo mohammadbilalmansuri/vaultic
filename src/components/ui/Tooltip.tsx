@@ -47,7 +47,7 @@ const Tooltip = ({
             exit={{ opacity: 0, scale: 0.8, y: position === "top" ? 10 : -10 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
             className={cn(
-              "absolute z-50 whitespace-nowrap rounded-lg p-2 text-sm pointer-events-none bg-zinc-950 text-zinc-200 leading-none font-medium dark:font-normal shadow-lg select-none",
+              "absolute z-50 whitespace-nowrap rounded-lg p-2 text-sm bg-zinc-950 text-zinc-200 leading-none font-medium dark:font-normal shadow-lg",
               {
                 "bottom-full mb-1": position === "top",
                 "top-full mt-1": position === "bottom",
