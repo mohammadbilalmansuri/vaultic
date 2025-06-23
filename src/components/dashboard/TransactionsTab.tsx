@@ -66,112 +66,103 @@ const TransactionsTab = () => {
       </motion.div>
 
       <motion.div
-        className="w-full relative border-1.5 border-color rounded-2xl overflow scrollbar-thin"
+        className="w-full relative border-1.5 border-color rounded-2xl overflow-hidden"
         {...fadeUpAnimation({ delay: 0.1 })}
       >
-        <table className="w-full relative text-sm text-left">
-          <thead className="w-full relative bg-primary">
-            <tr className="w-full relative h-12">
-              {[
-                "",
-                networkConfig.txnSignatureLabel,
-                "Block",
-                "Date Time",
-                "Type",
-                "From/To",
-                "Amount",
-                "Txn Fee",
-              ].map((header) => (
-                <th className="px-4 heading-color capitalize font-semibold whitespace-nowrap">
-                  {header}
-                </th>
-              ))}
-            </tr>
-          </thead>
+        <div className="w-full relative overflow-x-auto scrollbar-thin">
+          <table className="w-full relative text-sm text-left">
+            <thead className="w-full relative bg-primary">
+              <tr className="w-full relative h-12">
+                {[
+                  networkConfig.txnSignatureLabel,
+                  "Block",
+                  "Date Time",
+                  "Type",
+                  "From/To",
+                  "Amount",
+                  "Txn Fee",
+                ].map((header) => (
+                  <th className="px-4 heading-color capitalize font-semibold whitespace-nowrap">
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
 
-          <tbody className="w-full relative">
-            {networkTransactions.map((txn) => (
-              <tr
-                key={txn.signature}
-                className="w-full h-12 relative border-t border-color hover:bg-primary"
-              >
-                <td className="px-4 whitespace-nowrap">
-                  <Link
-                    href={networkGetExplorerUrl(
-                      "tx",
-                      networkMode,
-                      txn.signature
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="icon-btn-bg-sm border border-color hover:border-focus"
-                  >
-                    <Eye className="w-4" />
-                  </Link>
-                </td>
-                <td className="px-4 whitespace-nowrap">
-                  <div className="flex items-center gap-1">
-                    <Tooltip content={txn.signature}>
+            <tbody className="w-full relative">
+              {networkTransactions.map((txn) => (
+                <tr
+                  key={txn.signature}
+                  className="w-full h-12 relative border-t border-color hover:bg-primary"
+                >
+                  <td className="px-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <Tooltip content="View Txn Details">
+                        <Link
+                          href={networkGetExplorerUrl(
+                            "tx",
+                            networkMode,
+                            txn.signature
+                          )}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-teal-500 truncate max-w-40"
+                        >
+                          {txn.signature}
+                        </Link>
+                      </Tooltip>
+                      <Tooltip
+                        content={`Copy ${networkConfig.txnSignatureLabel}`}
+                      >
+                        <CopyToggle
+                          hasCopied={copiedText === txn.signature}
+                          onClick={() => handleCopy(txn.signature)}
+                          iconProps={{ className: "w-3.5 flex-shrink-0" }}
+                        />
+                      </Tooltip>
+                    </div>
+                  </td>
+                  <td className="px-4 whitespace-nowrap">
+                    <Tooltip content="View Block Details">
                       <Link
                         href={networkGetExplorerUrl(
-                          "tx",
+                          "block",
                           networkMode,
-                          txn.signature
+                          txn.block
                         )}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-teal-500 truncate max-w-40"
                       >
-                        {txn.signature}
+                        {txn.block}
                       </Link>
                     </Tooltip>
-                    <CopyToggle
-                      hasCopied={copiedText === txn.signature}
-                      onClick={() => handleCopy(txn.signature)}
-                      iconProps={{ className: "w-3.5 flex-shrink-0" }}
-                    />
-                  </div>
-                </td>
-                <td className="px-4 whitespace-nowrap">
-                  <Link
-                    href={networkGetExplorerUrl(
-                      "block",
-                      networkMode,
-                      txn.block
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-teal-500 truncate max-w-40"
-                  >
-                    {txn.block}
-                  </Link>
-                </td>
-                <td className="px-4 whitespace-nowrap">
-                  <span>{parseTimestamp(txn.timestamp)}</span>
-                </td>
-                <td className="px-4 whitespace-nowrap">
-                  <span
-                    className={cn(
-                      "px-2.5 py-1.5 inline-block text-xs font-semibold rounded-lg uppercase tracking-wide",
-                      {
-                        "bg-teal-500/10 text-teal-500 border border-teal-500/20":
-                          txn.type === "in",
-                        "bg-yellow-500/10 text-yellow-500 border border-yellow-500/20":
-                          txn.type === "out",
-                        "bg-secondary text-color border border-color":
-                          txn.type === "self",
-                      }
-                    )}
-                  >
-                    {txn.type}
-                  </span>
-                </td>
-                <td className="px-4 whitespace-nowrap">
-                  {txn.type !== "self" ? (
+                  </td>
+                  <td className="px-4 whitespace-nowrap">
+                    <span>{parseTimestamp(txn.timestamp)}</span>
+                  </td>
+                  <td className="px-4 whitespace-nowrap">
+                    <span
+                      className={cn(
+                        "w-11 h-6.5 pt-px flex items-center justify-center text-xs font-semibold rounded-lg uppercase tracking-wide",
+                        {
+                          "bg-teal-500/10 text-teal-500 border border-teal-500/30 dark:border-teal-500/10":
+                            txn.type === "in",
+                          "bg-yellow-500/10 text-yellow-700 dark:text-yellow-500 border border-yellow-500/30 dark:border-yellow-500/10":
+                            txn.type === "out",
+                          "bg-primary heading-color border border-color":
+                            txn.type === "self",
+                        }
+                      )}
+                    >
+                      {txn.type}
+                    </span>
+                  </td>
+                  <td className="px-4 whitespace-nowrap">
                     <div className="flex items-center gap-2 min-w-0">
-                      <span className="text-muted-foreground text-xs whitespace-nowrap">
-                        {txn.type === "in" ? "From" : "To"}
-                      </span>
+                      {txn.type !== "self" && (
+                        <span>{txn.type === "in" ? "From" : "To"}</span>
+                      )}
                       <Tooltip content={txn.type === "in" ? txn.from : txn.to}>
                         <Link
                           href={networkGetExplorerUrl(
@@ -179,7 +170,7 @@ const TransactionsTab = () => {
                             networkMode,
                             txn.type === "in" ? txn.from : txn.to
                           )}
-                          className="truncate underline hover:no-underline text-color font-mono text-xs max-w-[140px]"
+                          className="heading-color"
                         >
                           {getShortAddress(
                             txn.type === "in" ? txn.from : txn.to
@@ -196,24 +187,22 @@ const TransactionsTab = () => {
                         iconProps={{ className: "w-3.5 flex-shrink-0" }}
                       />
                     </div>
-                  ) : (
-                    <span className="text-color font-medium">Self</span>
-                  )}
-                </td>
-                <td className="px-4 whitespace-nowrap">
-                  <span className="text-teal-500 font-semibold">
-                    {txn.amount} {networkConfig.token}
-                  </span>
-                </td>
-                <td className="px-4 whitespace-nowrap">
-                  <span className="text-muted-foreground text-xs">
-                    {txn.fee} {networkConfig.token}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  </td>
+                  <td className="px-4 whitespace-nowrap">
+                    <span className="text-teal-500 font-semibold">
+                      {txn.amount} {networkConfig.token}
+                    </span>
+                  </td>
+                  <td className="px-4 whitespace-nowrap">
+                    <span className="text-muted-foreground text-xs">
+                      {txn.fee} {networkConfig.token}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </motion.div>
     </div>
   );
