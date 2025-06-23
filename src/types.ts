@@ -93,7 +93,7 @@ export type TSendTokensFunction = (
 ) => Promise<ITransaction>;
 
 export type TGetExplorerUrlFunction = (
-  type: "tx" | "address",
+  type: "tx" | "address" | "block",
   networkMode: TNetworkMode,
   value: string
 ) => string;
