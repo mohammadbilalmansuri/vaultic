@@ -143,16 +143,6 @@ const SendTab = ({
     try {
       const { toAddress, amount } = getValues();
 
-      if (toAddress === activeAccount[network].address) {
-        setSendStatus({
-          state: "error",
-          message:
-            "You can’t send funds to your own address. Please enter a different recipient address.",
-          signature: "",
-        });
-        return;
-      }
-
       const { signature } = await sendTokensFromActiveAccount({
         network,
         toAddress,
