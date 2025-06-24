@@ -9,15 +9,23 @@ interface ITransactionsStore {
   addTransaction: (network: TNetwork, transaction: ITransaction) => void;
 }
 
+// Initializes empty transaction arrays for all supported networks
 const initialTransactions = Object.keys(NETWORKS).reduce((acc, network) => {
   acc[network as TNetwork] = [];
   return acc;
 }, {} as TTransactions);
 
+/**
+ * Transactions store for managing transaction history across all networks.
+ * Handles transaction caching, updates, and network-specific organization.
+ */
 const useTransactionsStore = create<ITransactionsStore>((set) => ({
   transactions: initialTransactions,
+
   clearTransactions: () => set({ transactions: initialTransactions }),
+
   setTransactions: (transactions: TTransactions) => set({ transactions }),
+
   addTransaction: (network: TNetwork, transaction: ITransaction) =>
     set((state) => ({
       transactions: {

@@ -9,6 +9,10 @@ interface INotificationStore {
   closeNotification: () => void;
 }
 
+/**
+ * Notification store for managing toast notifications with auto-dismiss.
+ * Handles notification queuing and smooth transitions between messages.
+ */
 const useNotificationStore = create<INotificationStore>((set, get) => {
   let timeoutId: NodeJS.Timeout | null = null;
 
