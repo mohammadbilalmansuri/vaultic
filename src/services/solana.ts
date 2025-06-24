@@ -56,7 +56,7 @@ const getSolanaKeypairFromPrivateKey = (privateKey: string): Keypair => {
 // Converts lamports to SOL with proper decimal handling
 const convertLamportsToSol = (lamports: number): string => {
   if (lamports < 0) throw new Error("Lamports cannot be negative");
-  return new BigNumber(lamports).dividedBy(LAMPORTS_PER_SOL).toString();
+  return new BigNumber(lamports).dividedBy(LAMPORTS_PER_SOL).toFixed();
 };
 
 // Converts SOL to lamports with validation
