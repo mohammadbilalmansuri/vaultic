@@ -18,6 +18,10 @@ import {
   getSolanaExplorerUrl,
 } from "../services/solana";
 
+/**
+ * Network function mapping that provides a unified interface for blockchain operations.
+ * Maps each network to its corresponding service functions for consistent API usage.
+ */
 export const NETWORK_FUNCTIONS: TNetworkFunctions = {
   ethereum: {
     resetConnection: resetEthereumConnection,
