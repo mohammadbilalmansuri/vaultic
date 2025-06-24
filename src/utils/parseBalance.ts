@@ -34,7 +34,7 @@ function parseBalance(
     return { original: "0", display: "0", wasRounded: false };
   }
 
-  const original = bn.toString();
+  const original = bn.toFixed();
   const rounded = bn.toFixed(BALANCE_DISPLAY_DECIMALS, BigNumber.ROUND_DOWN);
   const display = new BigNumber(rounded).toString();
   const wasRounded = !bn.eq(rounded);
