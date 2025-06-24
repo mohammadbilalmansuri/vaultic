@@ -29,6 +29,7 @@ let solanaConnection: Connection | null = null;
 
 const DEFAULT_COMMITMENT: Commitment = "confirmed";
 
+// Creates and caches Solana RPC connection
 const getSolanaConnection = (): Connection => {
   if (!solanaConnection) {
     solanaConnection = new Connection(getRpcUrl("solana"), DEFAULT_COMMITMENT);
@@ -36,6 +37,7 @@ const getSolanaConnection = (): Connection => {
   return solanaConnection;
 };
 
+// Creates Keypair from base58 private key string
 const getSolanaKeypairFromPrivateKey = (privateKey: string): Keypair => {
   try {
     const decoded = bs58.decode(privateKey);
@@ -48,11 +50,13 @@ const getSolanaKeypairFromPrivateKey = (privateKey: string): Keypair => {
   }
 };
 
+// Converts lamports to SOL with proper decimal handling
 const convertLamportsToSol = (lamports: number): string => {
   if (lamports < 0) throw new Error("Lamports cannot be negative");
   return new BigNumber(lamports).dividedBy(LAMPORTS_PER_SOL).toString();
 };
 
+// Converts SOL to lamports with validation
 const convertSolToLamports = (sol: string): number => {
   const parsed = new BigNumber(sol);
   if (parsed.isNaN() || parsed.isNegative() || parsed.isZero()) {
@@ -69,6 +73,7 @@ const convertSolToLamports = (sol: string): number => {
   return result.toNumber();
 };
 
+// Validates and creates PublicKey from address string
 const validateAndGetSolanaPublicKey = (address: string): PublicKey => {
   try {
     return new PublicKey(address);
@@ -77,10 +82,19 @@ const validateAndGetSolanaPublicKey = (address: string): PublicKey => {
   }
 };
 
+/**
+ * Resets Solana connection instance.
+ * Used when switching network mode or refreshing connections.
+ */
 export const resetSolanaConnection: TResetConnectionFunction = () => {
   solanaConnection = null;
 };
 
+/**
+ * Validates if a string is a valid Solana address.
+ * @param address - Address string to validate
+ * @returns True if address is valid Solana format
+ */
 export const isValidSolanaAddress: TIsValidAddressFunction = (address) => {
   try {
     new PublicKey(address);
@@ -90,6 +104,11 @@ export const isValidSolanaAddress: TIsValidAddressFunction = (address) => {
   }
 };
 
+/**
+ * Fetches SOL balance for a given address.
+ * @param address - Solana address to check balance
+ * @returns Balance in SOL as string
+ */
 export const fetchSolanaBalance: TFetchBalanceFunction = async (address) => {
   const pubkey = validateAndGetSolanaPublicKey(address);
   const connection = getSolanaConnection();
@@ -97,6 +116,12 @@ export const fetchSolanaBalance: TFetchBalanceFunction = async (address) => {
   return convertLamportsToSol(balance);
 };
 
+/**
+ * Derives Solana account from HD wallet seed at specified index.
+ * @param seed - HD wallet seed buffer
+ * @param index - Derivation path index
+ * @returns Account object with address, private key, and balance
+ */
 export const deriveSolanaAccount: TDeriveNetworkAccountFunction = async (
   seed,
   index
@@ -117,6 +142,11 @@ export const deriveSolanaAccount: TDeriveNetworkAccountFunction = async (
   return { address, privateKey, balance };
 };
 
+/**
+ * Fetches transaction history for a Solana address.
+ * @param address - Solana address to fetch transactions for
+ * @returns Array of formatted transaction objects
+ */
 export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
   address
 ) => {
@@ -177,6 +207,13 @@ export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
+/**
+ * Sends SOL from one address to another.
+ * @param fromPrivateKey - Sender's private key
+ * @param toAddress - Recipient's Solana address
+ * @param amount - Amount to send in SOL
+ * @returns Transaction object with details
+ */
 export const sendSolana: TSendTokensFunction = async (
   fromPrivateKey,
   toAddress,
@@ -230,6 +267,13 @@ export const sendSolana: TSendTokensFunction = async (
   };
 };
 
+/**
+ * Generates Solscan explorer URL for transactions, addresses, or blocks.
+ * @param type - Type of explorer link (tx, address, block)
+ * @param networkMode - Network mode (mainnet/testnet)
+ * @param value - Hash, address, or block number
+ * @returns Solscan URL string
+ */
 export const getSolanaExplorerUrl: TGetExplorerUrlFunction = (
   type,
   networkMode,
@@ -240,6 +284,12 @@ export const getSolanaExplorerUrl: TGetExplorerUrlFunction = (
   }`;
 };
 
+/**
+ * Requests SOL airdrop on testnet (maximum 5 SOL per request).
+ * @param toAddress - Recipient's Solana address
+ * @param amount - Amount of SOL to request (max 5)
+ * @returns Transaction signature string
+ */
 export const requestSolanaAirdrop: TRequestAirdropFunction = async (
   toAddress,
   amount

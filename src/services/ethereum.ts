@@ -25,6 +25,7 @@ import getRpcUrl from "@/utils/getRpcUrl";
 let ethereumProvider: JsonRpcProvider | null = null;
 let alchemyInstance: Alchemy | null = null;
 
+// Creates and caches Ethereum JSON-RPC provider
 const getEthereumProvider = (): JsonRpcProvider => {
   if (!ethereumProvider) {
     ethereumProvider = new JsonRpcProvider(getRpcUrl("ethereum"));
@@ -32,6 +33,7 @@ const getEthereumProvider = (): JsonRpcProvider => {
   return ethereumProvider;
 };
 
+// Creates and caches Alchemy SDK instance for enhanced APIs
 const getAlchemyInstance = (): Alchemy => {
   if (!alchemyInstance) {
     const { networkMode } = useWalletStore.getState();
@@ -44,6 +46,7 @@ const getAlchemyInstance = (): Alchemy => {
   return alchemyInstance;
 };
 
+// Calculates transaction fee from gas used and gas price
 const getEthereumTransactionFee = (
   gasUsed: bigint,
   gasPrice: bigint
@@ -51,15 +54,29 @@ const getEthereumTransactionFee = (
   return formatEther(gasUsed * gasPrice);
 };
 
+/**
+ * Resets Ethereum provider and Alchemy instance connections.
+ * Used when switching network mode or refreshing connections.
+ */
 export const resetEthereumConnection: TResetConnectionFunction = () => {
   ethereumProvider = null;
   alchemyInstance = null;
 };
 
+/**
+ * Validates if a string is a valid Ethereum address.
+ * @param address - Address string to validate
+ * @returns True if address is valid Ethereum format
+ */
 export const isValidEthereumAddress: TIsValidAddressFunction = (address) => {
   return isAddress(address);
 };
 
+/**
+ * Fetches ETH balance for a given address.
+ * @param address - Ethereum address to check balance
+ * @returns Balance in ETH as string
+ */
 export const fetchEthereumBalance: TFetchBalanceFunction = async (address) => {
   if (!isValidEthereumAddress(address)) {
     throw new Error("Invalid Ethereum address");
@@ -69,6 +86,12 @@ export const fetchEthereumBalance: TFetchBalanceFunction = async (address) => {
   return formatEther(balance);
 };
 
+/**
+ * Derives Ethereum account from HD wallet seed at specified index.
+ * @param seed - HD wallet seed buffer
+ * @param index - Derivation path index
+ * @returns Account object with address, private key, and balance
+ */
 export const deriveEthereumAccount: TDeriveNetworkAccountFunction = async (
   seed,
   index
@@ -86,6 +109,11 @@ export const deriveEthereumAccount: TDeriveNetworkAccountFunction = async (
   return { address, privateKey, balance };
 };
 
+/**
+ * Fetches transaction history for an Ethereum address.
+ * @param address - Ethereum address to fetch transactions for
+ * @returns Array of formatted transaction objects
+ */
 export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
   address
 ) => {
@@ -162,6 +190,13 @@ export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
+/**
+ * Sends ETH from one address to another.
+ * @param fromPrivateKey - Sender's private key
+ * @param toAddress - Recipient's Ethereum address
+ * @param amount - Amount to send in ETH
+ * @returns Transaction object with details
+ */
 export const sendEthereum: TSendTokensFunction = async (
   fromPrivateKey,
   toAddress,
@@ -200,6 +235,13 @@ export const sendEthereum: TSendTokensFunction = async (
   };
 };
 
+/**
+ * Generates Etherscan explorer URL for transactions, addresses, or blocks.
+ * @param type - Type of explorer link (tx, address, block)
+ * @param networkMode - Network mode (mainnet/testnet)
+ * @param value - Hash, address, or block number
+ * @returns Etherscan URL string
+ */
 export const getEthereumExplorerUrl: TGetExplorerUrlFunction = (
   type,
   networkMode,
