@@ -87,10 +87,7 @@ const useBlockchain = () => {
 
       updateActiveAccount({
         ...activeAccount,
-        [network]: {
-          ...networkAccount,
-          balance: updatedBalance,
-        },
+        [network]: { ...networkAccount, balance: updatedBalance },
       });
 
       addTransaction(network, transaction);
@@ -116,9 +113,9 @@ const useBlockchain = () => {
 
   const switchNetworkMode = async (mode: TNetworkMode): Promise<void> => {
     try {
-      Object.values(NETWORK_FUNCTIONS).forEach(({ resetConnection }) => {
+      for (const { resetConnection } of Object.values(NETWORK_FUNCTIONS)) {
         resetConnection();
-      });
+      }
       setWalletState({ networkMode: mode });
       await updateWallet();
       await refreshActiveAccount();
