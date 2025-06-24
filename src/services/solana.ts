@@ -32,7 +32,8 @@ const DEFAULT_COMMITMENT: Commitment = "confirmed";
 // Creates and caches Solana RPC connection
 const getSolanaConnection = (): Connection => {
   if (!solanaConnection) {
-    solanaConnection = new Connection(getRpcUrl("solana"), DEFAULT_COMMITMENT);
+    const rpcUrl = getRpcUrl("solana");
+    solanaConnection = new Connection(rpcUrl, DEFAULT_COMMITMENT);
   }
   return solanaConnection;
 };
@@ -41,9 +42,11 @@ const getSolanaConnection = (): Connection => {
 const getSolanaKeypairFromPrivateKey = (privateKey: string): Keypair => {
   try {
     const decoded = bs58.decode(privateKey);
+
     if (decoded.length !== 64) {
       throw new Error("Invalid private key length");
     }
+
     return Keypair.fromSecretKey(decoded);
   } catch {
     throw new Error("Invalid private key format");
@@ -127,6 +130,7 @@ export const deriveSolanaAccount: TDeriveNetworkAccountFunction = async (
   index
 ) => {
   if (!seed?.length) throw new Error("Seed cannot be empty");
+
   if (index < 0 || !Number.isInteger(index)) {
     throw new Error("Index must be a non-negative integer");
   }
@@ -233,6 +237,7 @@ export const sendSolana: TSendTokensFunction = async (
   );
 
   transaction.feePayer = fromKeypair.publicKey;
+
   const { blockhash } = await connection.getLatestBlockhash();
   transaction.recentBlockhash = blockhash;
 
@@ -296,9 +301,11 @@ export const requestSolanaAirdrop: TRequestAirdropFunction = async (
 ) => {
   const pubkey = validateAndGetSolanaPublicKey(toAddress);
   const lamports = convertSolToLamports(amount);
+
   if (lamports > 5 * LAMPORTS_PER_SOL) {
     throw new Error("You can only request up to 5 SOL at a time.");
   }
+
   const testnetRpc = getRpcUrl("solana", "testnet");
   const connection = new Connection(testnetRpc, DEFAULT_COMMITMENT);
   return await connection.requestAirdrop(pubkey, lamports);
