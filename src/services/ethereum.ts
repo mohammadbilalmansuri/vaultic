@@ -28,7 +28,8 @@ let alchemyInstance: Alchemy | null = null;
 // Creates and caches Ethereum JSON-RPC provider
 const getEthereumProvider = (): JsonRpcProvider => {
   if (!ethereumProvider) {
-    ethereumProvider = new JsonRpcProvider(getRpcUrl("ethereum"));
+    const rpcUrl = getRpcUrl("ethereum");
+    ethereumProvider = new JsonRpcProvider(rpcUrl);
   }
   return ethereumProvider;
 };
@@ -37,10 +38,12 @@ const getEthereumProvider = (): JsonRpcProvider => {
 const getAlchemyInstance = (): Alchemy => {
   if (!alchemyInstance) {
     const { networkMode } = useWalletStore.getState();
+    const alchemyNetwork =
+      networkMode === "mainnet" ? Network.ETH_MAINNET : Network.ETH_SEPOLIA;
+
     alchemyInstance = new Alchemy({
       apiKey: ALCHEMY_API_KEY,
-      network:
-        networkMode === "mainnet" ? Network.ETH_MAINNET : Network.ETH_SEPOLIA,
+      network: alchemyNetwork,
     });
   }
   return alchemyInstance;
@@ -81,8 +84,10 @@ export const fetchEthereumBalance: TFetchBalanceFunction = async (address) => {
   if (!isValidEthereumAddress(address)) {
     throw new Error("Invalid Ethereum address");
   }
+
   const provider = getEthereumProvider();
   const balance = await provider.getBalance(address);
+
   return formatEther(balance);
 };
 
@@ -214,6 +219,7 @@ export const sendEthereum: TSendTokensFunction = async (
     to: toAddress,
     value: amountInWei,
   });
+
   const receipt = await txn.wait();
 
   if (!receipt) throw new Error("Transaction failed or no receipt");
