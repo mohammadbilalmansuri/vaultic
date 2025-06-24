@@ -1,3 +1,9 @@
+/**
+ * Conditionally joins CSS class names into a single string.
+ * Supports strings, objects with boolean values, and nested arrays.
+ * @param args - Class names as strings, objects, or arrays
+ * @returns Single space-separated class name string
+ */
 const cn = (
   ...args: (
     | string

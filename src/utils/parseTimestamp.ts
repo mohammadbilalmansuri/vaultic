@@ -5,8 +5,10 @@ const DAY_MS = 24 * HOUR_MS;
 const MONTH_MS = 30 * DAY_MS;
 const YEAR_MS = 365 * DAY_MS;
 
+// Pads single digits with leading zero
 const pad = (n: number): string => n.toString().padStart(2, "0");
 
+// Formats timestamp to UTC string (YYYY-MM-DD HH:mm:ss)
 const formatUTC = (timestamp: number): string => {
   const date = new Date(timestamp);
   const yyyy = date.getUTCFullYear();
@@ -18,6 +20,7 @@ const formatUTC = (timestamp: number): string => {
   return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
 };
 
+// Converts timestamp difference to human-readable relative time
 const formatAge = (timestamp: number): string => {
   const now = Date.now();
   const diff = now - timestamp;
