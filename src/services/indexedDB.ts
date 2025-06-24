@@ -3,6 +3,7 @@ import { IStoredWalletData } from "@/types";
 
 let dbInstance: IDBDatabase | null = null;
 
+// Opens IndexedDB connection with upgrade handling
 const openDB = (): Promise<IDBDatabase> => {
   if (dbInstance) return Promise.resolve(dbInstance);
 
@@ -29,6 +30,7 @@ const openDB = (): Promise<IDBDatabase> => {
   });
 };
 
+// Wraps database operations in a transaction with error handling
 const withTransaction = async <T>(
   mode: IDBTransactionMode,
   callback: (store: IDBObjectStore) => IDBRequest<T>
@@ -46,6 +48,11 @@ const withTransaction = async <T>(
   });
 };
 
+/**
+ * Saves encrypted wallet data to IndexedDB.
+ * @param id - Unique identifier for the wallet
+ * @param value - Encrypted wallet data to store
+ */
 export const saveWalletData = async (
   id: string,
   value: IStoredWalletData
@@ -53,6 +60,11 @@ export const saveWalletData = async (
   await withTransaction("readwrite", (store) => store.put({ id, value }));
 };
 
+/**
+ * Retrieves wallet data from IndexedDB by ID.
+ * @param id - Unique identifier for the wallet
+ * @returns Stored wallet data or null if not found
+ */
 export const getWalletData = async (
   id: string
 ): Promise<IStoredWalletData | null> => {
@@ -60,6 +72,10 @@ export const getWalletData = async (
   return result?.value ?? null;
 };
 
+/**
+ * Clears all wallet data from IndexedDB.
+ * Used for wallet reset or logout operations.
+ */
 export const clearWalletData = async (): Promise<void> => {
   await withTransaction("readwrite", (store) => store.clear());
 };

@@ -2,6 +2,12 @@ import { mnemonicToSeed } from "bip39";
 import { NETWORK_FUNCTIONS } from "@/config";
 import { TAccount } from "@/types";
 
+/**
+ * Derives accounts across all supported networks from a mnemonic phrase.
+ * @param mnemonic - BIP39 mnemonic phrase
+ * @param index - HD wallet derivation index
+ * @returns Account object with address, private key, and balance for each network
+ */
 const deriveAccount = async (
   mnemonic: string,
   index: number

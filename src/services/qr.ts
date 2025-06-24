@@ -1,6 +1,7 @@
 import QRCode, { QRCodeToDataURLOptions } from "qrcode";
 import jsQR from "jsqr";
 
+// QR code generation configuration with high error correction
 const QR_CONFIG: QRCodeToDataURLOptions = {
   width: 256,
   margin: 2,
@@ -8,6 +9,7 @@ const QR_CONFIG: QRCodeToDataURLOptions = {
   errorCorrectionLevel: "H",
 };
 
+// Creates canvas element with 2D context for image manipulation
 const createCanvas = (): {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
@@ -18,6 +20,12 @@ const createCanvas = (): {
   return { canvas, ctx };
 };
 
+/**
+ * Generates a QR code with optional SVG logo overlay.
+ * @param text - Text content to encode in the QR code
+ * @param logoSvgUrl - Optional SVG logo URL to embed in center
+ * @returns Base64 encoded PNG image of the QR code
+ */
 export const generateQRCode = async (
   text: string,
   logoSvgUrl?: string
@@ -52,6 +60,7 @@ export const generateQRCode = async (
         const border = 3;
         const bgSize = logoSize + padding * 2;
 
+        // Draw logo background with border
         ctx.fillStyle = QR_CONFIG.color?.light || "#FFFFFF";
         ctx.strokeStyle = QR_CONFIG.color?.dark || "#000000";
         ctx.lineWidth = border;
@@ -60,6 +69,7 @@ export const generateQRCode = async (
         ctx.fill();
         ctx.stroke();
 
+        // Draw clipped logo
         ctx.save();
         ctx.beginPath();
         ctx.roundRect(x, y, logoSize, logoSize, 4);
@@ -67,7 +77,7 @@ export const generateQRCode = async (
         ctx.drawImage(logoImage, x, y, logoSize, logoSize);
         ctx.restore();
 
-        // Validate QR
+        // Validate QR code still scans after logo overlay
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const result = jsQR(imageData.data, canvas.width, canvas.height);
 
@@ -88,6 +98,11 @@ export const generateQRCode = async (
   });
 };
 
+/**
+ * Scans and decodes QR code from an image file.
+ * @param file - Image file containing the QR code
+ * @returns Decoded text content from the QR code
+ */
 export const scanQRCode = async (file: File): Promise<string> => {
   if (!file.type.startsWith("image/")) throw new Error("File must be an image");
 
