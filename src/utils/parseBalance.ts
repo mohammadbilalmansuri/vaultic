@@ -13,6 +13,14 @@ type ParsedBalanceWithMax = ParsedBalanceBase & {
   max: string;
 };
 
+/**
+ * Parses a balance string into display and calculation formats.
+ * When network is provided, calculates maximum sendable amount after deducting fees.
+ * @param balance - Raw balance string in readable units (e.g., "1.5" for 1.5 ETH/SOL)
+ * @param network - Optional network for fee calculations
+ * @returns Parsed balance object with original, display, wasRounded flag, and optionally max amounts
+ */
+
 function parseBalance(balance: string, network: TNetwork): ParsedBalanceWithMax;
 function parseBalance(balance: string, network?: undefined): ParsedBalanceBase;
 
@@ -35,11 +43,13 @@ function parseBalance(
 
   if (network) {
     const { fee, rentExemption } = NETWORKS[network];
+
     const totalDeductions = new BigNumber(fee).plus(rentExemption);
     const remainingBalance = bn.minus(totalDeductions);
     const max = remainingBalance.isPositive()
       ? remainingBalance.toString()
       : "0";
+
     return { ...base, max };
   }
 

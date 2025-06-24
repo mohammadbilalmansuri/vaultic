@@ -4,12 +4,28 @@ import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { FAUCET_PRESET_AMOUNTS } from "@/constants";
 import { TNetwork } from "@/types";
 
+// Base password validation schema (8-128 characters)
 const PasswordSchema = z
   .string()
   .trim()
   .min(8, "Password must be at least 8 characters")
   .max(128, "Password must be less than 128 characters");
 
+// Creates network-specific address validation schema
+const AddressSchema = (network: TNetwork) => {
+  return z
+    .string()
+    .trim()
+    .min(1, "")
+    .refine(
+      (value) => NETWORK_FUNCTIONS[network].isValidAddress(value),
+      `Invalid ${NETWORKS[network].name} address`
+    );
+};
+
+/**
+ * Schema for creating a new password with confirmation.
+ */
 export const CreatePasswordSchema = z
   .object({
     password: PasswordSchema,
@@ -20,10 +36,16 @@ export const CreatePasswordSchema = z
     path: ["confirmPassword"],
   });
 
+/**
+ * Schema for verifying an existing password.
+ */
 export const VerifyPasswordSchema = z.object({
   password: PasswordSchema,
 });
 
+/**
+ * Schema for changing password with current and new password validation.
+ */
 export const ChangePasswordSchema = z
   .object({
     currentPassword: PasswordSchema,
@@ -39,17 +61,9 @@ export const ChangePasswordSchema = z
     path: ["newPassword"],
   });
 
-const AddressSchema = (network: TNetwork) => {
-  return z
-    .string()
-    .trim()
-    .min(1, "")
-    .refine(
-      (value) => NETWORK_FUNCTIONS[network].isValidAddress(value),
-      `Invalid ${NETWORKS[network].name} address`
-    );
-};
-
+/**
+ * Schema for Solana testnet airdrop requests.
+ */
 export const SolanaAirdropSchema = z.object({
   address: AddressSchema("solana"),
   amount: z.enum(FAUCET_PRESET_AMOUNTS as [string, ...string[]], {
@@ -57,6 +71,11 @@ export const SolanaAirdropSchema = z.object({
   }),
 });
 
+/**
+ * Creates a schema for sending transactions with network-specific validation.
+ * @param network - Target blockchain network
+ * @param availableBalance - Available balance to validate against
+ */
 export const SendSchema = (network: TNetwork, availableBalance: string) => {
   return z.object({
     toAddress: AddressSchema(network),

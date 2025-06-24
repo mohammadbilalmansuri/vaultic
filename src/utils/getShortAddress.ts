@@ -1,15 +1,21 @@
+import { NETWORKS } from "@/config";
 import { TNetwork } from "@/types";
 
+/**
+ * Shortens a blockchain address for display purposes.
+ * @param address - Full blockchain address to shorten
+ * @param network - Optional network type for prefix handling
+ * @param chars - Number of characters to show at start/end (default: 4)
+ * @returns Shortened address with ellipsis (e.g., "1234...5678", "0x1234...5678")
+ */
 const getShortAddress = (
   address: string,
   network?: TNetwork,
   chars = 4
 ): string => {
   if (!address || address.length <= chars * 2 + 2) return address;
-  return `${address.slice(
-    0,
-    network === "ethereum" ? chars + 2 : chars
-  )}...${address.slice(-chars)}`;
+  const prefixLength = network ? NETWORKS[network].addressPrefixLength : 0;
+  return `${address.slice(0, chars + prefixLength)}...${address.slice(-chars)}`;
 };
 
 export default getShortAddress;

@@ -3,16 +3,20 @@ const cryptoLib: SubtleCrypto = globalThis.crypto.subtle;
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
 
+// Converts byte array to hexadecimal string
 const toHex = (buffer: Uint8Array) =>
   Array.from(buffer)
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 
+// Converts hexadecimal string to byte array
 const fromHex = (hex: string) =>
   new Uint8Array(hex.match(/.{1,2}/g)!.map((b) => parseInt(b, 16)));
 
+// Converts byte array to base64 string
 const toBase64 = (bytes: Uint8Array) => btoa(String.fromCharCode(...bytes));
 
+// Converts base64 string to byte array
 const fromBase64 = (b64: string) =>
   new Uint8Array(
     atob(b64)
@@ -20,6 +24,11 @@ const fromBase64 = (b64: string) =>
       .map((c) => c.charCodeAt(0))
   );
 
+/**
+ * Hashes a password using PBKDF2 with a random salt.
+ * @param password - Plain text password to hash
+ * @returns Promise resolving to salt:hash string format
+ */
 export const hashPassword = async (password: string): Promise<string> => {
   try {
     const salt = crypto.getRandomValues(new Uint8Array(16));
@@ -49,6 +58,12 @@ export const hashPassword = async (password: string): Promise<string> => {
   }
 };
 
+/**
+ * Verifies a password against a stored hash.
+ * @param password - Plain text password to verify
+ * @param storedHash - Previously hashed password in salt:hash format
+ * @returns Promise resolving to true if password matches
+ */
 export const verifyPassword = async (
   password: string,
   storedHash: string
@@ -84,6 +99,12 @@ export const verifyPassword = async (
   }
 };
 
+/**
+ * Encrypts a mnemonic phrase using AES-GCM with password-derived key.
+ * @param mnemonic - Plain text mnemonic phrase to encrypt
+ * @param password - Password used for encryption key derivation
+ * @returns Promise resolving to encrypted string in salt:iv:cipher format
+ */
 export const encryptMnemonic = async (
   mnemonic: string,
   password: string
@@ -128,6 +149,12 @@ export const encryptMnemonic = async (
   }
 };
 
+/**
+ * Decrypts an encrypted mnemonic phrase.
+ * @param encryptedMnemonic - Encrypted mnemonic in salt:iv:cipher format
+ * @param password - Password used for decryption key derivation
+ * @returns Promise resolving to decrypted mnemonic phrase
+ */
 export const decryptMnemonic = async (
   encryptedMnemonic: string,
   password: string
