@@ -17,9 +17,14 @@ interface IShareFileArgs {
   text: string;
 }
 
+/**
+ * Hook for file download and sharing operations with error handling.
+ * Supports URLs, Blobs, and File objects with native browser sharing.
+ */
 const useFileActions = () => {
   const notify = useNotificationStore((state) => state.notify);
 
+  // Converts various file types to Blob for consistent handling
   const resolveBlob = async (file: TFile): Promise<Blob> => {
     if (typeof file === "string") {
       try {
@@ -33,6 +38,13 @@ const useFileActions = () => {
     return file;
   };
 
+  /**
+   * Downloads a file to the user's device using browser download API.
+   * @param file - File source (URL, Blob, or File object)
+   * @param fileName - Name for the downloaded file
+   * @param successMessage - Custom success notification message
+   * @param onComplete - Callback executed after successful download
+   */
   const downloadFile = async ({
     file,
     fileName,
@@ -63,6 +75,13 @@ const useFileActions = () => {
     }
   };
 
+  /**
+   * Shares a file using the native Web Share API (mobile/supported browsers).
+   * @param file - File source (URL, Blob, or File object)
+   * @param fileName - Name for the shared file
+   * @param title - Share dialog title
+   * @param text - Share dialog description text
+   */
   const shareFile = async ({ file, fileName, title, text }: IShareFileArgs) => {
     try {
       if (!navigator.share) {

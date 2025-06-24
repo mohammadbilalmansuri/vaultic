@@ -2,9 +2,20 @@
 import { Dispatch, SetStateAction } from "react";
 import { useNotificationStore } from "@/stores";
 
+/**
+ * Hook for copying text to clipboard with error handling and state management.
+ * Provides clipboard functionality with automatic state reset and user feedback.
+ */
 const useClipboard = () => {
   const notify = useNotificationStore((state) => state.notify);
 
+  /**
+   * Copies text to clipboard and manages copied state with auto-reset.
+   * @param text - Text content to copy to clipboard
+   * @param copied - Current copied state (prevents duplicate operations)
+   * @param setCopied - State setter for copied status
+   * @returns Promise resolving to true if copy was successful
+   */
   const copyToClipboard = async (
     text: string,
     copied: boolean,

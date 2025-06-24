@@ -9,6 +9,10 @@ import delay from "@/utils/delay";
 import { TVerifyPasswordForm } from "@/utils/validations";
 import { useStorage, useAccounts } from "@/hooks";
 
+/**
+ * Wallet management hook for authentication, wallet existence checks, and security operations.
+ * Handles wallet unlock/lock operations with error handling and automatic security measures.
+ */
 const useWallet = () => {
   const router = useRouter();
   const { isWalletStored, loadWallet, removeWallet } = useStorage();
@@ -17,6 +21,10 @@ const useWallet = () => {
   const clearAccounts = useAccountsStore((state) => state.clearAccounts);
   const notify = useNotificationStore((state) => state.notify);
 
+  /**
+   * Checks if a wallet exists in storage and updates wallet state.
+   * Updates walletExists and walletStatus in the store.
+   */
   const checkWalletExists = async () => {
     setWalletState({ walletStatus: "checking" });
     try {
@@ -28,11 +36,16 @@ const useWallet = () => {
     }
   };
 
+  /**
+   * Handles critical security failures by notifying user and resetting wallet.
+   * Removes wallet data and redirects to start page after user notification.
+   * @param message - Error message to display to user
+   */
   const handleSecureFailure = async (message: string) => {
     try {
       notify({
         type: "error",
-        message: `${message}. For your safety, we’ll take you back to the start.`,
+        message: `${message}. For your safety, we'll take you back to the start.`,
       });
 
       await delay(4000);
@@ -42,11 +55,17 @@ const useWallet = () => {
       notify({
         type: "error",
         message:
-          "We couldn’t reset your data automatically. Please clear this site’s stored data from your browser settings and refresh the page to continue safely.",
+          "We couldn't reset your data automatically. Please clear this site's stored data from your browser settings and refresh the page to continue safely.",
       });
     }
   };
 
+  /**
+   * Unlocks wallet with password verification and loads account data.
+   * Sets authentication state and handles password-specific errors.
+   * @param password - User password for wallet decryption
+   * @param setError - Form error setter for password validation feedback
+   */
   const unlockWallet = async (
     { password }: TVerifyPasswordForm,
     setError: UseFormSetError<TVerifyPasswordForm>
@@ -67,6 +86,10 @@ const useWallet = () => {
     }
   };
 
+  /**
+   * Locks wallet by clearing sensitive data from memory and resetting authentication.
+   * Clears mnemonic, password, indexes, and account data for security.
+   */
   const lockWallet = () => {
     setWalletState({
       authenticated: false,
