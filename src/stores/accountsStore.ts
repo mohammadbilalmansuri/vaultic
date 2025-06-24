@@ -15,6 +15,10 @@ interface IAccountsStore {
   setSwitchingToAccount: (accountIndex: number | null) => void;
 }
 
+/**
+ * Accounts store for managing wallet accounts across multiple networks.
+ * Handles account creation, deletion, switching, and balance updates.
+ */
 const useAccountsStore = create<IAccountsStore>((set, get) => ({
   accounts: {},
   activeAccountIndex: 0,

@@ -15,6 +15,7 @@ interface IWalletStore {
   clearWallet: () => void;
 }
 
+// Returns default wallet state
 const getDefaultState = (): Omit<
   IWalletStore,
   "setWalletState" | "clearWallet"
@@ -29,9 +30,15 @@ const getDefaultState = (): Omit<
   networkMode: IS_DEV ? "testnet" : "mainnet",
 });
 
+/**
+ * Wallet store for managing authentication state, wallet data, and network configuration.
+ * Handles wallet lifecycle from setup to authentication and account management.
+ */
 const useWalletStore = create<IWalletStore>((set) => ({
   ...getDefaultState(),
+
   setWalletState: (updates) => set((state) => ({ ...state, ...updates })),
+
   clearWallet: () =>
     set(() => ({
       ...getDefaultState(),

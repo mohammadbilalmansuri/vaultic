@@ -8,11 +8,16 @@ interface IThemeStore {
   toggleTheme: () => void;
 }
 
+/**
+ * Theme store for managing light/dark mode with localStorage persistence.
+ * Automatically hydrates from localStorage on initialization.
+ */
 const useThemeStore = create<IThemeStore>()(
   persist(
     (set, get) => ({
       theme: "dark",
       isHydrated: false,
+
       toggleTheme: () =>
         set({
           theme: get().theme === "dark" ? "light" : "dark",
