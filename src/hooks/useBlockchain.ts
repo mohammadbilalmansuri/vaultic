@@ -80,16 +80,20 @@ const useBlockchain = () => {
         amount
       );
 
-      addTransaction(network, transaction);
+      const totalDeduct = new BigNumber(amount).plus(transaction.fee);
+      const updatedBalance = new BigNumber(networkAccount.balance)
+        .minus(totalDeduct)
+        .toString();
+
       updateActiveAccount({
         ...activeAccount,
         [network]: {
           ...networkAccount,
-          balance: new BigNumber(networkAccount.balance)
-            .minus(new BigNumber(amount).plus(transaction.fee))
-            .toString(),
+          balance: updatedBalance,
         },
       });
+
+      addTransaction(network, transaction);
 
       return transaction;
     } catch (error) {

@@ -4,6 +4,10 @@ import deriveAccount from "@/services/deriveAccount";
 import useBlockchain from "./useBlockchain";
 import useStorage from "./useStorage";
 
+/**
+ * Hook for managing wallet accounts including creation, deletion, and switching.
+ * Handles HD wallet derivation, index management, and account state persistence.
+ */
 const useAccounts = () => {
   const { fetchActiveAccountTransactions, refreshActiveAccount } =
     useBlockchain();
@@ -12,6 +16,11 @@ const useAccounts = () => {
   const { addAccount, removeAccount, setAccounts, setActiveAccountIndex } =
     useAccountsStore.getState();
 
+  /**
+   * Creates a new account by deriving from the next available HD wallet index.
+   * Finds the lowest unused index and derives addresses for all supported networks.
+   * @param isInitialSetup - Whether this is the first account creation (affects save method)
+   */
   const createAccount = async (isInitialSetup = false): Promise<void> => {
     try {
       const { mnemonic, indexes } = useWalletStore.getState();
@@ -44,6 +53,10 @@ const useAccounts = () => {
     }
   };
 
+  /**
+   * Loads all existing accounts from stored indexes.
+   * Derives accounts for all in-use indexes and updates store state.
+   */
   const loadAccounts = async (): Promise<void> => {
     try {
       const { mnemonic, indexes } = useWalletStore.getState();
@@ -64,6 +77,11 @@ const useAccounts = () => {
     }
   };
 
+  /**
+   * Deletes an account by moving its index to the deleted list.
+   * Automatically switches to another account if deleting the active one.
+   * @param index - HD wallet derivation index to delete
+   */
   const deleteAccount = async (index: number): Promise<void> => {
     try {
       const { indexes } = useWalletStore.getState();
@@ -95,6 +113,11 @@ const useAccounts = () => {
     }
   };
 
+  /**
+   * Switches the active account to the specified index.
+   * Updates wallet state and refreshes account data and transactions.
+   * @param index - HD wallet derivation index to switch to
+   */
   const switchActiveAccount = async (index: number): Promise<void> => {
     try {
       const { indexes } = useWalletStore.getState();

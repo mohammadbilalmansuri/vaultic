@@ -10,6 +10,14 @@ type AddressQRUploadConfig = {
   validateAddress: (network: TNetwork, address: string) => boolean;
 };
 
+/**
+ * Hook for scanning wallet addresses from uploaded QR code images.
+ * Handles file input, QR code scanning, address validation, and user feedback.
+ * @param network - Target blockchain network for address validation
+ * @param onAddressScanned - Callback executed when valid address is found
+ * @param validateAddress - Function to validate scanned address format
+ * @returns Object with fileInputRef for hidden input, triggerUpload to open file dialog, and handleFileChange for processing uploads
+ */
 const useAddressQRUpload = ({
   network,
   onAddressScanned,

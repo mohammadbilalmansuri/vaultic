@@ -15,11 +15,19 @@ import {
   decryptMnemonic,
 } from "@/utils/crypto";
 
+/**
+ * Storage management hook for wallet persistence, encryption, and IndexedDB operations.
+ * Handles wallet creation, loading, updating, password changes, and secure deletion.
+ */
 const useStorage = () => {
   const { setWalletState, clearWallet } = useWalletStore.getState();
   const { setActiveAccountIndex, clearAccounts } = useAccountsStore.getState();
   const { clearTransactions } = useTransactionsStore.getState();
 
+  /**
+   * Checks if a wallet exists in IndexedDB storage.
+   * @returns Promise resolving to true if wallet exists
+   */
   const isWalletStored = async (): Promise<boolean> => {
     try {
       return Boolean(await getWalletData("wallet"));
@@ -29,6 +37,10 @@ const useStorage = () => {
     }
   };
 
+  /**
+   * Saves current wallet state to encrypted storage.
+   * Encrypts mnemonic with password and hashes password for verification.
+   */
   const saveWallet = async (): Promise<void> => {
     try {
       const { mnemonic, password, indexes, networkMode } =
@@ -56,6 +68,11 @@ const useStorage = () => {
     }
   };
 
+  /**
+   * Loads wallet from storage and decrypts with provided password.
+   * Verifies password and updates wallet state with decrypted data.
+   * @param password - User password for wallet decryption
+   */
   const loadWallet = async (password: string): Promise<void> => {
     try {
       const wallet = await getWalletData("wallet");
@@ -85,6 +102,10 @@ const useStorage = () => {
     }
   };
 
+  /**
+   * Updates wallet metadata without changing encrypted mnemonic.
+   * Used for updating indexes, network mode, and active account.
+   */
   const updateWallet = async (): Promise<void> => {
     try {
       const { indexes, networkMode } = useWalletStore.getState();
@@ -105,6 +126,11 @@ const useStorage = () => {
     }
   };
 
+  /**
+   * Changes wallet password by re-encrypting mnemonic and updating hash.
+   * @param currentPassword - Current wallet password for verification
+   * @param newPassword - New password for encryption
+   */
   const updatePassword = async (
     currentPassword: string,
     newPassword: string
@@ -135,6 +161,10 @@ const useStorage = () => {
     }
   };
 
+  /**
+   * Completely removes wallet from storage and clears all related state.
+   * Clears IndexedDB data and resets all Zustand stores.
+   */
   const removeWallet = async (): Promise<void> => {
     try {
       await clearWalletData();
