@@ -1,22 +1,23 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "motion/react";
-import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
-import { DEFAULT_NETWORK } from "@/constants";
-import { TNetwork } from "@/types";
+import { motion } from "framer-motion";
 import {
   useAccountsStore,
   useTransactionsStore,
   useWalletStore,
 } from "@/stores";
+import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
+import { DEFAULT_NETWORK } from "@/constants";
+import { TNetwork } from "@/types";
+import { useClipboard, useMounted } from "@/hooks";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
+import parseBalance from "@/utils/parseBalance";
 import parseTimestamp from "@/utils/parseTimestamp";
-import { useClipboard } from "@/hooks";
-import { Tooltip, CopyToggle } from "../ui";
-import { Eye } from "../ui/icons";
+import { Tooltip, CopyToggle, Button } from "../ui";
+import { ListCross } from "../ui/icons";
 
 const TransactionsTab = () => {
   const transactions = useTransactionsStore((state) => state.transactions);
@@ -26,17 +27,32 @@ const TransactionsTab = () => {
   const copyToClipboard = useClipboard();
 
   const [network, setNetwork] = useState<TNetwork>(DEFAULT_NETWORK);
-  const [copiedText, setCopiedText] = useState<string>("");
+  const [copiedItems, setCopiedItems] = useState("");
 
   const networkTransactions = transactions[network];
   const networkConfig = NETWORKS[network];
   const networkGetExplorerUrl = NETWORK_FUNCTIONS[network].getExplorerUrl;
 
-  const handleCopy = (text: string) => {
-    copyToClipboard(text, copiedText === text, (copied) => {
-      setCopiedText(copied ? text : "");
-    });
+  const handleNetworkChange = (newNetwork: TNetwork) => {
+    if (newNetwork === network) return;
+    setNetwork(newNetwork);
+    setCopiedItems("");
   };
+
+  const handleCopy = (text: string, id?: string) => {
+    const uniqueText = id ? `${text}-${id}` : text;
+    copyToClipboard(text, copiedItems === uniqueText, (copied) =>
+      setCopiedItems(copied ? uniqueText : "")
+    );
+  };
+
+  const handleRefreshTransactions = () => {
+    // Add your refresh/sync logic here
+    // For example: refreshTransactions(network, activeAccount[network].address);
+    console.log("Refreshing transactions for", network);
+  };
+
+  const hasTabMounted = useMounted(1000);
 
   return (
     <div className="w-full relative flex flex-col items-center gap-4">
@@ -49,16 +65,13 @@ const TransactionsTab = () => {
             key={id}
             type="button"
             disabled={id === network}
+            onClick={() => handleNetworkChange(id as TNetwork)}
             className={cn(
               "flex items-center gap-2 leading-none py-2.5 px-3 rounded-xl transition-all duration-300 font-medium border",
               id === network
                 ? "bg-teal-500/10 border-teal-500/30 dark:border-teal-500/10 text-teal-500 pointer-events-none"
                 : "bg-primary heading-color hover:bg-secondary border-color hover:border-focus"
             )}
-            onClick={() => {
-              if (id === network) return;
-              setNetwork(id as TNetwork);
-            }}
           >
             {name}
           </button>
@@ -67,143 +80,216 @@ const TransactionsTab = () => {
 
       <motion.div
         className="w-full relative border-1.5 border-color rounded-2xl overflow-hidden"
-        {...fadeUpAnimation({ delay: 0.1 })}
+        key={`transactions-table-${network}`}
+        {...fadeUpAnimation({ delay: !hasTabMounted ? 0.1 : undefined })}
       >
         <div className="w-full relative overflow-x-auto scrollbar-thin">
           <table className="w-full relative text-sm text-left">
-            <thead className="w-full relative bg-primary">
-              <tr className="w-full relative h-12">
+            <thead>
+              <tr className="h-12">
                 {[
                   networkConfig.txnSignatureLabel,
                   "Block",
-                  "Date Time",
+                  "Date Time (UTC)",
                   "Type",
                   "From/To",
                   "Amount",
-                  "Txn Fee",
+                  `Fee (${networkConfig.token})`,
                 ].map((header) => (
-                  <th className="px-4 heading-color capitalize font-semibold whitespace-nowrap">
+                  <th
+                    key={`${network}-${header}`}
+                    className="px-4 heading-color font-semibold whitespace-nowrap"
+                  >
                     {header}
                   </th>
                 ))}
               </tr>
             </thead>
 
-            <tbody className="w-full relative">
-              {networkTransactions.map((txn) => (
-                <tr
-                  key={txn.signature}
-                  className="w-full h-12 relative border-t border-color hover:bg-primary"
-                >
-                  <td className="px-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <Tooltip content="View Txn Details">
+            <tbody>
+              {networkTransactions.length > 0 ? (
+                networkTransactions.map((txn, index) => {
+                  const { utc, age } = parseTimestamp(txn.timestamp);
+                  const addressToShow = txn.type === "in" ? txn.from : txn.to;
+                  const addressWithId = `${addressToShow}-${txn.signature}`;
+
+                  return (
+                    <tr
+                      key={`${txn.network}-${txn.signature}`}
+                      className="h-12 border-t-1.5 border-color hover:bg-primary transition-all duration-300"
+                    >
+                      {/* Txn Signature */}
+                      <td className="px-4 whitespace-nowrap">
+                        <div className="flex items-center gap-px">
+                          <Tooltip content="View Txn On Explorer">
+                            <Link
+                              href={networkGetExplorerUrl(
+                                "tx",
+                                networkMode,
+                                txn.signature
+                              )}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-teal-500 truncate max-w-40"
+                            >
+                              {txn.signature}
+                            </Link>
+                          </Tooltip>
+                          <Tooltip
+                            content={
+                              copiedItems === txn.signature
+                                ? "Copied!"
+                                : `Copy Txn ${networkConfig.txnSignatureLabel}`
+                            }
+                          >
+                            <CopyToggle
+                              hasCopied={copiedItems === txn.signature}
+                              onClick={() => handleCopy(txn.signature)}
+                              iconProps={{ className: "w-4" }}
+                            />
+                          </Tooltip>
+                        </div>
+                      </td>
+
+                      {/* Block Number */}
+                      <td className="px-4 whitespace-nowrap">
                         <Link
                           href={networkGetExplorerUrl(
-                            "tx",
+                            "block",
                             networkMode,
-                            txn.signature
+                            txn.block
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-teal-500 truncate max-w-40"
+                          className="text-teal-500"
                         >
-                          {txn.signature}
+                          {txn.block}
                         </Link>
-                      </Tooltip>
-                      <Tooltip
-                        content={`Copy ${networkConfig.txnSignatureLabel}`}
-                      >
-                        <CopyToggle
-                          hasCopied={copiedText === txn.signature}
-                          onClick={() => handleCopy(txn.signature)}
-                          iconProps={{ className: "w-3.5 flex-shrink-0" }}
-                        />
-                      </Tooltip>
-                    </div>
-                  </td>
-                  <td className="px-4 whitespace-nowrap">
-                    <Tooltip content="View Block Details">
-                      <Link
-                        href={networkGetExplorerUrl(
-                          "block",
-                          networkMode,
-                          txn.block
-                        )}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-teal-500 truncate max-w-40"
-                      >
-                        {txn.block}
-                      </Link>
-                    </Tooltip>
-                  </td>
-                  <td className="px-4 whitespace-nowrap">
-                    <span>{parseTimestamp(txn.timestamp)}</span>
-                  </td>
-                  <td className="px-4 whitespace-nowrap">
-                    <span
-                      className={cn(
-                        "w-11 h-6.5 pt-px flex items-center justify-center text-xs font-semibold rounded-lg uppercase tracking-wide",
-                        {
-                          "bg-teal-500/10 text-teal-500 border border-teal-500/30 dark:border-teal-500/10":
-                            txn.type === "in",
-                          "bg-yellow-500/10 text-yellow-700 dark:text-yellow-500 border border-yellow-500/30 dark:border-yellow-500/10":
-                            txn.type === "out",
-                          "bg-primary heading-color border border-color":
-                            txn.type === "self",
-                        }
-                      )}
-                    >
-                      {txn.type}
-                    </span>
-                  </td>
-                  <td className="px-4 whitespace-nowrap">
-                    <div className="flex items-center gap-2 min-w-0">
-                      {txn.type !== "self" && (
-                        <span>{txn.type === "in" ? "From" : "To"}</span>
-                      )}
-                      <Tooltip content={txn.type === "in" ? txn.from : txn.to}>
-                        <Link
-                          href={networkGetExplorerUrl(
-                            "address",
-                            networkMode,
-                            txn.type === "in" ? txn.from : txn.to
+                      </td>
+
+                      {/* Timestamp */}
+                      <td className="px-4 whitespace-nowrap">
+                        <Tooltip content={age}>
+                          <span className="cursor-default">{utc}</span>
+                        </Tooltip>
+                      </td>
+
+                      {/* Type */}
+                      <td className="px-4 whitespace-nowrap">
+                        <span
+                          className={cn(
+                            "w-11 h-6.5 pt-px flex items-center justify-center text-xs font-semibold rounded-lg uppercase tracking-wide",
+                            {
+                              "bg-teal-500/10 text-teal-500 border border-teal-500/30 dark:border-teal-500/10":
+                                txn.type === "in",
+                              "bg-yellow-500/10 text-yellow-700 dark:text-yellow-500 border border-yellow-500/30 dark:border-yellow-500/10":
+                                txn.type === "out",
+                              "bg-primary heading-color border border-color":
+                                txn.type === "self",
+                            }
                           )}
-                          className="heading-color"
                         >
-                          {getShortAddress(
-                            txn.type === "in" ? txn.from : txn.to
+                          {txn.type}
+                        </span>
+                      </td>
+
+                      {/* From/To Address */}
+                      <td className="px-4 whitespace-nowrap">
+                        <div className="flex items-center gap-1.5">
+                          {txn.type !== "self" && (
+                            <span>{txn.type === "in" ? "From" : "To"}</span>
                           )}
-                        </Link>
-                      </Tooltip>
-                      <CopyToggle
-                        hasCopied={
-                          copiedText === (txn.type === "in" ? txn.from : txn.to)
-                        }
-                        onClick={() =>
-                          handleCopy(txn.type === "in" ? txn.from : txn.to)
-                        }
-                        iconProps={{ className: "w-3.5 flex-shrink-0" }}
-                      />
+                          <Tooltip content={addressToShow}>
+                            <Link
+                              href={networkGetExplorerUrl(
+                                "address",
+                                networkMode,
+                                addressToShow
+                              )}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-teal-500"
+                            >
+                              {getShortAddress(addressToShow, txn.network)}
+                            </Link>
+                          </Tooltip>
+                          <Tooltip
+                            content={
+                              copiedItems === addressWithId
+                                ? "Copied!"
+                                : "Copy Address"
+                            }
+                          >
+                            <CopyToggle
+                              hasCopied={copiedItems === addressWithId}
+                              onClick={() =>
+                                handleCopy(addressToShow, txn.signature)
+                              }
+                              iconProps={{ className: "w-4" }}
+                            />
+                          </Tooltip>
+                        </div>
+                      </td>
+
+                      {/* Amount */}
+                      <td className="px-4 whitespace-nowrap heading-color">
+                        {`${parseBalance(txn.amount).original} ${
+                          networkConfig.token
+                        }`}
+                      </td>
+
+                      {/* Fee */}
+                      <td className="px-4 whitespace-nowrap text-[13px]">
+                        {txn.fee}
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr className="h-60 border-t-1.5 border-color">
+                  <td colSpan={7} className="px-4 size-full">
+                    <div className="size-full flex flex-col items-center justify-center gap-2 text-center">
+                      <ListCross className="h-14 text-yellow-500" />
+                      <p className="text-md max-w-60">
+                        No transactions found for this {network} address.
+                      </p>
                     </div>
-                  </td>
-                  <td className="px-4 whitespace-nowrap">
-                    <span className="text-teal-500 font-semibold">
-                      {txn.amount} {networkConfig.token}
-                    </span>
-                  </td>
-                  <td className="px-4 whitespace-nowrap">
-                    <span className="text-muted-foreground text-xs">
-                      {txn.fee} {networkConfig.token}
-                    </span>
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
       </motion.div>
+
+      {networkTransactions.length === 10 && (
+        <motion.div
+          className="w-full max-w-2xl flex flex-col items-center gap-5 py-4 text-center"
+          key={`explorer-section-${network}`}
+          {...fadeUpAnimation({ delay: !hasTabMounted ? 0.2 : 0.1 })}
+        >
+          <p className="text-secondary-text max-w-2xl">
+            You're viewing the 10 most recent transactions. To view your full
+            transaction history, visit the {networkConfig.name}
+            {networkMode === "testnet" ? ` ${networkConfig.testnetName}` : ""}
+            &nbsp;explorer.
+          </p>
+
+          <Button
+            as="link"
+            href={networkGetExplorerUrl(
+              "address",
+              networkMode,
+              activeAccount[network].address
+            )}
+            target="_blank"
+            variant="zinc"
+            aria-label={`View ${networkConfig.name} address on Explorer`}
+          >
+            View on Explorer
+          </Button>
+        </motion.div>
+      )}
     </div>
   );
 };
