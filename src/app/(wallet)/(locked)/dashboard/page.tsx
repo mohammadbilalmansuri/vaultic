@@ -46,7 +46,7 @@ const DashboardPage = () => {
       } catch {
         notify({
           type: "error",
-          message: "Failed to refresh balances.",
+          message: "Failed to refresh balances",
         });
       }
     });
