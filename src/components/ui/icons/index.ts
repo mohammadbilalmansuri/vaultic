@@ -19,6 +19,7 @@ export { default as ListCross } from "./ListCross";
 export { default as Lock } from "./Lock";
 export { default as Logo } from "./Logo";
 export { default as Moon } from "./Moon";
+export { default as OpenLink } from "./OpenLink";
 export { default as QR } from "./QR";
 export { default as QuestionMark } from "./QuestionMark";
 export { default as Refresh } from "./Refresh";
