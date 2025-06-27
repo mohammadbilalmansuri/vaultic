@@ -1,23 +1,24 @@
 "use client";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  useAccountsStore,
-  useTransactionsStore,
-  useWalletStore,
-} from "@/stores";
 import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { DEFAULT_NETWORK } from "@/constants";
 import { TNetwork } from "@/types";
-import { useClipboard, useMounted } from "@/hooks";
+import {
+  useAccountsStore,
+  useNotificationStore,
+  useTransactionsStore,
+  useWalletStore,
+} from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import parseTimestamp from "@/utils/parseTimestamp";
-import { Tooltip, CopyToggle, Button } from "../ui";
-import { ListCross, OpenLink } from "../ui/icons";
+import { useBlockchain, useClipboard, useMounted } from "@/hooks";
+import { Tooltip, CopyToggle, Button, Loader } from "../ui";
+import { ListCross, OpenLink, Refresh } from "../ui/icons";
 
 const TransactionsTab = () => {
   const transactions = useTransactionsStore((state) => state.transactions);
@@ -25,13 +26,33 @@ const TransactionsTab = () => {
   const networkMode = useWalletStore((state) => state.networkMode);
 
   const copyToClipboard = useClipboard();
+  const { fetchActiveAccountTransactions } = useBlockchain();
+  const notify = useNotificationStore((state) => state.notify);
 
   const [network, setNetwork] = useState<TNetwork>(DEFAULT_NETWORK);
   const [copiedItems, setCopiedItems] = useState("");
+  const [refreshing, startRefreshing] = useTransition();
 
   const networkTransactions = transactions[network];
   const networkConfig = NETWORKS[network];
   const networkGetExplorerUrl = NETWORK_FUNCTIONS[network].getExplorerUrl;
+
+  const handleRefresh = () => {
+    startRefreshing(async () => {
+      try {
+        await fetchActiveAccountTransactions();
+        notify({
+          type: "success",
+          message: "Transactions refreshed successfully!",
+        });
+      } catch {
+        notify({
+          type: "error",
+          message: "Failed to refresh transactions",
+        });
+      }
+    });
+  };
 
   const handleNetworkChange = (newNetwork: TNetwork) => {
     if (newNetwork === network) return;
@@ -46,36 +67,46 @@ const TransactionsTab = () => {
     );
   };
 
-  const handleRefreshTransactions = () => {
-    // Add your refresh/sync logic here
-    // For example: refreshTransactions(network, activeAccount[network].address);
-    console.log("Refreshing transactions for", network);
-  };
-
   const hasTabMounted = useMounted(1000);
 
   return (
-    <div className="w-full relative flex flex-col items-center gap-4">
+    <div className="w-full relative flex flex-col items-center gap-3">
       <motion.div
-        className="w-full relative flex items-center gap-3"
+        className="w-full relative flex items-center justify-between gap-3"
         {...fadeUpAnimation()}
       >
-        {Object.values(NETWORKS).map(({ id, name }) => (
+        <div className="flex items-center gap-3">
+          {Object.values(NETWORKS).map(({ id, name }) => (
+            <button
+              key={id}
+              type="button"
+              disabled={id === network}
+              onClick={() => handleNetworkChange(id as TNetwork)}
+              className={cn(
+                "flex items-center gap-2 leading-none py-2.5 px-3 rounded-xl transition-all duration-300 font-medium border",
+                id === network
+                  ? "bg-teal-500/10 border-teal-500/30 dark:border-teal-500/10 text-teal-500 pointer-events-none"
+                  : "bg-primary heading-color hover:bg-secondary border-color hover:border-focus"
+              )}
+            >
+              {name}
+            </button>
+          ))}
+        </div>
+
+        <Tooltip
+          content={refreshing ? "Refreshing..." : "Refresh Transactions"}
+        >
           <button
-            key={id}
-            type="button"
-            disabled={id === network}
-            onClick={() => handleNetworkChange(id as TNetwork)}
-            className={cn(
-              "flex items-center gap-2 leading-none py-2.5 px-3 rounded-xl transition-all duration-300 font-medium border",
-              id === network
-                ? "bg-teal-500/10 border-teal-500/30 dark:border-teal-500/10 text-teal-500 pointer-events-none"
-                : "bg-primary heading-color hover:bg-secondary border-color hover:border-focus"
-            )}
+            className={cn("icon-btn-bg size-11", {
+              "cursor-default bg-primary": refreshing,
+            })}
+            onClick={handleRefresh}
+            disabled={refreshing}
           >
-            {name}
+            {refreshing ? <Loader size="sm" /> : <Refresh className="w-6" />}
           </button>
-        ))}
+        </Tooltip>
       </motion.div>
 
       <motion.div
