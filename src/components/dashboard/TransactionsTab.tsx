@@ -17,7 +17,7 @@ import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import parseTimestamp from "@/utils/parseTimestamp";
 import { Tooltip, CopyToggle, Button } from "../ui";
-import { ListCross } from "../ui/icons";
+import { ListCross, OpenLink } from "../ui/icons";
 
 const TransactionsTab = () => {
   const transactions = useTransactionsStore((state) => state.transactions);
@@ -268,11 +268,12 @@ const TransactionsTab = () => {
           key={`explorer-section-${network}`}
           {...fadeUpAnimation({ delay: !hasTabMounted ? 0.2 : 0.1 })}
         >
-          <p className="text-secondary-text max-w-2xl">
-            You're viewing the 10 most recent transactions. To view your full
-            transaction history, visit the {networkConfig.name}
-            {networkMode === "testnet" ? ` ${networkConfig.testnetName}` : ""}
-            &nbsp;explorer.
+          <p>
+            Showing your 10 most recent transactions. For your complete
+            transaction history and detailed analytics, explore your address on
+            the {networkConfig.name}
+            {networkMode === "testnet" ? ` ${networkConfig.testnetName} ` : " "}
+            explorer.
           </p>
 
           <Button
@@ -283,10 +284,11 @@ const TransactionsTab = () => {
               activeAccount[network].address
             )}
             target="_blank"
+            rel="noopener noreferrer"
             variant="zinc"
-            aria-label={`View ${networkConfig.name} address on Explorer`}
           >
-            View on Explorer
+            <OpenLink className="w-4.5" />
+            <span>View Complete History</span>
           </Button>
         </motion.div>
       )}
