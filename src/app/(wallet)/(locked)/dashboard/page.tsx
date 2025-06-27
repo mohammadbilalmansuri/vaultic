@@ -32,21 +32,21 @@ const DashboardPage = () => {
     (state) => state.switchingToAccount
   );
 
-  const { refreshActiveAccount } = useBlockchain();
+  const { fetchActiveAccountBalances } = useBlockchain();
   const [refreshing, startRefreshing] = useTransition();
 
   const handleRefresh = () => {
     startRefreshing(async () => {
       try {
-        await refreshActiveAccount();
+        await fetchActiveAccountBalances();
         notify({
           type: "success",
-          message: "Balances and transactions refreshed successfully!",
+          message: "Balances refreshed successfully!",
         });
       } catch {
         notify({
           type: "error",
-          message: "Failed to refresh balances and transactions.",
+          message: "Failed to refresh balances.",
         });
       }
     });
@@ -85,11 +85,7 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        <Tooltip
-          content={
-            refreshing ? "Refreshing..." : "Refresh balances & transactions"
-          }
-        >
+        <Tooltip content={refreshing ? "Refreshing..." : "Refresh Balances"}>
           <button
             className={cn("icon-btn-bg size-11", {
               "cursor-default bg-primary": refreshing,
