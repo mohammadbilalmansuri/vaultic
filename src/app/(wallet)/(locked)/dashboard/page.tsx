@@ -8,12 +8,12 @@ import {
   useNotificationStore,
 } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
+import cn from "@/utils/cn";
 import { useBlockchain } from "@/hooks";
+import { SendTab, ReceiveTab, TransactionsTab } from "@/components/dashboard";
 import { Loader, Tooltip, Tabs } from "@/components/ui";
 import { Send, QR, Clock, Refresh, Wallet } from "@/components/ui/icons";
 import { NetworkCard } from "@/components/wallet";
-import { SendTab, ReceiveTab, TransactionsTab } from "@/components/dashboard";
-import cn from "@/utils/cn";
 
 const TABS: TTabs = {
   Send: { icon: Send, content: SendTab },
