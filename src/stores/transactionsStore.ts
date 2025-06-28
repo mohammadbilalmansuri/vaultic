@@ -16,7 +16,7 @@ const initialTransactions = Object.keys(NETWORKS).reduce((acc, network) => {
 }, {} as TTransactions);
 
 /**
- * Transactions store for managing transaction history across all networks.
+ * Transactions store for managing transaction history across all networks in the active account.
  * Handles transaction caching, updates, and network-specific organization.
  */
 const useTransactionsStore = create<ITransactionsStore>((set) => ({
