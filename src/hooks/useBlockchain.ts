@@ -8,16 +8,39 @@ import {
 } from "@/stores";
 import { useStorage } from "@/hooks";
 
+/**
+ * Blockchain interaction hook for unified account and transaction management.
+ *
+ * Provides helpers for:
+ * - Validating wallet addresses
+ * - Fetching account balances
+ * - Sending tokens
+ * - Refreshing account data
+ * - Switching network modes (mainnet/testnet)
+ */
 const useBlockchain = () => {
   const { updateWallet } = useStorage();
   const { setWalletState } = useWalletStore.getState();
   const { getActiveAccount, updateActiveAccount } = useAccountsStore.getState();
   const { setTransactions, addTransaction } = useTransactionsStore.getState();
 
+  /**
+   * Validates whether an address is valid for the given blockchain network.
+   *
+   * @param {TNetwork} network - The target blockchain network (e.g., 'solana', 'ethereum').
+   * @param {string} address - The wallet address to validate.
+   * @returns {boolean} `true` if the address is valid for the network, otherwise `false`.
+   */
   const isValidAddress = (network: TNetwork, address: string): boolean => {
     return NETWORK_FUNCTIONS[network].isValidAddress(address);
   };
 
+  /**
+   * Fetches and updates balances for all networks in the active account.
+   * Stores the updated balances in the accounts store.
+   *
+   * @returns {Promise<void>} A promise that resolves after balances are updated.
+   */
   const fetchActiveAccountBalances = async (): Promise<void> => {
     const activeAccount = getActiveAccount();
 
@@ -26,6 +49,7 @@ const useBlockchain = () => {
         async ([networkKey, { address, privateKey, balance }]) => {
           const network = networkKey as TNetwork;
           const { fetchBalance } = NETWORK_FUNCTIONS[network];
+
           try {
             const updatedBalance = await fetchBalance(address);
             return [network, { address, privateKey, balance: updatedBalance }];
@@ -40,6 +64,12 @@ const useBlockchain = () => {
     updateActiveAccount(Object.fromEntries(updatedEntries));
   };
 
+  /**
+   * Fetches and updates transaction history for all networks in the active account.
+   * Stores the latest transactions in the transactions store.
+   *
+   * @returns {Promise<void>} A promise that resolves after transactions are updated.
+   */
   const fetchActiveAccountTransactions = async (): Promise<void> => {
     const activeAccount = getActiveAccount();
 
@@ -47,6 +77,7 @@ const useBlockchain = () => {
       Object.entries(activeAccount).map(async ([networkKey, { address }]) => {
         const network = networkKey as TNetwork;
         const { fetchTransactions } = NETWORK_FUNCTIONS[network];
+
         try {
           const transactions = await fetchTransactions(address);
           return [network, transactions];
@@ -60,6 +91,16 @@ const useBlockchain = () => {
     setTransactions(Object.fromEntries(transactionEntries));
   };
 
+  /**
+   * Sends tokens from the active account on the specified network.
+   * Updates account balance and transaction history upon success.
+   *
+   * @param {Object} params - The send transaction parameters.
+   * @param {TNetwork} params.network - The network to send tokens on.
+   * @param {string} params.toAddress - The recipient address.
+   * @param {string} params.amount - The amount to send (in base units, e.g., SOL or ETH).
+   * @returns {Promise<ITransaction>} The resulting transaction object.
+   */
   const sendTokensFromActiveAccount = async ({
     network,
     toAddress,
@@ -99,6 +140,13 @@ const useBlockchain = () => {
     }
   };
 
+  /**
+   * Refreshes the active account's data:
+   * - Fetches latest balances
+   * - Fetches latest transaction history
+   *
+   * @returns {Promise<void>} A promise that resolves after data is refreshed.
+   */
   const refreshActiveAccount = async (): Promise<void> => {
     try {
       await Promise.all([
@@ -111,11 +159,21 @@ const useBlockchain = () => {
     }
   };
 
+  /**
+   * Switches the network mode (e.g., 'mainnet' or 'testnet') for all networks.
+   * - Resets network connections
+   * - Updates wallet state
+   * - Refreshes account balances and transactions
+   *
+   * @param {TNetworkMode} mode - The desired network mode to switch to.
+   * @returns {Promise<void>} A promise that resolves after the mode switch is complete.
+   */
   const switchNetworkMode = async (mode: TNetworkMode): Promise<void> => {
     try {
       for (const { resetConnection } of Object.values(NETWORK_FUNCTIONS)) {
         resetConnection();
       }
+
       setWalletState({ networkMode: mode });
       await updateWallet();
       await refreshActiveAccount();
