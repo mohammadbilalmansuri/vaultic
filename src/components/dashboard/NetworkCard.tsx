@@ -31,7 +31,7 @@ const NetworkCard = ({
       key={network}
       className="w-full relative flex items-center justify-between rounded-3xl bg-primary px-5 py-6"
     >
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2.5">
         <NetworkLogo network={network} size="md" />
 
         <div className="flex flex-col items-start gap-1">
@@ -44,7 +44,7 @@ const NetworkCard = ({
           </h4>
 
           <Tooltip
-            content={copied ? "Copied!" : "Copy address"}
+            content={copied ? "Copied!" : "Copy Address"}
             position="bottom"
           >
             <div
