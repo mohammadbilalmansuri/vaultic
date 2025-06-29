@@ -178,16 +178,13 @@ const ManageAccountsPage = () => {
                       </>
                     )}
 
-                    <Tooltip
-                      containerClassName="icon-btn-bg"
-                      content={isOpen ? "Collapse" : "Expand"}
-                    >
+                    <button className="icon-btn-bg">
                       <AngleDown
                         className={cn("transition-all duration-300", {
                           "rotate-180": isOpen,
                         })}
                       />
-                    </Tooltip>
+                    </button>
                   </div>
                 </div>
 
