@@ -7,7 +7,7 @@ const DashboardShell = ({ children }: IChildren) => {
       <Sidebar />
       <main className="w-[calc(100%-18rem)] relative flex flex-col">
         <TestnetNotice />
-        <div className="w-full relative flex-1 flex flex-col items-center p-8 overflow-y-auto scrollbar-thin">
+        <div className="w-full relative flex-1 flex flex-col items-center p-8 overflow-x-hidden overflow-y-auto scrollbar-thin">
           {children}
         </div>
       </main>
