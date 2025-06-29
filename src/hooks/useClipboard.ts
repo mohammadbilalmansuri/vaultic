@@ -7,7 +7,7 @@ import { useNotificationStore } from "@/stores";
  * Provides clipboard functionality with automatic state reset and user feedback.
  */
 const useClipboard = () => {
-  const notify = useNotificationStore((state) => state.notify);
+  const { notify } = useNotificationStore.getState();
 
   /**
    * Copies text to clipboard and manages copied state with auto-reset.
