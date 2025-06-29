@@ -92,7 +92,7 @@ const DashboardPage = () => {
         <Tooltip content={refreshing ? "Refreshing..." : "Refresh Balances"}>
           <button
             className={cn("icon-btn-bg", {
-              "cursor-default bg-primary": refreshing,
+              "cursor-default bg-primary pointer-events-none": refreshing,
             })}
             onClick={handleRefresh}
             disabled={refreshing}
