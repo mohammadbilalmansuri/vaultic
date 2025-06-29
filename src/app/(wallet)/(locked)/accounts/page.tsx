@@ -1,48 +1,52 @@
 "use client";
-import { useState, useTransition } from "react";
-import { motion } from "motion/react";
-import { TNetwork } from "@/types";
+import { useTransition, useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import {
-  useAccountsStore,
   useWalletStore,
+  useAccountsStore,
   useNotificationStore,
 } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
-import cn from "@/utils/cn";
 import { useAccounts, useClipboard } from "@/hooks";
 import { Button, Loader, Tooltip } from "@/components/ui";
 import {
-  Wallet,
-  WalletMoney,
+  Cards,
+  Plus,
+  Trash,
+  AngleDown,
+  Copy,
   Eye,
   EyeSlash,
   Check,
 } from "@/components/ui/icons";
-import { NetworkCard, AccountSwitcher } from "@/components/wallet";
-import { RecoveryPhrase } from "@/components/settings";
+import cn from "@/utils/cn";
+import NetworkLogo from "@/components/ui/NetworkLogo";
+import CopyToggle from "@/components/ui/CopyToggle";
+import parseBalance from "@/utils/parseBalance";
+import getShortAddress from "@/utils/getShortAddress";
+import { NETWORKS } from "@/config/networks";
+import { TNetwork } from "@/types";
 
-const AccountsPage = () => {
+const ManageAccountsPage = () => {
+  const notify = useNotificationStore((state) => state.notify);
   const accounts = useAccountsStore((state) => state.accounts);
   const activeAccountIndex = useAccountsStore(
     (state) => state.activeAccountIndex
   );
-  const setActiveAccountIndex = useAccountsStore(
-    (state) => state.setActiveAccountIndex
-  );
-  const networkMode = useWalletStore((state) => state.networkMode);
-  const notify = useNotificationStore((state) => state.notify);
+  const activeAccount = useAccountsStore((state) => state.getActiveAccount());
 
-  const { createAccount } = useAccounts();
+  const { createAccount, deleteAccount, switchActiveAccount } = useAccounts();
   const copyToClipboard = useClipboard();
-  const [creating, startCreating] = useTransition();
-  const [refreshing, setRefreshing] = useState<Set<string>>(new Set());
-  const [balancesVisible, setBalancesVisible] = useState(true);
-  const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
 
-  const accountsList = Object.entries(accounts).map(([index, account]) => ({
-    index: parseInt(index),
-    account,
-  }));
+  const [creating, startCreating] = useTransition();
+  const [deleting, startDeleting] = useTransition();
+  const [expandedCards, setExpandedCards] = useState<Set<number>>(
+    new Set([activeAccountIndex])
+  );
+  const [visiblePrivateKeys, setVisiblePrivateKeys] = useState<Set<string>>(
+    new Set()
+  );
+  const [copiedMap, setCopiedMap] = useState<Record<string, boolean>>({});
 
   const handleCreateAccount = () => {
     startCreating(async () => {
@@ -50,269 +54,77 @@ const AccountsPage = () => {
         await createAccount();
         notify({
           type: "success",
-          message: "New account created successfully!",
-          duration: 3000,
+          message: "New account created successfully.",
         });
-      } catch (error) {
-        const message =
-          error instanceof Error ? error.message : "Failed to create account";
+      } catch {
         notify({
           type: "error",
-          message,
-          duration: 4000,
+          message: "Failed to create new account. Please try again.",
+        });
+      }
+    });
+  };
+
+  const handleDeleteAccount = (index: number) => {
+    startDeleting(async () => {
+      try {
+        await deleteAccount(index);
+        notify({
+          type: "success",
+          message: `Account ${index + 1} deleted successfully.`,
+        });
+      } catch {
+        notify({
+          type: "error",
+          message: `Failed to delete account ${index + 1}. Please try again.`,
         });
       }
     });
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto flex flex-col py-10 gap-6">
-      <motion.div className="w-full flex flex-col gap-4" {...fadeUpAnimation()}>
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold heading-color">Accounts</h1>
-          {networkMode === "testnet" && (
-            <span className="bg-warning px-3 py-1.5 rounded-xl text-sm font-medium">
-              Testnet Mode
-            </span>
-          )}
-        </div>
-
-        <p className="text-color">
-          Manage your wallet accounts and view balances across different
-          networks
-        </p>
-      </motion.div>
-      <RecoveryPhrase />
-      {/* Summary Card */}
+    <div className="w-full max-w-screen-lg relative flex flex-col gap-8 flex-1">
       <motion.div
-        className="border-2 border-color rounded-3xl p-6 bg-primary/30"
-        {...fadeUpAnimation({ delay: 0.1 })}
+        className="w-full relative flex items-center justify-between gap-4"
+        {...fadeUpAnimation()}
       >
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-teal-500/20 flex items-center justify-center">
-              <WalletMoney className="w-6 h-6 text-teal-500" />
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold heading-color">
-                Total Accounts
-              </h2>
-              <p className="text-color">Manage your wallet accounts</p>
-            </div>
+        <div className="flex items-center gap-4">
+          <div className="size-12 rounded-2xl bg-teal-500/10 flex items-center justify-center">
+            <Cards className="w-6 text-teal-500" />
           </div>
-
-          <div className="flex items-center gap-3">
-            <Tooltip
-              content={balancesVisible ? "Hide Balances" : "Show Balances"}
-            >
-              <button
-                className="icon-btn-bg"
-                onClick={() => setBalancesVisible(!balancesVisible)}
-              >
-                {balancesVisible ? (
-                  <EyeSlash className="w-5" />
-                ) : (
-                  <Eye className="w-5" />
-                )}
-              </button>
-            </Tooltip>
-
-            <Button
-              variant="teal"
-              onClick={handleCreateAccount}
-              disabled={creating}
-            >
-              {creating ? (
-                <>
-                  <Loader size="sm" />
-                  Creating...
-                </>
-              ) : (
-                <>
-                  <Wallet className="w-4" />
-                  Create Account
-                </>
-              )}
-            </Button>
+          <div className="flex flex-col">
+            <h2 className="text-xl font-semibold heading-color">
+              Manage Accounts
+            </h2>
+            <p className="text-zinc-500 text-sm">
+              Manage all your indexed, derived accounts from your recovery
+              phrase.
+            </p>
           </div>
         </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="text-center">
-            <div className="text-2xl font-bold heading-color">
-              {accountsList.length}
-            </div>
-            <div className="text-sm text-color">Total Accounts</div>
-          </div>
-
-          <div className="text-center">
-            <div className="text-2xl font-bold heading-color">
-              {accountsList.length * 2}
-            </div>
-            <div className="text-sm text-color">Network Addresses</div>
-          </div>
-
-          <div className="text-center">
-            <div className="text-2xl font-bold text-teal-500">
-              Account {activeAccountIndex}
-            </div>
-            <div className="text-sm text-color">Active Account</div>
-          </div>
-        </div>
-      </motion.div>
-      {/* Current Account Switcher */}
-      <motion.div
-        className="w-full max-w-sm"
-        {...fadeUpAnimation({ delay: 0.2 })}
-      >
-        <AccountSwitcher />
-      </motion.div>
-      {/* Accounts List with NetworkCards */}
-      <motion.div className="space-y-6" {...fadeUpAnimation({ delay: 0.3 })}>
-        {accountsList.map((item, index) => (
-          <motion.div
-            key={item.index}
-            className={cn(
-              "border-2 rounded-3xl p-6 bg-primary/30 transition-all",
-              item.index === activeAccountIndex
-                ? "border-teal-500 bg-teal-500/10"
-                : "border-color hover:border-teal-500/50"
-            )}
-            {...fadeUpAnimation({ delay: 0.1 * index })}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <div
-                  className={cn(
-                    "w-12 h-12 rounded-full flex items-center justify-center",
-                    item.index === activeAccountIndex
-                      ? "bg-teal-500 text-white"
-                      : "bg-primary border-2 border-color"
-                  )}
-                >
-                  {item.index === activeAccountIndex ? (
-                    <Check className="w-6 h-6" />
-                  ) : (
-                    <Wallet className="w-6 h-6" />
-                  )}
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold heading-color">
-                    Account {item.index}
-                    {item.index === activeAccountIndex && (
-                      <span className="ml-2 text-sm text-teal-500 font-medium">
-                        (Active)
-                      </span>
-                    )}
-                  </h3>
-                  <p className="text-sm text-color">
-                    Multi-network wallet account
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                {item.index !== activeAccountIndex && (
-                  <Button
-                    variant="zinc"
-                    onClick={() => setActiveAccountIndex(item.index)}
-                  >
-                    <Check className="w-4" />
-                    Activate
-                  </Button>
-                )}{" "}
-                <Button
-                  variant="zinc"
-                  // onClick={() => handleRefreshBalances(item.index)}
-                  disabled={refreshing.has(item.index.toString())}
-                >
-                  {refreshing.has(item.index.toString()) ? (
-                    <Loader size="sm" />
-                  ) : (
-                    "Refresh"
-                  )}
-                </Button>
-              </div>
-            </div>{" "}
-            {/* Network Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {(["ethereum", "solana"] as TNetwork[]).map((network) => {
-                const networkAccount = item.account[network];
-                const refreshKey = `${item.index}-${network}`;
-                const addressKey = `${networkAccount.address}-${network}`;
-                const isCopied = copiedStates[addressKey] || false;
-
-                return (
-                  <NetworkCard
-                    key={network}
-                    network={network}
-                    address={networkAccount.address}
-                    balance={networkAccount.balance}
-                    networkMode={networkMode}
-                  />
-                );
-              })}
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
-      {accountsList.length === 0 && (
-        <motion.div
-          className="border-2 border-dashed border-color rounded-3xl p-12 text-center"
-          {...fadeUpAnimation({ delay: 0.4 })}
-        >
-          <Wallet className="w-16 h-16 mx-auto mb-4 opacity-30" />
-          <h3 className="text-lg font-semibold heading-color mb-2">
-            No accounts found
-          </h3>
-          <p className="text-color mb-6">
-            Create your first account to start using your wallet
-          </p>
-          <Button
-            variant="teal"
+        <Tooltip content={creating ? "Creating..." : "Create New Account"}>
+          <button
+            className={cn("icon-btn-bg size-11", {
+              "cursor-default bg-primary": creating,
+            })}
             onClick={handleCreateAccount}
             disabled={creating}
           >
-            {creating ? (
-              <>
-                <Loader size="sm" />
-                Creating Account...
-              </>
-            ) : (
-              <>
-                <Wallet className="w-4" />
-                Create First Account
-              </>
-            )}
-          </Button>
-        </motion.div>
-      )}
-      {/* Account Management Info */}
-      <motion.div
-        className="border border-blue-500/30 bg-blue-500/10 rounded-2xl p-4"
-        {...fadeUpAnimation({ delay: 0.5 })}
-      >
-        <div className="flex gap-3">
-          <div className="text-blue-500 mt-0.5">ℹ️</div>
-          <div className="text-sm">
-            <p className="font-medium text-blue-800 dark:text-blue-500 mb-1">
-              Account Management Tips:
-            </p>
-            <ul className="space-y-1 text-blue-700 dark:text-blue-400">
-              <li>• Each account has both Ethereum and Solana addresses</li>
-              <li>• You can switch between accounts anytime</li>
-              <li>• All accounts are derived from your recovery phrase</li>
-              <li>• Refresh balances to get the latest amounts</li>
-              {networkMode === "testnet" && (
-                <li>• You're on testnet - these are test tokens only</li>
-              )}
-            </ul>
-          </div>
-        </div>
+            {creating ? <Loader size="sm" /> : <Plus className="w-7" />}
+          </button>
+        </Tooltip>
       </motion.div>
+
+      <div className="w-full relative flex flex-col gap-4">
+        <AnimatePresence>
+          {Object.entries(accounts).map(([key, account]) => {
+            const index = parseInt(key);
+            return <></>;
+          })}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
 
-export default AccountsPage;
+export default ManageAccountsPage;
