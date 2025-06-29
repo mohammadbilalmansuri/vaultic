@@ -1,8 +1,9 @@
 "use client";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useWallet } from "@/hooks";
-import { Button, ThemeSwitcher, SidebarNavLink } from "../ui";
+import { useAccountsStore } from "@/stores";
+import { useWallet, useAccounts } from "@/hooks";
+import { Button, ThemeSwitcher, SidebarNavLink, Select } from "../ui";
 import {
   Logo,
   Wallet,
@@ -12,7 +13,6 @@ import {
   QuestionMark,
   Lock,
 } from "../ui/icons";
-import { AccountSwitcher } from "../wallet";
 
 const navLinks = [
   { name: "Dashboard", href: "/dashboard", icon: Wallet },
@@ -30,6 +30,20 @@ const navLinks = [
 const Sidebar = () => {
   const pathname = usePathname();
   const { lockWallet } = useWallet();
+  const { switchActiveAccount } = useAccounts();
+
+  const accounts = useAccountsStore((state) => state.accounts);
+  const activeAccountIndex = useAccountsStore(
+    (state) => state.activeAccountIndex
+  );
+  const switchingToAccount = useAccountsStore(
+    (state) => state.switchingToAccount
+  );
+
+  const accountOptions = Object.keys(accounts)
+    .map(Number)
+    .sort((a, b) => a - b)
+    .map((index) => ({ label: `Account ${index + 1}`, value: index }));
 
   return (
     <aside className="w-[18rem] border-r-1.5 border-color flex flex-col justify-between gap-5 p-5 overflow-y-auto scrollbar-thin">
@@ -51,14 +65,20 @@ const Sidebar = () => {
               href={href}
               icon={Icon}
               isActive={pathname === href}
-              {...(target && { target })}
+              target={target}
             />
           ))}
         </nav>
       </div>
 
       <div className="w-full flex flex-col gap-5">
-        <AccountSwitcher variant="inline" />
+        <Select
+          options={accountOptions}
+          value={activeAccountIndex}
+          onChange={switchActiveAccount}
+          selecting={switchingToAccount !== null}
+        />
+
         <Button onClick={lockWallet}>
           <Lock className="w-5 -mt-px" />
           <span className="leading-none">Lock Vaultic</span>
