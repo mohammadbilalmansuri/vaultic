@@ -22,7 +22,7 @@ interface IShareFileArgs {
  * Supports URLs, Blobs, and File objects with native browser sharing.
  */
 const useFileActions = () => {
-  const notify = useNotificationStore((state) => state.notify);
+  const { notify } = useNotificationStore.getState();
 
   // Converts various file types to Blob for consistent handling
   const resolveBlob = async (file: TFile): Promise<Blob> => {

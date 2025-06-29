@@ -24,7 +24,7 @@ const useAddressQRUpload = ({
   validateAddress,
 }: AddressQRUploadConfig) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const notify = useNotificationStore((state) => state.notify);
+  const { notify } = useNotificationStore.getState();
 
   const triggerUpload = () => fileInputRef.current?.click();
 

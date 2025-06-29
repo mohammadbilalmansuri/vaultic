@@ -17,9 +17,9 @@ const useWallet = () => {
   const router = useRouter();
   const { isWalletStored, loadWallet, removeWallet } = useStorage();
   const { loadAccounts } = useAccounts();
-  const setWalletState = useWalletStore((state) => state.setWalletState);
-  const clearAccounts = useAccountsStore((state) => state.clearAccounts);
-  const notify = useNotificationStore((state) => state.notify);
+  const { setWalletState } = useWalletStore.getState();
+  const { clearAccounts } = useAccountsStore.getState();
+  const { notify } = useNotificationStore.getState();
 
   /**
    * Checks if a wallet exists in storage and updates wallet state.
