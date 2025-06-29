@@ -38,6 +38,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
             width: `calc(${100 / tabKeys.length}% - 10px)`,
           }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          initial={false}
         />
 
         {tabKeys.map((label) => {
