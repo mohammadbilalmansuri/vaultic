@@ -75,7 +75,7 @@ const ManageAccountsPage = () => {
   };
 
   return (
-    <div className="w-full max-w-screen-lg relative flex flex-col gap-8 flex-1">
+    <div className="w-full max-w-screen-lg relative flex flex-col items-center gap-8 flex-1">
       <motion.div
         className="w-full relative flex items-center justify-between gap-4"
         {...fadeUpAnimation()}
@@ -96,7 +96,7 @@ const ManageAccountsPage = () => {
         </div>
         <Tooltip content={creating ? "Creating..." : "Create New Account"}>
           <button
-            className={cn("icon-btn-bg size-11", {
+            className={cn("icon-btn-bg", {
               "cursor-default bg-primary": creating,
             })}
             onClick={handleCreateAccount}
