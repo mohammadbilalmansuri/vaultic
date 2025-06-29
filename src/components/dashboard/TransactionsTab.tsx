@@ -98,13 +98,13 @@ const TransactionsTab = () => {
           content={refreshing ? "Refreshing..." : "Refresh Transactions"}
         >
           <button
-            className={cn("icon-btn-bg size-11", {
+            className={cn("icon-btn-bg", {
               "cursor-default bg-primary": refreshing,
             })}
             onClick={handleRefresh}
             disabled={refreshing}
           >
-            {refreshing ? <Loader size="sm" /> : <Refresh className="w-6" />}
+            {refreshing ? <Loader size="sm" /> : <Refresh />}
           </button>
         </Tooltip>
       </motion.div>
