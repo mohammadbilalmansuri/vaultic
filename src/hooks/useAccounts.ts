@@ -1,5 +1,9 @@
 import { TAccounts } from "@/types";
-import { useWalletStore, useAccountsStore } from "@/stores";
+import {
+  useWalletStore,
+  useAccountsStore,
+  useNotificationStore,
+} from "@/stores";
 import deriveAccount from "@/services/deriveAccount";
 import useBlockchain from "./useBlockchain";
 import useStorage from "./useStorage";
@@ -12,9 +16,15 @@ const useAccounts = () => {
   const { fetchActiveAccountTransactions, refreshActiveAccount } =
     useBlockchain();
   const { saveWallet, updateWallet } = useStorage();
+  const { notify } = useNotificationStore.getState();
   const { setWalletState } = useWalletStore.getState();
-  const { addAccount, removeAccount, setAccounts, setActiveAccountIndex } =
-    useAccountsStore.getState();
+  const {
+    addAccount,
+    removeAccount,
+    setAccounts,
+    setActiveAccountIndex,
+    setSwitchingToAccount,
+  } = useAccountsStore.getState();
 
   /**
    * Creates a new account by deriving from the next available HD wallet index.
@@ -115,21 +125,35 @@ const useAccounts = () => {
 
   /**
    * Switches the active account to the specified index.
-   * Updates wallet state and refreshes account data and transactions.
+   * Prevents switching if already in progress or if the selected index is already active.
+   * Validates the index, updates the active account state, and refreshes its balances and transactions.
+   * Also shows a notification on success or failure.
    * @param index - HD wallet derivation index to switch to
    */
   const switchActiveAccount = async (index: number): Promise<void> => {
+    const { activeAccountIndex, switchingToAccount } =
+      useAccountsStore.getState();
+
+    if (switchingToAccount !== null || index === activeAccountIndex) return;
+
+    setSwitchingToAccount(index);
+
     try {
       const { indexes } = useWalletStore.getState();
+
       if (!indexes.inUse.includes(index)) {
         throw new Error(`Account index ${index} does not exist`);
       }
+
       setActiveAccountIndex(index);
       await updateWallet();
       await refreshActiveAccount();
-    } catch (error) {
-      console.error("Error switching active account:", error);
-      throw error;
+
+      notify({ type: "success", message: `Switched to Account ${index + 1}` });
+    } catch {
+      notify({ type: "error", message: `Failed to switch account` });
+    } finally {
+      setSwitchingToAccount(null);
     }
   };
 
