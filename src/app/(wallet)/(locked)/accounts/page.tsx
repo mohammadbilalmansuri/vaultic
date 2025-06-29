@@ -134,7 +134,7 @@ const ManageAccountsPage = () => {
                       Account {accountIndex + 1}
                     </h3>
                     {accountIndex === activeAccountIndex && (
-                      <span className="text-sm font-medium leading-none uppercase tracking-wide px-2.5 h-8 flex items-center justify-center rounded-lg bg-teal-500/10 text-teal-500 border border-teal-500/30 dark:border-teal-500/10">
+                      <span className="text-sm font-medium leading-none uppercase tracking-wide px-2 h-7.5 flex items-center justify-center rounded-lg bg-teal-500/10 text-teal-500 border border-teal-500/30 dark:border-teal-500/10">
                         Active
                       </span>
                     )}
@@ -147,9 +147,9 @@ const ManageAccountsPage = () => {
                           <Tooltip content="Set Active Account">
                             <button
                               className="icon-btn-bg"
-                              onClick={(e) => {
+                              onClick={async (e) => {
                                 e.stopPropagation();
-                                switchActiveAccount(accountIndex);
+                                await switchActiveAccount(accountIndex);
                               }}
                             >
                               <Check />
