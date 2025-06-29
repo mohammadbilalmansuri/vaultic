@@ -77,6 +77,7 @@ const Sidebar = () => {
           value={activeAccountIndex}
           onChange={switchActiveAccount}
           selecting={switchingToAccount !== null}
+          variant="inline"
         />
 
         <Button onClick={lockWallet}>
