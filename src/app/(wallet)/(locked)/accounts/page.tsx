@@ -129,10 +129,13 @@ const ManageAccountsPage = () => {
                   className="w-full relative flex items-center justify-between gap-4 p-4 pl-5 cursor-pointer"
                   onClick={() => handleToggle(accountIndex)}
                 >
-                  <div className="flex items-center gap-4 pl-1">
-                    <h3 className="text-xl font-medium heading-color">
+                  <div className="flex items-center gap-2 pl-1">
+                    <h3 className="text-xl font-medium heading-color pr-2">
                       Account {accountIndex + 1}
                     </h3>
+                    <span className="text-sm font-medium leading-none uppercase tracking-wide px-2 h-7.5 flex items-center justify-center rounded-lg bg-primary border border-color">
+                      Index {accountIndex}
+                    </span>
                     {accountIndex === activeAccountIndex && (
                       <span className="text-sm font-medium leading-none uppercase tracking-wide px-2 h-7.5 flex items-center justify-center rounded-lg bg-teal-500/10 text-teal-500 border border-teal-500/30 dark:border-teal-500/10">
                         Active
