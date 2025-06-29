@@ -10,10 +10,14 @@ import {
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { useBlockchain } from "@/hooks";
-import { SendTab, ReceiveTab, TransactionsTab } from "@/components/dashboard";
+import {
+  NetworkCard,
+  SendTab,
+  ReceiveTab,
+  TransactionsTab,
+} from "@/components/dashboard";
 import { Loader, Tooltip, Tabs } from "@/components/ui";
 import { Send, QR, Clock, Refresh, Wallet } from "@/components/ui/icons";
-import { NetworkCard } from "@/components/wallet";
 
 const TABS: TTabs = {
   Send: { icon: Send, content: SendTab },
