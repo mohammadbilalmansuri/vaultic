@@ -280,9 +280,9 @@ const ManageAccountsPage = () => {
                                 )}
                               </div>
 
-                              <div className="w-full flex flex-col gap-0.5">
+                              <div className="w-full flex flex-col gap-1">
                                 <div className="w-full flex items-center justify-between gap-8">
-                                  <h5 className="text-md heading-color font-medium">
+                                  <h5 className="leading-none text-md heading-color font-medium">
                                     Address
                                   </h5>
 
@@ -325,9 +325,9 @@ const ManageAccountsPage = () => {
                                 </p>
                               </div>
 
-                              <div className="w-full flex flex-col gap-0.5">
+                              <div className="w-full flex flex-col gap-1">
                                 <div className="w-full flex items-center justify-between gap-8">
-                                  <h5 className="text-md heading-color font-medium">
+                                  <h5 className="leading-none text-md heading-color font-medium">
                                     Private Key
                                   </h5>
 
