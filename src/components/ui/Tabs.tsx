@@ -19,7 +19,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
   const activeIndex = tabKeys.indexOf(activeTab);
   const ActiveTabContent = tabs[activeTab].content;
 
-  const hasMounted = useMounted(1000);
+  const hasMounted = useMounted(2000);
 
   return (
     <div className="w-full relative flex flex-col items-center gap-8">
