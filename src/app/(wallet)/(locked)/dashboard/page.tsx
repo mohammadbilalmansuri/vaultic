@@ -115,7 +115,7 @@ const DashboardPage = () => {
         </Tooltip>
       </motion.div>
 
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
         {Object.entries(activeAccount).map(
           ([networkKey, { address, balance }], index) => {
             const network = networkKey as TNetwork;
