@@ -1,6 +1,7 @@
 "use client";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { motion } from "motion/react";
+import { NETWORKS } from "@/config";
 import { TNetwork, TTabs } from "@/types";
 import {
   useWalletStore,
@@ -9,14 +10,17 @@ import {
 } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import { useBlockchain } from "@/hooks";
+import getShortAddress from "@/utils/getShortAddress";
+import parseBalance from "@/utils/parseBalance";
+import { useBlockchain, useClipboard } from "@/hooks";
+import { SendTab, ReceiveTab, TransactionsTab } from "@/components/dashboard";
 import {
-  NetworkCard,
-  SendTab,
-  ReceiveTab,
-  TransactionsTab,
-} from "@/components/dashboard";
-import { Loader, Tooltip, Tabs } from "@/components/ui";
+  Loader,
+  Tooltip,
+  Tabs,
+  NetworkLogo,
+  CopyToggle,
+} from "@/components/ui";
 import { Send, QR, Clock, Refresh, Wallet } from "@/components/ui/icons";
 
 const TABS: TTabs = {
@@ -26,7 +30,6 @@ const TABS: TTabs = {
 } as const;
 
 const DashboardPage = () => {
-  const notify = useNotificationStore((state) => state.notify);
   const networkMode = useWalletStore((state) => state.networkMode);
   const activeAccountIndex = useAccountsStore(
     (state) => state.activeAccountIndex
@@ -35,11 +38,15 @@ const DashboardPage = () => {
   const switchingToAccount = useAccountsStore(
     (state) => state.switchingToAccount
   );
+  const notify = useNotificationStore((state) => state.notify);
 
   const { fetchActiveAccountBalances } = useBlockchain();
-  const [refreshing, startRefreshing] = useTransition();
+  const copyToClipboard = useClipboard();
 
-  const handleRefresh = () => {
+  const [refreshing, startRefreshing] = useTransition();
+  const [copiedText, setCopiedText] = useState<string | null>(null);
+
+  const handleBalanceRefresh = () => {
     startRefreshing(async () => {
       try {
         await fetchActiveAccountBalances();
@@ -54,6 +61,12 @@ const DashboardPage = () => {
         });
       }
     });
+  };
+
+  const handleCopy = (text: string) => {
+    copyToClipboard(text, copiedText === text, (copied) =>
+      setCopiedText(copied ? text : null)
+    );
   };
 
   if (switchingToAccount !== null) {
@@ -94,7 +107,7 @@ const DashboardPage = () => {
             className={cn("icon-btn-bg", {
               "cursor-default bg-primary pointer-events-none": refreshing,
             })}
-            onClick={handleRefresh}
+            onClick={handleBalanceRefresh}
             disabled={refreshing}
           >
             {refreshing ? <Loader size="sm" /> : <Refresh />}
@@ -104,20 +117,67 @@ const DashboardPage = () => {
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
         {Object.entries(activeAccount).map(
-          ([network, { address, balance }], index) => (
-            <motion.div
-              key={network}
-              {...fadeUpAnimation({ delay: (index + 1) * 0.1 })}
-              className="w-full relative"
-            >
-              <NetworkCard
-                network={network as TNetwork}
-                address={address}
-                balance={balance}
-                networkMode={networkMode}
-              />
-            </motion.div>
-          )
+          ([networkKey, { address, balance }], index) => {
+            const network = networkKey as TNetwork;
+            const networkConfig = NETWORKS[network];
+            const parsedBalance = parseBalance(balance);
+            const isCopied = copiedText === address;
+
+            const networkDisplayName = `${networkConfig.name}${
+              networkMode === "testnet" ? ` ${networkConfig.testnetName}` : ""
+            }`;
+
+            return (
+              <motion.div
+                key={network}
+                {...fadeUpAnimation({ delay: (index + 1) * 0.1 })}
+                className="w-full relative flex items-center justify-between rounded-3xl bg-primary px-5 py-6"
+              >
+                <div className="flex items-center gap-2.5">
+                  <NetworkLogo network={network} size="md" />
+
+                  <div className="flex flex-col items-start gap-1">
+                    <h4 className="font-medium heading-color">
+                      {networkDisplayName}
+                    </h4>
+
+                    <Tooltip
+                      content={isCopied ? "Copied!" : "Copy Address"}
+                      position="bottom"
+                    >
+                      <div
+                        className="flex items-center gap-1.5 cursor-pointer hover:heading-color transition-all duration-300"
+                        onClick={() => handleCopy(address)}
+                      >
+                        <p className="leading-none">
+                          {getShortAddress(address, network)}
+                        </p>
+                        <CopyToggle
+                          hasCopied={isCopied}
+                          className="text-current"
+                          iconProps={{ className: "w-4" }}
+                        />
+                      </div>
+                    </Tooltip>
+                  </div>
+                </div>
+
+                {parsedBalance.wasRounded ? (
+                  <Tooltip
+                    content={`${parsedBalance.original} ${networkConfig.token}`}
+                  >
+                    <p className="text-md font-semibold leading-none cursor-default">
+                      {parsedBalance.display} {networkConfig.token}
+                    </p>
+                  </Tooltip>
+                ) : (
+                  <p className="text-md font-semibold leading-none">
+                    {parsedBalance.display} {networkConfig.token}
+                  </p>
+                )}
+              </motion.div>
+            );
+          }
         )}
       </div>
 
