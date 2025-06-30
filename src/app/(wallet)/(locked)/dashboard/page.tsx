@@ -127,6 +127,12 @@ const DashboardPage = () => {
               networkMode === "testnet" ? ` ${networkConfig.testnetName}` : ""
             }`;
 
+            const balanceElement = (
+              <p className="text-md font-semibold leading-none cursor-default">
+                {parsedBalance.display} {networkConfig.token}
+              </p>
+            );
+
             return (
               <motion.div
                 key={network}
@@ -166,14 +172,10 @@ const DashboardPage = () => {
                   <Tooltip
                     content={`${parsedBalance.original} ${networkConfig.token}`}
                   >
-                    <p className="text-md font-semibold leading-none cursor-default">
-                      {parsedBalance.display} {networkConfig.token}
-                    </p>
+                    {balanceElement}
                   </Tooltip>
                 ) : (
-                  <p className="text-md font-semibold leading-none">
-                    {parsedBalance.display} {networkConfig.token}
-                  </p>
+                  balanceElement
                 )}
               </motion.div>
             );
