@@ -211,7 +211,7 @@ const ManageAccountsPage = () => {
                             }
                           >
                             <button
-                              className={cn("icon-btn-bg", {
+                              className={cn("icon-btn-bg hover:text-teal-500", {
                                 "bg-primary cursor-default pointer-events-none":
                                   isSwitching,
                               })}
@@ -227,7 +227,7 @@ const ManageAccountsPage = () => {
 
                         <Tooltip content="Remove Account">
                           <button
-                            className={cn("icon-btn-bg", {
+                            className={cn("icon-btn-bg hover:text-rose-500", {
                               "cursor-default bg-primary pointer-events-none":
                                 isDeleting,
                             })}
@@ -282,6 +282,12 @@ const ManageAccountsPage = () => {
                               : ""
                           }`;
 
+                          const balanceElement = (
+                            <p className="text-md font-semibold leading-none cursor-default">
+                              {parsedBalance.display} {networkConfig.token}
+                            </p>
+                          );
+
                           return (
                             <div
                               key={`account-${accountIndex}-${network}`}
@@ -299,16 +305,10 @@ const ManageAccountsPage = () => {
                                   <Tooltip
                                     content={`${parsedBalance.original} ${networkConfig.token}`}
                                   >
-                                    <p className="text-md font-semibold leading-none cursor-default">
-                                      {parsedBalance.display}{" "}
-                                      {networkConfig.token}
-                                    </p>
+                                    {balanceElement}
                                   </Tooltip>
                                 ) : (
-                                  <p className="text-md font-semibold leading-none">
-                                    {parsedBalance.display}{" "}
-                                    {networkConfig.token}
-                                  </p>
+                                  balanceElement
                                 )}
                               </div>
 
@@ -316,20 +316,20 @@ const ManageAccountsPage = () => {
                                 {
                                   label: "Address",
                                   value: address,
-                                  isVisible: isAddressVisible,
-                                  copied: isAddressCopied,
                                   shortValue: getShortAddress(
                                     address,
                                     network,
                                     10
                                   ),
+                                  isVisible: isAddressVisible,
+                                  copied: isAddressCopied,
                                 },
                                 {
                                   label: "Private Key",
                                   value: privateKey,
+                                  shortValue: `${privateKey.slice(0, 25)}...`,
                                   isVisible: isPrivateKeyVisible,
                                   copied: isPrivateKeyCopied,
-                                  shortValue: `${privateKey.slice(0, 25)}...`,
                                 },
                               ].map(
                                 ({
