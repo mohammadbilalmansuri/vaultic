@@ -1,5 +1,5 @@
 "use client";
-import { useTransition, useState } from "react";
+import { useTransition, useState, MouseEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { NETWORKS } from "@/config";
 import { TNetwork } from "@/types";
@@ -11,6 +11,7 @@ import {
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
+import parseBalance from "@/utils/parseBalance";
 import { useAccounts, useClipboard } from "@/hooks";
 import {
   Loader,
@@ -20,7 +21,6 @@ import {
   EyeToggle,
 } from "@/components/ui";
 import { Cards, Plus, Trash, AngleDown, Check } from "@/components/ui/icons";
-import parseBalance from "@/utils/parseBalance";
 
 const ManageAccountsPage = () => {
   const networkMode = useWalletStore((state) => state.networkMode);
@@ -31,28 +31,20 @@ const ManageAccountsPage = () => {
   const switchingToAccount = useAccountsStore(
     (state) => state.switchingToAccount
   );
-
   const notify = useNotificationStore((state) => state.notify);
+
+  const [creating, startCreating] = useTransition();
   const { createAccount, deleteAccount, switchActiveAccount } = useAccounts();
   const copyToClipboard = useClipboard();
 
-  const [creating, startCreating] = useTransition();
-  const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
-  const [openedAccounts, setOpenedAccounts] = useState<number[]>([
-    activeAccountIndex,
-  ]);
-  const [togglingAccountCard, setTogglingAccountCard] = useState(false);
+  const [removingIndex, setRemovingIndex] = useState<number | null>(null);
+  const [openedAccounts, setOpenedAccounts] = useState<Set<number>>(
+    new Set([activeAccountIndex])
+  );
   const [copiedText, setCopiedText] = useState<string | null>(null);
-  const [showingFullTexts, setShowingFullTexts] = useState<string[]>([]);
-
-  const handleToggle = (index: number) => {
-    if (togglingAccountCard) return;
-    setTogglingAccountCard(true);
-    setOpenedAccounts((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-    setTimeout(() => setTogglingAccountCard(false), 300);
-  };
+  const [showingFullTexts, setShowingFullTexts] = useState<Set<string>>(
+    new Set()
+  );
 
   const handleCreateAccount = () => {
     startCreating(async () => {
@@ -71,16 +63,22 @@ const ManageAccountsPage = () => {
     });
   };
 
-  const handleDeleteAccount = async (index: number) => {
-    if (deletingIndex !== null) return;
-    setDeletingIndex(index);
+  const handleRemoveAccount = async (e: MouseEvent, index: number) => {
+    e.stopPropagation();
+    if (removingIndex !== null) return;
+    setRemovingIndex(index);
+
     try {
       await deleteAccount(index);
       notify({
         type: "success",
         message: `Account ${index + 1} deleted successfully.`,
       });
-      handleToggle(index);
+      setOpenedAccounts((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(index);
+        return newSet;
+      });
     } catch (error) {
       notify({
         type: "error",
@@ -90,8 +88,40 @@ const ManageAccountsPage = () => {
             : "Failed to delete account. Please try again.",
       });
     } finally {
-      setDeletingIndex(null);
+      setRemovingIndex(null);
     }
+  };
+
+  const handleSwitchActiveAccount = async (
+    e: MouseEvent,
+    accountIndex: number
+  ) => {
+    e.stopPropagation();
+    await switchActiveAccount(accountIndex);
+  };
+
+  const handleAccountCardToggle = (index: number) => {
+    setOpenedAccounts((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+  };
+
+  const handleFullTextToggle = (text: string) => {
+    setShowingFullTexts((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(text)) {
+        newSet.delete(text);
+      } else {
+        newSet.add(text);
+      }
+      return newSet;
+    });
   };
 
   const handleCopy = (text: string) => {
@@ -100,11 +130,8 @@ const ManageAccountsPage = () => {
     });
   };
 
-  const handleToggleFullText = (text: string) => {
-    setShowingFullTexts((prev) =>
-      prev.includes(text) ? prev.filter((t) => t !== text) : [...prev, text]
-    );
-  };
+  const accountEntries = Object.entries(accounts);
+  const hasMultipleAccounts = accountEntries.length > 1;
 
   return (
     <div className="w-full max-w-screen-lg relative flex flex-col items-center gap-8 flex-1">
@@ -120,12 +147,10 @@ const ManageAccountsPage = () => {
             <h2 className="text-xl font-semibold heading-color">
               Manage Accounts
             </h2>
-            <p>
-              Manage all your indexed, derived accounts from your recovery
-              phrase.
-            </p>
+            <p>Manage your wallet accounts derived from your recovery phrase</p>
           </div>
         </div>
+
         <Tooltip content={creating ? "Creating..." : "Create New Account"}>
           <button
             className={cn("icon-btn-bg", {
@@ -141,33 +166,33 @@ const ManageAccountsPage = () => {
 
       <div className="w-full relative flex flex-col gap-6">
         <AnimatePresence>
-          {Object.entries(accounts).map(([key, account], idx) => {
+          {accountEntries.map(([key, account], idx) => {
             const accountIndex = parseInt(key);
-            const isOpen = openedAccounts.includes(accountIndex);
-            const deleting = deletingIndex === accountIndex;
-            const switching = switchingToAccount === accountIndex;
+            const isOpen = openedAccounts.has(accountIndex);
+            const isDeleting = removingIndex === accountIndex;
+            const isSwitching = switchingToAccount === accountIndex;
+            const isActive = accountIndex === activeAccountIndex;
 
             return (
               <motion.div
                 key={`account-${accountIndex}`}
-                className={cn(
-                  "w-full relative rounded-4xl border-1.5 border-color",
-                  { "overflow-hidden": togglingAccountCard }
-                )}
+                className="w-full relative rounded-4xl border-1.5 border-color"
                 {...fadeUpAnimation({ delay: idx * 0.1 + 0.1 })}
               >
                 <div
                   className="w-full relative flex items-center justify-between gap-4 p-4 pl-5 cursor-pointer"
-                  onClick={() => handleToggle(accountIndex)}
+                  onClick={() => handleAccountCardToggle(accountIndex)}
                 >
                   <div className="flex items-center gap-2 pl-1">
                     <h3 className="text-xl font-medium heading-color pr-2">
                       Account {accountIndex + 1}
                     </h3>
+
                     <span className="text-sm font-medium leading-none uppercase tracking-wide px-2 h-7.5 flex items-center justify-center rounded-lg bg-primary border border-color">
                       Index {accountIndex}
                     </span>
-                    {accountIndex === activeAccountIndex && (
+
+                    {isActive && (
                       <span className="text-sm font-medium leading-none uppercase tracking-wide px-2 h-7.5 flex items-center justify-center rounded-lg bg-teal-500/10 text-teal-500 border border-teal-500/30 dark:border-teal-500/10">
                         Active
                       </span>
@@ -175,26 +200,27 @@ const ManageAccountsPage = () => {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    {isOpen && Object.keys(accounts).length > 1 && (
+                    {isOpen && hasMultipleAccounts && (
                       <>
-                        {(switching || accountIndex !== activeAccountIndex) && (
+                        {(isSwitching || !isActive) && (
                           <Tooltip
                             content={
-                              switching ? "Switching..." : "Set Active Account"
+                              isSwitching
+                                ? "Switching..."
+                                : "Set Active Account"
                             }
                           >
                             <button
                               className={cn("icon-btn-bg", {
                                 "bg-primary cursor-default pointer-events-none":
-                                  switching,
+                                  isSwitching,
                               })}
-                              onClick={async (e) => {
-                                e.stopPropagation();
-                                await switchActiveAccount(accountIndex);
-                              }}
-                              disabled={switching}
+                              onClick={(e) =>
+                                handleSwitchActiveAccount(e, accountIndex)
+                              }
+                              disabled={isSwitching}
                             >
-                              {switching ? <Loader size="sm" /> : <Check />}
+                              {isSwitching ? <Loader size="sm" /> : <Check />}
                             </button>
                           </Tooltip>
                         )}
@@ -203,16 +229,14 @@ const ManageAccountsPage = () => {
                           <button
                             className={cn("icon-btn-bg", {
                               "cursor-default bg-primary pointer-events-none":
-                                deleting,
+                                isDeleting,
                             })}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (deleting) return;
-                              handleDeleteAccount(accountIndex);
-                            }}
-                            disabled={deleting}
+                            onClick={(e) =>
+                              handleRemoveAccount(e, accountIndex)
+                            }
+                            disabled={isDeleting}
                           >
-                            {deleting ? <Loader size="sm" /> : <Trash />}
+                            {isDeleting ? <Loader size="sm" /> : <Trash />}
                           </button>
                         </Tooltip>
                       </>
@@ -237,7 +261,7 @@ const ManageAccountsPage = () => {
                     }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="w-full relative"
+                    className="w-full relative overflow-hidden"
                   >
                     <div className="w-full p-5 pt-0 grid grid-cols-2 gap-4">
                       {Object.entries(account).map(
@@ -245,6 +269,18 @@ const ManageAccountsPage = () => {
                           const network = networkKey as TNetwork;
                           const networkConfig = NETWORKS[network];
                           const parsedBalance = parseBalance(balance);
+                          const isAddressVisible =
+                            showingFullTexts.has(address);
+                          const isPrivateKeyVisible =
+                            showingFullTexts.has(privateKey);
+                          const isAddressCopied = copiedText === address;
+                          const isPrivateKeyCopied = copiedText === privateKey;
+
+                          const networkDisplayName = `${networkConfig.name}${
+                            networkMode === "testnet"
+                              ? ` ${networkConfig.testnetName}`
+                              : ""
+                          }`;
 
                           return (
                             <div
@@ -255,11 +291,7 @@ const ManageAccountsPage = () => {
                                 <div className="flex items-center gap-2.5">
                                   <NetworkLogo network={network} size="sm" />
                                   <h4 className="text-lg font-medium heading-color">
-                                    {`${networkConfig.name}${
-                                      networkMode === "testnet"
-                                        ? ` ${NETWORKS[network].testnetName}`
-                                        : ""
-                                    }`}
+                                    {networkDisplayName}
                                   </h4>
                                 </div>
 
@@ -280,95 +312,76 @@ const ManageAccountsPage = () => {
                                 )}
                               </div>
 
-                              <div className="w-full flex flex-col gap-1">
-                                <div className="w-full flex items-center justify-between gap-8">
-                                  <h5 className="leading-none text-md heading-color font-medium">
-                                    Address
-                                  </h5>
+                              {[
+                                {
+                                  label: "Address",
+                                  value: address,
+                                  isVisible: isAddressVisible,
+                                  copied: isAddressCopied,
+                                  shortValue: getShortAddress(
+                                    address,
+                                    network,
+                                    10
+                                  ),
+                                },
+                                {
+                                  label: "Private Key",
+                                  value: privateKey,
+                                  isVisible: isPrivateKeyVisible,
+                                  copied: isPrivateKeyCopied,
+                                  shortValue: `${privateKey.slice(0, 25)}...`,
+                                },
+                              ].map(
+                                ({
+                                  label,
+                                  value,
+                                  isVisible,
+                                  copied,
+                                  shortValue,
+                                }) => (
+                                  <div
+                                    key={label}
+                                    className="w-full flex flex-col gap-1"
+                                  >
+                                    <div className="w-full flex items-center justify-between gap-8">
+                                      <h5 className="leading-none text-md heading-color font-medium">
+                                        {label}
+                                      </h5>
 
-                                  <div className="min-w-fit flex items-center gap-4">
-                                    <Tooltip
-                                      content={
-                                        showingFullTexts.includes(address)
-                                          ? "Hide Full address"
-                                          : "Show Full address"
-                                      }
-                                    >
-                                      <EyeToggle
-                                        isVisible={showingFullTexts.includes(
-                                          address
-                                        )}
-                                        onClick={() =>
-                                          handleToggleFullText(address)
-                                        }
-                                      />
-                                    </Tooltip>
-                                    <Tooltip
-                                      content={
-                                        copiedText === address
-                                          ? "Copied!"
-                                          : "Copy Address"
-                                      }
-                                    >
-                                      <CopyToggle
-                                        hasCopied={copiedText === address}
-                                        onClick={() => handleCopy(address)}
-                                      />
-                                    </Tooltip>
+                                      <div className="min-w-fit flex items-center gap-4">
+                                        <Tooltip
+                                          content={
+                                            isVisible
+                                              ? `Hide Full ${label}`
+                                              : `Show Full ${label}`
+                                          }
+                                        >
+                                          <EyeToggle
+                                            isVisible={isVisible}
+                                            onClick={() =>
+                                              handleFullTextToggle(value)
+                                            }
+                                          />
+                                        </Tooltip>
+                                        <Tooltip
+                                          content={
+                                            copied ? "Copied!" : `Copy ${label}`
+                                          }
+                                        >
+                                          <CopyToggle
+                                            hasCopied={copied}
+                                            onClick={() => handleCopy(value)}
+                                          />
+                                        </Tooltip>
+                                      </div>
+                                    </div>
+
+                                    <p className="break-all max-w-[85%]">
+                                      {isVisible ? value : shortValue}
+                                    </p>
                                   </div>
-                                </div>
-
-                                <p className="break-all max-w-[85%]">
-                                  {showingFullTexts.includes(address)
-                                    ? address
-                                    : getShortAddress(address, network, 10)}
-                                </p>
-                              </div>
-
-                              <div className="w-full flex flex-col gap-1">
-                                <div className="w-full flex items-center justify-between gap-8">
-                                  <h5 className="leading-none text-md heading-color font-medium">
-                                    Private Key
-                                  </h5>
-
-                                  <div className="min-w-fit flex items-center gap-4">
-                                    <Tooltip
-                                      content={
-                                        showingFullTexts.includes(privateKey)
-                                          ? "Hide Full Private Key"
-                                          : "Show Full Private Key"
-                                      }
-                                    >
-                                      <EyeToggle
-                                        isVisible={showingFullTexts.includes(
-                                          privateKey
-                                        )}
-                                        onClick={() =>
-                                          handleToggleFullText(privateKey)
-                                        }
-                                      />
-                                    </Tooltip>
-                                    <Tooltip
-                                      content={
-                                        copiedText === privateKey
-                                          ? "Copied!"
-                                          : "Copy Private Key"
-                                      }
-                                    >
-                                      <CopyToggle
-                                        hasCopied={copiedText === privateKey}
-                                        onClick={() => handleCopy(privateKey)}
-                                      />
-                                    </Tooltip>
-                                  </div>
-                                </div>
-
-                                <p className="break-all">
-                                  {showingFullTexts.includes(privateKey)
-                                    ? privateKey
-                                    : privateKey.slice(0, 25) + "..."}
-                                </p>
-                              </div>
+                                )
+                              )}
                             </div>
                           );
                         }
