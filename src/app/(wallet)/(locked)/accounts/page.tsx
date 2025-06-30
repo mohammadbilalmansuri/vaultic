@@ -22,7 +22,7 @@ import {
 } from "@/components/ui";
 import { Cards, Plus, Trash, AngleDown, Check } from "@/components/ui/icons";
 
-const ManageAccountsPage = () => {
+const AccountsPage = () => {
   const networkMode = useWalletStore((state) => state.networkMode);
   const accounts = useAccountsStore((state) => state.accounts);
   const activeAccountIndex = useAccountsStore(
@@ -144,10 +144,8 @@ const ManageAccountsPage = () => {
             <Cards className="w-6 text-teal-500" />
           </div>
           <div className="flex flex-col">
-            <h2 className="text-xl font-semibold heading-color">
-              Manage Accounts
-            </h2>
-            <p>Manage your wallet accounts derived from your recovery phrase</p>
+            <h2 className="text-xl font-semibold heading-color">Accounts</h2>
+            <p className="text-secondary">Add, remove, or switch accounts.</p>
           </div>
         </div>
 
@@ -398,4 +396,4 @@ const ManageAccountsPage = () => {
   );
 };
 
-export default ManageAccountsPage;
+export default AccountsPage;

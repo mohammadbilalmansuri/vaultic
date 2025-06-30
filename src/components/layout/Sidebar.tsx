@@ -16,7 +16,7 @@ import {
 
 const navLinks = [
   { name: "Dashboard", href: "/dashboard", icon: Wallet },
-  { name: "Manage Accounts", href: "/accounts", icon: Cards },
+  { name: "Accounts", href: "/accounts", icon: Cards },
   { name: "Settings", href: "/settings", icon: Setting },
   { name: "Faucet", href: "/faucet", icon: WalletMoney },
   {
