@@ -19,12 +19,7 @@ const navLinks = [
   { name: "Accounts", href: "/accounts", icon: Cards },
   { name: "Settings", href: "/settings", icon: Setting },
   { name: "Faucet", href: "/faucet", icon: WalletMoney },
-  {
-    name: "Help & Support",
-    href: "/help-and-support",
-    icon: QuestionMark,
-    target: "_blank",
-  },
+  { name: "Help & Support", href: "/help-and-support", icon: QuestionMark },
 ];
 
 const Sidebar = () => {
@@ -58,14 +53,13 @@ const Sidebar = () => {
         </div>
 
         <nav className="relative flex flex-col gap-3">
-          {navLinks.map(({ name, href, icon: Icon, target }) => (
+          {navLinks.map(({ name, href, icon: Icon }) => (
             <SidebarNavLink
               key={name}
               name={name}
               href={href}
               icon={Icon}
               isActive={pathname === href}
-              target={target}
             />
           ))}
         </nav>
