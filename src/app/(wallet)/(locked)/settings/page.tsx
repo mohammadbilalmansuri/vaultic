@@ -4,10 +4,10 @@ import { TTabs } from "@/types";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useWallet } from "@/hooks";
 import {
-  ChangePassword,
-  TestnetMode,
-  RemoveAccount,
   RecoveryPhrase,
+  TestnetMode,
+  ChangePassword,
+  RemoveWallet,
 } from "@/components/settings";
 import { Tabs, Tooltip } from "@/components/ui";
 import { Lock, Wallet } from "@/components/ui/icons";
@@ -16,7 +16,7 @@ const TABS: TTabs = {
   "Recovery Phrase": { content: RecoveryPhrase },
   "Testnet Mode": { content: TestnetMode },
   "Change Password": { content: ChangePassword },
-  "Remove Account": { content: RemoveAccount },
+  "Remove Wallet": { content: RemoveWallet },
 } as const;
 
 const SettingsPage = () => {
