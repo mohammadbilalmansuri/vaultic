@@ -33,7 +33,7 @@ const LockedLayout = ({ children }: IChildren) => {
     );
   }
 
-  if (!authenticated) {
+  if (walletExists && !authenticated) {
     return (
       <PageShell>
         <UnlockForm />
