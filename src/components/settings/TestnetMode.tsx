@@ -1,45 +1,42 @@
 "use client";
 import { useTransition } from "react";
 import Link from "next/link";
-import { useWalletStore, useNotificationStore } from "@/stores";
+import { motion } from "motion/react";
+import { useWalletStore } from "@/stores";
+import { fadeUpAnimation } from "@/utils/animations";
+import cn from "@/utils/cn";
 import { useBlockchain } from "@/hooks";
 import { Switch } from "../ui";
 
 const TestnetMode = () => {
-  const notify = useNotificationStore((state) => state.notify);
   const networkMode = useWalletStore((state) => state.networkMode);
+  const isTestnetModeOn = networkMode === "testnet";
+
   const { switchNetworkMode } = useBlockchain();
   const [switching, startSwitching] = useTransition();
 
-  const toggleNetworkMode = () => {
-    startSwitching(async () => {
-      try {
-        const enableTestnet = networkMode !== "testnet";
-        await switchNetworkMode(enableTestnet ? "testnet" : "mainnet");
-        notify({
-          type: "success",
-          message: enableTestnet
-            ? "Switched to Testnet Mode."
-            : "Switched to Mainnet Mode.",
-          duration: 3000,
-        });
-      } catch {
-        notify({
-          type: "error",
-          message: "Failed to switch network. Please try again.",
-        });
-      }
-    });
+  const handleSwitchNetworkMode = () => {
+    startSwitching(async () => await switchNetworkMode());
   };
 
   return (
-    <div className="w-full flex gap-6">
-      <div className="flex flex-col gap-3 w-[90%]">
+    <motion.div className="box max-w-lg gap-0" {...fadeUpAnimation()}>
+      <div className="w-full flex items-center justify-between gap-4 pl-4 pr-3 py-3 border-b-1.5 border-color">
+        <h3 className="text-lg font-medium heading-color">Testnet Mode</h3>
+        <Switch
+          state={isTestnetModeOn}
+          onClick={handleSwitchNetworkMode}
+          disabled={switching}
+          className={cn(switching ? "pointer-events-none" : "")}
+        />
+      </div>
+
+      <div className="flex flex-col gap-4 p-6 pt-5.5">
         <p>
-          <span className="heading-color font-medium">Testnet Mode</span> lets
-          you explore Vaultic in a safe environment without risking real assets.
-          While it’s enabled, your wallet connects to Solana Devnet and Ethereum
-          Sepolia — public test networks designed for experimentation.
+          Testnet Mode lets you explore Vaultic in a safe environment without
+          risking real assets. While it’s enabled, your wallet connects to
+          Solana Devnet and Ethereum Sepolia — public test networks designed for
+          experimentation.
         </p>
         <p>
           You’ll interact with test tokens and simulated balances, allowing you
@@ -57,15 +54,7 @@ const TestnetMode = () => {
           .
         </p>
       </div>
-
-      <div className="min-w-fit w-[10%] flex justify-end">
-        <Switch
-          state={networkMode === "testnet"}
-          disabled={switching}
-          onClick={toggleNetworkMode}
-        />
-      </div>
-    </div>
+    </motion.div>
   );
 };
 
