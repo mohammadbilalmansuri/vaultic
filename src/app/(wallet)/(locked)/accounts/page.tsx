@@ -45,6 +45,7 @@ const AccountsPage = () => {
   const [showingFullTexts, setShowingFullTexts] = useState<Set<string>>(
     new Set()
   );
+  const [togglingAccountCard, setTogglingAccountCard] = useState(false);
 
   const handleCreateAccount = () => {
     startCreating(async () => {
@@ -101,6 +102,9 @@ const AccountsPage = () => {
   };
 
   const handleAccountCardToggle = (index: number) => {
+    if (togglingAccountCard) return;
+    setTogglingAccountCard(true);
+
     setOpenedAccounts((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(index)) {
@@ -110,6 +114,8 @@ const AccountsPage = () => {
       }
       return newSet;
     });
+
+    setTimeout(() => setTogglingAccountCard(false), 300);
   };
 
   const handleFullTextToggle = (text: string) => {
@@ -259,7 +265,9 @@ const AccountsPage = () => {
                     }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="w-full relative overflow-hidden"
+                    className={cn("w-full relative", {
+                      "overflow-hidden": togglingAccountCard,
+                    })}
                   >
                     <div className="w-full p-5 pt-0 grid grid-cols-2 gap-4">
                       {Object.entries(account).map(
