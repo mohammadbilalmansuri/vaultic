@@ -82,7 +82,7 @@ const useStorage = () => {
         password,
         wallet.hashedPassword
       );
-      if (!passwordValid) throw new Error("Invalid password");
+      if (!passwordValid) throw new Error("Incorrect password");
 
       const decryptedMnemonic = await decryptMnemonic(
         wallet.encryptedMnemonic,
@@ -137,8 +137,9 @@ const useStorage = () => {
   ): Promise<void> => {
     try {
       const { password, mnemonic } = useWalletStore.getState();
-      if (password !== currentPassword)
-        throw new Error("Invalid current password");
+      if (password !== currentPassword) {
+        throw new Error("Incorrect current password");
+      }
 
       const wallet = await getWalletData("wallet");
       if (!wallet) throw new Error("Wallet not found");
