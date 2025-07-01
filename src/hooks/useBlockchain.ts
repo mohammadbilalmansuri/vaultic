@@ -5,6 +5,7 @@ import {
   useWalletStore,
   useAccountsStore,
   useTransactionsStore,
+  useNotificationStore,
 } from "@/stores";
 import { useStorage } from "@/hooks";
 
@@ -23,6 +24,7 @@ const useBlockchain = () => {
   const { setWalletState } = useWalletStore.getState();
   const { getActiveAccount, updateActiveAccount } = useAccountsStore.getState();
   const { setTransactions, addTransaction } = useTransactionsStore.getState();
+  const { notify } = useNotificationStore.getState();
 
   /**
    * Validates whether an address is valid for the given blockchain network.
@@ -160,26 +162,32 @@ const useBlockchain = () => {
   };
 
   /**
-   * Switches the network mode (e.g., 'mainnet' or 'testnet') for all networks.
+   * Switches between network modes (mainnet ↔ testnet) for all networks.
    * - Resets network connections
    * - Updates wallet state
    * - Refreshes account balances and transactions
+   * - Shows error notification on failure
    *
-   * @param {TNetworkMode} mode - The desired network mode to switch to.
    * @returns {Promise<void>} A promise that resolves after the mode switch is complete.
    */
-  const switchNetworkMode = async (mode: TNetworkMode): Promise<void> => {
+  const switchNetworkMode = async (): Promise<void> => {
+    const { networkMode } = useWalletStore.getState();
+    const switchToMode = networkMode === "mainnet" ? "testnet" : "mainnet";
+
     try {
       for (const { resetConnection } of Object.values(NETWORK_FUNCTIONS)) {
         resetConnection();
       }
 
-      setWalletState({ networkMode: mode });
+      setWalletState({ networkMode: switchToMode });
+
       await updateWallet();
       await refreshActiveAccount();
     } catch (error) {
-      console.error("Failed to switch network mode:", error);
-      throw error;
+      notify({
+        type: "error",
+        message: "Failed to switch network mode. Please try again.",
+      });
     }
   };
 
