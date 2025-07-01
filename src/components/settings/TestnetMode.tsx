@@ -31,25 +31,27 @@ const TestnetMode = () => {
         />
       </div>
 
-      <div className="flex flex-col gap-4 p-6 pt-5.5">
+      <div className="flex flex-col gap-3 p-6 pt-5.5">
         <p>
-          Testnet Mode lets you explore Vaultic in a safe environment without
-          risking real assets. While it’s enabled, your wallet connects to
-          Solana Devnet and Ethereum Sepolia — public test networks designed for
-          experimentation.
+          Testnet Mode provides a safe sandbox environment to explore Vaultic
+          without any risk to your real crypto assets. When enabled, your wallet
+          automatically connects to test networks (Solana Devnet and Ethereum
+          Sepolia) instead of the main blockchain networks.
         </p>
         <p>
-          You’ll interact with test tokens and simulated balances, allowing you
-          to learn the wallet flow, try transactions, or test integration
-          behavior — ideal for first-time users and developers.
+          You'll work with test tokens that have no real-world value, making it
+          perfect for learning wallet operations, practicing transactions, and
+          testing integrations. This risk-free environment is ideal for both
+          newcomers getting familiar with crypto wallets and developers building
+          applications.
         </p>
-        <p>
+        <p className="mt-0.5">
           Need test tokens?{" "}
           <Link
             href="/faucet"
             className="heading-color border-b border-transparent hover:border-current transition-colors duration-300"
           >
-            Check available faucets
+            Get them from available faucets
           </Link>
           .
         </p>
