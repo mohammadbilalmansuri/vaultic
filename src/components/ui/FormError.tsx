@@ -9,7 +9,7 @@ interface FormErrorProps {
 const FormError = ({ errors, className = "" }: FormErrorProps) => {
   const firstError = Object.values(errors).find((err) => err?.message);
   return firstError ? (
-    <p className={cn("text-yellow-500", className)}>
+    <p className={cn("text-yellow-600 dark:text-yellow-500", className)}>
       {String(firstError.message)}
     </p>
   ) : null;
