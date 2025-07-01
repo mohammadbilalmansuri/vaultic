@@ -32,9 +32,10 @@ const SettingsPage = () => {
           <div className="size-12 rounded-2xl bg-teal-500/10 flex items-center justify-center">
             <Wallet className="w-6 text-teal-500" />
           </div>
+
           <div className="flex flex-col">
             <h2 className="text-xl font-semibold heading-color">Settings</h2>
-            <p>Manage your wallet settings and preferences.</p>
+            <p>Security, recovery, and network preferences.</p>
           </div>
         </div>
 
@@ -45,7 +46,7 @@ const SettingsPage = () => {
         </Tooltip>
       </motion.div>
 
-      <Tabs tabs={TABS} />
+      <Tabs tabs={TABS} delay={{ header: 0.1, content: 0.2 }} />
     </div>
   );
 };
