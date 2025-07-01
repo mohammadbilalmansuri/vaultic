@@ -42,7 +42,7 @@ const UnlockForm = () => {
         <PasswordInput {...register("password")} autoFocus />
         <Button
           type="submit"
-          className={cn("w-full", {
+          className={cn("w-full mt-px", {
             "opacity-60 pointer-events-none": !isValid,
           })}
           disabled={!isValid || unlocking}

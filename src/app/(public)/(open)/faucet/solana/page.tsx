@@ -109,7 +109,7 @@ const SolanaFaucetPage = () => {
         </div>
         <Button
           type="submit"
-          className={cn("w-full", {
+          className={cn("w-full mt-px", {
             "opacity-60 pointer-events-none": !isValid,
           })}
           disabled={!isValid || airdropping}

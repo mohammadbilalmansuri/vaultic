@@ -284,7 +284,7 @@ const SendTab = ({
             <Button
               type="submit"
               disabled={!isValid}
-              className={cn("w-full mt-0.5", {
+              className={cn("w-full mt-px", {
                 "opacity-60 pointer-events-none": !isValid,
               })}
             >

@@ -142,7 +142,7 @@ const EnterRecoveryPhrase = ({
             ))}
           </div>
 
-          <div className="w-full flex items-center gap-4">
+          <div className="w-full flex items-center gap-4 mt-px">
             <Button
               variant="zinc"
               className="w-1/2"
