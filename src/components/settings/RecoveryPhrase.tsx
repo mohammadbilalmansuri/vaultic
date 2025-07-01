@@ -17,7 +17,7 @@ const RecoveryPhrase = ({
 
   return (
     <motion.div className="box max-w-lg gap-0" {...animationProps}>
-      <h3 className="w-full text-lg font-medium heading-color border-b-1.5 border-color py-3">
+      <h3 className="w-full text-lg font-medium heading-color border-b-1.5 border-color p-3">
         Your Recovery Phrase
       </h3>
 
