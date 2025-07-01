@@ -22,14 +22,17 @@ const RecoveryPhrase = ({
       </h3>
 
       <div className="w-full flex flex-col gap-6 p-6">
-        <div className="w-full p-5 rounded-2xl bg-warning text-center flex flex-col justify-center gap-2.5">
+        <div className="w-full p-5 rounded-2xl bg-warning text-center flex flex-col items-center gap-2.5">
           <p className="font-semibold">
-            <span className="underline">Never</span> share your Recovery Phrase.
+            <u>Never</u> share your Recovery Phrase.
           </p>
           <p>
-            It gives full access to your wallet. If someone gets it, they can
-            <strong> steal your assets permanently</strong>, and you
-            <strong> won't be able to recover them</strong>.
+            It gives full access to your wallet. If someone gets it, they
+            can&nbsp;
+            <span className="font-semibold">steal your assets permanently</span>
+            , and you&nbsp;
+            <span className="font-semibold">won't be able to recover them</span>
+            .
           </p>
         </div>
 
