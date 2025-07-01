@@ -213,7 +213,7 @@ const TransactionsTab = () => {
                             {
                               "bg-teal-500/10 text-teal-500 border border-teal-500/30 dark:border-teal-500/10":
                                 txn.type === "in",
-                              "bg-yellow-500/10 text-yellow-700 dark:text-yellow-500 border border-yellow-500/30 dark:border-yellow-500/10":
+                              "bg-yellow-500/10 text-yellow-800 dark:text-yellow-500 border border-yellow-500/30 dark:border-yellow-500/10":
                                 txn.type === "out",
                               "bg-primary heading-color border border-color":
                                 txn.type === "self",
