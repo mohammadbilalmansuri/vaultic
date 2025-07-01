@@ -1,8 +1,10 @@
 "use client";
 import { useTransition } from "react";
+import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNotificationStore } from "@/stores";
+import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { TChangePasswordForm, ChangePasswordSchema } from "@/utils/validations";
 import { useStorage } from "@/hooks";
@@ -50,36 +52,44 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="w-full relative flex flex-col items-center gap-6">
+    <motion.div className="box gap-0" {...fadeUpAnimation()}>
+      <h3 className="w-full text-lg font-medium heading-color border-b-1.5 border-color p-3">
+        Change Password
+      </h3>
+
       <form
         onSubmit={handleSubmit(handlePasswordChange)}
-        className="w-full relative grid grid-cols-2 gap-4"
+        className="w-full flex flex-col gap-4 p-6"
       >
         <PasswordInput
           placeholder="Current password"
           {...register("currentPassword")}
           autoFocus
         />
+
         <PasswordInput
           placeholder="New password"
           {...register("newPassword")}
         />
+
         <PasswordInput
           placeholder="Confirm new password"
           {...register("confirmNewPassword")}
         />
+
         <Button
           type="submit"
-          className={cn({
+          className={cn("w-full mt-px", {
             "opacity-60 pointer-events-none": !isValid,
           })}
           disabled={!isValid || changing}
         >
-          {changing ? <Loader size="sm" color="black" /> : "Change Password"}
+          {changing ? <Loader size="sm" color="black" /> : "Save"}
         </Button>
+
+        <FormError errors={errors} />
       </form>
-      <FormError errors={errors} />
-    </div>
+    </motion.div>
   );
 };
 
