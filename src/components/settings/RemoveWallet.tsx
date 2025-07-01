@@ -11,7 +11,7 @@ import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";
 import { useStorage } from "@/hooks";
 import { Button, Loader, PasswordInput, FormError } from "../ui";
 
-const RemoveAccount = () => {
+const RemoveWallet = () => {
   const router = useRouter();
   const { removeWallet } = useStorage();
   const notify = useNotificationStore((state) => state.notify);
@@ -79,12 +79,11 @@ const RemoveAccount = () => {
 
       <div className="w-full md:w-3/5 p-5 rounded-2xl bg-warning text-center flex flex-col items-center justify-center gap-3">
         <p>
-          Removing your account will only clear local access from this device.
-          Your wallets remain safely stored and are not deleted permanently.
+          Removing your wallet will only clear local access from this device.
         </p>
         <p>
-          You can always recover your Vaultic account using your recovery phrase
-          in this or any compatible HD wallet.
+          You can always recover your Vaultic accounts using your recovery
+          phrase in this or any compatible HD wallet.
         </p>
         <Link
           href="/help-and-support"
@@ -98,4 +97,4 @@ const RemoveAccount = () => {
   );
 };
 
-export default RemoveAccount;
+export default RemoveWallet;
