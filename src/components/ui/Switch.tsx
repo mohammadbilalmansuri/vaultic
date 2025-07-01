@@ -7,16 +7,19 @@ interface SwitchProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   state: boolean;
 }
 
-const Switch = ({ size = "md", state, ...props }: SwitchProps) => {
+const Switch = ({
+  size = "md",
+  state,
+  className = "",
+  ...props
+}: SwitchProps) => {
   return (
     <button
       type="button"
       className={cn(
         "min-w-fit p-1 rounded-full relative flex items-center bg-secondary",
-        {
-          "h-5 w-9": size === "sm",
-          "h-6 w-12": size === "md",
-        }
+        { "h-5 w-9": size === "sm", "h-6 w-12": size === "md" },
+        className
       )}
       {...props}
     >
