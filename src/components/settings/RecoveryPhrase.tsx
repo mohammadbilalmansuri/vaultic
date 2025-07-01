@@ -24,12 +24,12 @@ const RecoveryPhrase = ({
       <div className="w-full flex flex-col gap-6 p-6">
         <div className="w-full p-5 rounded-2xl bg-warning text-center flex flex-col justify-center gap-2.5">
           <p className="font-semibold">
-            Do <span className="underline">not</span> share your Recovery
-            Phrase!
+            <span className="underline">Never</span> share your Recovery Phrase.
           </p>
           <p>
-            If someone has your Recovery Phrase they will have full control of
-            your wallet.
+            It gives full access to your wallet. If someone gets it, they can
+            <strong> steal your assets permanently</strong>, and you
+            <strong> won't be able to recover them</strong>.
           </p>
         </div>
 
