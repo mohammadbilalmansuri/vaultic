@@ -22,7 +22,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
   const hasMounted = useMounted(2000);
 
   return (
-    <div className="w-full relative flex flex-col items-center gap-8">
+    <div className="w-full relative flex flex-col items-center gap-7">
       <motion.div
         className="w-full relative bg-primary rounded-2xl h-14 flex items-center"
         style={{
