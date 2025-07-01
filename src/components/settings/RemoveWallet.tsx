@@ -43,11 +43,8 @@ const RemoveWallet = () => {
         }
 
         await removeWallet();
-        notify({
-          type: "success",
-          message: "Wallet removed successfully.",
-        });
         router.replace("/");
+        notify({ type: "success", message: "Wallet removed successfully." });
       } catch {
         notify({
           type: "error",
