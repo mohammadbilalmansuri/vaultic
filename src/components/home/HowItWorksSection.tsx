@@ -23,14 +23,14 @@ const steps = [
 
 const HowItWorksSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const inView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
     <section
       ref={ref}
       className="w-full relative flex flex-col items-center gap-8"
     >
-      <motion.h2 className="h2" {...fadeUpAnimation({ inView: isInView })}>
+      <motion.h2 className="h2" {...fadeUpAnimation({ inView })}>
         Set Up. Encrypt. Transact.
       </motion.h2>
 
@@ -39,7 +39,7 @@ const HowItWorksSection = () => {
           <motion.div
             key={`step-${i}`}
             className="w-full relative flex flex-col items-start gap-3 border-1.5 border-color rounded-3xl overflow-hidden group"
-            {...fadeUpAnimation({ inView: isInView, delay: 0.1 + i * 0.1 })}
+            {...fadeUpAnimation({ inView, delay: 0.1 + i * 0.1 })}
           >
             <div className="w-full flex items-center justify-between pt-7 pl-8">
               <h3 className="h3">{title}</h3>

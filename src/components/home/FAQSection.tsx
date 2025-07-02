@@ -59,12 +59,12 @@ const faqs = [
 
 const FAQSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.4 });
+  const inView = useInView(ref, { once: true, amount: 0.4 });
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <section ref={ref} className="w-full flex flex-col items-center gap-8">
-      <motion.h2 className="h2" {...fadeUpAnimation({ inView: isInView })}>
+      <motion.h2 className="h2" {...fadeUpAnimation({ inView })}>
         Frequently Asked. Clearly Answered.
       </motion.h2>
 
@@ -72,10 +72,7 @@ const FAQSection = () => {
         {faqs.map(({ question, answer }, index) => (
           <motion.div
             key={index}
-            {...fadeUpAnimation({
-              inView: isInView,
-              delay: 0.1 + index * 0.1,
-            })}
+            {...fadeUpAnimation({ inView, delay: 0.1 + index * 0.1 })}
           >
             <Accordion
               isOpen={openIndex === index}
