@@ -28,6 +28,8 @@ const HowItWorksSection = () => {
   return (
     <section
       ref={ref}
+      role="region"
+      aria-label="How Vaultic Works"
       className="w-full relative flex flex-col items-center gap-8"
     >
       <motion.h2 className="h2" {...fadeUpAnimation({ inView })}>
@@ -43,7 +45,10 @@ const HowItWorksSection = () => {
           >
             <div className="w-full flex items-center justify-between pt-7 pl-8">
               <h3 className="h3">{title}</h3>
-              <span className="text-xl font-medium leading-none border-y-1.5 border-l-1.5 border-color rounded-l-2xl pl-3 pr-2.5 py-2.5">
+              <span
+                className="text-xl font-medium leading-none border-y-1.5 border-l-1.5 border-color rounded-l-2xl pl-3 pr-2.5 py-2.5"
+                aria-hidden="true"
+              >
                 0{index + 1}
               </span>
             </div>
