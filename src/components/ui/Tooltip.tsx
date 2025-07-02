@@ -1,5 +1,5 @@
 "use client";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useId } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import cn from "@/utils/cn";
 
@@ -16,6 +16,7 @@ const Tooltip = ({
   position = "top",
   containerClassName = "",
 }: TooltipProps) => {
+  const tooltipId = useId();
   const [visible, setVisible] = useState(false);
 
   const show = () => setVisible(true);
@@ -37,6 +38,7 @@ const Tooltip = ({
         {visible && (
           <motion.div
             role="tooltip"
+            id={tooltipId}
             aria-live="polite"
             initial={{
               opacity: 0,
