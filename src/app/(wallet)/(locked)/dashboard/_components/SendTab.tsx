@@ -24,8 +24,8 @@ import {
   NetworkLogo,
   IconProcessing,
   Tooltip,
-} from "../ui";
-import { Check, Cancel, QR } from "../ui/icons";
+} from "@/components/ui";
+import { Check, Cancel, QR } from "@/components/ui/icons";
 
 type TSendStep = 1 | 2 | 3 | 4;
 
