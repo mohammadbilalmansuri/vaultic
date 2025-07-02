@@ -9,7 +9,7 @@ import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { CreatePasswordSchema, TCreatePasswordForm } from "@/utils/validations";
-import { Button, FormError, PasswordInput } from "../ui";
+import { Button, FormError, PasswordInput } from "@/components/ui";
 
 const CreatePassword = ({
   setStep,

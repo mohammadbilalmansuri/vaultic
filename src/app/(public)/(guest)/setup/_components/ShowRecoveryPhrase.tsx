@@ -6,7 +6,7 @@ import { TSetupSetStep } from "@/types";
 import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import { MnemonicView, Button, Switch } from "../ui";
+import { MnemonicView, Button, Switch } from "@/components/ui";
 
 const ShowRecoveryPhrase = ({
   setStep,

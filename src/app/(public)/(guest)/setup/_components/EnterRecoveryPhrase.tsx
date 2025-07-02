@@ -7,7 +7,7 @@ import { TSetupSetStep } from "@/types";
 import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import { Button, FormError } from "../ui";
+import { Button, FormError } from "@/components/ui";
 
 type TEnterMnemonicForm = { [key: `word${number}`]: string };
 type TMnemonicLength = 12 | 24;
