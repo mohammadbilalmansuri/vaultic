@@ -39,6 +39,8 @@ const TestnetSection = () => {
   return (
     <section
       ref={ref}
+      role="region"
+      aria-label="Testnet features"
       className="w-full relative flex flex-col items-center gap-8"
     >
       <motion.h2 className="h2" {...fadeUpAnimation({ inView })}>
@@ -49,6 +51,7 @@ const TestnetSection = () => {
         {content.map(({ title, paragraphs, button, icon: Icon }, index) => (
           <motion.div
             key={index}
+            aria-label={title}
             className="w-full relative overflow-hidden flex flex-col items-start gap-4 p-8 border-1.5 border-color rounded-3xl"
             {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}
           >
@@ -65,7 +68,10 @@ const TestnetSection = () => {
             >
               {button.text}
             </Button>
-            <span className="absolute right-0 bottom-0 size-24 rounded-tl-full flex items-end justify-end pr-4 pb-4 bg-primary">
+            <span
+              className="absolute right-0 bottom-0 size-24 rounded-tl-full flex items-end justify-end pr-4 pb-4 bg-primary"
+              aria-hidden="true"
+            >
               <Icon className="w-10 text-zinc-500" />
             </span>
           </motion.div>
