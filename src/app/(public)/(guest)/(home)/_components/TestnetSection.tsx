@@ -2,8 +2,8 @@
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { fadeUpAnimation } from "@/utils/animations";
-import { Button } from "../ui";
-import { Swap, WalletMoney } from "../ui/icons";
+import { Button } from "@/components/ui";
+import { Swap, WalletMoney } from "@/components/ui/icons";
 
 const content = [
   {

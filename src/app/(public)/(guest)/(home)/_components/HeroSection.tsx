@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { fadeUpAnimation } from "@/utils/animations";
-import { Button } from "../ui";
+import { Button } from "@/components/ui";
 
 const HeroSection = () => {
   const ref = useRef(null);
