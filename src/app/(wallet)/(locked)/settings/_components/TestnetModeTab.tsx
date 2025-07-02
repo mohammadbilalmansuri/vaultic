@@ -6,9 +6,9 @@ import { useWalletStore } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { useBlockchain } from "@/hooks";
-import { Switch } from "../ui";
+import { Switch } from "@/components/ui";
 
-const TestnetMode = () => {
+const TestnetModeTab = () => {
   const networkMode = useWalletStore((state) => state.networkMode);
   const isTestnetModeOn = networkMode === "testnet";
 
@@ -60,4 +60,4 @@ const TestnetMode = () => {
   );
 };
 
-export default TestnetMode;
+export default TestnetModeTab;

@@ -3,20 +3,18 @@ import { motion } from "motion/react";
 import { TTabs } from "@/types";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useWallet } from "@/hooks";
-import {
-  RecoveryPhrase,
-  TestnetMode,
-  ChangePassword,
-  RemoveWallet,
-} from "@/components/settings";
 import { Tabs, Tooltip } from "@/components/ui";
 import { Lock, Wallet } from "@/components/ui/icons";
+import RecoveryPhraseTab from "./_components/RecoveryPhraseTab";
+import TestnetModeTab from "./_components/TestnetModeTab";
+import ChangePasswordTab from "./_components/ChangePasswordTab";
+import RemoveWalletTab from "./_components/RemoveWalletTab";
 
 const TABS: TTabs = {
-  "Recovery Phrase": { content: RecoveryPhrase },
-  "Testnet Mode": { content: TestnetMode },
-  "Change Password": { content: ChangePassword },
-  "Remove Wallet": { content: RemoveWallet },
+  "Recovery Phrase": { content: RecoveryPhraseTab },
+  "Testnet Mode": { content: TestnetModeTab },
+  "Change Password": { content: ChangePasswordTab },
+  "Remove Wallet": { content: RemoveWalletTab },
 } as const;
 
 const SettingsPage = () => {

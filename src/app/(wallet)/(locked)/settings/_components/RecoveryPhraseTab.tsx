@@ -3,9 +3,9 @@ import { motion } from "motion/react";
 import { ITabContentProps } from "@/types";
 import { useWalletStore } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
-import { MnemonicView } from "../ui";
+import { MnemonicView } from "@/components/ui";
 
-const RecoveryPhrase = ({
+const RecoveryPhraseTab = ({
   showInitialAnimation,
   initialAnimationDelay,
 }: ITabContentProps) => {
@@ -42,4 +42,4 @@ const RecoveryPhrase = ({
   );
 };
 
-export default RecoveryPhrase;
+export default RecoveryPhraseTab;
