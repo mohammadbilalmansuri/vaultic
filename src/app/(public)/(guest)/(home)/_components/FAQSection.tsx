@@ -2,7 +2,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
 import { fadeUpAnimation } from "@/utils/animations";
-import { Accordion } from "../ui";
+import { Accordion } from "@/components/ui";
 
 const faqs = [
   {
