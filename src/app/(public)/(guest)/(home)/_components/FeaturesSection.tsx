@@ -68,7 +68,7 @@ const FeaturesSection = () => {
           <motion.div
             key={`feature-${i}`}
             className="flex flex-col gap-4 p-8 rounded-3xl border-1.5 border-color"
-            {...fadeUpAnimation({ inView, delay: i * 0.1 + 0.05 })}
+            {...fadeUpAnimation({ inView, delay: i * 0.05 + 0.05 })}
           >
             <div className="flex items-center gap-4">
               <Icon className="w-8 text-teal-500" />
