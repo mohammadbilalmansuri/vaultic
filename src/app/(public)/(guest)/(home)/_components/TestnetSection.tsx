@@ -34,7 +34,7 @@ const content = [
 
 const TestnetSection = () => {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const inView = useInView(ref, { once: true, amount: 0.25 });
 
   return (
     <section
@@ -46,11 +46,11 @@ const TestnetSection = () => {
       </motion.h2>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
-        {content.map(({ title, paragraphs, button, icon: Icon }, i) => (
+        {content.map(({ title, paragraphs, button, icon: Icon }, index) => (
           <motion.div
-            key={i}
+            key={index}
             className="w-full relative overflow-hidden flex flex-col items-start gap-4 p-8 border-1.5 border-color rounded-3xl"
-            {...fadeUpAnimation({ inView, delay: 0.15 + i * 0.1 })}
+            {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}
           >
             <h3 className="h3 -mt-1">{title}</h3>
             {paragraphs.map((paragraph, j) => (
