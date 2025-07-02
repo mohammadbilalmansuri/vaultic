@@ -23,7 +23,7 @@ const steps = [
 
 const HowItWorksSection = () => {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const inView = useInView(ref, { once: true, amount: 0.25 });
 
   return (
     <section
@@ -39,7 +39,7 @@ const HowItWorksSection = () => {
           <motion.div
             key={`step-${i}`}
             className="w-full relative flex flex-col items-start gap-3 border-1.5 border-color rounded-3xl overflow-hidden group"
-            {...fadeUpAnimation({ inView, delay: 0.1 + i * 0.1 })}
+            {...fadeUpAnimation({ inView, delay: i * 0.05 + 0.05 })}
           >
             <div className="w-full flex items-center justify-between pt-7 pl-8">
               <h3 className="h3">{title}</h3>
