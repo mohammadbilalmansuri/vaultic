@@ -57,6 +57,8 @@ const FeaturesSection = () => {
   return (
     <section
       ref={ref}
+      role="region"
+      aria-label="Features section"
       className="w-full relative flex flex-col items-center gap-8"
     >
       <motion.h2 className="h2" {...fadeUpAnimation({ inView })}>
@@ -64,14 +66,18 @@ const FeaturesSection = () => {
       </motion.h2>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
-        {features.map(({ icon: Icon, title, description }, i) => (
+        {features.map(({ icon: Icon, title, description }, index) => (
           <motion.div
-            key={`feature-${i}`}
+            key={`feature-${index}`}
             className="flex flex-col gap-4 p-8 rounded-3xl border-1.5 border-color"
-            {...fadeUpAnimation({ inView, delay: i * 0.05 + 0.05 })}
+            {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}
           >
             <div className="flex items-center gap-4">
-              <Icon className="w-8 text-teal-500" />
+              <Icon
+                className="w-8 text-teal-500"
+                aria-hidden="true"
+                focusable="false"
+              />
               <h3 className="h3">{title}</h3>
             </div>
             <p>{description}</p>
