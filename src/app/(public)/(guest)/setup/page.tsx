@@ -4,14 +4,12 @@ import { AnimatePresence } from "motion/react";
 import { TSetupPath, TSetupStep } from "@/types";
 import { useMounted } from "@/hooks";
 import { StepProgress } from "@/components/ui";
-import {
-  ChoosePath,
-  CreatePassword,
-  ShowRecoveryPhrase,
-  EnterRecoveryPhrase,
-  SettingUpWallet,
-  SetupComplete,
-} from "@/components/setup";
+import ChoosePath from "./_components/ChoosePath";
+import CreatePassword from "./_components/CreatePassword";
+import ShowRecoveryPhrase from "./_components/ShowRecoveryPhrase";
+import EnterRecoveryPhrase from "./_components/EnterRecoveryPhrase";
+import SettingUpWallet from "./_components/SettingUpWallet";
+import SetupComplete from "./_components/SetupComplete";
 
 const getStepProgress = (activeDot: number, backFn?: () => void) => (
   <StepProgress dots={3} activeDot={activeDot} back={backFn} />
