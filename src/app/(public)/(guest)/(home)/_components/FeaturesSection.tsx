@@ -59,7 +59,7 @@ const FeaturesSection = () => {
       ref={ref}
       className="w-full relative flex flex-col items-center gap-8"
     >
-      <motion.h2 className="h2" {...fadeUpAnimation({ inView, delay: 0.3 })}>
+      <motion.h2 className="h2" {...fadeUpAnimation({ inView })}>
         Everything You Need. Nothing You Don’t.
       </motion.h2>
 
@@ -68,7 +68,7 @@ const FeaturesSection = () => {
           <motion.div
             key={`feature-${i}`}
             className="flex flex-col gap-4 p-8 rounded-3xl border-1.5 border-color"
-            {...fadeUpAnimation({ inView, delay: i * 0.1 + 0.4 })}
+            {...fadeUpAnimation({ inView, delay: i * 0.1 + 0.05 })}
           >
             <div className="flex items-center gap-4">
               <Icon className="w-8 text-teal-500" />
