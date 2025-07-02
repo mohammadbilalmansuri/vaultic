@@ -6,7 +6,7 @@ import { Button } from "@/components/ui";
 
 const HeroSection = () => {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const inView = useInView(ref, { once: true });
 
   return (
     <motion.section ref={ref} className="hero" {...fadeUpAnimation({ inView })}>
