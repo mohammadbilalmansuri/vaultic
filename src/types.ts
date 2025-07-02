@@ -143,3 +143,8 @@ export type TTabs = Record<
   string,
   { icon?: TIcon; content: (props: ITabContentProps) => JSX.Element | null }
 >;
+
+export interface IGuide {
+  title: string;
+  content: ReactNode;
+}
