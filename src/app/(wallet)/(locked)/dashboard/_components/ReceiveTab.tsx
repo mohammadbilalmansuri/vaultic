@@ -8,8 +8,8 @@ import { useAccountsStore } from "@/stores";
 import { generateQRCode } from "@/services/qr";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useClipboard, useFileActions } from "@/hooks";
-import { Tooltip, CopyToggle } from "../ui";
-import { Download, Error, Share } from "../ui/icons";
+import { Tooltip, CopyToggle } from "@/components/ui";
+import { Download, Error, Share } from "@/components/ui/icons";
 
 const qrCache = new Map<string, string>();
 

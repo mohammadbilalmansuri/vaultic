@@ -13,7 +13,6 @@ import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import { useBlockchain, useClipboard } from "@/hooks";
-import { SendTab, ReceiveTab, TransactionsTab } from "@/components/dashboard";
 import {
   Loader,
   Tooltip,
@@ -22,6 +21,9 @@ import {
   CopyToggle,
 } from "@/components/ui";
 import { Send, QR, Clock, Refresh, Wallet } from "@/components/ui/icons";
+import SendTab from "./_components/SendTab";
+import ReceiveTab from "./_components/ReceiveTab";
+import TransactionsTab from "./_components/TransactionsTab";
 
 const TABS: TTabs = {
   Send: { icon: Send, content: SendTab },
