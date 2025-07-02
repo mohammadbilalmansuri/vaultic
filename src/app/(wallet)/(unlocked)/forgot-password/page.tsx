@@ -20,11 +20,11 @@ const ForgotPassword = () => {
     startResetting(async () => {
       try {
         await removeWallet();
+        router.replace("/setup");
         notify({
           type: "success",
           message: "Vaultic has been reset successfully.",
         });
-        router.replace("/setup");
       } catch {
         notify({
           type: "error",
