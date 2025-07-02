@@ -11,9 +11,9 @@ import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";
 import { useStorage } from "@/hooks";
-import { Button, Loader, PasswordInput, FormError } from "../ui";
+import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 
-const RemoveWallet = () => {
+const RemoveWalletTab = () => {
   const router = useRouter();
   const { removeWallet } = useStorage();
   const notify = useNotificationStore((state) => state.notify);
@@ -109,4 +109,4 @@ const RemoveWallet = () => {
   );
 };
 
-export default RemoveWallet;
+export default RemoveWalletTab;

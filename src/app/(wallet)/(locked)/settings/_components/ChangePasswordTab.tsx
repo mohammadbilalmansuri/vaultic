@@ -8,9 +8,9 @@ import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { TChangePasswordForm, ChangePasswordSchema } from "@/utils/validations";
 import { useStorage } from "@/hooks";
-import { Button, Loader, PasswordInput, FormError } from "../ui";
+import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 
-const ChangePassword = () => {
+const ChangePasswordTab = () => {
   const notify = useNotificationStore((state) => state.notify);
   const { updatePassword } = useStorage();
   const [changing, startChanging] = useTransition();
@@ -93,4 +93,4 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default ChangePasswordTab;
