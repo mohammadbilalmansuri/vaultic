@@ -11,6 +11,7 @@ const HeroSection = () => {
   return (
     <motion.section
       ref={ref}
+      role="region"
       aria-label="Hero Section"
       className="hero"
       {...fadeUpAnimation({ inView })}
