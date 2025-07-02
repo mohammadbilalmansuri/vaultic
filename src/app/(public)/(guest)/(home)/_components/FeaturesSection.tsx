@@ -52,14 +52,14 @@ const features = [
 
 const FeaturesSection = () => {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const inView = useInView(ref, { once: true, amount: 0.25 });
 
   return (
     <section
       ref={ref}
       className="w-full relative flex flex-col items-center gap-8"
     >
-      <motion.h2 className="h2" {...fadeUpAnimation({ inView, delay: 0.5 })}>
+      <motion.h2 className="h2" {...fadeUpAnimation({ inView, delay: 0.3 })}>
         Everything You Need. Nothing You Don’t.
       </motion.h2>
 
@@ -68,7 +68,7 @@ const FeaturesSection = () => {
           <motion.div
             key={`feature-${i}`}
             className="flex flex-col gap-4 p-8 rounded-3xl border-1.5 border-color"
-            {...fadeUpAnimation({ inView, delay: 0.6 + i * 0.1 })}
+            {...fadeUpAnimation({ inView, delay: i * 0.1 + 0.4 })}
           >
             <div className="flex items-center gap-4">
               <Icon className="w-8 text-teal-500" />
