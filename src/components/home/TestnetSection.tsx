@@ -34,14 +34,14 @@ const content = [
 
 const TestnetSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const inView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
     <section
       ref={ref}
       className="w-full relative flex flex-col items-center gap-8"
     >
-      <motion.h2 className="h2" {...fadeUpAnimation({ inView: isInView })}>
+      <motion.h2 className="h2" {...fadeUpAnimation({ inView })}>
         Test Freely. Learn Safely.
       </motion.h2>
 
@@ -50,7 +50,7 @@ const TestnetSection = () => {
           <motion.div
             key={i}
             className="w-full relative overflow-hidden flex flex-col items-start gap-4 p-8 border-1.5 border-color rounded-3xl"
-            {...fadeUpAnimation({ inView: isInView, delay: 0.15 + i * 0.1 })}
+            {...fadeUpAnimation({ inView, delay: 0.15 + i * 0.1 })}
           >
             <h3 className="h3 -mt-1">{title}</h3>
             {paragraphs.map((paragraph, j) => (
