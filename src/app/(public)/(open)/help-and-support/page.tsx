@@ -1,10 +1,16 @@
 "use client";
-import { motion } from "motion/react";
+import { useRef, ReactNode } from "react";
+import { motion, useInView } from "motion/react";
 import { fadeUpAnimation } from "@/utils/animations";
 import { Button } from "@/components/ui";
 import { ExternalLink } from "@/components/ui/icons";
 
-const guides = [
+interface IGuide {
+  title: string;
+  content: ReactNode;
+}
+
+const guides: IGuide[] = [
   {
     title: "Understanding Account Creation in Vaultic",
     content: (
@@ -314,55 +320,69 @@ const guides = [
   },
 ];
 
+const HeroSection = () => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
+
+  return (
+    <motion.section ref={ref} className="hero" {...fadeUpAnimation({ inView })}>
+      <motion.h5
+        className="hero-subtext"
+        {...fadeUpAnimation({ delay: 0.1, inView })}
+      >
+        Your Vaultic Knowledge Base
+      </motion.h5>
+
+      <motion.h1 className="h1" {...fadeUpAnimation({ delay: 0.2, inView })}>
+        Help & Support
+      </motion.h1>
+
+      <motion.p
+        className="hero-paragraph"
+        {...fadeUpAnimation({ delay: 0.3, inView })}
+      >
+        This page has guides and FAQs to help you make the most of Vaultic. If
+        you have a unique issue, open a GitHub issue for public tracking or
+        contact the admin via email on their GitHub profile for urgent matters.
+      </motion.p>
+
+      <motion.div {...fadeUpAnimation({ delay: 0.4, inView })}>
+        <Button as="link" href="/setup">
+          <ExternalLink className="w-4.5" />
+          Open GitHub Issue
+        </Button>
+      </motion.div>
+    </motion.section>
+  );
+};
+
+const GuideSection = ({ title, content }: IGuide) => {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.25 });
+
+  return (
+    <motion.div
+      ref={ref}
+      id={title.toLowerCase().replace(/\s+/g, "-")}
+      className="w-full relative flex flex-col gap-3"
+      {...fadeUpAnimation({ inView })}
+    >
+      <h3 className="text-2xl font-semibold heading-color leading-tight">
+        {title}
+      </h3>
+      <div className="flex flex-col gap-2">{content}</div>
+    </motion.div>
+  );
+};
+
 const HelpAndSupportPage = () => {
   return (
     <div className="w-full max-w-screen-lg relative flex-1 flex flex-col items-center gap-16 pt-8 pb-13">
-      <motion.section
-        className="w-full flex flex-col text-center gap-8 items-center bg-primary p-16 rounded-4xl relative overflow-hidden before:content-[''] before:absolute before:top-0 before:right-0 before:size-32 before:bg-teal-500/10 before:rounded-bl-full after:content-[''] after:absolute after:bottom-0 after:left-0 after:size-48 after:bg-teal-500/5 after:rounded-tr-full"
-        {...fadeUpAnimation()}
-      >
-        <motion.h5
-          className="bg-teal-500/20 px-3 py-2 rounded-full text-teal-800 dark:text-teal-200 font-medium text-sm leading-none"
-          {...fadeUpAnimation({ delay: 0.1 })}
-        >
-          Your Vaultic Knowledge Base
-        </motion.h5>
-
-        <motion.h1 className="h1" {...fadeUpAnimation({ delay: 0.2 })}>
-          Help & Support
-        </motion.h1>
-
-        <motion.p
-          className="text-lg max-w-3xl -mt-2"
-          {...fadeUpAnimation({ delay: 0.3 })}
-        >
-          This page has guides and FAQs to help you make the most of Vaultic. If
-          you have a unique issue, open a GitHub issue for public tracking or
-          contact the admin via email on their GitHub profile for urgent
-          matters. control.
-        </motion.p>
-
-        <motion.div {...fadeUpAnimation({ delay: 0.4 })}>
-          <Button as="link" href="/setup">
-            <ExternalLink className="w-4.5" />
-            Open GitHub Issue
-          </Button>
-        </motion.div>
-      </motion.section>
+      <HeroSection />
 
       <div className="w-full relative flex flex-col gap-16 px-1">
         {guides.map(({ title, content }, index) => (
-          <motion.div
-            key={index}
-            id={title.toLowerCase().replace(" ", "-")}
-            className="w-full relative flex flex-col gap-3"
-            {...fadeUpAnimation({ delay: 0.4 + index * 0.1 })}
-          >
-            <h3 className="text-2xl font-semibold heading-color leading-tight">
-              {title}
-            </h3>
-            <div className="flex flex-col gap-2">{content}</div>
-          </motion.div>
+          <GuideSection key={index} title={title} content={content} />
         ))}
       </div>
     </div>
