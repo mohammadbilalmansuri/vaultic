@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="w-full max-w-screen-lg relative py-5 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
         <p>&copy;{new Date().getFullYear()} Vaultic. All rights reserved.</p>
         <p>
-          Designed & developed by{" "}
+          Designed & developed by&nbsp;
           <Link
             href="https://www.linkedin.com/in/mohammadbilalmansuri"
             target="_blank"
