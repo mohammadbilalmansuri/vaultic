@@ -1,14 +1,7 @@
 "use client";
-import { useRef, ReactNode } from "react";
-import { motion, useInView } from "motion/react";
-import { fadeUpAnimation } from "@/utils/animations";
-import { Button } from "@/components/ui";
-import { ExternalLink } from "@/components/ui/icons";
-
-interface IGuide {
-  title: string;
-  content: ReactNode;
-}
+import { IGuide } from "@/types";
+import HeroSection from "./_components/HeroSection";
+import GuideSection from "./_components/GuideSection";
 
 const guides: IGuide[] = [
   {
@@ -319,61 +312,6 @@ const guides: IGuide[] = [
     ),
   },
 ];
-
-const HeroSection = () => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.5 });
-
-  return (
-    <motion.section ref={ref} className="hero" {...fadeUpAnimation({ inView })}>
-      <motion.h5
-        className="hero-subtext"
-        {...fadeUpAnimation({ delay: 0.1, inView })}
-      >
-        Your Vaultic Knowledge Base
-      </motion.h5>
-
-      <motion.h1 className="h1" {...fadeUpAnimation({ delay: 0.2, inView })}>
-        Help & Support
-      </motion.h1>
-
-      <motion.p
-        className="hero-paragraph"
-        {...fadeUpAnimation({ delay: 0.3, inView })}
-      >
-        This page has guides and FAQs to help you make the most of Vaultic. If
-        you have a unique issue, open a GitHub issue for public tracking or
-        contact the admin via email on their GitHub profile for urgent matters.
-      </motion.p>
-
-      <motion.div {...fadeUpAnimation({ delay: 0.4, inView })}>
-        <Button as="link" href="/setup">
-          <ExternalLink className="w-4.5" />
-          Open GitHub Issue
-        </Button>
-      </motion.div>
-    </motion.section>
-  );
-};
-
-const GuideSection = ({ title, content }: IGuide) => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.25 });
-
-  return (
-    <motion.div
-      ref={ref}
-      id={title.toLowerCase().replace(/\s+/g, "-")}
-      className="w-full relative flex flex-col gap-3"
-      {...fadeUpAnimation({ inView })}
-    >
-      <h3 className="text-2xl font-semibold heading-color leading-tight">
-        {title}
-      </h3>
-      <div className="flex flex-col gap-2">{content}</div>
-    </motion.div>
-  );
-};
 
 const HelpAndSupportPage = () => {
   return (
