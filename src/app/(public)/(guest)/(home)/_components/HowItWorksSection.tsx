@@ -35,16 +35,16 @@ const HowItWorksSection = () => {
       </motion.h2>
 
       <div className="w-full relative grid grid-cols-1 md:grid-cols-3 gap-5">
-        {steps.map(({ title, description }, i) => (
+        {steps.map(({ title, description }, index) => (
           <motion.div
-            key={`step-${i}`}
+            key={`step-${index}`}
             className="w-full relative flex flex-col items-start gap-3 border-1.5 border-color rounded-3xl overflow-hidden group"
-            {...fadeUpAnimation({ inView, delay: i * 0.05 + 0.05 })}
+            {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}
           >
             <div className="w-full flex items-center justify-between pt-7 pl-8">
               <h3 className="h3">{title}</h3>
               <span className="text-xl font-medium leading-none border-y-1.5 border-l-1.5 border-color rounded-l-2xl pl-3 pr-2.5 py-2.5">
-                0{i + 1}
+                0{index + 1}
               </span>
             </div>
             <p className="px-8 pb-8">{description}</p>
