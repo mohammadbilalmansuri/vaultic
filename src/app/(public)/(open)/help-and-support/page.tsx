@@ -2,8 +2,9 @@
 import { motion } from "motion/react";
 import { fadeUpAnimation } from "@/utils/animations";
 import { Button } from "@/components/ui";
+import { ExternalLink } from "@/components/ui/icons";
 
-export const guides = [
+const guides = [
   {
     title: "Understanding Account Creation in Vaultic",
     content: (
@@ -43,7 +44,7 @@ export const guides = [
           Vaultic is a fully client-side wallet, which means none of your
           sensitive information is ever sent to a server. Your 12-word recovery
           phrase is encrypted using AES-GCM 256-bit encryption and stored
-          securely in your browser’s IndexedDB.
+          securely in your browser's IndexedDB.
         </p>
         <p>
           The encryption key is derived from your password, which is never
@@ -70,12 +71,12 @@ export const guides = [
         </p>
         <p>
           By default, Vaultic restores your first account (index 0). If you had
-          additional accounts, you’ll need to add them manually through the app.
+          additional accounts, you'll need to add them manually through the app.
           For example, to recover Account 5, add accounts until you reach index
           4.
         </p>
         <p className="italic">
-          Tip: If you don’t see expected funds, try adding more accounts using
+          Tip: If you don't see expected funds, try adding more accounts using
           the same recovery phrase.
         </p>
       </>
@@ -86,7 +87,7 @@ export const guides = [
     content: (
       <>
         <p>
-          Vaultic doesn’t store your password — it’s used to encrypt your
+          Vaultic doesn't store your password — it's used to encrypt your
           recovery phrase locally. If you forget your password, it cannot be
           recovered.
         </p>
@@ -115,8 +116,8 @@ export const guides = [
           down, store it offline, and protect it as you would a bank vault key.
         </p>
         <p>
-          Vaultic cannot revoke, reset, or recover this phrase. It’s the
-          cornerstone of your wallet’s security and ownership.
+          Vaultic cannot revoke, reset, or recover this phrase. It's the
+          cornerstone of your wallet's security and ownership.
         </p>
       </>
     ),
@@ -131,7 +132,7 @@ export const guides = [
           fake tokens.
         </p>
         <p>
-          You can claim test ETH or SOL using Vaultic’s built-in faucets for
+          You can claim test ETH or SOL using Vaultic's built-in faucets for
           Solana and referred link for Ethereum — ideal for learning and testing
           transactions without risking real assets.
         </p>
@@ -156,7 +157,7 @@ export const guides = [
           create a new account, it will be index 3 — not index 2 again.
         </p>
         <p>
-          If you accidentally delete an account and want it back, you’ll need to
+          If you accidentally delete an account and want it back, you'll need to
           reset your wallet and re-import it from your recovery phrase. Then,
           recreate accounts in order until you reach the one you lost.
         </p>
@@ -214,11 +215,11 @@ export const guides = [
         </p>
         <p>
           On Ethereum, this is called gas and is paid in ETH (usually less than
-          0.0001 ETH). On Solana, it’s a small fee (usually less than 0.00008
+          0.0001 ETH). On Solana, it's a small fee (usually less than 0.00008
           SOL) paid in SOL.
         </p>
         <p>
-          Vaultic doesn’t charge extra — these fees go directly to the network
+          Vaultic doesn't charge extra — these fees go directly to the network
           and vary depending on traffic.
         </p>
       </>
@@ -252,19 +253,19 @@ export const guides = [
         </p>
         <p>
           For Ethereum, the app subtracts the estimated gas fee (0.0001 ETH)
-          from your total ETH balance. This ensures you don’t attempt to send
+          from your total ETH balance. This ensures you don't attempt to send
           more ETH than allowed, leaving enough to cover transaction costs.
         </p>
         <p>
           For Solana, Vaultic subtracts both the network fee (about 0.00008 SOL)
           and, when necessary, the rent-exempt minimum (about 0.00089088 SOL)
           required to keep certain accounts alive on-chain. This is especially
-          important when sending to a new token address that hasn’t been created
+          important when sending to a new token address that hasn't been created
           yet.
         </p>
         <p>
           Vaultic calculates this maximum automatically in the Send form and
-          offers a “Max” button that populates the sendable amount based on your
+          offers a "Max" button that populates the sendable amount based on your
           current balance, ensuring a smooth and error-free experience.
         </p>
       </>
@@ -284,7 +285,7 @@ export const guides = [
           recoverable, and compatible across devices.
         </p>
         <p>
-          If you only have a private key, you’ll need to use another wallet that
+          If you only have a private key, you'll need to use another wallet that
           supports key import.
         </p>
       </>
@@ -296,7 +297,7 @@ export const guides = [
       <>
         <p>
           Even though Vaultic does not expose or store private keys directly,
-          it’s important to understand their role. Every blockchain address is
+          it's important to understand their role. Every blockchain address is
           controlled by a private key derived from your recovery phrase.
         </p>
         <p>
@@ -315,7 +316,7 @@ export const guides = [
 
 const HelpAndSupportPage = () => {
   return (
-    <div className="w-full max-w-screen-lg relative flex-1 flex flex-col items-center gap-16 pt-8 pb-16">
+    <div className="w-full max-w-screen-lg relative flex-1 flex flex-col items-center gap-16 pt-8 pb-13">
       <motion.section
         className="w-full flex flex-col text-center gap-8 items-center bg-primary p-16 rounded-4xl relative overflow-hidden before:content-[''] before:absolute before:top-0 before:right-0 before:size-32 before:bg-teal-500/10 before:rounded-bl-full after:content-[''] after:absolute after:bottom-0 after:left-0 after:size-48 after:bg-teal-500/5 after:rounded-tr-full"
         {...fadeUpAnimation()}
@@ -338,31 +339,32 @@ const HelpAndSupportPage = () => {
           This page has guides and FAQs to help you make the most of Vaultic. If
           you have a unique issue, open a GitHub issue for public tracking or
           contact the admin via email on their GitHub profile for urgent
-          matters.
+          matters. control.
         </motion.p>
 
         <motion.div {...fadeUpAnimation({ delay: 0.4 })}>
-          <Button
-            as="link"
-            href="https://github.com/mohammadbilalmansuri/vaultic/issues"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Button as="link" href="/setup">
+            <ExternalLink className="w-4.5" />
             Open GitHub Issue
           </Button>
         </motion.div>
       </motion.section>
 
-      {guides.map(({ title, content }, index) => (
-        <motion.section
-          key={index}
-          className="w-full flex flex-col gap-3"
-          {...fadeUpAnimation({ delay: 0.3 * (index + 1) })}
-        >
-          <h3 className="h3">{title}</h3>
-          <div>{content}</div>
-        </motion.section>
-      ))}
+      <div className="w-full relative flex flex-col gap-16 px-1">
+        {guides.map(({ title, content }, index) => (
+          <motion.div
+            key={index}
+            id={title.toLowerCase().replace(" ", "-")}
+            className="w-full relative flex flex-col gap-3"
+            {...fadeUpAnimation({ delay: 0.4 + index * 0.1 })}
+          >
+            <h3 className="text-2xl font-semibold heading-color leading-tight">
+              {title}
+            </h3>
+            <div className="flex flex-col gap-2">{content}</div>
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 };
