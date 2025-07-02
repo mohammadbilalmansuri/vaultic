@@ -59,8 +59,12 @@ const faqs = [
 
 const FAQSection = () => {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.4 });
+  const inView = useInView(ref, { once: true, amount: 0.25 });
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggleAccordion = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
   return (
     <section ref={ref} className="w-full flex flex-col items-center gap-8">
@@ -72,13 +76,11 @@ const FAQSection = () => {
         {faqs.map(({ question, answer }, index) => (
           <motion.div
             key={index}
-            {...fadeUpAnimation({ inView, delay: 0.1 + index * 0.1 })}
+            {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}
           >
             <Accordion
               isOpen={openIndex === index}
-              toggleAccordion={() =>
-                setOpenIndex(openIndex === index ? null : index)
-              }
+              toggleAccordion={() => toggleAccordion(index)}
               question={question}
               answer={answer}
             />
