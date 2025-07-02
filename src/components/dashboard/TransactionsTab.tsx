@@ -18,7 +18,7 @@ import parseBalance from "@/utils/parseBalance";
 import parseTimestamp from "@/utils/parseTimestamp";
 import { useBlockchain, useClipboard, useMounted } from "@/hooks";
 import { Tooltip, CopyToggle, Button, Loader } from "../ui";
-import { ListCross, OpenLink, Refresh } from "../ui/icons";
+import { ListCross, ExternalLink, Refresh } from "../ui/icons";
 
 const TransactionsTab = () => {
   const transactions = useTransactionsStore((state) => state.transactions);
@@ -318,7 +318,7 @@ const TransactionsTab = () => {
             rel="noopener noreferrer"
             variant="zinc"
           >
-            <OpenLink className="w-4.5" />
+            <ExternalLink className="w-4.5" />
             <span>View Complete History</span>
           </Button>
         </motion.div>
