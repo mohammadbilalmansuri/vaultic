@@ -42,7 +42,7 @@ const Select = <T,>({
     <div
       ref={outsideClickRef}
       className={cn(
-        "relative min-w-fit flex flex-col items-center border-color rounded-2xl transition-all duration-300",
+        "relative shrink-0 flex flex-col items-center border-color rounded-2xl transition-all duration-300",
         {
           "hover:border-focus": !opened,
           "border-focus": opened && variant === "dropdown",
