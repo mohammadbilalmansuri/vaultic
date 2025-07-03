@@ -11,8 +11,10 @@ export type TIcon = (props: SVGProps<SVGSVGElement>) => JSX.Element;
 
 // Notification Type
 
+export type TNotificationType = "info" | "success" | "error";
+
 export interface INotification {
-  type?: "info" | "success" | "error";
+  type?: TNotificationType;
   message: string;
   duration?: number;
 }
