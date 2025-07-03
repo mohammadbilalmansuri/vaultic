@@ -24,7 +24,7 @@ const FaucetPage = () => {
           target="_blank"
           className="w-full"
         >
-          <Ethereum className="h-6 min-w-fit" />
+          <Ethereum className="h-6 shrink-0" />
           <span className="mt-px">Ethereum Sepolia</span>
         </Button>
 
@@ -34,7 +34,7 @@ const FaucetPage = () => {
           href="/faucet/solana"
           className="w-full"
         >
-          <Solana className="h-4 min-w-fit" />
+          <Solana className="h-4 shrink-0" />
           <span className="mt-px">Solana Devnet</span>
         </Button>
       </div>
