@@ -6,9 +6,20 @@ const ThemeSwitcher = () => {
   const theme = useThemeStore((state) => state.theme);
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
+  const isDark = theme === "dark";
+  const Icon = isDark ? Moon : Sun;
+  const label = isDark ? "Switch to light mode" : "Switch to dark mode";
+
   return (
-    <button type="button" className="icon-btn-bg" onClick={toggleTheme}>
-      {theme === "dark" ? <Moon /> : <Sun />}
+    <button
+      type="button"
+      className="icon-btn-bg"
+      onClick={toggleTheme}
+      aria-label={label}
+      aria-pressed={isDark}
+      title={label}
+    >
+      <Icon aria-hidden="true" />
     </button>
   );
 };
