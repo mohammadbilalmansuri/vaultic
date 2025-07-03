@@ -26,12 +26,12 @@ export const fadeUpAnimation = ({
   withExit = false,
   inView = true,
 }: BaseAnimationConfig & { y?: number } = {}): MotionProps => {
-  return Object.freeze({
+  return {
     initial: { opacity: 0, y },
     animate: inView ? { opacity: 1, y: 0 } : undefined,
     exit: withExit ? { opacity: 0, y } : undefined,
     transition: inView || withExit ? { duration, delay, ease } : undefined,
-  });
+  };
 };
 
 /**
@@ -52,35 +52,30 @@ export const scaleUpAnimation = ({
   withExit = true,
   inView = true,
 }: BaseAnimationConfig & { scale?: number } = {}): MotionProps => {
-  return Object.freeze({
+  return {
     initial: { opacity: 0, scale },
     animate: inView ? { opacity: 1, scale: 1 } : undefined,
     exit: withExit ? { opacity: 0, scale } : undefined,
     transition: inView || withExit ? { duration, delay, ease } : undefined,
-  });
+  };
 };
 
 /**
  * Creates an expand-collapse animation using height and opacity.
- * @param isOpen - Whether the element should be expanded or collapsed
  * @param duration - Animation duration in seconds (default: 0.3)
  * @param ease - Easing function (default: "easeInOut")
  * @returns MotionProps for Motion components
  */
 export const expandCollapseAnimation = ({
-  isOpen,
   duration = 0.3,
   ease = "easeInOut",
 }: {
-  isOpen: boolean;
   duration?: number;
   ease?: string;
 }): MotionProps => {
   return {
     initial: { opacity: 0, height: 0 },
-    animate: isOpen
-      ? { opacity: 1, height: "auto" }
-      : { opacity: 0, height: 0 },
+    animate: { opacity: 1, height: "auto" },
     exit: { opacity: 0, height: 0 },
     transition: { duration, ease },
   };
