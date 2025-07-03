@@ -1,15 +1,16 @@
 "use client";
 import { MouseEventHandler, ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { expandCollapseAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import Tooltip from "./Tooltip";
 import { AngleDown } from "./icons";
 
 interface AccordionProps {
   isOpen: boolean;
-  toggleAccordion: MouseEventHandler<HTMLDivElement>;
+  toggleAccordion: MouseEventHandler<HTMLButtonElement>;
   question: string;
   answer: ReactNode;
+  index: number;
 }
 
 const Accordion = ({
@@ -17,7 +18,11 @@ const Accordion = ({
   toggleAccordion,
   question,
   answer,
+  index,
 }: AccordionProps) => {
+  const answerId = `accordion-answer-${index}`;
+  const questionId = `accordion-question-${index}`;
+
   return (
     <div
       className={cn(
@@ -28,39 +33,42 @@ const Accordion = ({
         }
       )}
     >
-      <div
+      <button
+        type="button"
         onClick={toggleAccordion}
-        className="pl-5 py-3.5 pr-3.5 w-full flex justify-between items-center cursor-pointer"
+        className="pl-5 py-3.5 pr-3.5 w-full flex justify-between items-center cursor-pointer text-left"
+        aria-expanded={isOpen}
+        aria-controls={answerId}
+        id={questionId}
       >
-        <h5
+        <h3
           className={cn("text-lg transition-all duration-300", {
             "heading-color": isOpen,
           })}
         >
           {question}
-        </h5>
-        <Tooltip
-          containerClassName="icon-btn-bg"
-          content={isOpen ? "Collapse" : "Expand"}
-        >
-          <AngleDown
-            className={cn("transition-all duration-300", {
-              "rotate-180": isOpen,
-            })}
-          />
-        </Tooltip>
-      </div>
+        </h3>
+        <AngleDown
+          className={cn("transition-all duration-300", {
+            "rotate-180": isOpen,
+          })}
+          aria-hidden="true"
+        />
+      </button>
 
-      <AnimatePresence>
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="overflow-hidden"
-        >
-          <p className="px-5 pb-5">{answer}</p>
-        </motion.div>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            key={answerId}
+            id={answerId}
+            role="region"
+            aria-labelledby={questionId}
+            className="overflow-hidden"
+            {...expandCollapseAnimation()}
+          >
+            <div className="px-5 pb-5">{answer}</div>
+          </motion.div>
+        )}
       </AnimatePresence>
     </div>
   );
