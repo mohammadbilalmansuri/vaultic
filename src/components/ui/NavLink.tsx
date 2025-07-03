@@ -20,6 +20,7 @@ const NavLink = ({ children, href, active, ...props }: NavLinkProps) => {
           "bg-transparent hover:heading-color hover:bg-primary": !active,
         }
       )}
+      aria-current={active ? "page" : undefined}
       {...props}
     >
       {children}

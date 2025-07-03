@@ -31,6 +31,7 @@ const SidebarNavLink = ({
           "hover:bg-primary hover:heading-color": !isActive,
         }
       )}
+      aria-current={isActive ? "page" : undefined}
       {...props}
     >
       <Icon
@@ -38,6 +39,7 @@ const SidebarNavLink = ({
           "text-teal-500 scale-110": isActive,
           "group-hover:scale-110": !isActive,
         })}
+        aria-hidden="true"
       />
       <span className="font-medium mt-px">{name}</span>
     </Link>
