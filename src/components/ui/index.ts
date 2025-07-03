@@ -7,7 +7,6 @@ export { default as FormError } from "./FormError";
 export { default as IconProcessing } from "./IconProcessing";
 export { default as Input } from "./Input";
 export { default as Loader } from "./Loader";
-export { default as Loading } from "./Loading";
 export { default as NavLink } from "./NavLink";
 export { default as NetworkLogo } from "./NetworkLogo";
 export { default as PasswordInput } from "./PasswordInput";
