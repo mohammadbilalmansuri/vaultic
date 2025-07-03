@@ -22,6 +22,7 @@ const PasswordInput = ({
         className={cn("input pr-10", className)}
         placeholder={placeholder}
         ref={ref}
+        aria-describedby="password-toggle"
         {...props}
       />
 
@@ -30,6 +31,8 @@ const PasswordInput = ({
         onClick={() => setVisible((prev) => !prev)}
         className="absolute right-3.5"
         tabIndex={-1}
+        aria-label={visible ? "Hide password" : "Show password"}
+        id="password-toggle"
       />
     </div>
   );

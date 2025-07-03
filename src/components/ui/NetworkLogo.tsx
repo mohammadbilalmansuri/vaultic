@@ -50,8 +50,10 @@ const NetworkLogo = ({
           : paddingClasses.default[size],
         className
       )}
+      role="img"
+      aria-label={`${networkConfig.name} network logo`}
     >
-      <NetworkIcon />
+      <NetworkIcon aria-hidden="true" />
     </div>
   );
 };

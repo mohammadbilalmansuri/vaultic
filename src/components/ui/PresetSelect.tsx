@@ -47,6 +47,10 @@ const PresetSelect = <T extends FieldValues>({
               "text-zinc-500": !value,
             })}
             onClick={() => setOpened((prev) => !prev)}
+            aria-expanded={opened}
+            aria-haspopup="listbox"
+            role="preset-select"
+            aria-label={placeholder}
           >
             {value ? `${value} ${valueSuffix}` : placeholder}
           </button>
@@ -70,6 +74,8 @@ const PresetSelect = <T extends FieldValues>({
                     <button
                       key={option}
                       type="button"
+                      role="option"
+                      aria-selected={value === option}
                       className={cn(
                         "w-full flex items-center justify-center border border-color p-2 rounded-xl transition duration-300",
                         {

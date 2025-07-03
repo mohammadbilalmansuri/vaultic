@@ -17,6 +17,14 @@ const CopyToggle = ({
   ...props
 }: CopyToggleProps) => {
   const Icon = hasCopied ? CopyCheck : Copy;
+  const ariaLabel = labels
+    ? hasCopied
+      ? labels.copied
+      : labels.copy
+    : hasCopied
+    ? "Copied"
+    : "Copy";
+
   return (
     <button
       type="button"
@@ -28,9 +36,11 @@ const CopyToggle = ({
         },
         className
       )}
+      aria-label={ariaLabel}
+      aria-pressed={hasCopied}
       {...props}
     >
-      <Icon className={cn(iconClassName)} {...iconProps} />
+      <Icon className={cn(iconClassName)} aria-hidden="true" {...iconProps} />
       {labels && (
         <span className="leading-none">
           {hasCopied ? labels.copied : labels.copy}
