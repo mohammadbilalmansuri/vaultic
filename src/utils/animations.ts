@@ -16,7 +16,7 @@ interface BaseAnimationConfig {
  * @param ease - Easing function (default: "easeOut")
  * @param withExit - Include exit animation (default: false)
  * @param inView - Trigger animation when in view (default: true)
- * @returns MotionProps object for Framer Motion components
+ * @returns MotionProps object for Motion components
  */
 export const fadeUpAnimation = ({
   y = 20,
@@ -42,7 +42,7 @@ export const fadeUpAnimation = ({
  * @param ease - Easing function (default: "backOut")
  * @param withExit - Include exit animation (default: true)
  * @param inView - Trigger animation when in view (default: true)
- * @returns MotionProps object for Framer Motion components
+ * @returns MotionProps object for Motion components
  */
 export const scaleUpAnimation = ({
   scale = 0.95,
@@ -57,5 +57,26 @@ export const scaleUpAnimation = ({
     animate: inView ? { opacity: 1, scale: 1 } : undefined,
     exit: withExit ? { opacity: 0, scale } : undefined,
     transition: inView || withExit ? { duration, delay, ease } : undefined,
+  });
+};
+
+/**
+ * Creates an expand-collapse animation using maxHeight and opacity.
+ * @param duration - Animation duration in seconds (default: 0.3)
+ * @param ease - Easing function (default: "easeInOut")
+ * @returns MotionProps for Motion components
+ */
+export const expandCollapseAnimation = ({
+  duration = 0.3,
+  ease = "easeInOut",
+}: {
+  duration?: number;
+  ease?: Easing;
+} = {}): MotionProps => {
+  return Object.freeze({
+    initial: { opacity: 0, height: 0 },
+    animate: { opacity: 1, height: "auto" },
+    exit: { opacity: 0, height: 0 },
+    transition: { duration, ease },
   });
 };
