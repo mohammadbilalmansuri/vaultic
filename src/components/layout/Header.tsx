@@ -41,7 +41,7 @@ const Header = () => {
         </Link>
 
         <nav
-          className="hidden md:flex items-center gap-6"
+          className="hidden md:flex items-center lg:gap-6 gap-4"
           aria-label="Header navigation"
         >
           {navLinks.map(({ href, label }) => (
@@ -51,7 +51,7 @@ const Header = () => {
           ))}
         </nav>
 
-        <div className="flex items-center sm:gap-3 gap-2">
+        <div className="flex items-center xs:gap-3 gap-2">
           <Link
             href="https://github.com/mohammadbilalmansuri/vaultic"
             target="_blank"
