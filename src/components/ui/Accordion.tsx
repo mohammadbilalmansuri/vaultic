@@ -56,16 +56,18 @@ const Accordion = ({
       </button>
 
       <AnimatePresence initial={false}>
-        <motion.div
-          key={answerId}
-          id={answerId}
-          role="region"
-          aria-labelledby={questionId}
-          className="overflow-hidden"
-          {...expandCollapseAnimation({ isOpen })}
-        >
-          <div className="px-5 pb-5">{answer}</div>
-        </motion.div>
+        {isOpen && (
+          <motion.div
+            key={answerId}
+            id={answerId}
+            role="region"
+            aria-labelledby={questionId}
+            className="overflow-hidden"
+            {...expandCollapseAnimation()}
+          >
+            <div className="px-5 pb-5">{answer}</div>
+          </motion.div>
+        )}
       </AnimatePresence>
     </div>
   );
