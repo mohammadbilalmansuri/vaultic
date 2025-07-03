@@ -9,6 +9,7 @@
   --breakpoint-lg: 1024px;
   --height-13: 3.25rem;
   --border-width-1\.5: 1.5px;
+  --text-15: 0.9375rem;
   --text-md: 1.0625rem;
   --text-h1: 2.125rem;
   --text-h2: 1.75rem;
@@ -67,7 +68,7 @@
 }
 
 @utility icon-btn-bg {
-  @apply icon-btn size-10 flex items-center justify-center rounded-xl hover:bg-primary;
+  @apply shrink-0 icon-btn sm:size-10 size-9 flex items-center justify-center rounded-xl hover:bg-primary;
 }
 
 @utility scrollbar-thin {
@@ -96,7 +97,7 @@
   }
 
   .page-main {
-    @apply w-full relative flex flex-col items-center justify-center flex-1 px-5;
+    @apply w-full relative flex flex-col items-center justify-center flex-1 sm:px-5 px-4;
   }
 
   button,
@@ -132,15 +133,15 @@
   }
 
   .h1 {
-    @apply text-h1 font-semibold leading-snug heading-color;
+    @apply md:text-h1 sm:text-3xl text-h2 font-semibold leading-snug heading-color;
   }
 
   .h2 {
-    @apply text-h2 font-semibold leading-snug heading-color;
+    @apply md:text-h2 sm:text-2xl text-h3 font-semibold leading-snug heading-color;
   }
 
   .h3 {
-    @apply text-h3 font-semibold leading-snug heading-color;
+    @apply md:text-h3 sm:text-xl text-lg font-semibold leading-snug heading-color;
   }
 
   .input {
