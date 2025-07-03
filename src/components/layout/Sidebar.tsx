@@ -50,9 +50,9 @@ const Sidebar = () => {
           <Link
             href="/dashboard"
             className="px-0.5"
-            aria-label="Vaultic Dashboard Home"
+            aria-label="Vaultic Active Account Dashboard"
           >
-            <Logo className="w-7 text-teal-500" />
+            <Logo className="w-7 text-teal-500" aria-hidden="true" />
           </Link>
           <div className="-mr-0.5">
             <ThemeSwitcher />
@@ -61,7 +61,7 @@ const Sidebar = () => {
 
         <nav
           className="relative flex flex-col gap-3"
-          aria-label="Primary navigation"
+          aria-label="Sidebar Navigation"
         >
           {navLinks.map(({ name, href, icon: Icon }) => (
             <SidebarNavLink
@@ -76,20 +76,14 @@ const Sidebar = () => {
       </div>
 
       <div className="w-full flex flex-col gap-5">
-        <div>
-          <label htmlFor="account-select" className="sr-only">
-            Select Active Account
-          </label>
-          <Select
-            id="account-select"
-            options={accountOptions}
-            value={activeAccountIndex}
-            onChange={switchActiveAccount}
-            selecting={switchingToAccount !== null}
-            variant="inline"
-            aria-label="Select active account"
-          />
-        </div>
+        <Select
+          options={accountOptions}
+          value={activeAccountIndex}
+          onChange={switchActiveAccount}
+          selecting={switchingToAccount !== null}
+          variant="inline"
+          aria-label="Select active account"
+        />
 
         <Button onClick={lockWallet} aria-label="Lock Vaultic wallet">
           <Lock className="w-5 -mt-px" aria-hidden="true" />
