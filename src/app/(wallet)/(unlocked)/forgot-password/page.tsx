@@ -70,7 +70,12 @@ const ForgotPassword = () => {
         className="flex items-center gap-3 my-2.5 cursor-pointer select-none text-left"
         onClick={() => setAgree((prev) => !prev)}
       >
-        <Switch size="sm" state={agree} />
+        <Switch
+          size="sm"
+          state={agree}
+          label="I understand this process will permanently remove Vaultic data and I’m
+          ready to re-import my wallet."
+        />
         <p className="leading-snug">
           I understand this process will permanently remove Vaultic data and I’m
           ready to re-import my wallet.

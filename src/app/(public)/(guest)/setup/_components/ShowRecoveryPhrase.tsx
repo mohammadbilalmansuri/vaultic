@@ -52,7 +52,7 @@ const ShowRecoveryPhrase = ({
           className="flex items-center gap-3 my-1.5 cursor-pointer select-none"
           onClick={() => setSaved((prev) => !prev)}
         >
-          <Switch size="sm" state={saved} />
+          <Switch size="sm" state={saved} label="I saved my recovery phrase" />
           <p>I saved my recovery phrase.</p>
         </div>
 
