@@ -15,14 +15,15 @@ const Header = () => {
         <Link
           href={walletExists ? "/dashboard" : "/"}
           className="flex items-center gap-2.5 select-none"
+          aria-label="Vaultic home"
         >
-          <Logo className="w-7 text-teal-500" />
+          <Logo className="w-7 text-teal-500" aria-hidden="true" />
           <span className="-mt-0.5 text-3xl lowercase leading-[0.8] font-bold text-teal-500">
             vaultic
           </span>
         </Link>
 
-        <nav className="flex items-center gap-6">
+        <nav className="flex items-center gap-6" aria-label="Main navigation">
           {walletExists ? (
             <NavLink href="/dashboard" active={pathname === "/dashboard"}>
               Dashboard
@@ -49,8 +50,9 @@ const Header = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="icon-btn-bg"
+            aria-label="View Vaultic source code on GitHub"
           >
-            <Github />
+            <Github aria-hidden="true" />
           </Link>
           <ThemeSwitcher />
         </div>
