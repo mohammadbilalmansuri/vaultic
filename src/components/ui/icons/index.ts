@@ -19,6 +19,7 @@ export { default as Info } from "./Info";
 export { default as ListCross } from "./ListCross";
 export { default as Lock } from "./Lock";
 export { default as Logo } from "./Logo";
+export { default as Menu } from "./Menu";
 export { default as Moon } from "./Moon";
 export { default as Plus } from "./Plus";
 export { default as QR } from "./QR";
