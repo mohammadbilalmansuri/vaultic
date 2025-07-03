@@ -5,18 +5,23 @@ import cn from "@/utils/cn";
 interface SwitchProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "sm" | "md";
   state: boolean;
+  label?: string;
 }
 
 const Switch = ({
   size = "md",
   state,
   className = "",
+  label,
   ...props
 }: SwitchProps) => {
   return (
     <div className="min-w-fit relative">
       <button
         type="button"
+        role="switch"
+        aria-checked={state}
+        aria-label={label}
         className={cn(
           "p-1 rounded-full flex items-center bg-secondary",
           { "h-5 w-9": size === "sm", "h-6 w-12": size === "md" },
@@ -36,6 +41,7 @@ const Switch = ({
               "translate-x-0 bg-zinc-500 dark:bg-zinc-400": !state,
             }
           )}
+          aria-hidden="true"
         />
       </button>
     </div>
