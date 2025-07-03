@@ -8,20 +8,28 @@ import { QuestionMark } from "@/components/ui/icons";
 
 const NotFound = () => {
   const walletExists = useWalletStore((state) => state.walletExists);
+  const destination = walletExists ? "/dashboard" : "/";
+  const label = walletExists ? "Dashboard" : "Home";
 
   return (
     <PageShell>
-      <motion.div {...scaleUpAnimation()} className="box p-12 overflow-hidden">
-        <QuestionMark className="w-15 text-yellow-500" />
+      <motion.div
+        role="alert"
+        aria-live="assertive"
+        className="box p-12 overflow-hidden"
+        {...scaleUpAnimation()}
+      >
+        <QuestionMark className="w-15 text-yellow-500" aria-hidden="true" />
         <h2 className="mt-3">Page Not Found</h2>
         <p>The page you're looking for doesn't exist or has been moved.</p>
         <Button
           variant="zinc"
           as="link"
-          href={walletExists ? "/dashboard" : "/"}
+          href={destination}
           className="mt-3"
+          aria-label={`Go to ${label} page`}
         >
-          Go to {walletExists ? "Dashboard" : "Home"}
+          Go to {label}
         </Button>
       </motion.div>
     </PageShell>
