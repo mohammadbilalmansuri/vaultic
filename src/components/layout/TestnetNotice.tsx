@@ -8,9 +8,10 @@ const TestnetNotice = () => {
 
   return (
     <div
-      className="w-full bg-warning px-5 py-2 flex items-center justify-center"
+      className="w-full bg-warning sm:px-5 px-4 py-2 flex items-center justify-center text-center"
       role="alert"
       aria-live="polite"
+      aria-label="Testnet Mode Notice"
     >
       <p>You are currently in testnet mode.</p>
     </div>
