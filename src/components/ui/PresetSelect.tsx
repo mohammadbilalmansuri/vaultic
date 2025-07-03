@@ -37,7 +37,7 @@ const PresetSelect = <T extends FieldValues>({
         <div
           ref={outsideClickRef}
           className={cn(
-            "relative shrink-0 flex flex-col items-center",
+            "relative min-w-fit flex flex-col items-center",
             widthClassName
           )}
         >
