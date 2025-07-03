@@ -30,6 +30,8 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
           gridTemplateColumns: `repeat(${tabKeys.length}, 1fr)`,
         }}
         {...fadeUpAnimation({ delay: delay?.header })}
+        role="tablist"
+        aria-label="Tabs Navigation"
       >
         <motion.div
           className="absolute bg-secondary rounded-xl h-[calc(100%-10px)]"
@@ -39,6 +41,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
           }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
           initial={false}
+          aria-hidden="true"
         />
 
         {tabKeys.map((label) => {
@@ -49,6 +52,10 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
             <button
               key={label}
               type="button"
+              role="tab"
+              aria-selected={isActive}
+              aria-controls={`tabpanel-${label}`}
+              id={`tab-${label}`}
               className={cn(
                 "h-full px-3 transition-all duration-300 relative z-10 flex items-center justify-center gap-2 group",
                 {
@@ -57,6 +64,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
                 }
               )}
               onClick={() => setActiveTab(label)}
+              tabIndex={isActive ? 0 : -1}
             >
               {Icon && (
                 <Icon
@@ -64,6 +72,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
                     "group-hover:scale-110": !isActive,
                     "scale-110": isActive,
                   })}
+                  aria-hidden="true"
                 />
               )}
               <span className="font-medium mt-px">{label}</span>
@@ -72,7 +81,12 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
         })}
       </motion.div>
 
-      <div className="w-full relative px-4 flex flex-col items-center">
+      <div
+        className="w-full relative px-4 flex flex-col items-center"
+        role="tabpanel"
+        id={`tabpanel-${activeTab}`}
+        aria-labelledby={`tab-${activeTab}`}
+      >
         <ActiveTabContent
           initialAnimationDelay={delay?.content}
           showInitialAnimation={!hasMounted}

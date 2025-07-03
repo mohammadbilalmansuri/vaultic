@@ -52,7 +52,7 @@ const Sidebar = () => {
             className="px-0.5"
             aria-label="Vaultic Active Account Dashboard"
           >
-            <Logo className="w-7 text-teal-500" aria-hidden="true" />
+            <Logo className="w-7 text-teal-500" />
           </Link>
           <div className="-mr-0.5">
             <ThemeSwitcher />

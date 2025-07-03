@@ -19,7 +19,7 @@ const ThemeSwitcher = () => {
       aria-pressed={isDark}
       title={label}
     >
-      <Icon aria-hidden="true" />
+      <Icon />
     </button>
   );
 };

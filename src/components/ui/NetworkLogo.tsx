@@ -53,7 +53,7 @@ const NetworkLogo = ({
       role="img"
       aria-label={`${networkConfig.name} network logo`}
     >
-      <NetworkIcon aria-hidden="true" />
+      <NetworkIcon />
     </div>
   );
 };

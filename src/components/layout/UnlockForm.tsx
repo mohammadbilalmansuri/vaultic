@@ -32,12 +32,13 @@ const UnlockForm = () => {
 
   return (
     <motion.div {...scaleUpAnimation()} className="box p-12">
-      <Logo className="w-15 text-teal-500" />
+      <Logo className="w-15 text-teal-500" aria-label="Vaultic Logo" />
       <h2 className="mt-3">Enter Your Password</h2>
 
       <form
         onSubmit={handleSubmit(handleUnlock)}
         className="w-full flex flex-col gap-4 mt-1"
+        aria-label="Unlock wallet form"
       >
         <PasswordInput {...register("password")} autoFocus />
         <Button
