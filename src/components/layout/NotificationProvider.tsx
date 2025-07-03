@@ -36,7 +36,7 @@ const NotificationProvider = () => {
         >
           <div className="flex items-center gap-2.5">
             <span
-              className="min-w-fit"
+              className="shrink-0"
               aria-label={`${notificationType} notification icon`}
             >
               {NOTIFICATION_ICONS.get(notificationType)}
