@@ -1,5 +1,5 @@
 "use client";
-import { useState, ReactNode, useId } from "react";
+import { useState, useId, ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import cn from "@/utils/cn";
 
@@ -34,12 +34,12 @@ const Tooltip = ({
       onTouchCancel={hide}
     >
       {children}
+
       <AnimatePresence>
         {visible && (
           <motion.div
-            role="tooltip"
             id={tooltipId}
-            aria-live="polite"
+            role="tooltip"
             initial={{
               opacity: 0,
               scale: 0.8,
