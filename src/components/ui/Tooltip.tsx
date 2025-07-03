@@ -33,7 +33,7 @@ const Tooltip = ({
       onTouchEnd={hide}
       onTouchCancel={hide}
     >
-      <div aria-describedby={visible ? tooltipId : undefined}>{children}</div>
+      {children}
 
       <AnimatePresence>
         {visible && (
