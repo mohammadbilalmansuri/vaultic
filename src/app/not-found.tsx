@@ -20,7 +20,7 @@ const NotFound = () => {
         {...scaleUpAnimation()}
       >
         <QuestionMark className="w-15 text-yellow-500" aria-hidden="true" />
-        <h2>Page Not Found</h2>
+        <h1 className="h2">Page Not Found</h1>
         <p className="-mt-2">
           The page you're looking for doesn't exist or has been moved.
         </p>
