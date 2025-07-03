@@ -37,7 +37,7 @@ const EyeToggle = ({
       aria-pressed={isVisible}
       {...restProps}
     >
-      <Icon aria-hidden="true" {...iconProps} />
+      <Icon {...iconProps} />
       {labels && (
         <span className="leading-none">
           {isVisible ? labels.hide : labels.show}

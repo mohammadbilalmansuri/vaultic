@@ -41,7 +41,6 @@ const Switch = ({
               "translate-x-0 bg-zinc-500 dark:bg-zinc-400": !state,
             }
           )}
-          aria-hidden="true"
         />
       </button>
     </div>

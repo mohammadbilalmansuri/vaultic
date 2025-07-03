@@ -77,7 +77,6 @@ const Combobox = <T extends FieldValues>({
                   className={cn("transition-transform duration-300", {
                     "rotate-180": opened,
                   })}
-                  aria-hidden="true"
                 />
               </button>
             )}
@@ -119,10 +118,7 @@ const Combobox = <T extends FieldValues>({
                         >
                           <span>{option.label}</span>
                           {isSelected && (
-                            <Check
-                              className="w-5 text-teal-500"
-                              aria-hidden="true"
-                            />
+                            <Check className="w-5 text-teal-500" />
                           )}
                         </span>
                         <span className="flex items-center gap-2 leading-none">

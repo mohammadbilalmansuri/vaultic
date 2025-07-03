@@ -46,7 +46,7 @@ const Accordion = ({
           {question}
         </span>
 
-        <span className="icon-btn-bg" aria-hidden="true">
+        <span className="icon-btn-bg">
           <AngleDown
             className={cn("transition-all duration-300", {
               "rotate-180": isOpen,

@@ -17,7 +17,7 @@ const Header = () => {
           className="flex items-center gap-2.5 select-none"
           aria-label="Vaultic home"
         >
-          <Logo className="w-7 text-teal-500" aria-hidden="true" />
+          <Logo className="w-7 text-teal-500" />
           <span className="-mt-0.5 text-3xl lowercase leading-[0.8] font-bold text-teal-500">
             vaultic
           </span>
@@ -52,7 +52,7 @@ const Header = () => {
             className="icon-btn-bg"
             aria-label="View Vaultic source code on GitHub"
           >
-            <Github aria-hidden="true" />
+            <Github />
           </Link>
           <ThemeSwitcher />
         </div>

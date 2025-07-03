@@ -40,7 +40,7 @@ const CopyToggle = ({
       aria-pressed={hasCopied}
       {...props}
     >
-      <Icon className={cn(iconClassName)} aria-hidden="true" {...iconProps} />
+      <Icon className={cn(iconClassName)} {...iconProps} />
       {labels && (
         <span className="leading-none">
           {hasCopied ? labels.copied : labels.copy}

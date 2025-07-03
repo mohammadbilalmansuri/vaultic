@@ -70,7 +70,7 @@ const Select = <T,>({
       >
         <span className="heading-color font-medium">{selectedLabel}</span>
         <span className={cn("icon-btn-bg-sm", { "heading-color": opened })}>
-          <ChevronsUpDown aria-hidden="true" />
+          <ChevronsUpDown />
         </span>
       </button>
 
@@ -106,9 +106,9 @@ const Select = <T,>({
 
                   const statusIcon =
                     selecting && isSelected ? (
-                      <Loader size="xs" aria-label="Loading" />
+                      <Loader size="xs" />
                     ) : isSelected ? (
-                      <Check className="w-5 text-teal-500" aria-hidden="true" />
+                      <Check className="w-5 text-teal-500" />
                     ) : null;
 
                   return (
