@@ -17,6 +17,14 @@ const EyeToggle = ({
   ...restProps
 }: EyeToggleProps) => {
   const Icon = isVisible ? EyeSlash : Eye;
+  const ariaLabel = labels
+    ? isVisible
+      ? labels.hide
+      : labels.show
+    : isVisible
+    ? "Hide"
+    : "Show";
+
   return (
     <button
       type="button"
@@ -25,9 +33,11 @@ const EyeToggle = ({
         { "flex items-center gap-2": !!labels },
         className
       )}
+      aria-label={ariaLabel}
+      aria-pressed={isVisible}
       {...restProps}
     >
-      <Icon {...iconProps} />
+      <Icon aria-hidden="true" {...iconProps} />
       {labels && (
         <span className="leading-none">
           {isVisible ? labels.hide : labels.show}

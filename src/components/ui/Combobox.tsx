@@ -59,6 +59,10 @@ const Combobox = <T extends FieldValues>({
               onChange={(e) => onChange(e.target.value)}
               placeholder={placeholder}
               className={cn("pr-12", { "border-focus": opened })}
+              role="combobox"
+              aria-expanded={opened}
+              aria-haspopup="listbox"
+              aria-autocomplete="list"
               {...inputProps}
             />
             {options.length > 0 && (
@@ -66,11 +70,14 @@ const Combobox = <T extends FieldValues>({
                 type="button"
                 className="icon-btn-bg-sm absolute right-2"
                 onClick={() => setOpened((prev) => !prev)}
+                aria-label="Toggle options"
+                tabIndex={-1}
               >
                 <AngleDown
                   className={cn("transition-transform duration-300", {
                     "rotate-180": opened,
                   })}
+                  aria-hidden="true"
                 />
               </button>
             )}
@@ -86,40 +93,47 @@ const Combobox = <T extends FieldValues>({
                 className="absolute top-full mt-1.5 w-[98%] bg-default border border-color rounded-2xl z-10 overflow-hidden shadow-xl"
               >
                 <div className="flex flex-col gap-2 p-2.5 bg-input">
-                  {options.map((option) => (
-                    <button
-                      key={String(option.value)}
-                      type="button"
-                      className={cn(
-                        "w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl transition-colors duration-300",
-                        {
-                          "bg-primary": value === option.value,
-                          "hover:bg-primary": value !== option.value,
-                        }
-                      )}
-                      onClick={() => {
-                        onChange(value === option.value ? "" : option.value);
-                        setOpened(false);
-                      }}
-                    >
-                      <span
-                        className={cn("flex items-center gap-2", {
-                          "heading-color": value === option.value,
-                        })}
+                  {options.map((option) => {
+                    const isSelected = value === option.value;
+                    const ValueIcon = option.valueIcon;
+
+                    return (
+                      <button
+                        key={String(option.value)}
+                        type="button"
+                        role="option"
+                        aria-selected={isSelected}
+                        className={cn(
+                          "w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl transition-colors duration-300",
+                          isSelected ? "bg-primary" : "hover:bg-primary"
+                        )}
+                        onClick={() => {
+                          onChange(isSelected ? "" : option.value);
+                          setOpened(false);
+                        }}
                       >
-                        <span>{option.label}</span>
-                        {value === option.value && (
-                          <Check className="w-5 text-teal-500" />
-                        )}
-                      </span>
-                      <span className="flex items-center gap-2 leading-none">
-                        {option.valueIcon && (
-                          <option.valueIcon className="w-3" />
-                        )}
-                        <span className="mt-px">{option.shortValue}</span>
-                      </span>
-                    </button>
-                  ))}
+                        <span
+                          className={cn("flex items-center gap-2", {
+                            "heading-color": isSelected,
+                          })}
+                        >
+                          <span>{option.label}</span>
+                          {isSelected && (
+                            <Check
+                              className="w-5 text-teal-500"
+                              aria-hidden="true"
+                            />
+                          )}
+                        </span>
+                        <span className="flex items-center gap-2 leading-none">
+                          {ValueIcon && (
+                            <ValueIcon className="w-3" aria-hidden="true" />
+                          )}
+                          <span className="mt-px">{option.shortValue}</span>
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </motion.div>
             )}

@@ -41,10 +41,17 @@ const Sidebar = () => {
     .map((index) => ({ label: `Account ${index + 1}`, value: index }));
 
   return (
-    <aside className="w-[18rem] border-r-1.5 border-color flex flex-col justify-between gap-5 p-5 overflow-y-auto scrollbar-thin">
+    <aside
+      className="w-[18rem] border-r-1.5 border-color flex flex-col justify-between gap-5 p-5 overflow-y-auto scrollbar-thin"
+      aria-label="Dashboard main navigation"
+    >
       <div className="w-full flex flex-col gap-5">
         <div className="w-full flex items-center justify-between gap-4 -mt-0.5">
-          <Link href="/dashboard" className="px-0.5">
+          <Link
+            href="/dashboard"
+            className="px-0.5"
+            aria-label="Vaultic Dashboard Home"
+          >
             <Logo className="w-7 text-teal-500" />
           </Link>
           <div className="-mr-0.5">
@@ -52,7 +59,10 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <nav className="relative flex flex-col gap-3">
+        <nav
+          className="relative flex flex-col gap-3"
+          aria-label="Primary navigation"
+        >
           {navLinks.map(({ name, href, icon: Icon }) => (
             <SidebarNavLink
               key={name}
@@ -66,16 +76,23 @@ const Sidebar = () => {
       </div>
 
       <div className="w-full flex flex-col gap-5">
-        <Select
-          options={accountOptions}
-          value={activeAccountIndex}
-          onChange={switchActiveAccount}
-          selecting={switchingToAccount !== null}
-          variant="inline"
-        />
+        <div>
+          <label htmlFor="account-select" className="sr-only">
+            Select Active Account
+          </label>
+          <Select
+            id="account-select"
+            options={accountOptions}
+            value={activeAccountIndex}
+            onChange={switchActiveAccount}
+            selecting={switchingToAccount !== null}
+            variant="inline"
+            aria-label="Select active account"
+          />
+        </div>
 
-        <Button onClick={lockWallet}>
-          <Lock className="w-5 -mt-px" />
+        <Button onClick={lockWallet} aria-label="Lock Vaultic wallet">
+          <Lock className="w-5 -mt-px" aria-hidden="true" />
           <span className="leading-none">Lock Vaultic</span>
         </Button>
       </div>

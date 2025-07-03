@@ -21,6 +21,8 @@ const Loader = ({ size = "lg", color = "teal" }: LoaderProps) => {
           "border-t-zinc-800 dark:border-t-zinc-200": color === "zinc",
         }
       )}
+      role="status"
+      aria-label="Loading"
     />
   );
 };

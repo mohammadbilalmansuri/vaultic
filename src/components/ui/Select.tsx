@@ -63,10 +63,14 @@ const Select = <T,>({
           }
         )}
         onClick={() => setOpened((prev) => !prev)}
+        aria-expanded={opened}
+        aria-haspopup="listbox"
+        role="select"
+        aria-label="Select option"
       >
         <span className="heading-color font-medium">{selectedLabel}</span>
         <span className={cn("icon-btn-bg-sm", { "heading-color": opened })}>
-          <ChevronsUpDown />
+          <ChevronsUpDown aria-hidden="true" />
         </span>
       </button>
 
@@ -93,14 +97,26 @@ const Select = <T,>({
               )}
             >
               {options.length === 0 ? (
-                <p className="text-sm py-1 text-center">No options available</p>
+                <p className="text-sm py-1 text-center" role="status">
+                  No options available
+                </p>
               ) : (
                 options.map((option) => {
                   const isSelected = value === option.value;
+
+                  const statusIcon =
+                    selecting && isSelected ? (
+                      <Loader size="xs" aria-label="Loading" />
+                    ) : isSelected ? (
+                      <Check className="w-5 text-teal-500" aria-hidden="true" />
+                    ) : null;
+
                   return (
                     <button
                       key={String(option.value)}
                       type="button"
+                      role="option"
+                      aria-selected={isSelected}
                       disabled={isSelected || selecting}
                       className={cn(
                         "w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl transition-all duration-300",
@@ -119,11 +135,7 @@ const Select = <T,>({
                       }}
                     >
                       <span>{option.label}</span>
-                      {selecting && isSelected ? (
-                        <Loader size="xs" />
-                      ) : isSelected ? (
-                        <Check className="w-5 text-teal-500" />
-                      ) : null}
+                      {statusIcon}
                     </button>
                   );
                 })
