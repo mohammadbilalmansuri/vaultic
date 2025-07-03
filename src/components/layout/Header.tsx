@@ -4,19 +4,14 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { useWalletStore } from "@/stores";
+import { expandCollapseAnimation } from "@/utils/animations";
 import { useOutsideClick } from "@/hooks";
-import { ThemeSwitcher, NavLink } from "../ui";
-import { Logo, Github, Menu, Cancel } from "../ui/icons";
+import { ThemeSwitcher, NavLink, MenuToggler } from "../ui";
+import { Logo, Github } from "../ui/icons";
 
 const Header = () => {
   const pathname = usePathname();
   const walletExists = useWalletStore((state) => state.walletExists);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const menuOutsideClickRef = useOutsideClick(
-    () => isMenuOpen && setIsMenuOpen(false),
-    isMenuOpen
-  );
 
   const navLinks = [
     walletExists
@@ -25,6 +20,11 @@ const Header = () => {
     { href: "/faucet", label: "Faucet" },
     { href: "/help-and-support", label: "Help & Support" },
   ];
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+  const closeMenu = () => isMenuOpen && setIsMenuOpen(false);
+  const menuOutsideClickRef = useOutsideClick(closeMenu, isMenuOpen);
 
   return (
     <header className="w-full relative flex flex-col items-center sm:px-5 px-4 min-h-fit">
@@ -42,15 +42,10 @@ const Header = () => {
 
         <nav
           className="hidden md:flex items-center gap-6"
-          aria-label="Main navigation"
+          aria-label="Header navigation"
         >
           {navLinks.map(({ href, label }) => (
-            <NavLink
-              key={href}
-              href={href}
-              active={pathname === href}
-              className="px-4 py-2 rounded-full transition-colors duration-200 hover:bg-input"
-            >
+            <NavLink key={href} href={href} active={pathname === href}>
               {label}
             </NavLink>
           ))}
@@ -71,27 +66,24 @@ const Header = () => {
 
           <div
             ref={menuOutsideClickRef}
-            aria-label="Mobile navigation menu"
-            className="md:hidden relative flex flex-col items-end"
+            aria-label="Header mobile navigation menu"
+            className="md:hidden flex flex-col items-end"
           >
-            <button
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              className="icon-btn-bg md:hidden"
-              onClick={() => setIsMenuOpen((prev) => !prev)}
-            >
-              {isMenuOpen ? <Cancel /> : <Menu className="w-6" />}
-            </button>
-
+            <MenuToggler
+              isOpen={isMenuOpen}
+              onClick={toggleMenu}
+              className="md:hidden"
+            />
             <AnimatePresence initial={false}>
               {isMenuOpen && (
                 <motion.div
-                  id="mobile-menu"
-                  aria-label="Mobile navigation menu dropdown"
-                  className="min-w-43.5 absolute top-full mt-1 z-50 md:hidden bg-default border border-color rounded-2xl overflow-hidden shadow-xl"
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  id="header-mobile-nav-menu-dropdown"
+                  aria-label="Header mobile navigation menu dropdown"
+                  className="md:hidden absolute z-50 top-full sm:-mt-4 -mt-3 bg-default border border-color rounded-2xl overflow-hidden shadow-xl"
+                  {...expandCollapseAnimation({
+                    duration: 0.15,
+                    ease: "easeOut",
+                  })}
                 >
                   <nav className="w-full bg-input flex flex-col items-start gap-2 p-2.5">
                     {navLinks.map(({ href, label }) => (
@@ -100,7 +92,7 @@ const Header = () => {
                         href={href}
                         active={pathname === href}
                         className="w-full"
-                        onClick={() => setIsMenuOpen(false)}
+                        onClick={closeMenu}
                       >
                         {label}
                       </NavLink>
