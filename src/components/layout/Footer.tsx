@@ -2,13 +2,14 @@ import Link from "next/link";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="w-full relative flex flex-col items-center px-5 min-h-fit">
-      <div className="w-full max-w-screen-lg relative py-5 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
-        <p>&copy;{currentYear} Vaultic. All rights reserved.</p>
-        <p>
-          Designed & developed by&nbsp;
+    <footer className="w-full relative flex flex-col items-center sm:px-5 px-4 min-h-fit">
+      <div className="w-full max-w-screen-lg relative sm:py-5 py-4 flex flex-col sm:flex-row sm:justify-between items-center gap-2">
+        <p className="sm:text-left text-center">
+          &copy;{currentYear} Vaultic. All rights reserved.
+        </p>
+        <p className="sm:text-right text-center">
+          Built by&nbsp;
           <Link
             href="https://www.linkedin.com/in/mohammadbilalmansuri"
             target="_blank"
