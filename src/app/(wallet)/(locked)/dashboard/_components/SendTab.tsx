@@ -14,13 +14,13 @@ import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import { TSendForm, SendSchema } from "@/utils/validations";
 import { useBlockchain, useMounted, useAddressQRUpload } from "@/hooks";
+import { StepProgress } from "@/components/layout";
 import {
   Button,
   Input,
   FormError,
   Select,
   Combobox,
-  StepProgress,
   NetworkLogo,
   IconProcessing,
   Tooltip,

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AnimatePresence } from "motion/react";
 import { TSetupPath, TSetupStep } from "@/types";
 import { useMounted } from "@/hooks";
-import { StepProgress } from "@/components/ui";
+import { StepProgress } from "@/components/layout";
 import ChoosePath from "./_components/ChoosePath";
 import CreatePassword from "./_components/CreatePassword";
 import ShowRecoveryPhrase from "./_components/ShowRecoveryPhrase";
