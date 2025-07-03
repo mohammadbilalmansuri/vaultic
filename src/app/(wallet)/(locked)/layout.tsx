@@ -4,9 +4,8 @@ import { useRouter } from "next/navigation";
 import { IChildren } from "@/types";
 import { useWalletStore } from "@/stores";
 import { useNetworkStatus } from "@/hooks";
-import { Loading } from "@/components/ui";
 import { PageShell, DashboardShell } from "@/components/shells";
-import { UnlockForm, OfflineView } from "@/components/layout";
+import { Loading, UnlockForm, OfflineView } from "@/components/layout";
 
 const LockedLayout = ({ children }: IChildren) => {
   const router = useRouter();

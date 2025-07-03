@@ -1,5 +1,6 @@
 export { default as Footer } from "./Footer";
 export { default as Header } from "./Header";
+export { default as Loading } from "./Loading";
 export { default as MnemonicView } from "./MnemonicView";
 export { default as NotificationProvider } from "./NotificationProvider";
 export { default as OfflineView } from "./OfflineView";
