@@ -15,6 +15,5 @@ export { default as PresetSelect } from "./PresetSelect";
 export { default as Select } from "./Select";
 export { default as SidebarNavLink } from "./SidebarNavLink";
 export { default as Switch } from "./Switch";
-export { default as Tabs } from "./Tabs";
 export { default as ThemeSwitcher } from "./ThemeSwitcher";
 export { default as Tooltip } from "./Tooltip";

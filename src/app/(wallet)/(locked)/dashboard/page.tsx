@@ -13,13 +13,8 @@ import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import { useBlockchain, useClipboard } from "@/hooks";
-import {
-  Loader,
-  Tooltip,
-  Tabs,
-  NetworkLogo,
-  CopyToggle,
-} from "@/components/ui";
+import { Tabs } from "@/components/layout";
+import { Loader, Tooltip, NetworkLogo, CopyToggle } from "@/components/ui";
 import { Send, QR, Clock, Refresh, Wallet } from "@/components/ui/icons";
 import SendTab from "./_components/SendTab";
 import ReceiveTab from "./_components/ReceiveTab";

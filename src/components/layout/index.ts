@@ -5,6 +5,7 @@ export { default as NotificationProvider } from "./NotificationProvider";
 export { default as OfflineView } from "./OfflineView";
 export { default as Sidebar } from "./Sidebar";
 export { default as StepProgress } from "./StepProgress";
+export { default as Tabs } from "./Tabs";
 export { default as TestnetNotice } from "./TestnetNotice";
 export { default as ThemeProvider } from "./ThemeProvider";
 export { default as UnlockForm } from "./UnlockForm";
