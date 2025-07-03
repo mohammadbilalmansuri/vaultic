@@ -5,8 +5,8 @@ import { WiFiOff } from "../ui/icons";
 
 const OfflineView = () => {
   return (
-    <motion.div {...scaleUpAnimation()} className="box p-12">
-      <WiFiOff className="w-15 text-yellow-500 mx-auto" />
+    <motion.div {...scaleUpAnimation()} className="box p-12" role="alert">
+      <WiFiOff className="w-15 text-yellow-500 mx-auto" aria-hidden="true" />
       <h2 className="mt-3">Connection Lost</h2>
       <p className="max-w-xs">
         Please check your internet connection and try again.
