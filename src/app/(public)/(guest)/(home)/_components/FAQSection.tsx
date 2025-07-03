@@ -75,7 +75,7 @@ const FAQSection = () => {
       <div className="w-full flex flex-col gap-4">
         {faqs.map(({ question, answer }, index) => (
           <motion.div
-            key={index}
+            key={`faq-${index}`}
             {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}
           >
             <Accordion
@@ -83,6 +83,7 @@ const FAQSection = () => {
               toggleAccordion={() => toggleAccordion(index)}
               question={question}
               answer={answer}
+              index={index}
             />
           </motion.div>
         ))}
