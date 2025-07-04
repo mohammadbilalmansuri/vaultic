@@ -62,7 +62,6 @@ const TestnetSection = () => {
             <Button
               as="link"
               href={button.href}
-              size="sm"
               className="mt-2"
               variant="zinc"
             >
