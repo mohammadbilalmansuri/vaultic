@@ -132,7 +132,7 @@
   }
 
   .h1 {
-    @apply md:text-h1 sm:text-3xl text-h2 font-medium leading-snug heading-color;
+    @apply md:text-h1 sm:text-3xl text-h2 font-semibold leading-snug heading-color;
   }
 
   .h2 {
