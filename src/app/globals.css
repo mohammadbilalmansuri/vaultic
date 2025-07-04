@@ -132,15 +132,15 @@
   }
 
   .h1 {
-    @apply md:text-h1 sm:text-3xl text-h2 font-semibold leading-snug heading-color;
+    @apply md:text-h1 sm:text-3xl text-h2 font-medium leading-snug heading-color;
   }
 
   .h2 {
-    @apply md:text-h2 sm:text-2xl text-h3 font-semibold leading-snug heading-color;
+    @apply md:text-h2 sm:text-2xl text-h3 font-medium leading-snug heading-color;
   }
 
   .h3 {
-    @apply md:text-h3 sm:text-xl text-lg font-semibold leading-snug heading-color;
+    @apply lg:text-h3 md:text-xl text-lg font-medium leading-snug heading-color;
   }
 
   .input {
