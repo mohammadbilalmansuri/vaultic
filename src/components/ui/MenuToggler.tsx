@@ -16,7 +16,7 @@ const MenuToggler = ({
     <button
       aria-label={isOpen ? "Close Menu" : "Open Menu"}
       aria-expanded={isOpen}
-      className={cn("icon-btn-bg", className)}
+      className={cn("icon-btn-bg", { "bg-primary": isOpen }, className)}
       {...props}
     >
       {isOpen ? <Cancel /> : <Menu className="w-6" />}
