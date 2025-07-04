@@ -1,12 +1,11 @@
 "use client";
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
+import { motion } from "motion/react";
 import { fadeUpAnimation } from "@/utils/animations";
+import { useMotionInView } from "@/hooks";
 import { Button } from "@/components/ui";
 
 const HeroSection = () => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true });
+  const { ref, inView } = useMotionInView({ once: true });
 
   return (
     <motion.section
