@@ -5,7 +5,7 @@ import { useMotionInView } from "@/hooks";
 import { Button } from "@/components/ui";
 
 const HeroSection = () => {
-  const { ref, inView } = useMotionInView({ once: true });
+  const { ref, inView } = useMotionInView();
 
   return (
     <motion.section
