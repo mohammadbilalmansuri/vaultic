@@ -1,10 +1,8 @@
 import { create } from "zustand";
 import { INotification } from "@/types";
 
-interface INotificationStore {
+interface INotificationStore extends INotification {
   opened: boolean;
-  type: INotification["type"];
-  message: INotification["message"];
   notify: ({ type, message, duration }: INotification) => void;
   closeNotification: () => void;
 }
