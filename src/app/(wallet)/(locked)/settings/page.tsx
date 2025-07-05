@@ -38,7 +38,7 @@ const SettingsPage = () => {
           </div>
         </div>
 
-        <Tooltip content="Lock Wallet">
+        <Tooltip content="Lock Wallet" position="left">
           <button className="icon-btn-bg" onClick={lockWallet}>
             <Lock />
           </button>
