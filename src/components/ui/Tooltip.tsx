@@ -6,8 +6,9 @@ import cn from "@/utils/cn";
 interface TooltipProps {
   content: ReactNode;
   children: ReactNode;
-  position?: "top" | "right" | "bottom" | "left";
+  position?: "top" | "bottom" | "left" | "right";
   containerClassName?: string;
+  tooltipClassName?: string;
 }
 
 const Tooltip = ({
@@ -15,29 +16,50 @@ const Tooltip = ({
   children,
   position = "top",
   containerClassName = "",
+  tooltipClassName = "",
 }: TooltipProps) => {
   const tooltipId = useId();
-  const [visible, setVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
-  const show = () => setVisible(true);
-  const hide = () => setVisible(false);
+  const showTooltip = () => setIsVisible(true);
+  const hideTooltip = () => setIsVisible(false);
 
-  const getOffset = () => {
+  const getAnimationVariants = () => {
+    const offsetDistance = 8;
+    const hidden = { scale: 0.9, opacity: 0 };
+    const visible = { scale: 1, opacity: 1 };
+
     switch (position) {
       case "top":
-        return { initial: { y: 8 }, animate: { y: 0 }, exit: { y: 8 } };
+        return {
+          initial: { ...hidden, y: offsetDistance },
+          animate: { ...visible, y: 0 },
+          exit: { ...hidden, y: offsetDistance },
+        };
       case "bottom":
-        return { initial: { y: -8 }, animate: { y: 0 }, exit: { y: -8 } };
+        return {
+          initial: { ...hidden, y: -offsetDistance },
+          animate: { ...visible, y: 0 },
+          exit: { ...hidden, y: -offsetDistance },
+        };
       case "left":
-        return { initial: { x: 8 }, animate: { x: 0 }, exit: { x: 8 } };
+        return {
+          initial: { ...hidden, x: offsetDistance },
+          animate: { ...visible, x: 0 },
+          exit: { ...hidden, x: offsetDistance },
+        };
       case "right":
-        return { initial: { x: -8 }, animate: { x: 0 }, exit: { x: -8 } };
+        return {
+          initial: { ...hidden, x: -offsetDistance },
+          animate: { ...visible, x: 0 },
+          exit: { ...hidden, x: -offsetDistance },
+        };
       default:
         return {};
     }
   };
 
-  const { initial, animate, exit } = getOffset();
+  const { initial, animate, exit } = getAnimationVariants();
 
   return (
     <div
@@ -45,47 +67,46 @@ const Tooltip = ({
         "relative flex flex-col items-center justify-center",
         containerClassName
       )}
-      onMouseEnter={show}
-      onMouseLeave={hide}
-      onFocus={show}
-      onBlur={hide}
-      onTouchStart={show}
-      onTouchEnd={hide}
-      onTouchCancel={hide}
+      onMouseEnter={showTooltip}
+      onMouseLeave={hideTooltip}
+      onFocus={showTooltip}
+      onBlur={hideTooltip}
+      onTouchStart={showTooltip}
+      onTouchEnd={hideTooltip}
+      onTouchCancel={hideTooltip}
+      aria-describedby={isVisible ? tooltipId : undefined}
     >
       {children}
 
       <AnimatePresence>
-        {visible && (
+        {isVisible && (
           <motion.div
             id={tooltipId}
             role="tooltip"
-            initial={{ opacity: 0, scale: 0.8, ...initial }}
-            animate={{ opacity: 1, scale: 1, ...animate }}
-            exit={{ opacity: 0, scale: 0.8, ...exit }}
+            initial={initial}
+            animate={animate}
+            exit={exit}
             transition={{ duration: 0.15, ease: "easeOut" }}
             className={cn(
-              "absolute z-50 rounded-lg shadow-lg pointer-events-none bg-zinc-950 after:absolute after:-z-10 after:size-2.5 after:bg-zinc-950 after:rotate-45",
+              "absolute z-50 rounded-lg shadow-xl pointer-events-none bg-zinc-950 after:absolute after:-z-10 after:size-2.5 after:bg-zinc-950 after:rotate-45",
               {
-                "bottom-full mb-2": position === "top",
-                "after:top-full after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2":
+                "bottom-full mb-2 after:top-full after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2":
                   position === "top",
-
-                "left-full ml-2": position === "right",
-                "after:right-full after:top-1/2 after:-translate-y-1/2 after:translate-x-1/2":
-                  position === "right",
-
-                "top-full mt-2": position === "bottom",
-                "after:bottom-full after:left-1/2 after:-translate-x-1/2 after:translate-y-1/2":
+                "top-full mt-2 after:bottom-full after:left-1/2 after:-translate-x-1/2 after:translate-y-1/2":
                   position === "bottom",
-
-                "right-full mr-2": position === "left",
-                "after:left-full after:top-1/2 after:-translate-y-1/2 after:-translate-x-1/2":
+                "right-full mr-2 after:left-full after:top-1/2 after:-translate-y-1/2 after:-translate-x-1/2":
                   position === "left",
+                "left-full ml-2 after:right-full after:top-1/2 after:-translate-y-1/2 after:translate-x-1/2":
+                  position === "right",
               }
             )}
           >
-            <div className="relative text-zinc-200 text-sm font-medium whitespace-nowrap px-2 py-1.5">
+            <div
+              className={cn(
+                "relative text-zinc-200 text-sm font-medium px-2 py-1.5 leading-tight whitespace-nowrap text-center",
+                tooltipClassName
+              )}
+            >
               {content}
             </div>
           </motion.div>
