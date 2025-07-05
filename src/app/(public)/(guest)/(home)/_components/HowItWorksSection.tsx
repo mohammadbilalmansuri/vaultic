@@ -1,7 +1,7 @@
 "use client";
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
+import { motion } from "motion/react";
 import { fadeUpAnimation } from "@/utils/animations";
+import { useMotionInView } from "@/hooks";
 
 const steps = [
   {
@@ -22,37 +22,36 @@ const steps = [
 ];
 
 const HowItWorksSection = () => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.25 });
+  const { ref, inView } = useMotionInView();
 
   return (
     <section
       ref={ref}
       role="region"
       aria-label="How Vaultic Works"
-      className="w-full relative flex flex-col items-center gap-8"
+      className="w-full relative flex flex-col items-center lg:gap-8 md:gap-7 sm:gap-6 gap-5"
     >
-      <motion.h2 className="h2" {...fadeUpAnimation({ inView })}>
+      <motion.h2 className="h2 text-center" {...fadeUpAnimation({ inView })}>
         Set Up. Encrypt. Transact.
       </motion.h2>
 
-      <div className="w-full relative grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="w-full relative grid grid-cols-1 md:grid-cols-3 sm:gap-5 gap-4">
         {steps.map(({ title, description }, index) => (
           <motion.div
             key={`step-${index}`}
-            className="w-full relative flex flex-col items-start gap-3 border-1.5 border-color rounded-3xl overflow-hidden group"
+            className="w-full relative border-1.5 border-color rounded-3xl overflow-hidden sm:pt-5 pt-4 sm:pl-6 pl-5 sm:pb-6 pb-5"
             {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}
           >
-            <div className="w-full flex items-center justify-between pt-7 pl-8">
+            <div className="w-full flex items-center justify-between">
               <h3 className="h3">{title}</h3>
               <span
-                className="text-xl font-medium leading-none border-y-1.5 border-l-1.5 border-color rounded-l-2xl pl-3 pr-2.5 py-2.5"
+                className="flex items-center justify-center sm:size-10 size-9 sm:text-md font-medium leading-none border-y-1.5 border-l-1.5 border-color rounded-l-xl"
                 aria-hidden="true"
               >
                 0{index + 1}
               </span>
             </div>
-            <p className="px-8 pb-8">{description}</p>
+            <p className="sm:pr-6 pr-5 md:pt-2 pt-1">{description}</p>
           </motion.div>
         ))}
       </div>
