@@ -1,6 +1,6 @@
 import { TIcon } from "@/types";
 
-const OpenLink: TIcon = (props) => {
+const ExternalLink: TIcon = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,4 +19,4 @@ const OpenLink: TIcon = (props) => {
   );
 };
 
-export default OpenLink;
+export default ExternalLink;
