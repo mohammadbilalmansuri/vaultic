@@ -65,7 +65,7 @@ const FeaturesSection = () => {
         <span className="text-nowrap">Nothing You Don’t.</span>
       </motion.h2>
 
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:gap-5 sm:gap-4.5 gap-3.5">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 sm:gap-5 gap-4">
         {features.map(({ Icon, title, description }, index) => (
           <motion.div
             key={`feature-${index}`}
