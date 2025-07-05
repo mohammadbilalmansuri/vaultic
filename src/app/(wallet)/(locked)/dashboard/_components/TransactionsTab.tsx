@@ -96,6 +96,7 @@ const TransactionsTab = () => {
 
         <Tooltip
           content={refreshing ? "Refreshing..." : "Refresh Transactions"}
+          position="left"
         >
           <button
             className={cn("icon-btn-bg", {

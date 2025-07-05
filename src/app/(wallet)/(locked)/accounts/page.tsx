@@ -155,7 +155,10 @@ const AccountsPage = () => {
           </div>
         </div>
 
-        <Tooltip content={creating ? "Creating..." : "Create New Account"}>
+        <Tooltip
+          content={creating ? "Creating..." : "Create New Account"}
+          position="left"
+        >
           <button
             className={cn("icon-btn-bg", {
               "cursor-default bg-primary pointer-events-none": creating,

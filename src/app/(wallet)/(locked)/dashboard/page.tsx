@@ -99,7 +99,10 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        <Tooltip content={refreshing ? "Refreshing..." : "Refresh Balances"}>
+        <Tooltip
+          content={refreshing ? "Refreshing..." : "Refresh Balances"}
+          position="left"
+        >
           <button
             className={cn("icon-btn-bg", {
               "cursor-default bg-primary pointer-events-none": refreshing,
