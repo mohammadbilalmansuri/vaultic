@@ -6,7 +6,7 @@ import cn from "@/utils/cn";
 interface TooltipProps {
   content: ReactNode;
   children: ReactNode;
-  position?: "top" | "bottom";
+  position?: "top" | "right" | "bottom" | "left";
   containerClassName?: string;
 }
 
@@ -22,9 +22,29 @@ const Tooltip = ({
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
 
+  const getOffset = () => {
+    switch (position) {
+      case "top":
+        return { initial: { y: 8 }, animate: { y: 0 }, exit: { y: 8 } };
+      case "bottom":
+        return { initial: { y: -8 }, animate: { y: 0 }, exit: { y: -8 } };
+      case "left":
+        return { initial: { x: 8 }, animate: { x: 0 }, exit: { x: 8 } };
+      case "right":
+        return { initial: { x: -8 }, animate: { x: 0 }, exit: { x: -8 } };
+      default:
+        return {};
+    }
+  };
+
+  const { initial, animate, exit } = getOffset();
+
   return (
     <div
-      className={cn("relative flex flex-col items-center", containerClassName)}
+      className={cn(
+        "relative flex flex-col items-center justify-center",
+        containerClassName
+      )}
       onMouseEnter={show}
       onMouseLeave={hide}
       onFocus={show}
@@ -40,23 +60,34 @@ const Tooltip = ({
           <motion.div
             id={tooltipId}
             role="tooltip"
-            initial={{
-              opacity: 0,
-              scale: 0.8,
-              y: position === "top" ? 10 : -10,
-            }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: position === "top" ? 10 : -10 }}
+            initial={{ opacity: 0, scale: 0.8, ...initial }}
+            animate={{ opacity: 1, scale: 1, ...animate }}
+            exit={{ opacity: 0, scale: 0.8, ...exit }}
             transition={{ duration: 0.15, ease: "easeOut" }}
             className={cn(
-              "absolute z-50 whitespace-nowrap rounded-lg p-2 text-sm bg-zinc-950 text-zinc-200 leading-none font-medium dark:font-normal shadow-lg pointer-events-none",
+              "absolute z-50 rounded-lg shadow-lg pointer-events-none bg-zinc-950 after:absolute after:-z-10 after:size-2.5 after:bg-zinc-950 after:rotate-45",
               {
-                "bottom-full mb-1": position === "top",
-                "top-full mt-1": position === "bottom",
+                "bottom-full mb-2": position === "top",
+                "after:top-full after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2":
+                  position === "top",
+
+                "left-full ml-2": position === "right",
+                "after:right-full after:top-1/2 after:-translate-y-1/2 after:translate-x-1/2":
+                  position === "right",
+
+                "top-full mt-2": position === "bottom",
+                "after:bottom-full after:left-1/2 after:-translate-x-1/2 after:translate-y-1/2":
+                  position === "bottom",
+
+                "right-full mr-2": position === "left",
+                "after:left-full after:top-1/2 after:-translate-y-1/2 after:-translate-x-1/2":
+                  position === "left",
               }
             )}
           >
-            {content}
+            <div className="relative text-zinc-200 text-sm font-medium whitespace-nowrap px-2 py-1.5">
+              {content}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
