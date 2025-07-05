@@ -1,12 +1,11 @@
 "use client";
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
+import { motion } from "motion/react";
 import { IGuide } from "@/types";
 import { fadeUpAnimation } from "@/utils/animations";
+import { useMotionInView } from "@/hooks";
 
 const GuideSection = ({ title, content }: IGuide) => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.25 });
+  const { ref, inView } = useMotionInView<HTMLDivElement>();
 
   return (
     <motion.div
@@ -15,10 +14,8 @@ const GuideSection = ({ title, content }: IGuide) => {
       className="w-full relative flex flex-col gap-3"
       {...fadeUpAnimation({ inView })}
     >
-      <h3 className="text-2xl font-semibold heading-color leading-tight">
-        {title}
-      </h3>
-      <div className="flex flex-col gap-2">{content}</div>
+      <h2 className="h2">{title}</h2>
+      {content}
     </motion.div>
   );
 };
