@@ -1,7 +1,5 @@
 "use client";
 import { motion } from "motion/react";
-import { IN_VIEW_OPTIONS } from "@/constants";
-import { TIcon } from "@/types";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useMotionInView } from "@/hooks";
 import {
@@ -13,13 +11,7 @@ import {
   Code,
 } from "@/components/ui/icons";
 
-interface IFeature {
-  Icon: TIcon;
-  title: string;
-  description: string;
-}
-
-const features: IFeature[] = [
+const features = [
   {
     Icon: ShieldTick,
     title: "Fully Encrypted, Fully Local",
@@ -58,45 +50,37 @@ const features: IFeature[] = [
   },
 ];
 
-const FeatureCard = ({ Icon, title, description }: IFeature) => {
-  const { ref, inView } = useMotionInView<HTMLDivElement>(IN_VIEW_OPTIONS);
-
-  return (
-    <motion.div
-      ref={ref}
-      className="flex flex-col gap-3 lg:p-8 sm:p-5.5 p-4.5 rounded-3xl border-1.5 border-color"
-      {...fadeUpAnimation({ inView })}
-    >
-      <div className="flex items-center lg:gap-4 md:gap-3.5 gap-2.5">
-        <Icon className="lg:w-8 md:w-7 w-6 text-teal-500" aria-hidden="true" />
-        <h3 className="h3">{title}</h3>
-      </div>
-      <p>{description}</p>
-    </motion.div>
-  );
-};
-
 const FeaturesSection = () => {
-  const { ref, inView } = useMotionInView<HTMLHeadingElement>(IN_VIEW_OPTIONS);
+  const { ref, inView } = useMotionInView();
 
   return (
     <section
+      ref={ref}
       role="region"
       aria-label="Features section"
-      className="w-full relative flex flex-col items-center lg:gap-8 md:gap-7 sm:gap-6 xs:gap-5 gap-4"
+      className="w-full relative flex flex-col items-center lg:gap-8 md:gap-7 sm:gap-6 gap-5"
     >
-      <motion.h2
-        ref={ref}
-        className="h2 text-center"
-        {...fadeUpAnimation({ inView })}
-      >
+      <motion.h2 className="h2 text-center" {...fadeUpAnimation({ inView })}>
         Everything You Need.{" "}
         <span className="text-nowrap">Nothing You Don’t.</span>
       </motion.h2>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:gap-5 sm:gap-4.5 gap-3.5">
-        {features.map((feature, index) => (
-          <FeatureCard key={`feature-${index}`} {...feature} />
+        {features.map(({ Icon, title, description }, index) => (
+          <motion.div
+            key={`feature-${index}`}
+            className="flex flex-col lg:gap-4 md:gap-3.5 sm:gap-3 gap-2.5 sm:p-6 p-5 rounded-3xl border-1.5 border-color"
+            {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}
+          >
+            <div className="flex items-center sm:gap-3 gap-2.5">
+              <Icon
+                className="md:w-8 sm:w-7 w-6 text-teal-500"
+                aria-hidden="true"
+              />
+              <h3 className="h3">{title}</h3>
+            </div>
+            <p>{description}</p>
+          </motion.div>
         ))}
       </div>
     </section>
