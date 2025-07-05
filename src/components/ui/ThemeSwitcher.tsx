@@ -17,7 +17,6 @@ const ThemeSwitcher = () => {
       onClick={toggleTheme}
       aria-label={label}
       aria-pressed={isDark}
-      title={label}
     >
       <Icon />
     </button>
