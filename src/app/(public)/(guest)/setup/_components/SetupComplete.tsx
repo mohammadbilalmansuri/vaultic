@@ -10,16 +10,16 @@ const SetupComplete = ({ path }: { path: TSetupPath }) => {
     <motion.div
       key="setup-complete"
       {...scaleUpAnimation({ duration: 0.15 })}
-      className="box p-12"
+      className="box gap-6 xs:py-12 xs:px-12 py-10 px-8"
     >
-      <Logo className="w-15 text-teal-500" />
-      <h2 className="mt-3">Your wallet is ready</h2>
-      <p>
+      <Logo className="box-icon text-teal-500" aria-hidden="true" />
+      <h2>Your wallet is ready</h2>
+      <p className="-mt-2">
         You’ve successfully {path === "create" ? "created" : "imported"} your
         wallet. You’re now ready to explore, send, and manage your assets
         securely.
       </p>
-      <Button as="link" href="/dashboard" className="mt-3">
+      <Button as="link" href="/dashboard">
         Enter Dashboard
       </Button>
     </motion.div>
