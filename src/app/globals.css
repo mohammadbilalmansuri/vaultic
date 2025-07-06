@@ -156,7 +156,11 @@
   }
 
   .box {
-    @apply w-full max-w-md relative flex flex-col items-center gap-4 text-center border-1.5 border-color rounded-3xl;
+    @apply w-full max-w-md relative flex flex-col items-center xs:gap-4 gap-3 text-center border-1.5 border-color rounded-3xl;
+  }
+
+  .box h2 {
+    @apply xs:text-h2 text-2xl font-medium leading-snug heading-color;
   }
 
   .hero {
