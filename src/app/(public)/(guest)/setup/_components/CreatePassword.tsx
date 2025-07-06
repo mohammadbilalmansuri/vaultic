@@ -41,12 +41,13 @@ const CreatePassword = ({
   return (
     <motion.div
       key="create-password"
+      aria-label="Create Password Step"
       {...scaleUpAnimation({ duration: 0.15 })}
-      className="box gap-0"
+      className="box"
     >
       {StepProgress}
 
-      <div className="p-6 w-full flex flex-col items-center gap-3">
+      <div className="xs:p-6 p-5 w-full flex flex-col items-center gap-3">
         <h2>Create password</h2>
         <p>
           Your password must be at least 8 characters and is used to unlock
