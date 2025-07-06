@@ -39,7 +39,7 @@ const EyeToggle = ({
     >
       <Icon {...iconProps} />
       {labels && (
-        <span className="leading-none">
+        <span className="leading-none text-left">
           {isVisible ? labels.hide : labels.show}
         </span>
       )}
