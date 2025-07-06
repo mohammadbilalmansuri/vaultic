@@ -55,7 +55,10 @@ const TestnetSection = () => {
       aria-label="Testnet features"
       className="w-full relative flex flex-col items-center lg:gap-8 md:gap-7 sm:gap-6 gap-5"
     >
-      <motion.h2 className="h2 text-center" {...fadeUpAnimation({ inView })}>
+      <motion.h2
+        className="h2 text-center"
+        {...fadeUpAnimation({ inView, delay: 0.05 })}
+      >
         Test Freely. Learn Safely.
       </motion.h2>
 
@@ -65,7 +68,7 @@ const TestnetSection = () => {
             key={index}
             aria-label={title}
             className="w-full relative border-1.5 border-color rounded-3xl flex flex-col items-start sm:gap-2 gap-1.5 sm:pl-6 sm:pb-6 sm:pt-4 sm:pr-4 pl-5 pb-5 pt-3.5 pr-3.5"
-            {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}
+            {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.1 })}
           >
             <div className="w-full relative flex items-center-safe justify-between gap-3">
               <h3 className="h3">{title}</h3>
