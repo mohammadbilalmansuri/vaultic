@@ -19,10 +19,7 @@ const NotFound = () => {
         className="box gap-6 xs:p-12 p-10 overflow-hidden"
         {...scaleUpAnimation()}
       >
-        <QuestionMark
-          className="xs:w-15 w-14 text-yellow-500"
-          aria-hidden="true"
-        />
+        <QuestionMark className="box-icon text-yellow-500" aria-hidden="true" />
         <h1 className="h2">Page Not Found</h1>
         <p className="-mt-2">
           The page you're looking for doesn't exist or has been moved.
