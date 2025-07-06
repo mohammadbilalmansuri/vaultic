@@ -23,9 +23,9 @@ const ChoosePath = ({
     <motion.div
       key="choose-path"
       {...scaleUpAnimation({ duration: hasMounted ? 0.15 : undefined })}
-      className="box p-12"
+      className="box xs:py-12 xs:px-12 py-10 px-8"
     >
-      <Logo className="w-15 text-teal-500" />
+      <Logo className="xs:w-15 w-14 text-teal-500" />
       <h2 className="mt-3">Set up your wallet</h2>
       <p>To get started, create a new wallet or import an existing one.</p>
       <div className="flex flex-col gap-4 mt-3">
