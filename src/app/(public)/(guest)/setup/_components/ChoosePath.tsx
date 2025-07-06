@@ -22,13 +22,16 @@ const ChoosePath = ({
   return (
     <motion.div
       key="choose-path"
+      aria-label="Choose Path Step"
       {...scaleUpAnimation({ duration: hasMounted ? 0.15 : undefined })}
-      className="box xs:py-12 xs:px-12 py-10 px-8"
+      className="box gap-6 xs:py-12 xs:px-12 py-10 px-8"
     >
-      <Logo className="xs:w-15 w-14 text-teal-500" />
-      <h2 className="mt-3">Set up your wallet</h2>
-      <p>To get started, create a new wallet or import an existing one.</p>
-      <div className="flex flex-col gap-4 mt-3">
+      <Logo className="box-icon text-teal-500" aria-hidden={true} />
+      <h2>Set up your wallet</h2>
+      <p className="-mt-2">
+        To get started, create a new wallet or import an existing one.
+      </p>
+      <div className="flex flex-col gap-4">
         <Button className="w-full" onClick={() => handleChoosePath("create")}>
           Create a new wallet
         </Button>
