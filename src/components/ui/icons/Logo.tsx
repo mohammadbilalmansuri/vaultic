@@ -7,6 +7,7 @@ const Logo: TIcon = (props) => {
       viewBox="6 5 20 22"
       fill="currentColor"
       fillRule="nonzero"
+      aria-label="Vaultic Logo"
       {...props}
     >
       <path
