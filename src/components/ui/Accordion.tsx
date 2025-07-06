@@ -26,27 +26,27 @@ const Accordion = ({
   return (
     <div
       className={cn(
-        "border-1.5 border-color rounded-3xl transition-all duration-300 text-left",
+        "border-1.5 sm:rounded-3xl rounded-2xl transition-all duration-300",
         isOpen ? "border-focus" : "border-color"
       )}
     >
       <button
         type="button"
         onClick={toggleAccordion}
-        className="pl-5 py-3 pr-3 w-full flex justify-between items-center"
+        id={questionId}
         aria-expanded={isOpen}
         aria-controls={answerId}
-        id={questionId}
+        className="sm:pl-5 pl-4 sm:pr-3 pr-2 py-3 w-full flex justify-between items-center gap-3 text-left group"
       >
         <span
-          className={cn("text-lg font-semibold transition-all duration-300", {
-            "heading-color": isOpen,
+          className={cn("h4 transition-all duration-300", {
+            "text-color group-hover:heading-color": !isOpen,
           })}
         >
           {question}
         </span>
 
-        <span className="icon-btn-bg">
+        <span className="icon-btn-bg group-hover:heading-color">
           <AngleDown
             className={cn("transition-all duration-300", {
               "rotate-180": isOpen,
@@ -65,7 +65,7 @@ const Accordion = ({
             className="overflow-hidden"
             {...expandCollapseAnimation()}
           >
-            <div className="px-5 pb-5">{answer}</div>
+            <div className="sm:px-5 sm:pb-5 px-4 pb-4 text-left">{answer}</div>
           </motion.div>
         )}
       </AnimatePresence>
