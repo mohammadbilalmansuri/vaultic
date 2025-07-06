@@ -71,7 +71,10 @@ const FAQSection = () => {
       ref={ref}
       className="w-full relative flex flex-col items-center lg:gap-8 md:gap-7 sm:gap-6 gap-5"
     >
-      <motion.h2 className="h2 text-center" {...fadeUpAnimation({ inView })}>
+      <motion.h2
+        className="h2 text-center"
+        {...fadeUpAnimation({ inView, delay: 0.05 })}
+      >
         Frequently Asked. Clearly Answered.
       </motion.h2>
 
@@ -79,7 +82,7 @@ const FAQSection = () => {
         {FAQs.map((faq, index) => (
           <motion.div
             key={`faq-${index}`}
-            {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}
+            {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.1 })}
           >
             <Accordion
               isOpen={openIndex === index}

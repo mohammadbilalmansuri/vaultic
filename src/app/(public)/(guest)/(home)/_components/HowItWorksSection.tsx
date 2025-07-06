@@ -31,7 +31,10 @@ const HowItWorksSection = () => {
       aria-label="How Vaultic Works"
       className="w-full relative flex flex-col items-center lg:gap-8 md:gap-7 sm:gap-6 gap-5"
     >
-      <motion.h2 className="h2 text-center" {...fadeUpAnimation({ inView })}>
+      <motion.h2
+        className="h2 text-center"
+        {...fadeUpAnimation({ inView, delay: 0.05 })}
+      >
         Set Up. Encrypt. Transact.
       </motion.h2>
 
@@ -40,7 +43,7 @@ const HowItWorksSection = () => {
           <motion.div
             key={`step-${index}`}
             className="w-full relative border-1.5 border-color rounded-3xl overflow-hidden sm:pt-5 pt-4 sm:pl-6 pl-5 sm:pb-6 pb-5"
-            {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}
+            {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.1 })}
           >
             <div className="w-full flex items-center justify-between">
               <h3 className="h3">{title}</h3>
