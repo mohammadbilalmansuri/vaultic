@@ -6,13 +6,11 @@ import { CopyToggle, EyeToggle } from "../ui/";
 
 interface MnemonicViewProps {
   mnemonic: string;
-  cols?: 3 | 4 | 6;
   widthClassName?: string;
 }
 
 const MnemonicView = ({
   mnemonic,
-  cols = 3,
   widthClassName = "w-full",
 }: MnemonicViewProps) => {
   const copyToClipboard = useClipboard();
@@ -38,13 +36,7 @@ const MnemonicView = ({
           labels={{ copy: "Copy Phrase", copied: "Copied!" }}
         />
       </div>
-      <div
-        className={cn("w-full grid gap-2", {
-          "grid-cols-3": cols === 3,
-          "grid-cols-4": cols === 4,
-          "grid-cols-6": cols === 6,
-        })}
-      >
+      <div className="w-full grid gap-2 xxs:grid-cols-3 grid-cols-2">
         {mnemonic.split(" ").map((word, index) => (
           <div key={index} className="mnemonic-word-input">
             <span className="opacity-50 select-none">{index + 1}.</span>
