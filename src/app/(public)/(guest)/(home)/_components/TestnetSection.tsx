@@ -6,7 +6,7 @@ import { useMotionInView } from "@/hooks";
 import { Tooltip } from "@/components/ui";
 import { ArrowRight } from "@/components/ui/icons";
 
-const content = [
+const CONTENTS = [
   {
     title: "Testnet Mode",
     paragraphs: (
@@ -60,7 +60,7 @@ const TestnetSection = () => {
       </motion.h2>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 sm:gap-5 gap-4">
-        {content.map(({ title, paragraphs, button }, index) => (
+        {CONTENTS.map(({ title, paragraphs, button }, index) => (
           <motion.div
             key={index}
             aria-label={title}

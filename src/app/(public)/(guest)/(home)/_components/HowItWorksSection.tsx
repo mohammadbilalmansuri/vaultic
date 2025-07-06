@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useMotionInView } from "@/hooks";
 
-const steps = [
+const STEPS = [
   {
     title: "Create or Import",
     description:
@@ -36,7 +36,7 @@ const HowItWorksSection = () => {
       </motion.h2>
 
       <div className="w-full relative grid grid-cols-1 md:grid-cols-3 sm:gap-5 gap-4">
-        {steps.map(({ title, description }, index) => (
+        {STEPS.map(({ title, description }, index) => (
           <motion.div
             key={`step-${index}`}
             className="w-full relative border-1.5 border-color rounded-3xl overflow-hidden sm:pt-5 pt-4 sm:pl-6 pl-5 sm:pb-6 pb-5"

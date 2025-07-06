@@ -5,7 +5,7 @@ import { fadeUpAnimation } from "@/utils/animations";
 import { useMotionInView } from "@/hooks";
 import { Accordion } from "@/components/ui";
 
-const faqs = [
+const FAQs = [
   {
     question: "What happens if I forget my password?",
     answer:
@@ -76,7 +76,7 @@ const FAQSection = () => {
       </motion.h2>
 
       <div className="w-full flex flex-col sm:gap-5 gap-4">
-        {faqs.map((faq, index) => (
+        {FAQs.map((faq, index) => (
           <motion.div
             key={`faq-${index}`}
             {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}

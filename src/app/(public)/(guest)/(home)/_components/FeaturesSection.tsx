@@ -11,7 +11,7 @@ import {
   Code,
 } from "@/components/ui/icons";
 
-const features = [
+const FEATURES = [
   {
     Icon: ShieldTick,
     title: "Fully Encrypted, Fully Local",
@@ -66,7 +66,7 @@ const FeaturesSection = () => {
       </motion.h2>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 sm:gap-5 gap-4">
-        {features.map(({ Icon, title, description }, index) => (
+        {FEATURES.map(({ Icon, title, description }, index) => (
           <motion.div
             key={`feature-${index}`}
             className="flex flex-col lg:gap-4 md:gap-3.5 sm:gap-3 gap-2.5 sm:p-6 p-5 rounded-3xl border-1.5 border-color"
