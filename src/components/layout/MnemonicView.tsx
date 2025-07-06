@@ -36,7 +36,7 @@ const MnemonicView = ({
           labels={{ copy: "Copy Phrase", copied: "Copied!" }}
         />
       </div>
-      <div className="w-full grid gap-2 xxs:grid-cols-3 grid-cols-2">
+      <div className="w-full grid gap-2 xs:grid-cols-3 grid-cols-2">
         {mnemonic.split(" ").map((word, index) => (
           <div key={index} className="mnemonic-word-input">
             <span className="opacity-50 select-none">{index + 1}.</span>
