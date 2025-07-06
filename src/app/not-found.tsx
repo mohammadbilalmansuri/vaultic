@@ -16,10 +16,13 @@ const NotFound = () => {
       <motion.div
         role="alert"
         aria-live="assertive"
-        className="box gap-6 p-12 overflow-hidden"
+        className="box gap-6 xs:p-12 p-10 overflow-hidden"
         {...scaleUpAnimation()}
       >
-        <QuestionMark className="w-15 text-yellow-500" aria-hidden="true" />
+        <QuestionMark
+          className="xs:w-15 w-14 text-yellow-500"
+          aria-hidden="true"
+        />
         <h1 className="h2">Page Not Found</h1>
         <p className="-mt-2">
           The page you're looking for doesn't exist or has been moved.
