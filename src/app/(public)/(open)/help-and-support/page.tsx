@@ -1,9 +1,8 @@
 "use client";
-import { IGuide } from "@/types";
 import HeroSection from "./_components/HeroSection";
-import GuideSection from "./_components/GuideSection";
+import GuideSection, { IGuide } from "./_components/GuideSection";
 
-const guides: IGuide[] = [
+const GUIDES: IGuide[] = [
   {
     title: "Understanding Account Creation in Vaultic",
     content: (
@@ -318,8 +317,8 @@ const HelpAndSupportPage = () => {
     <div className="w-full max-w-screen-lg relative flex-1 flex flex-col items-center lg:gap-16 md:gap-14 gap-12 sm:pt-3 pt-2 lg:pb-11 md:pb-9 sm:pb-7 pb-8">
       <HeroSection />
 
-      {guides.map(({ title, content }, index) => (
-        <GuideSection key={index} title={title} content={content} />
+      {GUIDES.map((guide, index) => (
+        <GuideSection key={`guide-${index}`} {...guide} />
       ))}
     </div>
   );
