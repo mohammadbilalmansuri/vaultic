@@ -33,12 +33,13 @@ const ShowRecoveryPhrase = ({
   return (
     <motion.div
       key="show-recovery-phrase"
+      aria-label="Show Recovery Phrase Step"
       {...scaleUpAnimation({ duration: 0.15 })}
-      className="box gap-0"
+      className="box"
     >
       {StepProgress}
 
-      <div className="p-6 w-full flex flex-col items-center gap-4">
+      <div className="xs:p-6 p-5 w-full flex flex-col items-center gap-4">
         <h2>Your recovery phrase</h2>
         <p className="-mt-1 mb-2">
           This phrase is your only backup. If you lose it, we can’t help you
@@ -49,7 +50,7 @@ const ShowRecoveryPhrase = ({
         <MnemonicView mnemonic={mnemonic} />
 
         <div
-          className="flex items-center gap-3 my-1.5 cursor-pointer select-none"
+          className="flex items-center gap-3 my-1.5 cursor-pointer select-none text-left"
           onClick={() => setSaved((prev) => !prev)}
         >
           <Switch size="sm" state={saved} label="I saved my recovery phrase" />
