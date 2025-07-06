@@ -1,7 +1,8 @@
 "use client";
-import { useRef, useState } from "react";
-import { motion, useInView } from "motion/react";
+import { useState } from "react";
+import { motion } from "motion/react";
 import { fadeUpAnimation } from "@/utils/animations";
+import { useMotionInView } from "@/hooks";
 import { Accordion } from "@/components/ui";
 
 const faqs = [
@@ -58,8 +59,7 @@ const faqs = [
 ];
 
 const FAQSection = () => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount: 0.25 });
+  const { ref, inView } = useMotionInView();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleAccordion = (index: number) => {
@@ -67,13 +67,16 @@ const FAQSection = () => {
   };
 
   return (
-    <section ref={ref} className="w-full flex flex-col items-center gap-8">
-      <motion.h2 className="h2" {...fadeUpAnimation({ inView })}>
+    <section
+      ref={ref}
+      className="w-full relative flex flex-col items-center lg:gap-8 md:gap-7 sm:gap-6 gap-5"
+    >
+      <motion.h2 className="h2 text-center" {...fadeUpAnimation({ inView })}>
         Frequently Asked. Clearly Answered.
       </motion.h2>
 
-      <div className="w-full flex flex-col gap-4">
-        {faqs.map(({ question, answer }, index) => (
+      <div className="w-full flex flex-col sm:gap-5 gap-4">
+        {faqs.map((faq, index) => (
           <motion.div
             key={`faq-${index}`}
             {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.05 })}
@@ -81,9 +84,8 @@ const FAQSection = () => {
             <Accordion
               isOpen={openIndex === index}
               toggleAccordion={() => toggleAccordion(index)}
-              question={question}
-              answer={answer}
               index={index}
+              {...faq}
             />
           </motion.div>
         ))}
