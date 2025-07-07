@@ -44,23 +44,24 @@ const SettingUpWallet = ({
   return (
     <motion.div
       key="setting-up-wallet"
+      aria-label="Setting Up Wallet Step"
+      className="box"
       {...scaleUpAnimation({ duration: 0.15 })}
-      className="box gap-0"
     >
       {StepProgress}
 
-      <div className="p-10 w-full flex flex-col items-center gap-3">
+      <div className="w-full flex flex-col items-center xs:gap-6 gap-5 p-8">
         <IconProcessing>
-          <Logo className="w-9 text-teal-500" />
+          <Logo className="w-8 text-teal-500" />
         </IconProcessing>
 
-        <h2 className="text-2xl mt-5">
-          {path === "create"
+        <h2 className="xs:text-2xl text-xl">
+          {path !== "create"
             ? "Setting up your new wallet"
-            : "Importing your wallet securely"}
+            : "Importing your wallet"}
         </h2>
 
-        <p>
+        <p className="-mt-2.5">
           This only takes a few seconds. Please keep this tab open while we
           complete your setup.
         </p>
