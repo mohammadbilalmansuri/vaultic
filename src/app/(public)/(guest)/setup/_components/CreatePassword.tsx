@@ -47,17 +47,16 @@ const CreatePassword = ({
     >
       {StepProgress}
 
-      <div className="xs:p-6 p-5 w-full flex flex-col items-center gap-3">
-        <h2>Create password</h2>
-        <p>
+      <div className="w-full flex flex-col items-center xs:gap-6 gap-5 xs:p-6 p-5">
+        <h1>Create Password</h1>
+        <p className="-mt-2.5">
           Your password must be at least 8 characters and is used to unlock
           Vaultic on this device. It can’t be recovered or reset, so make sure
           to remember it and keep it secure.
         </p>
-
         <form
           onSubmit={handleSubmit(handleCreatePassword)}
-          className="w-full flex flex-col gap-4 mt-3"
+          className="w-full flex flex-col sm:gap-4 gap-3"
         >
           <PasswordInput {...register("password")} autoFocus />
           <PasswordInput
@@ -66,7 +65,7 @@ const CreatePassword = ({
           />
           <Button
             type="submit"
-            className={cn("w-full mt-px", {
+            className={cn("w-full mt-0.5", {
               "opacity-60 pointer-events-none": !isValid,
             })}
             disabled={!isValid}
