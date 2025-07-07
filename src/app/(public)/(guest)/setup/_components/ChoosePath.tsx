@@ -31,7 +31,7 @@ const ChoosePath = ({
       <p className="-mt-2.5">
         To get started, create a new wallet or import an existing one.
       </p>
-      <div className="flex flex-col sm:gap-4 gap-3">
+      <div className="flex flex-col xs:gap-4 gap-3">
         <Button className="w-full" onClick={() => handleChoosePath("create")}>
           Create a new wallet
         </Button>
