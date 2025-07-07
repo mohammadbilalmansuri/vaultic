@@ -13,26 +13,31 @@ const NotFound = () => {
 
   return (
     <PageShell>
-      <motion.div
-        role="alert"
-        aria-label="Page Not Found"
-        className="box without-progress"
-        {...scaleUpAnimation()}
-      >
-        <QuestionMark className="box-icon text-yellow-500" aria-hidden="true" />
-        <h1>Page Not Found</h1>
-        <p className="-mt-2.5">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <Button
-          variant="zinc"
-          as="link"
-          href={destination}
-          aria-label={`Go to ${label} page`}
+      <div className="box-page" aria-label="Not Found Page">
+        <motion.div
+          role="alert"
+          aria-label="Page Not Found"
+          className="box without-progress"
+          {...scaleUpAnimation()}
         >
-          Go to {label}
-        </Button>
-      </motion.div>
+          <QuestionMark
+            className="box-icon text-yellow-500"
+            aria-hidden="true"
+          />
+          <h1>Page Not Found</h1>
+          <p className="-mt-2.5">
+            The page you're looking for doesn't exist or has been moved.
+          </p>
+          <Button
+            variant="zinc"
+            as="link"
+            href={destination}
+            aria-label={`Go to ${label} page`}
+          >
+            Go to {label}
+          </Button>
+        </motion.div>
+      </div>
     </PageShell>
   );
 };
