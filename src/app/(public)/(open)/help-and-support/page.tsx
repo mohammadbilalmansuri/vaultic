@@ -121,9 +121,9 @@ const GUIDES: IGuide[] = [
           recovery phrase and set a new password.
         </p>
         <p>
-          This flow ensures that only someone with your recovery phrase — and a
-          new password — can regain access. Even if someone gains access to your
-          device, your accounts remain safe without your actual password.
+          This process ensures that only someone with your recovery phrase — and
+          a new password — can regain access. Even if someone gains access to
+          your device, your accounts remain safe without your actual password.
         </p>
       </>
     ),
@@ -201,8 +201,8 @@ const GUIDES: IGuide[] = [
         </p>
         <p>
           On Ethereum, this is called gas and is paid in ETH. On Solana, it's a
-          small fee paid in SOL. These fees are typically very low (e.g., 0.0001
-          ETH or 0.00008 SOL).
+          small fee paid in SOL. These fees are typically very low (usually
+          0.0001 ETH or 0.00008 SOL).
         </p>
         <p>
           Vaultic doesn't charge anything extra — these fees go directly to the
