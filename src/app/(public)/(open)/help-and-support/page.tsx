@@ -299,7 +299,7 @@ const GUIDES: IGuide[] = [
 
 const HelpAndSupportPage = () => {
   return (
-    <div className="w-full max-w-screen-lg relative flex-1 flex flex-col items-center lg:gap-16 md:gap-14 gap-12 sm:pt-3 pt-2 lg:pb-11 md:pb-9 sm:pb-7 pb-8">
+    <div className="w-full max-w-screen-lg relative flex-1 flex flex-col items-center lg:gap-16 md:gap-14 gap-12 sm:pt-3 pt-2 lg:pb-8 md:pb-6 sm:pb-4 pb-6">
       <HeroSection />
 
       {GUIDES.map((guide, index) => (
