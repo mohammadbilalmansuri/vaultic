@@ -47,18 +47,16 @@ const Combobox = <T extends FieldValues>({
       render={({ field: { onChange, value, ref } }) => (
         <div
           ref={outsideClickRef}
-          className={cn(
-            "relative min-w-fit flex flex-col items-center",
-            widthClassName
-          )}
+          className={cn("relative flex flex-col items-center", widthClassName)}
         >
           <div className="w-full relative flex items-center">
             <Input
               ref={ref}
+              name={`${name}-combobox-input`}
               value={value || ""}
               onChange={(e) => onChange(e.target.value)}
               placeholder={placeholder}
-              className={cn("pr-12", { "border-focus": opened })}
+              className={cn("sm:pr-12 pr-10", { "border-focus": opened })}
               role="combobox"
               aria-expanded={opened}
               aria-haspopup="listbox"
@@ -68,7 +66,7 @@ const Combobox = <T extends FieldValues>({
             {options.length > 0 && (
               <button
                 type="button"
-                className="icon-btn-bg-sm absolute right-2"
+                className="icon-btn-bg-sm absolute sm:right-2 right-1.5"
                 onClick={() => setOpened((prev) => !prev)}
                 aria-label="Toggle options"
                 tabIndex={-1}
@@ -91,7 +89,7 @@ const Combobox = <T extends FieldValues>({
                 transition={{ duration: 0.15, ease: "easeOut" }}
                 className="absolute top-full mt-1.5 w-[98%] bg-default border border-color rounded-2xl z-10 overflow-hidden shadow-xl"
               >
-                <div className="flex flex-col gap-2 p-2.5 bg-input">
+                <div className="flex flex-col gap-2 xs:p-2.5 p-2 bg-input">
                   {options.map((option) => {
                     const isSelected = value === option.value;
                     const ValueIcon = option.valueIcon;
@@ -103,7 +101,7 @@ const Combobox = <T extends FieldValues>({
                         role="option"
                         aria-selected={isSelected}
                         className={cn(
-                          "w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl transition-colors duration-300",
+                          "w-full flex items-center justify-between xs:gap-3 gap-2 xs:px-3 px-2 xs:py-2 py-1.5 rounded-xl transition-colors duration-300",
                           isSelected ? "bg-primary" : "hover:bg-primary"
                         )}
                         onClick={() => {
@@ -112,20 +110,24 @@ const Combobox = <T extends FieldValues>({
                         }}
                       >
                         <span
-                          className={cn("flex items-center gap-2", {
+                          className={cn("flex items-center xs:gap-2 gap-1", {
                             "heading-color": isSelected,
                           })}
                         >
-                          <span>{option.label}</span>
+                          <span className="xs:text-base text-sm">
+                            {option.label}
+                          </span>
                           {isSelected && (
-                            <Check className="w-5 text-teal-500" />
+                            <Check className="xs:w-5 w-4 text-teal-500" />
                           )}
                         </span>
-                        <span className="flex items-center gap-2 leading-none">
+                        <span className="flex items-center xs:gap-2 gap-1 leading-none">
                           {ValueIcon && (
                             <ValueIcon className="w-3" aria-hidden="true" />
                           )}
-                          <span className="mt-px">{option.shortValue}</span>
+                          <span className="xs:text-base text-sm">
+                            {option.shortValue}
+                          </span>
                         </span>
                       </button>
                     );
