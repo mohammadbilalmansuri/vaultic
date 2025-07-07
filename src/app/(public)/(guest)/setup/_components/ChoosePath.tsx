@@ -24,14 +24,14 @@ const ChoosePath = ({
       key="choose-path"
       aria-label="Choose Path Step"
       {...scaleUpAnimation({ duration: hasMounted ? 0.15 : undefined })}
-      className="box gap-6 xs:py-12 xs:px-12 py-10 px-8"
+      className="box xs:gap-6 gap-5 xs:p-12 p-8"
     >
       <Logo className="box-icon text-teal-500" aria-hidden={true} />
       <h2>Set up your wallet</h2>
       <p className="-mt-2">
         To get started, create a new wallet or import an existing one.
       </p>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col sm:gap-4 gap-3">
         <Button className="w-full" onClick={() => handleChoosePath("create")}>
           Create a new wallet
         </Button>
