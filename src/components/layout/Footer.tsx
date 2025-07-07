@@ -15,7 +15,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Mohammad Bilal Mansuri's LinkedIn Profile"
-            className="leading-none heading-color transition-all duration-300 border-b border-transparent hover:border-current"
+            className="link"
           >
             Mohammad Bilal Mansuri
           </Link>
