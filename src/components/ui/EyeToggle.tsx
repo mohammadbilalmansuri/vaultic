@@ -30,7 +30,7 @@ const EyeToggle = ({
       type="button"
       className={cn(
         "icon-btn",
-        { "flex items-center gap-2": !!labels },
+        { "flex items-center xxs:gap-2 gap-1.5": !!labels },
         className
       )}
       aria-label={ariaLabel}
