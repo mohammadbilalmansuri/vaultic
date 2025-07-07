@@ -9,7 +9,7 @@ const FaucetPage = () => {
     <div className="box-page" aria-label="Faucet Page">
       <motion.div className="box without-progress" {...scaleUpAnimation()}>
         <Logo className="box-icon text-teal-500" aria-hidden="true" />
-        <h1 className="xs:text-nowrap">Claim Free Testnet Tokens</h1>
+        <h1 className="xxs:text-nowrap">Claim Free Testnet Tokens</h1>
         <p className="-mt-2.5">
           Get free ETH (Sepolia) and SOL (Devnet) for testing, development, or
           exploring blockchain features. Perfect for simulating transactions and
