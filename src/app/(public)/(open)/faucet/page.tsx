@@ -7,11 +7,7 @@ import { Solana, Ethereum, Logo } from "@/components/ui/icons";
 const FaucetPage = () => {
   return (
     <div className="box-page" aria-label="Faucet Page">
-      <motion.div
-        className="box without-progress"
-        aria-label="Faucet Resources"
-        {...scaleUpAnimation()}
-      >
+      <motion.div className="box without-progress" {...scaleUpAnimation()}>
         <Logo className="box-icon text-teal-500" aria-hidden="true" />
         <h1 className="xs:text-nowrap">Claim Free Testnet Tokens</h1>
         <p className="-mt-2.5">
