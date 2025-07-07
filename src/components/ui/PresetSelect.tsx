@@ -36,10 +36,7 @@ const PresetSelect = <T extends FieldValues>({
       render={({ field: { onChange, value } }) => (
         <div
           ref={outsideClickRef}
-          className={cn(
-            "relative min-w-fit flex flex-col items-center",
-            widthClassName
-          )}
+          className={cn("relative flex flex-col items-center", widthClassName)}
         >
           <button
             type="button"
@@ -62,11 +59,11 @@ const PresetSelect = <T extends FieldValues>({
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.8, y: -10 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="absolute top-full mt-1.5 min-w-32 bg-default border border-color rounded-2xl z-10 overflow-hidden shadow-xl"
+                className="absolute top-full mt-1.5 xs:min-w-32 min-w-26 bg-default border border-color rounded-2xl z-10 overflow-hidden shadow-xl"
               >
                 <div
                   className={cn(
-                    "gap-2 p-3 bg-input",
+                    "xs:gap-2 gap-1.5 xs:p-2.5 p-2 bg-input",
                     `grid grid-cols-${gridCols}`
                   )}
                 >
@@ -77,7 +74,7 @@ const PresetSelect = <T extends FieldValues>({
                       role="option"
                       aria-selected={value === option}
                       className={cn(
-                        "w-full flex items-center justify-center border border-color p-2 rounded-xl transition duration-300",
+                        "xs:size-12 size-10 flex items-center justify-center border border-color rounded-xl transition duration-300",
                         value === option ? "bg-primary" : "hover:bg-primary"
                       )}
                       onClick={() => {
