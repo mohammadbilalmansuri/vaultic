@@ -6,16 +6,19 @@ import { Solana, Ethereum, Logo } from "@/components/ui/icons";
 
 const FaucetPage = () => {
   return (
-    <motion.div {...scaleUpAnimation()} className="box py-12 px-11.5">
-      <Logo className="w-15 text-teal-500" />
-      <h2 className="mt-3">Claim Free Testnet Tokens</h2>
-      <p>
+    <motion.div
+      className="box without-progress"
+      aria-label="Faucet Resources"
+      {...scaleUpAnimation()}
+    >
+      <Logo className="box-icon text-teal-500" aria-hidden="true" />
+      <h1 className="xs:text-nowrap">Claim Free Testnet Tokens</h1>
+      <p className="-mt-2">
         Get free ETH (Sepolia) and SOL (Devnet) for testing, development, or
         exploring blockchain features. Perfect for simulating transactions and
         experimenting safely on testnets.
       </p>
-
-      <div className="flex flex-col items-center gap-4 mt-3">
+      <div className="flex flex-col items-center sm:gap-4 gap-3">
         <Button
           variant="zinc"
           as="link"
@@ -24,17 +27,16 @@ const FaucetPage = () => {
           target="_blank"
           className="w-full"
         >
-          <Ethereum className="h-6 shrink-0" />
+          <Ethereum className="sm:h-6 h-5.5 shrink-0" />
           <span className="mt-px">Ethereum Sepolia</span>
         </Button>
-
         <Button
           variant="zinc"
           as="link"
           href="/faucet/solana"
           className="w-full"
         >
-          <Solana className="h-4 shrink-0" />
+          <Solana className="sm:h-4 h-3.5 shrink-0" />
           <span className="mt-px">Solana Devnet</span>
         </Button>
       </div>
