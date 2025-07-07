@@ -42,8 +42,8 @@ const CreatePassword = ({
     <motion.div
       key="create-password"
       aria-label="Create Password Step"
-      {...scaleUpAnimation({ duration: 0.15 })}
       className="box"
+      {...scaleUpAnimation({ duration: 0.15 })}
     >
       {StepProgress}
 
@@ -56,7 +56,7 @@ const CreatePassword = ({
         </p>
         <form
           onSubmit={handleSubmit(handleCreatePassword)}
-          className="w-full flex flex-col sm:gap-4 gap-3"
+          className="w-full flex flex-col xs:gap-4 gap-3"
         >
           <PasswordInput {...register("password")} autoFocus />
           <PasswordInput
