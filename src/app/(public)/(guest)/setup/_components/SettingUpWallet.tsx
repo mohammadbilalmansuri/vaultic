@@ -44,7 +44,7 @@ const SettingUpWallet = ({
   return (
     <motion.div
       key="setting-up-wallet"
-      aria-label="Setting Up Wallet Step"
+      aria-label="Setting Up Wallet"
       className="box"
       {...scaleUpAnimation({ duration: 0.15 })}
     >

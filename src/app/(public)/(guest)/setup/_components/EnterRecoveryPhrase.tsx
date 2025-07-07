@@ -100,7 +100,7 @@ const EnterRecoveryPhrase = ({
   return (
     <motion.div
       key="enter-recovery-phrase"
-      aria-label="Enter Recovery Phrase Step"
+      aria-label="Enter Recovery Phrase"
       className="box"
       {...scaleUpAnimation({ duration: 0.15 })}
     >

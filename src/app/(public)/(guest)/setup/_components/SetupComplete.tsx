@@ -9,7 +9,7 @@ const SetupComplete = ({ path }: { path: TSetupPath }) => {
   return (
     <motion.div
       key="setup-complete"
-      aria-label="Setup Complete Step"
+      aria-label="Setup Complete"
       className="box without-progress"
       {...scaleUpAnimation({ duration: 0.15 })}
     >
