@@ -55,11 +55,11 @@ const SettingUpWallet = ({
           <Logo className="w-8 text-teal-500" />
         </IconProcessing>
 
-        <h2 className="xs:text-2xl text-xl">
+        <h3>
           {path !== "create"
             ? "Setting up your new wallet"
             : "Importing your wallet"}
-        </h2>
+        </h3>
 
         <p className="-mt-2.5">
           This only takes a few seconds. Please keep this tab open while we
