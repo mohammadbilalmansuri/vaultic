@@ -8,6 +8,7 @@ import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { Button, FormError } from "@/components/ui";
+import Link from "next/link";
 
 type TEnterMnemonicForm = { [key: `word${number}`]: string };
 type TMnemonicLength = 12 | 24;
@@ -99,24 +100,33 @@ const EnterRecoveryPhrase = ({
   return (
     <motion.div
       key="enter-recovery-phrase"
+      aria-label="Enter Recovery Phrase Step"
+      className="box"
       {...scaleUpAnimation({ duration: 0.15 })}
-      className="box gap-0"
     >
       {StepProgress}
 
-      <div className="p-6 w-full flex flex-col items-center gap-3">
-        <h2>Enter your recovery phrase</h2>
-        <p>
+      <div className="w-full flex flex-col items-center xs:gap-6 gap-5 xs:p-6 p-5">
+        <h1>Enter your recovery phrase</h1>
+        <p className="-mt-2.5">
           Enter your 12- or 24-word recovery phrase to import your wallet. You
           can also paste the entire phrase into the first field to fill in the
           rest automatically.
         </p>
 
+        <button
+          type="button"
+          onClick={() => updateMnemonicForm(mnemonicLength === 12 ? 24 : 12)}
+          className="link text-teal-500 -mt-1"
+        >
+          {`Switch to ${mnemonicLength === 12 ? "24" : "12"} Words`}
+        </button>
+
         <form
-          className="w-full flex flex-col gap-4 mt-3"
+          className="w-full flex flex-col xs:gap-4 gap-3"
           onSubmit={handleSubmit(handleContinue)}
         >
-          <div className="w-full grid grid-cols-2 xs:grid-cols-3 gap-2">
+          <div className="w-full grid grid-cols-3 gap-2">
             {Array.from({ length: mnemonicLength }, (_, index) => (
               <div key={index} className="mnemonic-word-input">
                 <label
@@ -142,28 +152,15 @@ const EnterRecoveryPhrase = ({
             ))}
           </div>
 
-          <div className="w-full flex items-center gap-4 mt-px">
-            <Button
-              variant="zinc"
-              className="w-1/2"
-              type="button"
-              onClick={() =>
-                updateMnemonicForm(mnemonicLength === 12 ? 24 : 12)
-              }
-            >
-              {`Switch to ${mnemonicLength === 12 ? "24" : "12"} Words`}
-            </Button>
-
-            <Button
-              className={cn("w-1/2", {
-                "opacity-60 pointer-events-none": !isValid,
-              })}
-              type="submit"
-              disabled={!isValid}
-            >
-              Continue
-            </Button>
-          </div>
+          <Button
+            type="submit"
+            disabled={!isValid}
+            className={cn("w-full mt-0.5", {
+              "opacity-60 pointer-events-none": !isValid,
+            })}
+          >
+            Continue
+          </Button>
 
           <FormError errors={errors} className="mt-1.5" />
         </form>
