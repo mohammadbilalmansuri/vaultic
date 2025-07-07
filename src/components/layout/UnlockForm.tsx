@@ -33,11 +33,11 @@ const UnlockForm = () => {
   return (
     <motion.div
       aria-label="Unlock Wallet"
-      className="box without-progress sm:mt-3 sm:mb-4 mt-2 mb-3"
+      className="box without-progress"
       {...scaleUpAnimation()}
     >
       <Logo className="box-icon text-teal-500" aria-hidden="true" />
-      <h2>Enter Your Password</h2>
+      <h1>Enter Your Password</h1>
 
       <form
         onSubmit={handleSubmit(handleUnlock)}
@@ -54,13 +54,10 @@ const UnlockForm = () => {
         >
           {unlocking ? <Loader size="sm" color="black" /> : "Unlock"}
         </Button>
-        <FormError errors={errors} className="mt-1.5 -mb-2.5" />
+        <FormError errors={errors} className="mt-2 -mb-2" />
       </form>
 
-      <Link
-        href="/forgot-password"
-        className="leading-snug border-b border-current hover:heading-color transition-colors duration-300"
-      >
+      <Link href="/forgot-password" className="link mt-1">
         Forgot Password
       </Link>
     </motion.div>
