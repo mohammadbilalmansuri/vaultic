@@ -33,7 +33,7 @@ const ShowRecoveryPhrase = ({
   return (
     <motion.div
       key="show-recovery-phrase"
-      aria-label="Show Recovery Phrase Step"
+      aria-label="Show Recovery Phrase"
       className="box"
       {...scaleUpAnimation({ duration: 0.15 })}
     >

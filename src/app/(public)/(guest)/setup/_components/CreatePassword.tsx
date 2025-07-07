@@ -41,7 +41,7 @@ const CreatePassword = ({
   return (
     <motion.div
       key="create-password"
-      aria-label="Create Password Step"
+      aria-label="Create Password"
       className="box"
       {...scaleUpAnimation({ duration: 0.15 })}
     >

@@ -22,7 +22,7 @@ const ChoosePath = ({
   return (
     <motion.div
       key="choose-path"
-      aria-label="Choose Path Step"
+      aria-label="Choose Path"
       className="box without-progress"
       {...scaleUpAnimation({ duration: hasMounted ? 0.15 : undefined })}
     >
