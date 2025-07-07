@@ -5,14 +5,12 @@ import cn from "@/utils/cn";
 interface SwitchProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "sm" | "md";
   state: boolean;
-  label?: string;
 }
 
 const Switch = ({
   size = "md",
   state,
   className = "",
-  label,
   ...props
 }: SwitchProps) => {
   return (
@@ -20,7 +18,6 @@ const Switch = ({
       type="button"
       role="switch"
       aria-checked={state}
-      aria-label={label}
       className={cn(
         "shrink-0 relative p-1 rounded-full flex items-center bg-secondary",
         { "h-5 w-9": size === "sm", "h-6 w-12": size === "md" },
