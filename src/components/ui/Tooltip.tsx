@@ -3,13 +3,50 @@ import { useState, useId, ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import cn from "@/utils/cn";
 
+type TTooltipPosition = "top" | "bottom" | "left" | "right";
+
 interface TooltipProps {
   content: ReactNode;
   children: ReactNode;
-  position?: "top" | "bottom" | "left" | "right";
+  position?: TTooltipPosition;
   containerClassName?: string;
   tooltipClassName?: string;
 }
+
+const getAnimationVariants = (position: TTooltipPosition) => {
+  const offsetDistance = 8;
+  const hidden = { scale: 0.9, opacity: 0 };
+  const visible = { scale: 1, opacity: 1 };
+
+  switch (position) {
+    case "top":
+      return {
+        initial: { ...hidden, y: offsetDistance },
+        animate: { ...visible, y: 0 },
+        exit: { ...hidden, y: offsetDistance },
+      };
+    case "bottom":
+      return {
+        initial: { ...hidden, y: -offsetDistance },
+        animate: { ...visible, y: 0 },
+        exit: { ...hidden, y: -offsetDistance },
+      };
+    case "left":
+      return {
+        initial: { ...hidden, x: offsetDistance },
+        animate: { ...visible, x: 0 },
+        exit: { ...hidden, x: offsetDistance },
+      };
+    case "right":
+      return {
+        initial: { ...hidden, x: -offsetDistance },
+        animate: { ...visible, x: 0 },
+        exit: { ...hidden, x: -offsetDistance },
+      };
+    default:
+      return {};
+  }
+};
 
 const Tooltip = ({
   content,
@@ -24,42 +61,7 @@ const Tooltip = ({
   const showTooltip = () => setIsVisible(true);
   const hideTooltip = () => setIsVisible(false);
 
-  const getAnimationVariants = () => {
-    const offsetDistance = 8;
-    const hidden = { scale: 0.9, opacity: 0 };
-    const visible = { scale: 1, opacity: 1 };
-
-    switch (position) {
-      case "top":
-        return {
-          initial: { ...hidden, y: offsetDistance },
-          animate: { ...visible, y: 0 },
-          exit: { ...hidden, y: offsetDistance },
-        };
-      case "bottom":
-        return {
-          initial: { ...hidden, y: -offsetDistance },
-          animate: { ...visible, y: 0 },
-          exit: { ...hidden, y: -offsetDistance },
-        };
-      case "left":
-        return {
-          initial: { ...hidden, x: offsetDistance },
-          animate: { ...visible, x: 0 },
-          exit: { ...hidden, x: offsetDistance },
-        };
-      case "right":
-        return {
-          initial: { ...hidden, x: -offsetDistance },
-          animate: { ...visible, x: 0 },
-          exit: { ...hidden, x: -offsetDistance },
-        };
-      default:
-        return {};
-    }
-  };
-
-  const { initial, animate, exit } = getAnimationVariants();
+  const { initial, animate, exit } = getAnimationVariants(position);
 
   return (
     <div
@@ -103,7 +105,7 @@ const Tooltip = ({
           >
             <div
               className={cn(
-                "relative text-zinc-200 text-sm font-medium px-2 py-1.5 leading-tight whitespace-nowrap text-center",
+                "relative text-zinc-200 sm:text-sm text-xs font-medium px-2 py-1.5 leading-tight whitespace-nowrap text-center",
                 tooltipClassName
               )}
             >
