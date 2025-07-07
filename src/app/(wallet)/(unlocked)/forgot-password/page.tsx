@@ -35,59 +35,44 @@ const ForgotPassword = () => {
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="box max-w-2xl p-12">
-      <h2 className="-mt-1.5">Forgot your password?</h2>
+    <motion.div
+      aria-label="Forgot Password"
+      className="box xs:gap-6 gap-5 xs:p-6 p-5"
+      {...scaleUpAnimation()}
+    >
+      <h1 className="mt-1">Forgot Your Password?</h1>
 
-      <div className="flex flex-col gap-2.5">
+      <div className="w-full flex flex-col sm:gap-3 gap-2.5 -mt-2.5 -mb-1.5">
         <p>
-          For your security, Vaultic never stores your password directly.
-          Instead, your password is used to create a secure encryption key
-          (AES-GCM, 256-bit) that encrypts your recovery phrase. Because only
-          this key can decrypt your recovery phrase — and the key itself is
-          derived from your password — we can’t unlock your accounts without it.
+          We understand — it happens. For your security, we cannot recover your
+          password. Your original password is required to decrypt your recovery
+          phrase and access your wallet.
         </p>
 
         <p>
-          If you’ve lost your password, the only way to access your accounts is
-          to reset Vaultic and re-import your wallet using your recovery phrase.
-          This ensures your funds remain safe and only you can unlock them.
-        </p>
-
-        <p>
-          If you’re unsure or want more information, visit the{" "}
-          <Link
-            href="/help-and-support"
-            target="_blank"
-            className="heading-color border-b border-transparent hover:border-current transition-colors duration-300"
-          >
+          To continue, you'll need to reset Vaultic and re-import your wallet
+          using your recovery phrase. For more details, visit our&nbsp;
+          <Link href="/help-and-support" target="_blank" className="link">
             Help & Support
-          </Link>{" "}
-          page.
+          </Link>
+          &nbsp;page.
         </p>
       </div>
 
       <div
-        className="flex items-center gap-3 my-2.5 cursor-pointer select-none text-left"
+        className="flex items-center gap-3 cursor-pointer select-none text-left"
         onClick={() => setAgree((prev) => !prev)}
       >
-        <Switch
-          size="sm"
-          state={agree}
-          label="I understand this process will permanently remove Vaultic data and I’m
-          ready to re-import my wallet."
-        />
-        <p className="leading-snug">
-          I understand this process will permanently remove Vaultic data and I’m
-          ready to re-import my wallet.
-        </p>
+        <Switch size="sm" state={agree} />
+        <p className="leading-snug">I have my recovery phrase.</p>
       </div>
 
       <Button
-        className={cn("w-full mt-1.5", {
-          "opacity-60 pointer-events-none": !agree,
-        })}
         onClick={handleReset}
         disabled={!agree || resetting}
+        className={cn("w-full mt-0.5", {
+          "opacity-60 pointer-events-none": !agree,
+        })}
       >
         {resetting ? <Loader size="sm" color="black" /> : "Reset Vaultic"}
       </Button>
