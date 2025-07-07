@@ -27,7 +27,7 @@ const ChoosePath = ({
       className="box xs:gap-6 gap-5 xs:p-12 p-8"
     >
       <Logo className="box-icon text-teal-500" aria-hidden={true} />
-      <h2>Set up your wallet</h2>
+      <h1>Set up your wallet</h1>
       <p className="-mt-2">
         To get started, create a new wallet or import an existing one.
       </p>
