@@ -21,52 +21,50 @@ const SetupPage = () => {
   const hasMounted = useMounted(500);
 
   return (
-    <div className="box-page" aria-label="Setup Page">
-      <AnimatePresence mode="wait">
-        {step === 1 && (
-          <ChoosePath
-            setPath={setPath}
+    <AnimatePresence mode="wait">
+      {step === 1 && (
+        <ChoosePath
+          setPath={setPath}
+          setStep={setStep}
+          hasMounted={hasMounted}
+          key="choose-path"
+        />
+      )}
+
+      {step === 2 && (
+        <CreatePassword
+          setStep={setStep}
+          key="create-password"
+          StepProgress={getStepProgress(1, () => setStep(1))}
+        />
+      )}
+
+      {step === 3 &&
+        (path === "create" ? (
+          <ShowRecoveryPhrase
             setStep={setStep}
-            hasMounted={hasMounted}
-            key="choose-path"
+            key="show-recovery-phrase"
+            StepProgress={getStepProgress(2)}
           />
-        )}
-
-        {step === 2 && (
-          <CreatePassword
+        ) : (
+          <EnterRecoveryPhrase
             setStep={setStep}
-            key="create-password"
-            StepProgress={getStepProgress(1, () => setStep(1))}
+            key="enter-recovery-phrase"
+            StepProgress={getStepProgress(2, () => setStep(2))}
           />
-        )}
+        ))}
 
-        {step === 3 &&
-          (path === "create" ? (
-            <ShowRecoveryPhrase
-              setStep={setStep}
-              key="show-recovery-phrase"
-              StepProgress={getStepProgress(2)}
-            />
-          ) : (
-            <EnterRecoveryPhrase
-              setStep={setStep}
-              key="enter-recovery-phrase"
-              StepProgress={getStepProgress(2, () => setStep(2))}
-            />
-          ))}
+      {step === 4 && (
+        <SettingUpWallet
+          path={path}
+          setStep={setStep}
+          key="setting-up-wallet"
+          StepProgress={getStepProgress(3)}
+        />
+      )}
 
-        {step === 4 && (
-          <SettingUpWallet
-            path={path}
-            setStep={setStep}
-            key="setting-up-wallet"
-            StepProgress={getStepProgress(3)}
-          />
-        )}
-
-        {step === 5 && <SetupComplete path={path} key="setup-complete" />}
-      </AnimatePresence>
-    </div>
+      {step === 5 && <SetupComplete path={path} key="setup-complete" />}
+    </AnimatePresence>
   );
 };
 
