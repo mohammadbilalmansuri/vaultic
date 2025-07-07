@@ -116,7 +116,7 @@
 
 @layer components {
   .icon-btn-bg-sm {
-    @apply icon-btn-bg sm:size-8 size-8;
+    @apply icon-btn-bg sm:size-8 size-7.5;
   }
 
   .icon-btn svg,
@@ -145,11 +145,11 @@
   }
 
   .input {
-    @apply w-full flex items-center h-13 p-4 outline-none transition-all duration-300 heading-color bg-input border border-color focus:border-focus rounded-2xl placeholder:text-zinc-500;
+    @apply w-full flex items-center sm:h-13 h-12 sm:p-4 p-3 outline-none transition-all duration-300 heading-color bg-input border border-color focus:border-focus rounded-2xl placeholder:text-zinc-500;
   }
 
   .mnemonic-word-input {
-    @apply w-full flex items-center gap-1 p-3 h-12 leading-none heading-color bg-input border border-color focus-within:border-focus rounded-xl;
+    @apply w-full flex items-center gap-1 sm:p-3 p-2 sm:h-12 h-11 leading-none heading-color bg-input border border-color focus-within:border-focus rounded-xl;
   }
 
   .box {
@@ -171,5 +171,9 @@
 
   .hero {
     @apply w-full flex flex-col text-center sm:gap-6 gap-5 items-center bg-primary md:py-16 sm:py-13 py-10 md:px-12 sm:px-9 px-6 rounded-4xl relative overflow-hidden before:content-[''] before:pointer-events-none before:absolute before:top-0 before:right-0 md:before:size-32 sm:before:size-28 before:size-24 before:bg-teal-500/10 before:rounded-bl-full after:content-[''] after:pointer-events-none after:absolute after:bottom-0 after:left-0 md:after:size-48 sm:after:size-42 after:size-36 after:bg-teal-500/5 after:rounded-tr-full;
+  }
+
+  .link {
+    @apply leading-none heading-color transition-all duration-300 border-b border-transparent hover:border-current;
   }
 }
