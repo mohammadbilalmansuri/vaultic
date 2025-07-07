@@ -72,7 +72,7 @@ const CreatePassword = ({
           >
             Continue
           </Button>
-          <FormError errors={errors} className="mt-1.5" />
+          <FormError errors={errors} className="mt-2" />
         </form>
       </div>
     </motion.div>
