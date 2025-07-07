@@ -24,21 +24,23 @@ const MnemonicView = ({
         widthClassName
       )}
     >
-      <div className="w-full flex items-center justify-between gap-2 px-0.5">
+      <div className="w-full flex items-center justify-between gap-3 xs:px-0.5">
         <EyeToggle
           isVisible={visible}
           onClick={() => setVisible((prev) => !prev)}
           labels={{ show: "Show Phrase", hide: "Hide Phrase" }}
+          className="xxs:text-base text-15 shrink-0"
         />
         <CopyToggle
           hasCopied={copied}
           onClick={() => copyToClipboard(mnemonic, copied, setCopied)}
           labels={{ copy: "Copy Phrase", copied: "Copied!" }}
+          className="xxs:text-base text-15 shrink-0"
         />
       </div>
-      <div className="w-full grid gap-2 xs:grid-cols-3 grid-cols-2">
+      <div className="w-full grid gap-2 xxs:grid-cols-3 grid-cols-2">
         {mnemonic.split(" ").map((word, index) => (
-          <div key={index} className="mnemonic-word-input">
+          <div key={`word-${index}`} className="mnemonic-word-input">
             <span className="opacity-50 select-none">{index + 1}.</span>
             <span className={cn({ "select-none": !visible })}>
               {visible ? word : Array(word.length).fill("•").join("")}
