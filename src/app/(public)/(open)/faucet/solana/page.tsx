@@ -68,74 +68,76 @@ const SolanaFaucetPage = () => {
   };
 
   return (
-    <motion.div
-      {...scaleUpAnimation()}
-      className="box max-w-lg sm:gap-6 gap-5 sm:p-6 p-5"
-    >
-      <NetworkLogo network="solana" size="xl" className="mt-2" />
-      <h1>Solana Devnet Faucet</h1>
-      <p className="-mt-2.5">
-        Request free SOL on the Solana Devnet to build, test, and explore. Each
-        address can receive up to 5 SOL once every 8 hours. These are test
-        tokens with no real-world value. If this doesn't work,&nbsp;
-        <Link
-          href="https://faucet.solana.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="link"
-        >
-          try the official Solana faucet
-        </Link>
-        .
-      </p>
-
-      <form
-        onSubmit={handleSubmit(handleAirdrop)}
-        className="w-full flex flex-col sm:gap-4 gap-3"
+    <div className="box-page" aria-label="Solana Faucet Page">
+      <motion.div
+        className="box max-w-lg sm:gap-6 gap-5 sm:p-6 p-5"
+        {...scaleUpAnimation()}
       >
-        <div className="flex items-center xs:gap-2 gap-1.5">
-          {accountsOptions.length > 0 ? (
-            <Combobox
-              name="address"
-              control={control}
-              options={accountsOptions}
-              placeholder="Solana address"
-              autoFocus
-              autoComplete="off"
-              autoCapitalize="off"
-            />
-          ) : (
-            <Input
-              {...register("address")}
-              placeholder="Solana address"
-              autoFocus
-              autoComplete="off"
-              autoCapitalize="off"
-            />
-          )}
+        <NetworkLogo network="solana" size="xl" className="mt-2" />
+        <h1>Solana Devnet Faucet</h1>
+        <p className="-mt-2.5">
+          Request free SOL on the Solana Devnet to build, test, and explore.
+          Each address can receive up to 5 SOL once every 8 hours. These are
+          test tokens with no real-world value. If this doesn't work,&nbsp;
+          <Link
+            href="https://faucet.solana.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link"
+          >
+            try the official Solana faucet
+          </Link>
+          .
+        </p>
 
-          <PresetSelect
-            name="amount"
-            control={control}
-            placeholder="Amount"
-            options={FAUCET_PRESET_AMOUNTS}
-            valueSuffix={NETWORKS.solana.token}
-          />
-        </div>
-
-        <Button
-          type="submit"
-          className={cn("w-full mt-0.5", {
-            "opacity-60 pointer-events-none": !isValid,
-          })}
-          disabled={!isValid || airdropping}
+        <form
+          onSubmit={handleSubmit(handleAirdrop)}
+          className="w-full flex flex-col sm:gap-4 gap-3"
         >
-          {airdropping ? <Loader size="sm" color="black" /> : "Send Airdrop"}
-        </Button>
+          <div className="flex items-center xs:gap-2 gap-1.5">
+            {accountsOptions.length > 0 ? (
+              <Combobox
+                name="address"
+                control={control}
+                options={accountsOptions}
+                placeholder="Solana address"
+                autoFocus
+                autoComplete="off"
+                autoCapitalize="off"
+              />
+            ) : (
+              <Input
+                {...register("address")}
+                placeholder="Solana address"
+                autoFocus
+                autoComplete="off"
+                autoCapitalize="off"
+              />
+            )}
 
-        <FormError errors={errors} className="mt-1.5 -mb-0.5" />
-      </form>
-    </motion.div>
+            <PresetSelect
+              name="amount"
+              control={control}
+              placeholder="Amount"
+              options={FAUCET_PRESET_AMOUNTS}
+              valueSuffix={NETWORKS.solana.token}
+            />
+          </div>
+
+          <Button
+            type="submit"
+            className={cn("w-full mt-0.5", {
+              "opacity-60 pointer-events-none": !isValid,
+            })}
+            disabled={!isValid || airdropping}
+          >
+            {airdropping ? <Loader size="sm" color="black" /> : "Send Airdrop"}
+          </Button>
+
+          <FormError errors={errors} className="mt-1.5 -mb-0.5" />
+        </form>
+      </motion.div>
+    </div>
   );
 };
 
