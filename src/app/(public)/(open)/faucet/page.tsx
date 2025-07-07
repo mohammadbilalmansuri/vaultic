@@ -13,7 +13,7 @@ const FaucetPage = () => {
     >
       <Logo className="box-icon text-teal-500" aria-hidden="true" />
       <h1 className="xs:text-nowrap">Claim Free Testnet Tokens</h1>
-      <p className="-mt-2">
+      <p className="-mt-2.5">
         Get free ETH (Sepolia) and SOL (Devnet) for testing, development, or
         exploring blockchain features. Perfect for simulating transactions and
         experimenting safely on testnets.
