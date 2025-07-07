@@ -31,31 +31,35 @@ const UnlockForm = () => {
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="box p-12">
-      <Logo className="w-15 text-teal-500" aria-label="Vaultic Logo" />
-      <h2 className="mt-3">Enter Your Password</h2>
+    <motion.div
+      aria-label="Unlock Wallet"
+      className="box without-progress sm:mt-3 sm:mb-4 mt-2 mb-3"
+      {...scaleUpAnimation()}
+    >
+      <Logo className="box-icon text-teal-500" aria-hidden="true" />
+      <h2>Enter Your Password</h2>
 
       <form
         onSubmit={handleSubmit(handleUnlock)}
-        className="w-full flex flex-col gap-4 mt-1"
+        className="w-full flex flex-col sm:gap-4 gap-3 -mt-0.5"
         aria-label="Unlock wallet form"
       >
         <PasswordInput {...register("password")} autoFocus />
         <Button
           type="submit"
-          className={cn("w-full mt-px", {
+          className={cn("w-full mt-0.5", {
             "opacity-60 pointer-events-none": !isValid,
           })}
           disabled={!isValid || unlocking}
         >
           {unlocking ? <Loader size="sm" color="black" /> : "Unlock"}
         </Button>
-        <FormError errors={errors} className="mt-1.5 -mb-2" />
+        <FormError errors={errors} className="mt-1.5 -mb-2.5" />
       </form>
 
       <Link
         href="/forgot-password"
-        className="mt-2 leading-snug border-b border-current hover:heading-color transition-colors duration-300"
+        className="leading-snug border-b border-current hover:heading-color transition-colors duration-300"
       >
         Forgot Password
       </Link>
