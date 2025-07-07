@@ -15,8 +15,8 @@ const NotFound = () => {
     <PageShell>
       <motion.div
         role="alert"
-        aria-live="assertive"
-        className="box xs:gap-6 gap-5 xs:p-12 p-8"
+        aria-label="Page Not Found"
+        className="box without-progress"
         {...scaleUpAnimation()}
       >
         <QuestionMark className="box-icon text-yellow-500" aria-hidden="true" />
