@@ -3,6 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --breakpoint-xxs: 400px;
   --breakpoint-xs: 480px;
   --breakpoint-sm: 660px;
   --breakpoint-md: 840px;
@@ -149,7 +150,7 @@
   }
 
   .mnemonic-word-input {
-    @apply w-full flex items-center gap-1 sm:p-3 p-2 sm:h-12 h-11 leading-none heading-color bg-input border border-color focus-within:border-focus rounded-xl;
+    @apply w-full flex items-center xs:gap-1 gap-0.5 sm:p-3 p-2 sm:h-12 h-11 leading-none heading-color bg-input border border-color focus-within:border-focus rounded-xl xs:text-base text-15;
   }
 
   .box {
