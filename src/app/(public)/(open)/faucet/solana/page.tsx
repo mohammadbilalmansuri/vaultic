@@ -19,6 +19,7 @@ import {
   Button,
   Loader,
   FormError,
+  NetworkLogo,
 } from "@/components/ui";
 import { Solana } from "@/components/ui/icons";
 
@@ -27,11 +28,11 @@ const SolanaFaucetPage = () => {
   const notify = useNotificationStore((state) => state.notify);
   const [airdropping, startAirdropping] = useTransition();
 
-  const accountsOptions = Object.entries(accounts).map(([key, account]) => ({
+  let accountsOptions = Object.entries(accounts).map(([key, { solana }]) => ({
     label: `Account ${Number(key) + 1}`,
-    value: account.solana.address,
+    value: solana.address,
     valueIcon: Solana,
-    shortValue: getShortAddress(account.solana.address, "solana"),
+    shortValue: getShortAddress(solana.address, "solana"),
   }));
 
   const {
@@ -67,19 +68,32 @@ const SolanaFaucetPage = () => {
   };
 
   return (
-    <motion.div {...scaleUpAnimation()} className="box p-12 max-w-xl">
-      <h2 className="-mt-1.5">Solana Devnet Faucet</h2>
-      <p>
-        Request free SOL on the Solana Devnet to build, test, and explore. You
-        can request up to 5 SOL in a single airdrop, available once every 8
-        hours.
+    <motion.div
+      {...scaleUpAnimation()}
+      className="box max-w-lg sm:gap-6 gap-5 sm:p-6 p-5"
+    >
+      <NetworkLogo network="solana" size="xl" className="mt-2" />
+      <h1>Solana Devnet Faucet</h1>
+      <p className="-mt-2">
+        Request free SOL on the Solana Devnet to build, test, and explore. Each
+        address can receive up to 5 SOL once every 8 hours. These are test
+        tokens with no real-world value. If this doesn't work,&nbsp;
+        <Link
+          href="https://faucet.solana.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="link"
+        >
+          try the official Solana faucet
+        </Link>
+        .
       </p>
 
       <form
         onSubmit={handleSubmit(handleAirdrop)}
-        className="w-full flex flex-col gap-4 mt-3"
+        className="w-full flex flex-col sm:gap-4 gap-3"
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center xs:gap-2 gap-1.5">
           {accountsOptions.length > 0 ? (
             <Combobox
               name="address"
@@ -99,6 +113,7 @@ const SolanaFaucetPage = () => {
               autoCapitalize="off"
             />
           )}
+
           <PresetSelect
             name="amount"
             control={control}
@@ -107,6 +122,7 @@ const SolanaFaucetPage = () => {
             valueSuffix={NETWORKS.solana.token}
           />
         </div>
+
         <Button
           type="submit"
           className={cn("w-full mt-px", {
@@ -116,20 +132,9 @@ const SolanaFaucetPage = () => {
         >
           {airdropping ? <Loader size="sm" color="black" /> : "Send Airdrop"}
         </Button>
-        <FormError errors={errors} className="mt-1.5 -mb-2" />
-      </form>
 
-      <p className="mt-2 -mb-0.5 flex items-center gap-1.5 leading-snug">
-        Can’t get test SOL?{" "}
-        <Link
-          href="https://faucet.solana.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="border-b border-transparent hover:border-current heading-color transition-colors duration-300"
-        >
-          Try the official Solana faucet
-        </Link>
-      </p>
+        <FormError errors={errors} className="mt-1.5 -mb-0.5" />
+      </form>
     </motion.div>
   );
 };
