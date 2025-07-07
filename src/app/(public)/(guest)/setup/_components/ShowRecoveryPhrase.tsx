@@ -34,14 +34,14 @@ const ShowRecoveryPhrase = ({
     <motion.div
       key="show-recovery-phrase"
       aria-label="Show Recovery Phrase Step"
-      {...scaleUpAnimation({ duration: 0.15 })}
       className="box"
+      {...scaleUpAnimation({ duration: 0.15 })}
     >
       {StepProgress}
 
-      <div className="xs:p-6 p-5 w-full flex flex-col items-center gap-4">
-        <h2>Your recovery phrase</h2>
-        <p className="-mt-1 mb-2">
+      <div className="w-full flex flex-col items-center xs:gap-6 gap-5 xs:p-6 p-5">
+        <h1>Your Recovery Phrase</h1>
+        <p className="-mt-2.5">
           This phrase is your only backup. If you lose it, we can’t help you
           recover your wallet. Store it somewhere safe and never share it with
           anyone.
@@ -50,17 +50,15 @@ const ShowRecoveryPhrase = ({
         <MnemonicView mnemonic={mnemonic} />
 
         <div
-          className="flex items-center gap-3 my-1.5 cursor-pointer select-none text-left"
+          className="flex items-center gap-3 -my-0.5 cursor-pointer select-none text-left"
           onClick={() => setSaved((prev) => !prev)}
         >
-          <Switch size="sm" state={saved} label="I saved my recovery phrase" />
+          <Switch size="sm" state={saved} />
           <p>I saved my recovery phrase.</p>
         </div>
 
         <Button
-          className={cn("w-full", {
-            "opacity-60 pointer-events-none": !saved,
-          })}
+          className={cn("w-full", { "opacity-60 pointer-events-none": !saved })}
           disabled={!saved}
           onClick={handleContinue}
         >
