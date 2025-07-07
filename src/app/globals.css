@@ -97,7 +97,7 @@
   }
 
   .page-main {
-    @apply w-full relative flex flex-col items-center justify-center flex-1 sm:px-5 px-4;
+    @apply w-full relative flex flex-col items-center justify-center flex-1 sm:px-5 px-4 sm:py-3 py-2;
   }
 
   button,
@@ -172,10 +172,6 @@
 
   .box.without-progress {
     @apply xs:gap-6 gap-5 xs:p-12 p-8;
-  }
-
-  .box-page {
-    @apply w-full max-w-screen-lg relative flex flex-col items-center sm:pt-3 sm:pb-4 pt-2 pb-3;
   }
 
   .hero {
