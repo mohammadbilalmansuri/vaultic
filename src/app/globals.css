@@ -162,6 +162,10 @@
     @apply xs:text-h2 text-2xl font-medium leading-snug heading-color;
   }
 
+  .box h3 {
+    @apply xs:text-2xl text-xl font-medium leading-snug heading-color;
+  }
+
   .box-icon {
     @apply xs:w-14 w-12;
   }
