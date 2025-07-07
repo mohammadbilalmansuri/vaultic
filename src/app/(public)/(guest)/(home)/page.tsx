@@ -8,7 +8,7 @@ import FAQSection from "./_components/FAQSection";
 const HomePage = () => {
   return (
     <div
-      className="w-full max-w-screen-lg relative flex-1 flex flex-col items-center lg:gap-24 md:gap-20 gap-16 sm:pt-3 pt-2 lg:pb-19 md:pb-15 sm:pb-11 pb-12"
+      className="w-full max-w-screen-lg relative flex-1 flex flex-col items-center lg:gap-24 md:gap-20 gap-16 lg:pb-16 md:pb-12 sm:pb-8 pb-10"
       aria-label="Home Page Content"
     >
       <HeroSection />
