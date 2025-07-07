@@ -23,7 +23,7 @@ const ChoosePath = ({
     <motion.div
       key="choose-path"
       aria-label="Choose Path Step"
-      className="box xs:gap-6 gap-5 xs:p-12 p-8"
+      className="box without-progress"
       {...scaleUpAnimation({ duration: hasMounted ? 0.15 : undefined })}
     >
       <Logo className="box-icon text-teal-500" aria-hidden={true} />
