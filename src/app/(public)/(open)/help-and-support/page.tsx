@@ -18,13 +18,13 @@ const GUIDES: IGuide[] = [
           Each account is assigned a unique numerical index. For example, your
           first account corresponds to index 0, the second to index 1, and so
           on. This structure allows unlimited accounts to be derived from a
-          single mnemonic without creating new seed phrases.
+          single phrase without needing additional backups.
         </p>
         <p>
           Every account supports multiple blockchain networks. For example,
-          "Account 1" will have its own Ethereum address and its own Solana
-          address — both derived using the same index but from different
-          derivation paths.
+          "Account 1" will have both an Ethereum address and a Solana address —
+          each derived using the same index but through different derivation
+          paths.
         </p>
         <p>
           This design ensures that your entire wallet — across all supported
@@ -39,64 +39,25 @@ const GUIDES: IGuide[] = [
     content: (
       <>
         <p>
-          Vaultic is a fully client-side wallet, which means none of your
-          sensitive information is ever sent to a server. Your 12-word recovery
-          phrase is encrypted using AES-GCM 256-bit encryption and stored
-          securely in your browser's IndexedDB.
+          Vaultic is a fully client-side wallet, meaning all your sensitive data
+          stays on your device. Nothing — including your recovery phrase,
+          accounts, or transactions — is ever sent to a server.
         </p>
         <p>
-          The encryption key is derived from your password, which is never
-          stored or transmitted. Even if someone accesses your device, they
-          cannot unlock your wallet without your password.
+          Your 12-word recovery phrase is encrypted using AES-GCM 256-bit
+          encryption and securely stored in your browser’s IndexedDB. This
+          encryption is only accessible with your password, keeping your wallet
+          safe from unauthorized access.
         </p>
         <p>
-          Private keys are not persistently stored — they are derived on-demand
-          from your mnemonic. This keeps your local storage minimal and your
-          security strong.
-        </p>
-      </>
-    ),
-  },
-  {
-    title: "Recovering Your Wallet and Accounts",
-    content: (
-      <>
-        <p>
-          If you've lost access to your device or cleared your browser storage,
-          you can recover your Vaultic wallet using your 12-word recovery
-          phrase. This phrase allows you to re-derive all your accounts and
-          addresses.
+          Your password is never stored in plain text. Instead, Vaultic stores a
+          hashed version to verify you when you unlock your wallet. The original
+          password is required solely to decrypt your recovery phrase.
         </p>
         <p>
-          By default, Vaultic restores your first account (index 0). If you had
-          additional accounts, you'll need to add them manually through the app.
-          For example, to recover Account 5, add accounts until you reach index
-          4.
-        </p>
-        <p className="italic">
-          Tip: If you don't see expected funds, try adding more accounts using
-          the same recovery phrase.
-        </p>
-      </>
-    ),
-  },
-  {
-    title: "Resetting Your Wallet Without a Password",
-    content: (
-      <>
-        <p>
-          Vaultic doesn't store your password — it's used to encrypt your
-          recovery phrase locally. If you forget your password, it cannot be
-          recovered.
-        </p>
-        <p>
-          To regain access, you must reset your wallet using the in-app option
-          or by clearing your browser data. Then, simply re-import your wallet
-          using your 12-word phrase and choose a new password.
-        </p>
-        <p>
-          This ensures that only you can unlock your wallet, even if someone
-          accesses your device.
+          Private keys are not saved anywhere — they are derived on-demand from
+          your encrypted recovery phrase. This keeps your storage lightweight
+          and your keys secure.
         </p>
       </>
     ),
@@ -111,32 +72,58 @@ const GUIDES: IGuide[] = [
         </p>
         <p>
           Never share this phrase. Never store it digitally or online. Write it
-          down, store it offline, and protect it as you would a bank vault key.
+          down, store it offline, and protect it like you would a physical vault
+          key.
         </p>
         <p>
           Vaultic cannot revoke, reset, or recover this phrase. It's the
-          cornerstone of your wallet's security and ownership.
+          cornerstone of your wallet’s security and ownership.
         </p>
       </>
     ),
   },
   {
-    title: "Exploring Testnet Mode and Faucets",
+    title: "Recovering Your Wallet and Accounts",
     content: (
       <>
         <p>
-          Vaultic supports testnets for both Ethereum (Sepolia) and Solana
-          (Devnet), which allow you to experiment with blockchain features using
-          fake tokens.
+          If you've lost access to your device or cleared your browser storage,
+          you can restore your Vaultic wallet using your 12-word recovery
+          phrase. This phrase allows you to recover all your accounts and
+          addresses.
         </p>
         <p>
-          You can claim test ETH or SOL using Vaultic's built-in faucets for
-          Solana and referred link for Ethereum — ideal for learning and testing
-          transactions without risking real assets.
+          Vaultic will automatically restore your first account (index 0). If
+          you had created more accounts previously, you can restore them by
+          adding accounts manually in order — just like before.
+        </p>
+        <p className="italic">
+          Tip: If you don’t see your expected balances, try adding more accounts
+          using the same recovery phrase. Funds remain tied to their original
+          index.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "Resetting Your Wallet Without a Password",
+    content: (
+      <>
+        <p>
+          If you forget your password, Vaultic cannot recover it — and for good
+          reason. Your plain text password is the only way to decrypt your
+          recovery phrase and unlock your accounts.
         </p>
         <p>
-          Simply switch to testnet mode from settings and claim the tokens to
-          begin.
+          To regain access, you'll need to reset your wallet. You can do this
+          using the in-app reset option or by manually clearing your browser
+          storage. After that, simply re-import your wallet using your 12-word
+          recovery phrase and set a new password.
+        </p>
+        <p>
+          This flow ensures that only someone with your recovery phrase — and a
+          new password — can regain access. Even if someone gains access to your
+          device, your accounts remain safe without your actual password.
         </p>
       </>
     ),
@@ -146,18 +133,19 @@ const GUIDES: IGuide[] = [
     content: (
       <>
         <p>
-          When you delete an account in Vaultic, it is removed only from the
-          local interface. The underlying blockchain address remains valid and
-          can still hold funds.
+          When you delete an account in Vaultic, it’s removed only from the
+          interface — not the blockchain. The address still exists and may still
+          hold funds.
         </p>
         <p>
-          Deleted indexes are not reused. If you delete Account 3 (index 2), and
-          create a new account, it will be index 3 — not index 2 again.
+          Vaultic does not reuse deleted indexes. For example, if you delete
+          Account 3 (index 2), the next new account will be index 3 — not 2
+          again.
         </p>
         <p>
-          If you accidentally delete an account and want it back, you'll need to
-          reset your wallet and re-import it from your recovery phrase. Then,
-          recreate accounts in order until you reach the one you lost.
+          To recover a deleted account, reset your wallet and re-import it using
+          your recovery phrase. Then recreate accounts in the same order until
+          you reach the one you lost.
         </p>
       </>
     ),
@@ -183,21 +171,21 @@ const GUIDES: IGuide[] = [
     ),
   },
   {
-    title: "What Are Faucets and How to Use Them",
+    title: "Exploring Testnet Mode and Faucets",
     content: (
       <>
         <p>
-          A faucet is a tool that distributes free testnet tokens to users for
-          development and experimentation purposes.
+          Vaultic supports testnets for Ethereum (Sepolia) and Solana (Devnet),
+          allowing you to explore features using free, fake tokens.
         </p>
         <p>
-          Vaultic includes a built-in faucet for Solana Devnet, and refers you
-          to a trusted faucet link for Ethereum Sepolia. You can request ETH or
-          SOL for testing purposes.
+          You can request test ETH or SOL through Vaultic’s built-in faucet for
+          Solana and a trusted faucet link for Ethereum — perfect for trying out
+          transfers or smart contract interactions.
         </p>
         <p>
-          These tokens have no real value and can be used freely in test
-          environments.
+          These tokens have no real value and are safe for experimentation. Just
+          switch to testnet mode in settings to begin.
         </p>
       </>
     ),
@@ -212,13 +200,13 @@ const GUIDES: IGuide[] = [
           included in the next block.
         </p>
         <p>
-          On Ethereum, this is called gas and is paid in ETH (usually less than
-          0.0001 ETH). On Solana, it's a small fee (usually less than 0.00008
-          SOL) paid in SOL.
+          On Ethereum, this is called gas and is paid in ETH. On Solana, it's a
+          small fee paid in SOL. These fees are typically very low (e.g., 0.0001
+          ETH or 0.00008 SOL).
         </p>
         <p>
-          Vaultic doesn't charge extra — these fees go directly to the network
-          and vary depending on traffic.
+          Vaultic doesn't charge anything extra — these fees go directly to the
+          network and may vary depending on traffic.
         </p>
       </>
     ),
@@ -232,10 +220,13 @@ const GUIDES: IGuide[] = [
           accounts) permanently alive. This is known as "rent exemption."
         </p>
         <p>
-          The threshold is usually around 0.00089088 SOL. If the balance drops
-          below this, the account may be purged over time.
+          The threshold is typically around 0.00089088 SOL. If your balance
+          falls below this, the account may eventually be purged.
         </p>
-        <p>Ethereum does not have rent; it uses a different gas-based model.</p>
+        <p>
+          Ethereum does not use rent; it relies entirely on gas fees for
+          transactions.
+        </p>
       </>
     ),
   },
@@ -244,27 +235,22 @@ const GUIDES: IGuide[] = [
     content: (
       <>
         <p>
-          When sending tokens in Vaultic, the maximum amount you can send is
-          carefully calculated to ensure the transaction does not fail due to
-          insufficient balance. This calculation takes into account both the
-          network fee and, in the case of Solana, any required rent exemption.
+          When sending tokens, Vaultic calculates the maximum amount you can
+          safely send by factoring in network fees and rent exemption rules (on
+          Solana).
         </p>
         <p>
-          For Ethereum, the app subtracts the estimated gas fee (0.0001 ETH)
-          from your total ETH balance. This ensures you don't attempt to send
-          more ETH than allowed, leaving enough to cover transaction costs.
+          On Ethereum, the app subtracts the estimated gas fee from your total
+          balance, ensuring the transaction doesn’t fail due to insufficient
+          funds.
         </p>
         <p>
-          For Solana, Vaultic subtracts both the network fee (about 0.00008 SOL)
-          and, when necessary, the rent-exempt minimum (about 0.00089088 SOL)
-          required to keep certain accounts alive on-chain. This is especially
-          important when sending to a new token address that hasn't been created
-          yet.
+          On Solana, Vaultic subtracts the network fee and any required
+          rent-exempt minimum (especially when sending to new accounts).
         </p>
         <p>
-          Vaultic calculates this maximum automatically in the Send form and
-          offers a "Max" button that populates the sendable amount based on your
-          current balance, ensuring a smooth and error-free experience.
+          The Send form includes a “Max” button that automatically fills in the
+          maximum safe amount — helping you send with confidence.
         </p>
       </>
     ),
@@ -274,17 +260,17 @@ const GUIDES: IGuide[] = [
     content: (
       <>
         <p>
-          Vaultic is designed around recovery phrases (mnemonics). It does not
+          Vaultic is built around recovery phrases (mnemonics). It does not
           support importing raw private keys or JSON keystore files like some
           other wallets.
         </p>
         <p>
-          This choice ensures that your wallet structure stays consistent,
-          recoverable, and compatible across devices.
+          This design keeps your wallet structure simple, recoverable, and
+          consistent across devices.
         </p>
         <p>
-          If you only have a private key, you'll need to use another wallet that
-          supports key import.
+          If you only have a private key, you’ll need to use another wallet that
+          supports key-based imports.
         </p>
       </>
     ),
@@ -294,18 +280,17 @@ const GUIDES: IGuide[] = [
     content: (
       <>
         <p>
-          Even though Vaultic does not expose or store private keys directly,
-          it's important to understand their role. Every blockchain address is
-          controlled by a private key derived from your recovery phrase.
+          Even though Vaultic doesn’t expose or store private keys directly,
+          every blockchain address is ultimately controlled by one — derived
+          from your recovery phrase.
         </p>
         <p>
-          If you ever use wallets that expose private keys, treat them as
-          extremely sensitive data. Anyone with access to your key can control
-          your funds.
+          If you ever use wallets that reveal private keys, treat them like
+          passwords. Anyone with access can take full control of your funds.
         </p>
         <p>
           Never share, store, or screenshot your private key. Always prefer
-          recovery phrases over individual keys for long-term security.
+          using your recovery phrase for secure, long-term access.
         </p>
       </>
     ),
