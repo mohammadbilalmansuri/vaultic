@@ -15,7 +15,7 @@ const GuideSection = ({ title, content }: IGuide) => {
   return (
     <div
       ref={ref}
-      id={title.toLowerCase().replace(/\s+/g, "-")}
+      aria-label={title}
       className="w-full relative flex flex-col sm:gap-4 gap-3 px-1"
     >
       <motion.h2 className="h2" {...fadeUpAnimation({ inView, delay: 0.05 })}>
