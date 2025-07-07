@@ -21,7 +21,7 @@ const SetupPage = () => {
   const hasMounted = useMounted(500);
 
   return (
-    <div className="w-full max-w-screen-lg relative flex flex-col items-center">
+    <div className="box-page" aria-label="Setup Page">
       <AnimatePresence mode="wait">
         {step === 1 && (
           <ChoosePath
