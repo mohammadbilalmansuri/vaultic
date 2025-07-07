@@ -74,7 +74,7 @@ const SolanaFaucetPage = () => {
     >
       <NetworkLogo network="solana" size="xl" className="mt-2" />
       <h1>Solana Devnet Faucet</h1>
-      <p className="-mt-2">
+      <p className="-mt-2.5">
         Request free SOL on the Solana Devnet to build, test, and explore. Each
         address can receive up to 5 SOL once every 8 hours. These are test
         tokens with no real-world value. If this doesn't work,&nbsp;
