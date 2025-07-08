@@ -1,7 +1,7 @@
 "use client";
 import { ButtonHTMLAttributes, SVGProps } from "react";
 import cn from "@/utils/cn";
-import { Eye, EyeSlash } from "./icons";
+import { Eye, EyeSlash } from "../icons";
 
 interface EyeToggleProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isVisible: boolean;
