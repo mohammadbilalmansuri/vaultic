@@ -1,4 +1,4 @@
-import { Ethereum, Solana } from "../components/ui/icons";
+import { Ethereum, Solana } from "@/components/icons";
 
 /**
  * Network configuration object containing settings for all supported blockchains.
