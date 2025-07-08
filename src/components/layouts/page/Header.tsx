@@ -8,8 +8,8 @@ import { useWalletStore } from "@/stores";
 import { expandCollapseAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { useOutsideClick } from "@/hooks";
-import { ThemeSwitcher, NavLink, Tooltip } from "@/components/ui";
 import { Logo, Github, Cancel, AlignRight } from "@/components/icons";
+import { ThemeSwitcher, NavLink, Tooltip } from "@/components/ui";
 
 const Header = () => {
   const pathname = usePathname();
