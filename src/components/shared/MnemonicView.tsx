@@ -2,7 +2,7 @@
 import { useState } from "react";
 import cn from "@/utils/cn";
 import { useClipboard } from "@/hooks";
-import { CopyToggle, EyeToggle } from "../ui/";
+import { CopyToggle, EyeToggle } from "../ui";
 
 interface MnemonicViewProps {
   mnemonic: string;
