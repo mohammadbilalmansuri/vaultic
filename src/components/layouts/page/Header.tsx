@@ -28,7 +28,7 @@ const Header = () => {
     <header className="w-full relative flex flex-col items-center sm:px-5 px-4 min-h-fit">
       <div className="w-full max-w-screen-lg relative flex items-center justify-between gap-5 sm:py-5 py-4">
         <Link
-          href={navLinks[0].href}
+          href={walletExists ? "/dashboard" : "/"}
           className="flex items-center sm:gap-2.5 gap-2 select-none"
         >
           <Logo className="sm:w-7 w-6 text-teal-500" />
@@ -69,6 +69,7 @@ const Header = () => {
             <Tooltip
               content={isMenuOpen ? "Close Menu" : "Open Menu"}
               position="left"
+              containerClassName="md:hidden"
             >
               <button
                 aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
