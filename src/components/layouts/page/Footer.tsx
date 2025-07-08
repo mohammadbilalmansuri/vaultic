@@ -2,6 +2,7 @@ import Link from "next/link";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+
   return (
     <footer className="w-full relative flex flex-col items-center sm:px-5 px-4 min-h-fit mt-1">
       <div className="w-full max-w-screen-lg relative sm:py-5 py-4 flex flex-col sm:flex-row sm:justify-between items-center gap-2">
