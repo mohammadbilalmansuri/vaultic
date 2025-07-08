@@ -2,8 +2,8 @@
 import { motion } from "motion/react";
 import { TSetupPath, TSetupSetPath, TSetupSetStep } from "@/types";
 import { scaleUpAnimation } from "@/utils/animations";
+import { Logo } from "@/components/icons";
 import { Button } from "@/components/ui";
-import { Logo } from "@/components/ui/icons";
 
 const ChoosePath = ({
   setPath,

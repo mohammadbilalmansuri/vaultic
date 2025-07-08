@@ -9,7 +9,7 @@ import {
   WalletMoney,
   WalletRecovery,
   Code,
-} from "@/components/ui/icons";
+} from "@/components/icons";
 
 const FEATURES = [
   {

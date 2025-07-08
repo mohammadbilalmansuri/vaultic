@@ -2,8 +2,8 @@
 import { motion } from "motion/react";
 import { TSetupPath } from "@/types";
 import { scaleUpAnimation } from "@/utils/animations";
+import { Logo } from "@/components/icons";
 import { Button } from "@/components/ui";
-import { Logo } from "@/components/ui/icons";
 
 const SetupComplete = ({ path }: { path: TSetupPath }) => {
   return (

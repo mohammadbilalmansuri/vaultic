@@ -3,8 +3,8 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useMotionInView } from "@/hooks";
+import { ArrowRight } from "@/components/icons";
 import { Tooltip } from "@/components/ui";
-import { ArrowRight } from "@/components/ui/icons";
 
 const CONTENTS = [
   {

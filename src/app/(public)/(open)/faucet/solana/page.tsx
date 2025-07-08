@@ -12,6 +12,7 @@ import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import { SolanaAirdropSchema, TSolanaAirdropForm } from "@/utils/validations";
+import { Solana } from "@/components/icons";
 import {
   Input,
   Combobox,
@@ -21,7 +22,6 @@ import {
   FormError,
   NetworkLogo,
 } from "@/components/ui";
-import { Solana } from "@/components/ui/icons";
 
 const SolanaFaucetPage = () => {
   const accounts = useAccountsStore((state) => state.accounts);
