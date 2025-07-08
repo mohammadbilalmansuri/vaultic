@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { IChildren } from "@/types";
 import { useWalletStore } from "@/stores";
-import { PageShell } from "@/components/shells";
-import { Loading } from "@/components/layout";
+import { PageLayout } from "@/components/layouts";
+import { Loading } from "@/components/shared";
 
 const UnlockedLayout = ({ children }: IChildren) => {
   const router = useRouter();
@@ -26,7 +26,7 @@ const UnlockedLayout = ({ children }: IChildren) => {
     return <Loading />;
   }
 
-  return <PageShell>{children}</PageShell>;
+  return <PageLayout>{children}</PageLayout>;
 };
 
 export default UnlockedLayout;

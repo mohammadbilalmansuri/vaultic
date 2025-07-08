@@ -4,16 +4,18 @@ import { useRouter } from "next/navigation";
 import { IChildren } from "@/types";
 import { useWalletStore } from "@/stores";
 import { useNetworkStatus } from "@/hooks";
-import { PageShell, DashboardShell } from "@/components/shells";
-import { Loading, UnlockForm, OfflineView } from "@/components/layout";
+import { PageLayout, DashboardLayout } from "@/components/layouts";
+import { UnlockForm, OfflineView } from "@/components/root";
+import { Loading } from "@/components/shared";
 
 const LockedLayout = ({ children }: IChildren) => {
   const router = useRouter();
+  const isOnline = useNetworkStatus();
+
   const walletStatus = useWalletStore((state) => state.walletStatus);
   const suppressRedirect = useWalletStore((state) => state.suppressRedirect);
   const walletExists = useWalletStore((state) => state.walletExists);
   const authenticated = useWalletStore((state) => state.authenticated);
-  const isOnline = useNetworkStatus();
 
   useEffect(() => {
     if (walletStatus !== "ready" || suppressRedirect) return;
@@ -26,21 +28,21 @@ const LockedLayout = ({ children }: IChildren) => {
 
   if (!isOnline) {
     return (
-      <PageShell>
+      <PageLayout>
         <OfflineView />
-      </PageShell>
+      </PageLayout>
     );
   }
 
   if (walletExists && !authenticated) {
     return (
-      <PageShell>
+      <PageLayout>
         <UnlockForm />
-      </PageShell>
+      </PageLayout>
     );
   }
 
-  return <DashboardShell>{children}</DashboardShell>;
+  return <DashboardLayout>{children}</DashboardLayout>;
 };
 
 export default LockedLayout;
