@@ -25,7 +25,7 @@ export const NAVIGATION_HEADER = (walletExists: boolean) => [
 
 export const NAVIGATION_SIDEBAR = [
   { name: "Dashboard", href: "/dashboard", Icon: Wallet },
-  { name: "Wallet Accounts", href: "/accounts", Icon: Cards },
+  { name: "Accounts", href: "/accounts", Icon: Cards },
   { name: "Settings", href: "/settings", Icon: Setting },
   { name: "Faucet", href: "/faucet", Icon: WalletMoney },
   { name: "Help & Support", href: "/help-and-support", Icon: QuestionMark },
