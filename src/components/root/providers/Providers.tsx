@@ -1,10 +1,8 @@
 "use client";
 import { IChildren } from "@/types";
-import {
-  ThemeProvider,
-  NotificationProvider,
-  WalletChecker,
-} from "@/components/layout";
+import NotificationProvider from "./NotificationProvider";
+import ThemeProvider from "./ThemeProvider";
+import WalletChecker from "./WalletChecker";
 
 const Providers = ({ children }: IChildren) => {
   return (

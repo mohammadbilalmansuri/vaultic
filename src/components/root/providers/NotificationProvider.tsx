@@ -3,7 +3,7 @@ import { JSX } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { TNotificationType } from "@/types";
 import { useNotificationStore } from "@/stores";
-import { Cancel, Info, Success, Error } from "../ui/icons";
+import { Cancel, Info, Success, Error } from "@/components/icons";
 
 const NOTIFICATION_ICONS = new Map<TNotificationType, JSX.Element>([
   ["info", <Info className="w-5.5 text-zinc-800 dark:text-zinc-200" />],
