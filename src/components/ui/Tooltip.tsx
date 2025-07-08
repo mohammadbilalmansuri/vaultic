@@ -90,7 +90,7 @@ const Tooltip = ({
             exit={exit}
             transition={{ duration: 0.15, ease: "easeOut" }}
             className={cn(
-              "absolute z-50 rounded-lg shadow-xl pointer-events-none bg-zinc-950 after:absolute after:-z-10 after:size-2.5 after:bg-zinc-950 after:rotate-45",
+              "absolute z-50 rounded-lg pointer-events-none bg-zinc-950 after:absolute after:-z-10 after:size-2.5 after:bg-zinc-950 after:rotate-45",
               {
                 "bottom-full mb-2 after:top-full after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2":
                   position === "top",
