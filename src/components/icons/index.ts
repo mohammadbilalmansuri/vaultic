@@ -1,3 +1,5 @@
+export { default as AlignLeft } from "./AlignLeft";
+export { default as AlignRight } from "./AlignRight";
 export { default as AngleDown } from "./AngleDown";
 export { default as ArrowLeft } from "./ArrowLeft";
 export { default as ArrowRight } from "./ArrowRight";
@@ -16,11 +18,11 @@ export { default as ExternalLink } from "./ExternalLink";
 export { default as Eye } from "./Eye";
 export { default as EyeSlash } from "./EyeSlash";
 export { default as Github } from "./Github";
+export { default as Home } from "./Home";
 export { default as Info } from "./Info";
 export { default as ListCross } from "./ListCross";
 export { default as Lock } from "./Lock";
 export { default as Logo } from "./Logo";
-export { default as Menu } from "./Menu";
 export { default as Moon } from "./Moon";
 export { default as Plus } from "./Plus";
 export { default as QR } from "./QR";
