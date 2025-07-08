@@ -14,7 +14,7 @@ const SetupComplete = ({ path }: { path: TSetupPath }) => {
       {...scaleUpAnimation({ duration: 0.15 })}
     >
       <Logo className="box-icon text-teal-500" aria-hidden="true" />
-      <h1>Your wallet is ready</h1>
+      <h1>Your Wallet Is Ready</h1>
       <p className="-mt-2.5">
         You’ve successfully {path === "create" ? "created" : "imported"} your
         wallet. You’re now ready to explore, send, and manage your assets
