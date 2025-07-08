@@ -1,7 +1,8 @@
 import { IChildren } from "@/types";
-import { Header, Footer } from "../layout";
+import Header from "./Header";
+import Footer from "./Footer";
 
-const PageShell = ({ children }: IChildren) => {
+const PageLayout = ({ children }: IChildren) => {
   return (
     <>
       <Header />
@@ -13,4 +14,4 @@ const PageShell = ({ children }: IChildren) => {
   );
 };
 
-export default PageShell;
+export default PageLayout;
