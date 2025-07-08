@@ -1,18 +1,19 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, RefObject } from "react";
 
 /**
  * Hook for detecting clicks outside a referenced element.
  * Useful for closing dropdowns, modals, or other overlay components.
+ * @template T - The type of DOM element to observe (defaults to HTMLElement).
  * @param handler - Callback function to execute when outside click is detected
  * @param enabled - Whether the outside click detection is active (default: true)
  * @returns Ref to attach to the element you want to monitor
  */
-const useOutsideClick = (
+const useOutsideClick = <T extends Element = HTMLElement>(
   handler: (event: MouseEvent | TouchEvent) => void,
   enabled = true
-) => {
-  const ref = useRef<HTMLDivElement>(null);
+): RefObject<T | null> => {
+  const ref = useRef<T>(null);
 
   useEffect(() => {
     if (!enabled) return;
