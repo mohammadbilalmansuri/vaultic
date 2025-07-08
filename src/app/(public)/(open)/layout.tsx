@@ -1,8 +1,8 @@
 import { IChildren } from "@/types";
-import { PageShell } from "@/components/shells";
+import { PageLayout } from "@/components/layouts";
 
 const OpenLayout = ({ children }: IChildren) => {
-  return <PageShell>{children}</PageShell>;
+  return <PageLayout>{children}</PageLayout>;
 };
 
 export default OpenLayout;

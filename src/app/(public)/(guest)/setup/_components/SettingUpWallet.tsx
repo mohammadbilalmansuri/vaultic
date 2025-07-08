@@ -5,8 +5,8 @@ import { TSetupPath, TSetupSetStep } from "@/types";
 import { useWalletStore, useNotificationStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import { useAccounts } from "@/hooks";
+import { Logo } from "@/components/icons";
 import { IconProcessing } from "@/components/ui";
-import { Logo } from "@/components/ui/icons";
 
 const SettingUpWallet = ({
   path,

@@ -2,8 +2,8 @@
 import { motion } from "motion/react";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useMotionInView } from "@/hooks";
+import { ExternalLink } from "@/components/icons";
 import { Button } from "@/components/ui";
-import { ExternalLink } from "@/components/ui/icons";
 
 const HeroSection = () => {
   const { ref, inView } = useMotionInView();
