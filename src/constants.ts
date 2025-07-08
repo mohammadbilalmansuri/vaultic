@@ -5,7 +5,7 @@ import {
   Setting,
   WalletMoney,
   QuestionMark,
-} from "@/components/ui/icons";
+} from "@/components/icons";
 
 export const DEFAULT_NETWORK: TNetwork = "ethereum";
 
