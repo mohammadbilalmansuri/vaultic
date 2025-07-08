@@ -107,7 +107,7 @@ const EnterRecoveryPhrase = ({
       {StepProgress}
 
       <div className="w-full flex flex-col items-center xs:gap-6 gap-5 xs:p-6 p-5">
-        <h1>Enter your recovery phrase</h1>
+        <h1>Enter Your Recovery Phrase</h1>
         <p className="-mt-2.5">
           Enter your 12- or 24-word recovery phrase to import your wallet. You
           can also paste the entire phrase into the first field to fill in the
