@@ -32,7 +32,6 @@ const Header = () => {
         <Link
           href={walletExists ? "/dashboard" : "/"}
           className="flex items-center sm:gap-2.5 gap-2 select-none"
-          aria-label="Vaultic home"
         >
           <Logo className="sm:w-7 w-6 text-teal-500" />
           <span className="-mt-0.5 sm:text-3xl text-26 lowercase leading-none font-bold text-teal-500">
