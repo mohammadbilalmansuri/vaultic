@@ -2,10 +2,10 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { TSelectStyle, TSelectVariant } from "@/types";
-import { useOutsideClick } from "@/hooks";
 import cn from "@/utils/cn";
+import { useOutsideClick } from "@/hooks";
+import { ChevronsUpDown, Check } from "../icons";
 import { Loader } from "../ui";
-import { ChevronsUpDown, Check } from "../ui/icons";
 
 interface SelectProps<T> {
   options: Array<{
@@ -30,7 +30,7 @@ const Select = <T,>({
   widthClassName = "w-full",
 }: SelectProps<T>) => {
   const [opened, setOpened] = useState(false);
-  const outsideClickRef = useOutsideClick(
+  const outsideClickRef = useOutsideClick<HTMLDivElement>(
     () => opened && setOpened(false),
     opened
   );

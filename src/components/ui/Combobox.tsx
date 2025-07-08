@@ -5,8 +5,8 @@ import { Controller, Control, FieldValues, Path } from "react-hook-form";
 import { TIcon } from "@/types";
 import cn from "@/utils/cn";
 import { useOutsideClick } from "@/hooks";
+import { AngleDown, Check } from "../icons";
 import Input from "./Input";
-import { AngleDown, Check } from "./icons";
 
 interface ComboboxProps<T extends FieldValues> {
   name: Path<T>;
@@ -35,7 +35,7 @@ const Combobox = <T extends FieldValues>({
   ...inputProps
 }: ComboboxProps<T>) => {
   const [opened, setOpened] = useState(false);
-  const outsideClickRef = useOutsideClick(
+  const outsideClickRef = useOutsideClick<HTMLDivElement>(
     () => opened && setOpened(false),
     opened
   );

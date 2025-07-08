@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { expandCollapseAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import { AngleDown } from "./icons";
+import { AngleDown } from "../icons";
 
 interface AccordionProps {
   isOpen: boolean;
