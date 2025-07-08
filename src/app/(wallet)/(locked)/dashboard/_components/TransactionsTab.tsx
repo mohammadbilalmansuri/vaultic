@@ -17,8 +17,8 @@ import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import parseTimestamp from "@/utils/parseTimestamp";
 import { useBlockchain, useClipboard, useMounted } from "@/hooks";
+import { ListCross, ExternalLink, Refresh } from "@/components/icons";
 import { Tooltip, CopyToggle, Button, Loader } from "@/components/ui";
-import { ListCross, ExternalLink, Refresh } from "@/components/ui/icons";
 
 const TransactionsTab = () => {
   const transactions = useTransactionsStore((state) => state.transactions);

@@ -8,8 +8,8 @@ import { useAccountsStore } from "@/stores";
 import { generateQRCode } from "@/services/qr";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useClipboard, useFileActions } from "@/hooks";
+import { Download, Error, Share } from "@/components/icons";
 import { Tooltip, CopyToggle } from "@/components/ui";
-import { Download, Error, Share } from "@/components/ui/icons";
 
 const qrCache = new Map<string, string>();
 
@@ -66,7 +66,7 @@ const ReceiveTab = () => {
   if (error) {
     return (
       <div className="box p-8 gap-6">
-        <Error className="text-rose-500 w-15" strokeWidth={1.5} />
+        <Error className="text-rose-500 box-icon" strokeWidth={1.5} />
         <p>{error}</p>
       </div>
     );

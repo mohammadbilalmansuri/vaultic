@@ -27,7 +27,6 @@ const TestnetModeTab = () => {
           state={isTestnetModeOn}
           onClick={handleSwitchNetworkMode}
           disabled={switching}
-          label={`${isTestnetModeOn ? "Disable" : "Enable"} Testnet Mode`}
           className={cn(switching ? "pointer-events-none" : "")}
         />
       </div>

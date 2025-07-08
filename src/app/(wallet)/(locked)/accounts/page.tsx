@@ -13,6 +13,7 @@ import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import { useAccounts, useClipboard } from "@/hooks";
+import { Cards, Plus, Trash, AngleDown, Check } from "@/components/icons";
 import {
   Loader,
   NetworkLogo,
@@ -20,7 +21,6 @@ import {
   CopyToggle,
   EyeToggle,
 } from "@/components/ui";
-import { Cards, Plus, Trash, AngleDown, Check } from "@/components/ui/icons";
 
 const AccountsPage = () => {
   const networkMode = useWalletStore((state) => state.networkMode);

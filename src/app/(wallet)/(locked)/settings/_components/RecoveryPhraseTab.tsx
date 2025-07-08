@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { ITabContentProps } from "@/types";
 import { useWalletStore } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
-import { MnemonicView } from "@/components/layout";
+import { MnemonicView } from "@/components/shared";
 
 const RecoveryPhraseTab = ({
   showInitialAnimation,

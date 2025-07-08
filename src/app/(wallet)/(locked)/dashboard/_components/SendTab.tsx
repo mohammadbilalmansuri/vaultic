@@ -14,7 +14,8 @@ import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import { TSendForm, SendSchema } from "@/utils/validations";
 import { useBlockchain, useMounted, useAddressQRUpload } from "@/hooks";
-import { StepProgress } from "@/components/layout";
+import { Check, Cancel, QR } from "@/components/icons";
+import { StepProgress } from "@/components/shared";
 import {
   Button,
   Input,
@@ -25,7 +26,6 @@ import {
   IconProcessing,
   Tooltip,
 } from "@/components/ui";
-import { Check, Cancel, QR } from "@/components/ui/icons";
 
 type TSendStep = 1 | 2 | 3 | 4;
 
