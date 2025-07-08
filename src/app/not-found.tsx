@@ -2,9 +2,9 @@
 import { motion } from "motion/react";
 import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
-import { PageShell } from "@/components/shells";
+import { QuestionMark } from "@/components/icons";
+import { PageLayout } from "@/components/layouts";
 import { Button } from "@/components/ui";
-import { QuestionMark } from "@/components/ui/icons";
 
 const NotFound = () => {
   const walletExists = useWalletStore((state) => state.walletExists);
@@ -12,7 +12,7 @@ const NotFound = () => {
   const label = walletExists ? "Dashboard" : "Home";
 
   return (
-    <PageShell>
+    <PageLayout>
       <div className="box-page" aria-label="Not Found Page">
         <motion.div
           role="alert"
@@ -38,7 +38,7 @@ const NotFound = () => {
           </Button>
         </motion.div>
       </div>
-    </PageShell>
+    </PageLayout>
   );
 };
 
