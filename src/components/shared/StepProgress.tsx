@@ -1,6 +1,6 @@
 "use client";
 import cn from "@/utils/cn";
-import { ArrowLeft } from "../ui/icons";
+import { ArrowLeft } from "../icons";
 
 interface StepProgressProps {
   dots: number;
