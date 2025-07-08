@@ -1,4 +1,4 @@
-import { TNetworkFunctions } from "../types";
+import { TNetworkFunctions } from "@/types";
 import {
   resetEthereumConnection,
   isValidEthereumAddress,
@@ -7,7 +7,7 @@ import {
   fetchEthereumTransactions,
   sendEthereum,
   getEthereumExplorerUrl,
-} from "../services/ethereum";
+} from "@/services/ethereum";
 import {
   resetSolanaConnection,
   isValidSolanaAddress,
@@ -16,7 +16,7 @@ import {
   fetchSolanaTransactions,
   sendSolana,
   getSolanaExplorerUrl,
-} from "../services/solana";
+} from "@/services/solana";
 
 /**
  * Network function mapping that provides a unified interface for blockchain operations.
