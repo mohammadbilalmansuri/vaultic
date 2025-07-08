@@ -2,12 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { IChildren } from "@/types";
 import cn from "@/utils/cn";
+import { Providers } from "@/components/root";
 import "./globals.css";
-import Providers from "./Providers";
 
-const inter = Inter({
-  variable: "--font-inter",
-});
+const inter = Inter({ variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: "Vaultic - The Wallet That Lives in Your Browser",
