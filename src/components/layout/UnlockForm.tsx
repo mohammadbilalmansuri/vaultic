@@ -57,7 +57,7 @@ const UnlockForm = () => {
         <FormError errors={errors} className="mt-2 -mb-2" />
       </form>
 
-      <Link href="/forgot-password" className="link mt-1 -mb-0.5">
+      <Link href="/forgot-password" className="link mt-1">
         Forgot Password
       </Link>
     </motion.div>
