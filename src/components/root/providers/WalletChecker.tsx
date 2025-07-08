@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { IChildren } from "@/types";
 import { useWalletStore } from "@/stores";
 import { useWallet } from "@/hooks";
-import Loading from "./Loading";
+import { Loading } from "@/components/shared";
 
 const WalletChecker = ({ children }: IChildren) => {
   const { checkWalletExists } = useWallet();

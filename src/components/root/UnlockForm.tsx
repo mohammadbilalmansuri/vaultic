@@ -9,8 +9,8 @@ import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";
 import { useWallet } from "@/hooks";
+import { Logo } from "../icons";
 import { Button, FormError, Loader, PasswordInput } from "../ui";
-import { Logo } from "../ui/icons";
 
 const UnlockForm = () => {
   const { unlockWallet } = useWallet();
