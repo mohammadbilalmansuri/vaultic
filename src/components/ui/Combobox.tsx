@@ -35,10 +35,9 @@ const Combobox = <T extends FieldValues>({
   ...inputProps
 }: ComboboxProps<T>) => {
   const [opened, setOpened] = useState(false);
-  const outsideClickRef = useOutsideClick<HTMLDivElement>(
-    () => opened && setOpened(false),
-    opened
-  );
+  const outsideClickRef = useOutsideClick<HTMLDivElement>(() => {
+    if (opened) setOpened(false);
+  }, opened);
 
   return (
     <Controller
