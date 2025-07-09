@@ -30,10 +30,9 @@ const Select = <T,>({
   widthClassName = "w-full",
 }: SelectProps<T>) => {
   const [opened, setOpened] = useState(false);
-  const outsideClickRef = useOutsideClick<HTMLDivElement>(
-    () => opened && setOpened(false),
-    opened
-  );
+  const outsideClickRef = useOutsideClick<HTMLDivElement>(() => {
+    if (opened) setOpened(false);
+  }, opened);
 
   const selectedLabel =
     options.find((opt) => opt.value === value)?.label || "Invalid Option";
@@ -68,7 +67,9 @@ const Select = <T,>({
         role="select"
         aria-label="Select option"
       >
-        <span className="heading-color font-medium">{selectedLabel}</span>
+        <span className="heading-color font-medium text-nowrap">
+          {selectedLabel}
+        </span>
         <span className={cn("icon-btn-bg-sm", { "heading-color": opened })}>
           <ChevronsUpDown />
         </span>
