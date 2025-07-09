@@ -8,7 +8,7 @@ const DashboardLayout = ({ children }: IChildren) => {
       <main
         role="main"
         aria-label="Dashboard Main Content"
-        className="w-full relative flex flex-col items-center lg:px-8 lg:py-8 sm:px-5 sm:py-3 px-4 py-2 overflow-x-hidden scrollbar-thin"
+        className="w-full relative flex-1 flex flex-col items-center lg:px-8 lg:py-8 sm:px-5 sm:py-3 px-4 py-2 overflow-x-hidden scrollbar-thin"
       >
         {children}
       </main>
