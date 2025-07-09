@@ -66,7 +66,7 @@ const ReceiveTab = () => {
   if (error) {
     return (
       <div className="box p-8 gap-6">
-        <Error className="text-rose-500 box-icon" strokeWidth={1.5} />
+        <Error className="text-rose-500 icon-lg" strokeWidth={1.5} />
         <p>{error}</p>
       </div>
     );
