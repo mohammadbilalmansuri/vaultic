@@ -4,7 +4,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full relative flex flex-col items-center sm:p-5 p-4 min-h-fit mt-1">
+    <footer className="w-full relative flex flex-col items-center md:p-5 p-4">
       <div className="w-full max-w-screen-lg relative flex flex-col sm:flex-row sm:justify-between items-center gap-2">
         <p className="sm:text-left text-center">
           &copy;{currentYear} Vaultic. All rights reserved.
