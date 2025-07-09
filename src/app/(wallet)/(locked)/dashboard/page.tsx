@@ -84,12 +84,12 @@ const DashboardPage = () => {
         {...fadeUpAnimation()}
       >
         <div className="flex items-center gap-4">
-          <div className="size-12 rounded-2xl bg-teal-500/10 flex items-center justify-center">
-            <Wallet className="w-6 text-teal-500" />
+          <div className="size-12 rounded-2xl bg-teal-500/10 text-teal-600 dark:text-teal-500 flex items-center justify-center shrink-0 font-semibold uppercase text-xl">
+            {`A${activeAccountIndex + 1}`}
           </div>
           <div className="flex flex-col">
             <h2 className="text-xl font-semibold heading-color">
-              Account {activeAccountIndex + 1} Dashboard
+              Account {activeAccountIndex + 1}
             </h2>
             <p>
               {networkMode === "testnet"
