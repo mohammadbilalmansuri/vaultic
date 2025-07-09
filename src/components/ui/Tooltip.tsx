@@ -1,8 +1,9 @@
 "use client";
 import { useState, useId, ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { TTooltipPosition } from "@/types";
 import cn from "@/utils/cn";
+
+type TTooltipPosition = "top" | "bottom" | "left" | "right";
 
 interface TooltipProps {
   content: ReactNode;

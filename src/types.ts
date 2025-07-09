@@ -145,5 +145,3 @@ export type TTabs = Record<
   string,
   { icon?: TIcon; content: (props: ITabContentProps) => JSX.Element | null }
 >;
-
-export type TTooltipPosition = "top" | "bottom" | "left" | "right";
