@@ -26,7 +26,7 @@ const ChoosePath = ({
       className="box without-progress"
       {...scaleUpAnimation({ duration: hasMounted ? 0.15 : undefined })}
     >
-      <Logo className="box-icon text-teal-500" aria-hidden={true} />
+      <Logo className="icon-lg text-teal-500" aria-hidden={true} />
       <h1>Set Up Your Wallet</h1>
       <p className="-mt-2.5">
         To get started, create a new wallet or import an existing one.
