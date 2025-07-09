@@ -20,11 +20,11 @@
 }
 
 @utility webkit-autofil-color-for-dark {
-  -webkit-text-fill-color: oklch(92% 0.004 286.32);
+  -webkit-text-fill-color: #e4e4e7;
 }
 
 @utility webkit-autofil-color-for-light {
-  -webkit-text-fill-color: oklch(27.4% 0.006 286.033);
+  -webkit-text-fill-color: #27272a;
 }
 
 @utility heading-color {
@@ -35,12 +35,20 @@
   @apply text-zinc-600 dark:text-zinc-400;
 }
 
+@utility text-warning {
+  @apply text-yellow-600 dark:text-yellow-500;
+}
+
 @utility border-color {
   @apply border-zinc-300/70 dark:border-zinc-800;
 }
 
 @utility border-focus {
   @apply border-zinc-400 dark:border-zinc-600;
+}
+
+@utility border-warning {
+  @apply border-yellow-500/30 dark:border-yellow-500/10;
 }
 
 @utility bg-default {
@@ -56,11 +64,23 @@
 }
 
 @utility bg-warning {
-  @apply text-yellow-800 dark:text-yellow-500 bg-yellow-500/20 dark:bg-yellow-500/10;
+  @apply bg-yellow-500/20 dark:bg-yellow-500/10;
 }
 
 @utility bg-input {
   @apply bg-white dark:bg-zinc-950/30;
+}
+
+@utility icon-teal {
+  @apply text-teal-500;
+}
+
+@utility icon-warning {
+  @apply text-yellow-500;
+}
+
+@utility icon-lg {
+  @apply xs:w-14 w-12;
 }
 
 @utility icon-btn {
@@ -164,10 +184,6 @@
 
   .box h3 {
     @apply xs:text-2xl text-xl font-medium leading-snug heading-color;
-  }
-
-  .box-icon {
-    @apply xs:w-14 w-12;
   }
 
   .box.without-progress {
