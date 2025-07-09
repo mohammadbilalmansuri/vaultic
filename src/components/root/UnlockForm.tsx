@@ -36,7 +36,7 @@ const UnlockForm = () => {
       className="box without-progress"
       {...scaleUpAnimation()}
     >
-      <Logo className="box-icon text-teal-500" aria-hidden="true" />
+      <Logo className="icon-lg text-teal-500" aria-hidden="true" />
       <h1>Enter Your Password</h1>
 
       <form
