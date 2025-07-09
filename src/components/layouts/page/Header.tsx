@@ -18,21 +18,23 @@ const Header = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
-  const closeMenu = () => isMenuOpen && setIsMenuOpen(false);
+  const closeMenu = () => {
+    if (isMenuOpen) setIsMenuOpen(false);
+  };
   const menuOutsideClickRef = useOutsideClick<HTMLDivElement>(
     closeMenu,
     isMenuOpen
   );
 
   return (
-    <header className="w-full relative flex flex-col items-center min-h-fit sm:p-5 p-4">
+    <header className="w-full relative flex flex-col items-center min-h-fit md:px-5 px-4 md:py-4 py-3">
       <div className="w-full max-w-screen-lg relative flex items-center justify-between gap-4">
         <Link
           href={walletExists ? "/dashboard" : "/"}
-          className="flex items-center sm:gap-2.5 gap-2 select-none"
+          className="flex items-center md:gap-2.5 gap-2 select-none"
         >
           <Logo className="w-6 text-teal-500" />
-          <span className="-mt-0.5 sm:text-3xl text-h2 lowercase leading-[0.8] font-bold text-teal-500">
+          <span className="-mt-0.5 md:text-3xl text-h2 lowercase leading-[0.8] font-bold text-teal-500">
             vaultic
           </span>
         </Link>
