@@ -214,7 +214,7 @@ const TransactionsTab = () => {
                             {
                               "bg-teal-500/10 text-teal-500 border border-teal-500/30 dark:border-teal-500/10":
                                 txn.type === "in",
-                              "bg-yellow-500/10 text-yellow-800 dark:text-yellow-500 border border-yellow-500/30 dark:border-yellow-500/10":
+                              "text-warning bg-warning border border-warning":
                                 txn.type === "out",
                               "bg-primary heading-color border border-color":
                                 txn.type === "self",
@@ -281,7 +281,7 @@ const TransactionsTab = () => {
                 <tr className="h-60 border-t-1.5 border-color">
                   <td colSpan={7} className="px-4 size-full">
                     <div className="size-full flex flex-col items-center justify-center gap-2 text-center">
-                      <ListCross className="h-14 text-yellow-500" />
+                      <ListCross className="h-14 icon-warning" />
                       <p className="text-md max-w-60">
                         No transactions found for this {network} address.
                       </p>
