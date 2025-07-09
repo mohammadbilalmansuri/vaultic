@@ -25,14 +25,14 @@ const Header = () => {
   );
 
   return (
-    <header className="w-full relative flex flex-col items-center sm:px-5 px-4 min-h-fit">
-      <div className="w-full max-w-screen-lg relative flex items-center justify-between gap-5 sm:py-5 py-4">
+    <header className="w-full relative flex flex-col items-center min-h-fit sm:p-5 p-4">
+      <div className="w-full max-w-screen-lg relative flex items-center justify-between gap-4">
         <Link
           href={walletExists ? "/dashboard" : "/"}
           className="flex items-center sm:gap-2.5 gap-2 select-none"
         >
-          <Logo className="sm:w-7 w-6 text-teal-500" />
-          <span className="-mt-0.5 sm:text-3xl text-26 lowercase leading-none font-bold text-teal-500">
+          <Logo className="w-6 text-teal-500" />
+          <span className="-mt-0.5 sm:text-3xl text-h2 lowercase leading-[0.8] font-bold text-teal-500">
             vaultic
           </span>
         </Link>
@@ -48,7 +48,7 @@ const Header = () => {
           ))}
         </nav>
 
-        <div className="flex items-center xs:gap-3 gap-2">
+        <div className="flex items-center xs:gap-3 gap-2 -mr-0.5">
           <Link
             href="https://github.com/mohammadbilalmansuri/vaultic"
             target="_blank"
@@ -86,7 +86,7 @@ const Header = () => {
                 <motion.div
                   id="header-mobile-nav-menu-dropdown"
                   aria-label="Header mobile navigation menu dropdown"
-                  className="md:hidden absolute z-50 top-full sm:-mt-4 -mt-3 bg-default border border-color rounded-2xl overflow-hidden shadow-xl"
+                  className="md:hidden absolute z-50 top-full mt-2 bg-default border border-color rounded-2xl overflow-hidden shadow-xl"
                   {...expandCollapseAnimation({
                     duration: 0.15,
                     ease: "easeOut",
