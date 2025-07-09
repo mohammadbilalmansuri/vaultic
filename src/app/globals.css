@@ -8,7 +8,6 @@
   --breakpoint-sm: 660px;
   --breakpoint-md: 840px;
   --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1200px;
   --text-md: 1.0625rem;
   --text-h1: 2.125rem;
   --text-h2: 1.75rem;
@@ -69,7 +68,11 @@
 }
 
 @utility icon-btn-bg {
-  @apply shrink-0 icon-btn sm:size-10 size-9 flex items-center justify-center rounded-xl hover:bg-primary;
+  @apply icon-btn sm:size-10 size-9 flex items-center justify-center rounded-xl hover:bg-primary shrink-0;
+}
+
+@utility icon-btn-bg-sm {
+  @apply icon-btn size-8 flex items-center justify-center rounded-lg hover:bg-primary;
 }
 
 @utility scrollbar-thin {
@@ -98,7 +101,7 @@
   }
 
   .page-main {
-    @apply w-full relative flex flex-col items-center justify-center flex-1 sm:px-5 px-4 sm:py-3 py-2;
+    @apply w-full relative flex flex-col items-center justify-center flex-1 md:px-5 px-4 md:py-4 py-3;
   }
 
   button,
@@ -114,12 +117,6 @@
     transition: background-color 100000s ease-in-out 0s;
     box-shadow: none;
   }
-}
-
-@layer components {
-  .icon-btn-bg-sm {
-    @apply icon-btn-bg sm:size-8 size-7.5;
-  }
 
   .icon-btn svg,
   .icon-btn-bg-sm svg {
@@ -129,7 +126,9 @@
   .icon-btn-bg svg {
     @apply w-5.5;
   }
+}
 
+@layer components {
   .h1 {
     @apply md:text-h1 sm:text-3xl text-h2 font-semibold leading-snug heading-color;
   }
