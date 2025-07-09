@@ -11,7 +11,7 @@ const FaucetPage = () => {
       className="box without-progress"
       {...scaleUpAnimation()}
     >
-      <Logo className="box-icon text-teal-500" aria-hidden="true" />
+      <Logo className="icon-lg text-teal-500" aria-hidden="true" />
       <h1 className="xxs:text-nowrap">Claim Free Testnet Tokens</h1>
       <p className="-mt-2.5">
         Get free ETH (Sepolia) and SOL (Devnet) for testing, development, or

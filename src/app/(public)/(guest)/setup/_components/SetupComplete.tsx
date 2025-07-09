@@ -13,7 +13,7 @@ const SetupComplete = ({ path }: { path: TSetupPath }) => {
       className="box without-progress"
       {...scaleUpAnimation({ duration: 0.15 })}
     >
-      <Logo className="box-icon text-teal-500" aria-hidden="true" />
+      <Logo className="icon-lg text-teal-500" aria-hidden="true" />
       <h1>Your Wallet Is Ready</h1>
       <p className="-mt-2.5">
         You’ve successfully {path === "create" ? "created" : "imported"} your
