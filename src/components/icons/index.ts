@@ -32,6 +32,8 @@ export { default as Send } from "./Send";
 export { default as Setting } from "./Setting";
 export { default as Share } from "./Share";
 export { default as ShieldTick } from "./ShieldTick";
+export { default as SidebarClose } from "./SidebarClose";
+export { default as SidebarOpen } from "./SidebarOpen";
 export { default as Solana } from "./Solana";
 export { default as Success } from "./Success";
 export { default as Sun } from "./Sun";
