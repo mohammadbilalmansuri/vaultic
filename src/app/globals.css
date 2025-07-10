@@ -88,11 +88,11 @@
 }
 
 @utility icon-btn-bg {
-  @apply icon-btn sm:size-10 size-9 flex items-center justify-center rounded-xl hover:bg-primary shrink-0;
+  @apply icon-btn sm:size-10 size-9 flex items-center justify-center rounded-xl hover:bg-secondary shrink-0;
 }
 
 @utility icon-btn-bg-sm {
-  @apply icon-btn size-8 flex items-center justify-center rounded-lg hover:bg-primary;
+  @apply icon-btn size-8 flex items-center justify-center rounded-lg hover:bg-secondary shrink-0;
 }
 
 @utility scrollbar-thin {
