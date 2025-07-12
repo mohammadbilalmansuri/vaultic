@@ -7,7 +7,7 @@ const Trash: TIcon = (props) => {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      strokeWidth="2"
       {...props}
     >
       <path d="M20.5001 6H3.5" strokeLinecap="round" />
