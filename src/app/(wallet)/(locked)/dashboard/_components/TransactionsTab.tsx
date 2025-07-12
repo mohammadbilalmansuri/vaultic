@@ -78,7 +78,7 @@ const TransactionsTab = () => {
         <div className="flex items-center gap-3">
           {Object.values(NETWORKS).map(({ id, name }) => (
             <button
-              key={id}
+              key={`${id}-button`}
               type="button"
               disabled={id === network}
               onClick={() => handleNetworkChange(id as TNetwork)}
@@ -140,7 +140,7 @@ const TransactionsTab = () => {
 
             <tbody>
               {networkTransactions.length > 0 ? (
-                networkTransactions.map((txn, index) => {
+                networkTransactions.map((txn) => {
                   const { utc, age } = parseTimestamp(txn.timestamp);
                   const addressToShow = txn.type === "in" ? txn.from : txn.to;
                   const addressWithId = `${addressToShow}-${txn.signature}`;

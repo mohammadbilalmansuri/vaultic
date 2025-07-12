@@ -102,7 +102,7 @@ const Select = <T,>({
                   No options available
                 </p>
               ) : (
-                options.map((option) => {
+                options.map((option, index) => {
                   const isSelected = value === option.value;
 
                   const statusIcon =
@@ -114,7 +114,7 @@ const Select = <T,>({
 
                   return (
                     <button
-                      key={String(option.value)}
+                      key={`option-${index}-${option.value}`}
                       type="button"
                       role="option"
                       aria-selected={isSelected}

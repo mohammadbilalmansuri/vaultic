@@ -89,13 +89,13 @@ const Combobox = <T extends FieldValues>({
                 className="absolute top-full mt-1.5 w-[98%] bg-default border rounded-2xl z-10 overflow-hidden shadow-xl"
               >
                 <div className="flex flex-col gap-2 xs:p-2.5 p-2 bg-input">
-                  {options.map((option) => {
+                  {options.map((option, index) => {
                     const isSelected = value === option.value;
                     const ValueIcon = option.valueIcon;
 
                     return (
                       <button
-                        key={String(option.value)}
+                        key={`option-${index}-${option.value}`}
                         type="button"
                         role="option"
                         aria-selected={isSelected}

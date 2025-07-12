@@ -135,7 +135,7 @@ const DashboardPage = () => {
 
             return (
               <motion.div
-                key={network}
+                key={`${network}-card`}
                 {...fadeUpAnimation({ delay: (index + 1) * 0.1 })}
                 className="w-full relative flex items-center justify-between rounded-3xl bg-primary px-5 py-6"
               >

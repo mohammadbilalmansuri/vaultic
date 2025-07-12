@@ -43,8 +43,12 @@ const Header = () => {
           className="hidden md:flex items-center lg:gap-6 gap-4"
           aria-label="Header navigation"
         >
-          {navLinks.map(({ href, label }) => (
-            <NavLink key={href} href={href} active={pathname === href}>
+          {navLinks.map(({ href, label }, index) => (
+            <NavLink
+              key={`link-${index}`}
+              href={href}
+              active={pathname === href}
+            >
               {label}
             </NavLink>
           ))}
@@ -95,9 +99,9 @@ const Header = () => {
                   })}
                 >
                   <nav className="w-full bg-input flex flex-col items-start gap-2 p-2.5">
-                    {navLinks.map(({ href, label }) => (
+                    {navLinks.map(({ href, label }, index) => (
                       <NavLink
-                        key={href}
+                        key={`menu-link-${index}`}
                         href={href}
                         active={pathname === href}
                         className="w-full"

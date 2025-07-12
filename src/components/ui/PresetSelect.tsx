@@ -67,9 +67,9 @@ const PresetSelect = <T extends FieldValues>({
                     `grid grid-cols-${gridCols}`
                   )}
                 >
-                  {options.map((option) => (
+                  {options.map((option, index) => (
                     <button
-                      key={option}
+                      key={`option-${index}-${option}`}
                       type="button"
                       role="option"
                       aria-selected={value === option}
