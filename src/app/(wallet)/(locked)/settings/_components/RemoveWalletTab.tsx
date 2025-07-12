@@ -56,7 +56,7 @@ const RemoveWalletTab = () => {
 
   return (
     <motion.div className="box max-w-lg gap-0" {...fadeUpAnimation()}>
-      <h3 className="w-full text-lg font-medium heading-color border-b-1.5 border-color p-3">
+      <h3 className="w-full text-lg font-medium heading-color border-b-1.5 p-3">
         Remove Wallet
       </h3>
 

@@ -67,7 +67,7 @@ const TestnetSection = () => {
           <motion.div
             key={index}
             aria-label={title}
-            className="w-full relative border-1.5 border-color rounded-3xl flex flex-col items-start sm:gap-2 gap-1.5 sm:pl-6 sm:pb-6 sm:pt-4 sm:pr-4 pl-5 pb-5 pt-3.5 pr-3.5"
+            className="w-full relative border-1.5 rounded-3xl flex flex-col items-start sm:gap-2 gap-1.5 sm:pl-6 sm:pb-6 sm:pt-4 sm:pr-4 pl-5 pb-5 pt-3.5 pr-3.5"
             {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.1 })}
           >
             <div className="w-full relative flex items-center-safe justify-between gap-3">

@@ -86,7 +86,7 @@ const TransactionsTab = () => {
                 "flex items-center gap-2 leading-none py-2.5 px-3 rounded-xl transition-all duration-300 font-medium border",
                 id === network
                   ? "bg-teal-500/10 border-teal-500/30 dark:border-teal-500/10 text-teal-500 pointer-events-none"
-                  : "bg-primary heading-color hover:bg-secondary border-color hover:border-focus"
+                  : "bg-primary heading-color hover:bg-secondary hover:border-focus"
               )}
             >
               {name}
@@ -111,11 +111,11 @@ const TransactionsTab = () => {
       </motion.div>
 
       <motion.div
-        className="w-full relative border-1.5 border-color rounded-2xl overflow-hidden"
+        className="w-full relative border-1.5 rounded-2xl overflow-hidden"
         key={`transactions-table-${network}`}
         {...fadeUpAnimation({ delay: !hasTabMounted ? 0.1 : undefined })}
       >
-        <div className="w-full relative overflow-x-auto scrollbar-thin">
+        <div className="w-full relative overflow-x-auto">
           <table className="w-full relative text-sm text-left">
             <thead>
               <tr className="h-12">
@@ -148,7 +148,7 @@ const TransactionsTab = () => {
                   return (
                     <tr
                       key={`${txn.network}-${txn.signature}`}
-                      className="h-12 border-t-1.5 border-color hover:bg-primary transition-all duration-300"
+                      className="h-12 border-t-1.5 hover:bg-primary transition-all duration-300"
                     >
                       {/* Txn Signature */}
                       <td className="px-4 whitespace-nowrap">
@@ -278,7 +278,7 @@ const TransactionsTab = () => {
                   );
                 })
               ) : (
-                <tr className="h-60 border-t-1.5 border-color">
+                <tr className="h-60 border-t-1.5">
                   <td colSpan={7} className="px-4 size-full">
                     <div className="size-full flex flex-col items-center justify-center gap-2 text-center">
                       <ListCross className="h-14 icon-warning" />

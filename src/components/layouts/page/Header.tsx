@@ -88,7 +88,7 @@ const Header = () => {
                 <motion.div
                   id="header-mobile-nav-menu-dropdown"
                   aria-label="Header mobile navigation menu dropdown"
-                  className="md:hidden absolute z-50 top-full mt-2 bg-default border border-color rounded-2xl overflow-hidden shadow-xl"
+                  className="md:hidden absolute z-50 top-full mt-2 bg-default border rounded-2xl overflow-hidden shadow-xl"
                   {...expandCollapseAnimation({
                     duration: 0.15,
                     ease: "easeOut",

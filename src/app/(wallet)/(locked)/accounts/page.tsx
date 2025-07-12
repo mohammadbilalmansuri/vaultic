@@ -183,7 +183,7 @@ const AccountsPage = () => {
             return (
               <motion.div
                 key={`account-${accountIndex}`}
-                className="w-full relative rounded-4xl border-1.5 border-color"
+                className="w-full relative rounded-4xl border-1.5"
                 {...fadeUpAnimation({ delay: idx * 0.1 + 0.1 })}
               >
                 <div
@@ -195,7 +195,7 @@ const AccountsPage = () => {
                       Account {accountIndex + 1}
                     </h3>
 
-                    <span className="text-sm font-medium leading-none uppercase tracking-wide px-2 h-7.5 flex items-center justify-center rounded-lg bg-primary border border-color">
+                    <span className="text-sm font-medium leading-none uppercase tracking-wide px-2 h-7.5 flex items-center justify-center rounded-lg bg-primary border">
                       Index {accountIndex}
                     </span>
 

@@ -82,10 +82,10 @@ const ReceiveTab = () => {
           return (
             <motion.div
               key={network}
-              className="w-full flex flex-col items-center border-1.5 border-color rounded-3xl"
+              className="w-full flex flex-col items-center border-1.5 rounded-3xl"
               {...fadeUpAnimation({ delay: 0.1 * index })}
             >
-              <div className="w-full flex items-center justify-between border-b-1.5 border-color px-4 py-3">
+              <div className="w-full flex items-center justify-between border-b-1.5 px-4 py-3">
                 <h4 className="text-lg font-medium heading-color">
                   {networkName} Address
                 </h4>
@@ -136,13 +136,13 @@ const ReceiveTab = () => {
                   loading="lazy"
                 />
 
-                <div className="w-full bg-input border border-color rounded-2xl">
+                <div className="w-full bg-input border rounded-2xl">
                   <p className="heading-color pt-4 pb-3 px-8 break-all">
                     {address}
                   </p>
 
                   <CopyToggle
-                    className="w-full justify-center border-t border-color p-3"
+                    className="w-full justify-center border-t p-3"
                     labels={{ copied: "Copied!", copy: "Copy Address" }}
                     hasCopied={copiedAddress === network}
                     onClick={() =>
