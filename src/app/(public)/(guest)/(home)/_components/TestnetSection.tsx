@@ -65,7 +65,7 @@ const TestnetSection = () => {
       <div className="w-full grid grid-cols-1 md:grid-cols-2 sm:gap-5 gap-4">
         {CONTENTS.map(({ title, paragraphs, button }, index) => (
           <motion.div
-            key={index}
+            key={`content-${index}`}
             aria-label={title}
             className="w-full relative border-1.5 rounded-3xl flex flex-col items-start sm:gap-2 gap-1.5 sm:pl-6 sm:pb-6 sm:pt-4 sm:pr-4 pl-5 pb-5 pt-3.5 pr-3.5"
             {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.1 })}

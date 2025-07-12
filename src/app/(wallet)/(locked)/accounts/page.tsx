@@ -278,12 +278,6 @@ const AccountsPage = () => {
                           const network = networkKey as TNetwork;
                           const networkConfig = NETWORKS[network];
                           const parsedBalance = parseBalance(balance);
-                          const isAddressVisible =
-                            showingFullTexts.has(address);
-                          const isPrivateKeyVisible =
-                            showingFullTexts.has(privateKey);
-                          const isAddressCopied = copiedText === address;
-                          const isPrivateKeyCopied = copiedText === privateKey;
 
                           const networkDisplayName = `${networkConfig.name}${
                             networkMode === "testnet"
@@ -330,15 +324,15 @@ const AccountsPage = () => {
                                     network,
                                     10
                                   ),
-                                  isVisible: isAddressVisible,
-                                  copied: isAddressCopied,
+                                  isVisible: showingFullTexts.has(address),
+                                  copied: copiedText === address,
                                 },
                                 {
                                   label: "Private Key",
                                   value: privateKey,
                                   shortValue: `${privateKey.slice(0, 25)}...`,
-                                  isVisible: isPrivateKeyVisible,
-                                  copied: isPrivateKeyCopied,
+                                  isVisible: showingFullTexts.has(privateKey),
+                                  copied: copiedText === privateKey,
                                 },
                               ].map(
                                 ({

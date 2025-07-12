@@ -81,7 +81,7 @@ const ReceiveTab = () => {
           const networkName = NETWORKS[network].name;
           return (
             <motion.div
-              key={network}
+              key={`${network}-address-card`}
               className="w-full flex flex-col items-center border-1.5 rounded-3xl"
               {...fadeUpAnimation({ delay: 0.1 * index })}
             >

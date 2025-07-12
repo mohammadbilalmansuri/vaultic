@@ -127,7 +127,7 @@ const EnterRecoveryPhrase = ({
         >
           <div className="w-full grid grid-cols-3 gap-2">
             {Array.from({ length: mnemonicLength }, (_, index) => (
-              <div key={index} className="mnemonic-word-input">
+              <div key={`word-${index}`} className="mnemonic-word-input">
                 <label
                   className="opacity-50 select-none"
                   htmlFor={`word${index + 1}`}

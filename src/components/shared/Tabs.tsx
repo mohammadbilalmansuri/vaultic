@@ -44,13 +44,13 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
           aria-hidden="true"
         />
 
-        {tabKeys.map((label) => {
+        {tabKeys.map((label, index) => {
           const Icon = tabs[label]?.icon;
           const isActive = activeTab === label;
 
           return (
             <button
-              key={label}
+              key={`tab-${index}`}
               type="button"
               role="tab"
               aria-selected={isActive}
