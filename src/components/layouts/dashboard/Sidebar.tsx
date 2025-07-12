@@ -25,11 +25,6 @@ const sidebarVariants = {
   visible: { width: 256, opacity: 1 },
 };
 
-const contentVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-};
-
 const Sidebar = () => {
   const accounts = useAccountsStore((state) => state.accounts);
   const activeAccountIndex = useAccountsStore(
@@ -79,7 +74,6 @@ const Sidebar = () => {
 
   return (
     <div className="flex lg:flex-row flex-col">
-      {/* Mobile Header */}
       <header className="w-full relative z-30 lg:hidden flex items-center justify-between gap-4 md:px-5 px-4 md:py-4 py-3">
         <Tooltip content="Open Sidebar" position="right">
           <button
@@ -98,27 +92,25 @@ const Sidebar = () => {
         <ThemeSwitcher />
       </header>
 
-      {/* Overlay for mobile */}
       <AnimatePresence>
         {isSidebarOpenOnSmallScreen && (
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black z-40 lg:hidden"
+            transition={{ duration: 0.1, ease: "easeOut" }}
+            className="fixed inset-0 bg-zinc-950/50 z-40 lg:hidden will-change-auto"
           />
         )}
       </AnimatePresence>
 
-      {/* Sidebar */}
       <motion.aside
         aria-label="Dashboard Sidebar"
         initial={false}
         animate={sidebarState}
         variants={sidebarVariants}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className={cn("h-full", {
+        className={cn("h-full will-change-auto", {
           "overflow-hidden": isAnimating || sidebarState === "hidden",
           "fixed top-0 left-0 z-50": isSmallScreen,
         })}
@@ -126,7 +118,7 @@ const Sidebar = () => {
         <div
           ref={isSidebarOpenOnSmallScreen ? sidebarOutsideClickRef : null}
           className={cn(
-            "transition-all duration-200 size-full min-w-fit bg-default flex flex-col justify-between gap-4 border-r-1.5 px-3 pt-3 pb-4",
+            "size-full min-w-fit bg-default flex flex-col justify-between gap-4 border-r-1.5 px-3 pt-3 pb-4",
             { "cursor-pointer": isCollapsed }
           )}
           onClick={
@@ -150,7 +142,7 @@ const Sidebar = () => {
                   <Tooltip content="Open Sidebar" position="right">
                     <div className="icon-btn-bg group" tabIndex={0}>
                       <Logo className="w-6 text-teal-500 group-hover:hidden group-focus:hidden" />
-                      <SidebarOpen className="w-6 hidden group-hover:block group-focus:block" />
+                      <SidebarOpen className="hidden group-hover:block group-focus:block" />
                     </div>
                   </Tooltip>
                 ) : (
@@ -190,7 +182,7 @@ const Sidebar = () => {
                     key={`link-${index}`}
                     href={href}
                     className={cn(
-                      "transition-all p-2 min-w-10 h-10 rounded-xl flex items-center gap-2 relative overflow-hidden",
+                      "p-2.25 rounded-xl flex items-center gap-2 relative transition-all duration-200",
                       isActive
                         ? "bg-secondary heading-color cursor-default pointer-events-none"
                         : "hover:bg-secondary hover:heading-color"
@@ -204,20 +196,11 @@ const Sidebar = () => {
                     data-clickable
                   >
                     <Icon className="w-5.5" />
-                    <AnimatePresence initial={false}>
-                      {!isCollapsed && (
-                        <motion.span
-                          initial="hidden"
-                          animate="visible"
-                          exit="hidden"
-                          variants={contentVariants}
-                          transition={{ duration: 0.1 }}
-                          className="font-medium text-nowrap leading-snug"
-                        >
-                          {name}
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
+                    {!isCollapsed && (
+                      <span className="font-medium text-nowrap leading-snug">
+                        {name}
+                      </span>
+                    )}
                   </Link>
                 );
               })}
