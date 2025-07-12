@@ -41,7 +41,7 @@ const Select = <T,>({
     <div
       ref={outsideClickRef}
       className={cn(
-        "relative min-w-fit flex flex-col items-center border-color rounded-2xl transition-all duration-300",
+        "relative min-w-fit flex flex-col items-center rounded-2xl transition-all duration-300",
         {
           "hover:border-focus": !opened,
           "border-focus": opened && variant === "dropdown",
@@ -54,7 +54,7 @@ const Select = <T,>({
       <button
         type="button"
         className={cn(
-          "w-full flex items-center justify-between gap-8 h-13 pl-4 pr-2 py-3 border-color",
+          "w-full flex items-center justify-between gap-8 h-13 pl-4 pr-2 py-3",
           {
             "border-b-1.5":
               opened && variant === "inline" && style === "default",
@@ -86,14 +86,14 @@ const Select = <T,>({
               "w-full": variant === "inline",
               "w-[98%] absolute top-full mt-1 rounded-2xl z-10 shadow-xl":
                 variant === "dropdown",
-              "bg-default border-color": variant === "dropdown",
+              "bg-default": variant === "dropdown",
               "border-1.5": variant === "dropdown" && style === "default",
               border: variant === "dropdown" && style === "input",
             })}
           >
             <div
               className={cn(
-                "w-full flex flex-col gap-2 p-2.5 max-h-64 overflow-y-auto scrollbar-thin",
+                "w-full flex flex-col gap-2 p-2.5 max-h-64 overflow-y-auto",
                 { "bg-input": variant === "dropdown" && style === "input" }
               )}
             >

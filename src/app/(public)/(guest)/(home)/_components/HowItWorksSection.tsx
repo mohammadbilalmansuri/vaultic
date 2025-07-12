@@ -42,13 +42,13 @@ const HowItWorksSection = () => {
         {STEPS.map(({ title, description }, index) => (
           <motion.div
             key={`step-${index}`}
-            className="w-full relative border-1.5 border-color rounded-3xl overflow-hidden sm:pt-5 pt-4 sm:pl-6 pl-5 sm:pb-6 pb-5"
+            className="w-full relative border-1.5 rounded-3xl overflow-hidden sm:pt-5 pt-4 sm:pl-6 pl-5 sm:pb-6 pb-5"
             {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.1 })}
           >
             <div className="w-full flex items-center justify-between">
               <h3 className="h3">{title}</h3>
               <span
-                className="flex items-center justify-center sm:size-10 size-9 sm:text-md font-medium leading-none border-y-1.5 border-l-1.5 border-color rounded-l-xl"
+                className="flex items-center justify-center sm:size-10 size-9 sm:text-md font-medium leading-none border-y-1.5 border-l-1.5 rounded-l-xl"
                 aria-hidden="true"
               >
                 0{index + 1}

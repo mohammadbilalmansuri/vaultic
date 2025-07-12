@@ -27,7 +27,7 @@ const Accordion = ({
     <div
       className={cn(
         "border-1.5 sm:rounded-3xl rounded-2xl transition-all duration-300",
-        isOpen ? "border-focus" : "border-color"
+        { "border-focus": isOpen }
       )}
     >
       <button

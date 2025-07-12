@@ -29,7 +29,7 @@ const NotificationProvider = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -30 }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
-          className="max-w-lg fixed bottom-8 right-8 z-50 backdrop-blur-xl p-5 rounded-2xl flex items-center justify-between gap-4 border-1.5 border-color shadow-xl"
+          className="max-w-lg fixed bottom-8 right-8 z-50 backdrop-blur-xl p-5 rounded-2xl flex items-center justify-between gap-4 border-1.5 shadow-xl"
           role="alert"
           aria-live="polite"
           aria-atomic="true"

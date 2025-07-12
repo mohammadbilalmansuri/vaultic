@@ -72,7 +72,7 @@ const FeaturesSection = () => {
         {FEATURES.map(({ Icon, title, description }, index) => (
           <motion.div
             key={`feature-${index}`}
-            className="flex flex-col lg:gap-4 md:gap-3.5 sm:gap-3 gap-2.5 sm:p-6 p-5 rounded-3xl border-1.5 border-color"
+            className="flex flex-col lg:gap-4 md:gap-3.5 sm:gap-3 gap-2.5 sm:p-6 p-5 rounded-3xl border-1.5"
             {...fadeUpAnimation({ inView, delay: index * 0.05 + 0.1 })}
           >
             <div className="flex items-center sm:gap-3 gap-2.5">

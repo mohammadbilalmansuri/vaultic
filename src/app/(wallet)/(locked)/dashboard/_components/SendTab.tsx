@@ -248,7 +248,7 @@ const SendTab = ({
                     triggerUpload();
                     currentTarget.blur();
                   }}
-                  className="flex items-center justify-center size-13 hover:heading-color bg-input border border-color rounded-2xl transition-all duration-300"
+                  className="flex items-center justify-center size-13 hover:heading-color bg-input border rounded-2xl transition-all duration-300"
                 >
                   <QR className="w-6" />
                 </button>

@@ -25,7 +25,7 @@ const PresetSelect = <T extends FieldValues>({
   gridCols = 2,
 }: PresetSelectProps<T>) => {
   const [opened, setOpened] = useState(false);
-  const outsideClickRef = useOutsideClick(() => {
+  const outsideClickRef = useOutsideClick<HTMLDivElement>(() => {
     if (opened) setOpened(false);
   }, opened);
 
@@ -59,7 +59,7 @@ const PresetSelect = <T extends FieldValues>({
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.8, y: -10 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="absolute top-full mt-1.5 xs:min-w-32 min-w-26 bg-default border border-color rounded-2xl z-10 overflow-hidden shadow-xl"
+                className="absolute top-full mt-1.5 xs:min-w-32 min-w-26 bg-default border rounded-2xl z-10 overflow-hidden shadow-xl"
               >
                 <div
                   className={cn(
@@ -74,7 +74,7 @@ const PresetSelect = <T extends FieldValues>({
                       role="option"
                       aria-selected={value === option}
                       className={cn(
-                        "xs:size-12 size-10 flex items-center justify-center border border-color rounded-xl transition duration-300",
+                        "xs:size-12 size-10 flex items-center justify-center border rounded-xl transition duration-300",
                         value === option ? "bg-primary" : "hover:bg-primary"
                       )}
                       onClick={() => {
