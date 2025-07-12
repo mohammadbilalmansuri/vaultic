@@ -112,8 +112,13 @@
     @apply bg-teal-500 text-zinc-800;
   }
 
+  body,
+  body * {
+    @apply box-border border-color scrollbar-thin;
+  }
+
   body {
-    @apply text-color bg-default w-full relative overflow-x-hidden box-border;
+    @apply text-color bg-default w-full relative overflow-x-hidden;
   }
 
   .root {
