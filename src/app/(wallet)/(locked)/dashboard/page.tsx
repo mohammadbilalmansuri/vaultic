@@ -105,7 +105,7 @@ const DashboardPage = () => {
         >
           <button
             className={cn("icon-btn-bg", {
-              "cursor-default bg-primary pointer-events-none": refreshing,
+              "bg-secondary pointer-events-none": refreshing,
             })}
             onClick={handleBalanceRefresh}
             disabled={refreshing}
@@ -152,7 +152,7 @@ const DashboardPage = () => {
                       position="bottom"
                     >
                       <div
-                        className="flex items-center gap-1.5 cursor-pointer hover:heading-color transition-all duration-300"
+                        className="flex items-center gap-1.5 cursor-pointer hover:heading-color transition-all duration-200"
                         onClick={() => handleCopy(address)}
                       >
                         <p className="leading-none">

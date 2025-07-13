@@ -74,8 +74,8 @@ const PresetSelect = <T extends FieldValues>({
                       role="option"
                       aria-selected={value === option}
                       className={cn(
-                        "xs:size-12 size-10 flex items-center justify-center border rounded-xl transition duration-300",
-                        value === option ? "bg-primary" : "hover:bg-primary"
+                        "xs:size-12 size-10 flex items-center justify-center border rounded-xl transition duration-200",
+                        value === option ? "bg-secondary" : "hover:bg-secondary"
                       )}
                       onClick={() => {
                         onChange(value === option ? "" : option);

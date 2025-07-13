@@ -161,7 +161,7 @@ const AccountsPage = () => {
         >
           <button
             className={cn("icon-btn-bg", {
-              "cursor-default bg-primary pointer-events-none": creating,
+              "bg-secondary pointer-events-none": creating,
             })}
             onClick={handleCreateAccount}
             disabled={creating}
@@ -219,8 +219,7 @@ const AccountsPage = () => {
                           >
                             <button
                               className={cn("icon-btn-bg hover:text-teal-500", {
-                                "bg-primary cursor-default pointer-events-none":
-                                  isSwitching,
+                                "bg-secondary pointer-events-none": isSwitching,
                               })}
                               onClick={(e) =>
                                 handleSwitchActiveAccount(e, accountIndex)
@@ -235,8 +234,7 @@ const AccountsPage = () => {
                         <Tooltip content="Remove Account">
                           <button
                             className={cn("icon-btn-bg hover:text-rose-500", {
-                              "cursor-default bg-primary pointer-events-none":
-                                isDeleting,
+                              "bg-secondary pointer-events-none": isDeleting,
                             })}
                             onClick={(e) =>
                               handleRemoveAccount(e, accountIndex)
@@ -251,7 +249,7 @@ const AccountsPage = () => {
 
                     <button className="icon-btn-bg">
                       <AngleDown
-                        className={cn("transition-all duration-300", {
+                        className={cn("transition-all duration-200", {
                           "rotate-180": isOpen,
                         })}
                       />

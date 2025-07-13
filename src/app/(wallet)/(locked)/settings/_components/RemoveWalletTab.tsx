@@ -61,7 +61,7 @@ const RemoveWalletTab = () => {
       </h3>
 
       <div className="w-full flex flex-col gap-6 p-6">
-        <div className="w-full p-5 rounded-2xl bg-warning text-center flex flex-col items-center justify-center gap-2.5">
+        <div className="w-full p-5 rounded-2xl bg-warning text-warning text-center flex flex-col items-center justify-center gap-2.5">
           <p>
             Removing your wallet will erase local access and settings from this
             device.
@@ -76,7 +76,7 @@ const RemoveWalletTab = () => {
           <Link
             href="/help-and-support"
             target="_blank"
-            className="leading-tight border-b border-current transition-all duration-300 hover:opacity-75 mt-0.5"
+            className="leading-tight border-b border-current transition-all duration-200 hover:opacity-75 mt-0.5"
           >
             Learn about recovery
           </Link>
@@ -94,7 +94,7 @@ const RemoveWalletTab = () => {
 
           <Button
             type="submit"
-            className={cn("w-full mt-px", {
+            className={cn("w-full mt-0.5", {
               "opacity-60 pointer-events-none": !isValid,
             })}
             disabled={!isValid || removing}

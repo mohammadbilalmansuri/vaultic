@@ -83,7 +83,7 @@ const TransactionsTab = () => {
               disabled={id === network}
               onClick={() => handleNetworkChange(id as TNetwork)}
               className={cn(
-                "flex items-center gap-2 leading-none py-2.5 px-3 rounded-xl transition-all duration-300 font-medium border",
+                "flex items-center gap-2 leading-none py-2.5 px-3 rounded-xl transition-all duration-200 font-medium border",
                 id === network
                   ? "bg-teal-500/10 border-teal-500/30 dark:border-teal-500/10 text-teal-500 pointer-events-none"
                   : "bg-primary heading-color hover:bg-secondary hover:border-focus"
@@ -100,7 +100,7 @@ const TransactionsTab = () => {
         >
           <button
             className={cn("icon-btn-bg", {
-              "cursor-default bg-primary": refreshing,
+              "cursor-default bg-secondary": refreshing,
             })}
             onClick={handleRefresh}
             disabled={refreshing}
@@ -148,7 +148,7 @@ const TransactionsTab = () => {
                   return (
                     <tr
                       key={`${txn.network}-${txn.signature}`}
-                      className="h-12 border-t-1.5 hover:bg-primary transition-all duration-300"
+                      className="h-12 border-t-1.5 hover:bg-primary transition-all duration-200"
                     >
                       {/* Txn Signature */}
                       <td className="px-4 whitespace-nowrap">

@@ -239,7 +239,7 @@ const SendTab = ({
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
-                  className="absolute -z-10 size-0 hidden pointer-events-none invisible opacity-0 overflow-hidden"
+                  className="absolute -z-10 size-0 hidden pointer-events-none opacity-0 overflow-hidden"
                 />
 
                 <button
@@ -248,7 +248,7 @@ const SendTab = ({
                     triggerUpload();
                     currentTarget.blur();
                   }}
-                  className="flex items-center justify-center size-13 hover:heading-color bg-input border rounded-2xl transition-all duration-300"
+                  className="flex items-center justify-center size-13 hover:heading-color bg-input border rounded-2xl transition-all duration-200"
                 >
                   <QR className="w-6" />
                 </button>
@@ -273,7 +273,7 @@ const SendTab = ({
                   <button
                     type="button"
                     onClick={handleMaxAmount}
-                    className="bg-primary p-2 leading-none heading-color rounded-lg transition-colors duration-300 hover:bg-secondary"
+                    className="bg-primary p-2 leading-none heading-color rounded-lg transition-colors duration-200 hover:bg-secondary"
                   >
                     Max
                   </button>
@@ -284,7 +284,7 @@ const SendTab = ({
             <Button
               type="submit"
               disabled={!isValid}
-              className={cn("w-full mt-px", {
+              className={cn("w-full mt-0.5", {
                 "opacity-60 pointer-events-none": !isValid,
               })}
             >
@@ -430,7 +430,7 @@ const SendTab = ({
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-1 text-teal-500 leading-none border-b border-transparent hover:border-current transition-colors duration-300"
+              className="mt-1 text-teal-500 leading-none border-b border-transparent hover:border-current transition-colors duration-200"
             >
               View Transaction
             </Link>

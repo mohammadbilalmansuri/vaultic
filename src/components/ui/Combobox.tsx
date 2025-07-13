@@ -71,7 +71,7 @@ const Combobox = <T extends FieldValues>({
                 tabIndex={-1}
               >
                 <AngleDown
-                  className={cn("transition-transform duration-300", {
+                  className={cn("transition-transform duration-200", {
                     "rotate-180": opened,
                   })}
                 />
@@ -100,8 +100,8 @@ const Combobox = <T extends FieldValues>({
                         role="option"
                         aria-selected={isSelected}
                         className={cn(
-                          "w-full flex items-center justify-between xs:gap-3 gap-2 xs:px-3 px-2 xs:py-2 py-1.5 rounded-xl transition-colors duration-300",
-                          isSelected ? "bg-primary" : "hover:bg-primary"
+                          "w-full flex items-center justify-between xs:gap-3 gap-2 xs:px-3 px-2 xs:py-2 py-1.5 rounded-xl transition-colors duration-200",
+                          isSelected ? "bg-secondary" : "hover:bg-secondary"
                         )}
                         onClick={() => {
                           onChange(isSelected ? "" : option.value);
