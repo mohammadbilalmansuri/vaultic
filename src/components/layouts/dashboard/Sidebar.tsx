@@ -161,11 +161,11 @@ const Sidebar = () => {
                 {isCollapsed ? (
                   <Tooltip content="Expand Sidebar" position="right">
                     <div
-                      className="icon-btn-bg group focus:bg-secondary group-hover/collapsed:bg-secondary group-hover/collapsed:heading-color"
+                      className="icon-btn-bg group focus:bg-secondary focus:heading-color [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:bg-secondary [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:heading-color"
                       tabIndex={0}
                     >
-                      <Logo className="w-6 text-teal-500 relative z-10 transition-opacity group-hover:opacity-0 group-focus:opacity-0 group-hover/collapsed:opacity-0" />
-                      <SidebarOpen className="transition-opacity absolute opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-hover/collapsed:opacity-100" />
+                      <Logo className="w-6 text-teal-500 relative z-10 transition-opacity group-hover:opacity-0 group-focus:opacity-0 [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:opacity-0" />
+                      <SidebarOpen className="transition-opacity absolute opacity-0 group-hover:opacity-100 group-focus:opacity-100 [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:opacity-100" />
                     </div>
                   </Tooltip>
                 ) : (
