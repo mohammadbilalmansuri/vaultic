@@ -160,9 +160,12 @@ const Sidebar = () => {
               <div className="flex items-center justify-center sm:size-10 size-9 relative">
                 {isCollapsed ? (
                   <Tooltip content="Expand Sidebar" position="right">
-                    <div className="icon-btn-bg group" tabIndex={0}>
-                      <Logo className="w-6 text-teal-500 group-hover:opacity-0 transition-opacity duration-200" />
-                      <SidebarOpen className="absolute inset-0 m-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                    <div
+                      className="icon-btn-bg group focus:bg-secondary group-hover/collapsed:bg-secondary group-hover/collapsed:heading-color"
+                      tabIndex={0}
+                    >
+                      <Logo className="w-6 text-teal-500 relative z-10 transition-opacity group-hover:opacity-0 group-focus:opacity-0 group-hover/collapsed:opacity-0" />
+                      <SidebarOpen className="transition-opacity absolute opacity-0 group-hover:opacity-100 group-focus:opacity-100 group-hover/collapsed:opacity-100" />
                     </div>
                   </Tooltip>
                 ) : (
