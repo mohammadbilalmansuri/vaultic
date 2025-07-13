@@ -22,7 +22,7 @@ const RecoveryPhraseTab = ({
       </h3>
 
       <div className="w-full flex flex-col gap-6 p-6">
-        <div className="w-full p-5 rounded-2xl bg-warning text-center flex flex-col items-center gap-2.5">
+        <div className="w-full p-5 rounded-2xl bg-warning text-warning text-center flex flex-col items-center gap-2.5">
           <p className="font-semibold">
             <u>Never</u> share your Recovery Phrase.
           </p>
