@@ -1,9 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import { MouseEvent } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, Transition, Variants } from "motion/react";
 import { NAVIGATION_SIDEBAR } from "@/constants";
 import { useAccountsStore } from "@/stores";
 import cn from "@/utils/cn";
@@ -17,13 +16,13 @@ import { Logo, Lock, SidebarClose, SidebarOpen } from "@/components/icons";
 import { Button, ThemeSwitcher, Select, Tooltip } from "@/components/ui";
 import TestnetNotice from "./TestnetNotice";
 
-type TSidebarState = "hidden" | "collapsed" | "visible";
-
-const sidebarVariants = {
+const SIDEBAR_VARIANTS: Variants = {
   hidden: { width: 0, opacity: 0 },
   collapsed: { width: 64, opacity: 1 },
   visible: { width: 256, opacity: 1 },
-};
+} as const;
+
+type TSidebarState = "hidden" | "collapsed" | "visible";
 
 const Sidebar = () => {
   const accounts = useAccountsStore((state) => state.accounts);
@@ -44,7 +43,7 @@ const Sidebar = () => {
   const { switchActiveAccount } = useAccounts();
   const isSmallScreen = useMatchMedia("(max-width: 1024px)");
 
-  const [sidebarState, setSidebarState] = useState<TSidebarState>(
+  const [sidebarState, setSidebarState] = useState<TSidebarState>(() =>
     isSmallScreen ? "hidden" : "visible"
   );
   const [isAnimating, setIsAnimating] = useState(false);
@@ -55,9 +54,20 @@ const Sidebar = () => {
 
   const toggleSidebar = (newState: TSidebarState) => {
     if (isAnimating) return;
+
     setIsAnimating(true);
     setSidebarState(newState);
+
     setTimeout(() => setIsAnimating(false), 300);
+  };
+
+  const handleSidebarClick = (e: React.MouseEvent) => {
+    if (!isCollapsed) return;
+
+    const target = e.target;
+    if (target instanceof Element && !target.closest("[data-clickable]")) {
+      toggleSidebar("visible");
+    }
   };
 
   const sidebarOutsideClickRef = useOutsideClick<HTMLDivElement>(() => {
@@ -77,12 +87,11 @@ const Sidebar = () => {
       <header className="w-full relative z-30 lg:hidden flex items-center justify-between gap-4 md:px-5 px-4 md:py-4 py-3">
         <Tooltip content="Open Sidebar" position="right">
           <button
-            aria-label="Open Sidebar"
+            type="button"
             className="icon-btn-bg"
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleSidebar("visible");
-            }}
+            onClick={() => toggleSidebar("visible")}
+            disabled={isAnimating}
+            aria-label="Open Sidebar"
           >
             <SidebarOpen />
           </button>
@@ -98,42 +107,30 @@ const Sidebar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.1, ease: "easeOut" }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
             className="fixed inset-0 bg-zinc-950/50 z-40 lg:hidden will-change-auto"
           />
         )}
       </AnimatePresence>
 
       <motion.aside
-        aria-label="Dashboard Sidebar"
-        initial={false}
+        initial={sidebarState}
         animate={sidebarState}
-        variants={sidebarVariants}
+        variants={SIDEBAR_VARIANTS}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         className={cn("h-full will-change-auto", {
           "overflow-hidden": isAnimating || sidebarState === "hidden",
           "fixed top-0 left-0 z-50": isSmallScreen,
         })}
+        aria-label="Dashboard Sidebar"
       >
         <div
           ref={isSidebarOpenOnSmallScreen ? sidebarOutsideClickRef : null}
           className={cn(
-            "size-full min-w-fit bg-default flex flex-col justify-between gap-4 border-r-1.5 px-3 pt-3 pb-4",
+            "size-full bg-default flex flex-col justify-between gap-4 border-r-1.5 px-3 pt-3 pb-4",
             { "cursor-pointer": isCollapsed }
           )}
-          onClick={
-            isCollapsed
-              ? (e) => {
-                  const target = e.target;
-                  if (
-                    target instanceof Element &&
-                    !target.closest("[data-clickable]")
-                  ) {
-                    toggleSidebar("visible");
-                  }
-                }
-              : undefined
-          }
+          onClick={isCollapsed ? handleSidebarClick : undefined}
         >
           <div className="w-full relative flex flex-col items-start gap-4">
             <div className="w-full relative flex items-center justify-between">
@@ -158,11 +155,11 @@ const Sidebar = () => {
                   <Tooltip content="Close Sidebar" position="right">
                     <button
                       type="button"
-                      aria-label="Close sidebar"
                       className="icon-btn-bg"
                       onClick={() =>
                         toggleSidebar(isSmallScreen ? "hidden" : "collapsed")
                       }
+                      aria-label="Close sidebar"
                     >
                       <SidebarClose />
                     </button>
@@ -179,12 +176,12 @@ const Sidebar = () => {
                 const isActive = pathname === href;
                 return (
                   <Link
-                    key={`link-${index}`}
+                    key={`sidebar-link-${index}`}
                     href={href}
                     className={cn(
                       "p-2.25 rounded-xl flex items-center gap-2 relative transition-all duration-200",
                       isActive
-                        ? "bg-secondary heading-color cursor-default pointer-events-none"
+                        ? "bg-secondary heading-color pointer-events-none"
                         : "hover:bg-secondary hover:heading-color"
                     )}
                     onClick={
@@ -212,12 +209,12 @@ const Sidebar = () => {
               <Tooltip content="Lock Wallet" position="right">
                 <button
                   type="button"
-                  aria-label="Lock Wallet"
-                  className="icon-btn-bg"
+                  className="icon-btn-bg -mb-0.5"
                   onClick={lockWallet}
+                  aria-label="Lock Wallet"
                   data-clickable
                 >
-                  <Lock className="w-5.5" />
+                  <Lock />
                 </button>
               </Tooltip>
             ) : (
@@ -229,13 +226,12 @@ const Sidebar = () => {
                   selecting={switchingToAccount !== null}
                   variant="inline"
                   aria-label="Select active account"
-                  widthClassName="shrink-0 w-full"
                 />
 
                 <Button
                   onClick={lockWallet}
-                  aria-label="Lock Wallet"
                   className="w-full"
+                  aria-label="Lock Wallet"
                 >
                   <Lock className="w-5 -mt-px" aria-hidden="true" />
                   <span className="leading-none">Lock Wallet</span>
