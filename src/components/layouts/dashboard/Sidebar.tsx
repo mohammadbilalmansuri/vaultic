@@ -61,6 +61,7 @@ const Sidebar = () => {
   const isSidebarOpenOnSmallScreen =
     sidebarState === "visible" && !isLargeScreen;
   const isCollapsed = sidebarState === "collapsed";
+  const isHidden = sidebarState === "hidden";
 
   const toggleSidebar = (newState: TSidebarState) => {
     if (isAnimating) return;
@@ -69,7 +70,7 @@ const Sidebar = () => {
     setTimeout(() => setIsAnimating(false), 300);
   };
 
-  const handleSidebarClick = (e: MouseEvent) => {
+  const handleCollapsedSidebarClick = (e: MouseEvent) => {
     if (isAnimating || !isCollapsed) return;
 
     const target = e.target;
@@ -98,6 +99,7 @@ const Sidebar = () => {
 
   return (
     <div className="flex lg:flex-row flex-col">
+      {/* Mobile Header */}
       {!isLargeScreen && (
         <header className="w-full relative z-30 lg:hidden flex items-center justify-between gap-4 md:px-5 px-4 md:py-4 py-3">
           <Tooltip content="Open Sidebar" position="right">
@@ -107,6 +109,7 @@ const Sidebar = () => {
               onClick={() => toggleSidebar("visible")}
               disabled={isAnimating}
               aria-label="Open Sidebar"
+              aria-expanded={!isHidden}
             >
               <AlignLeft className="w-7" />
             </button>
@@ -117,6 +120,7 @@ const Sidebar = () => {
         </header>
       )}
 
+      {/* Mobile Overlay */}
       <AnimatePresence>
         {isSidebarOpenOnSmallScreen && (
           <motion.div
@@ -125,20 +129,23 @@ const Sidebar = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
             className="fixed inset-0 bg-zinc-950/50 z-40 lg:hidden will-change-auto"
+            aria-hidden="true"
           />
         )}
       </AnimatePresence>
 
+      {/* Sidebar */}
       <motion.aside
         initial={sidebarState}
         animate={sidebarState}
         variants={SIDEBAR_VARIANTS}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
         className={cn("h-full will-change-auto", {
-          "overflow-hidden": isAnimating || sidebarState === "hidden",
+          "overflow-hidden": isAnimating || isHidden,
           "fixed top-0 left-0 z-50": !isLargeScreen,
         })}
         aria-label="Dashboard Sidebar"
+        aria-expanded={!isHidden}
       >
         <div
           ref={isSidebarOpenOnSmallScreen ? sidebarOutsideClickRef : null}
@@ -146,20 +153,20 @@ const Sidebar = () => {
             "size-full bg-default flex flex-col justify-between gap-4 border-r-1.5 px-3 pt-3 pb-4",
             { "cursor-e-resize group/collapsed": isCollapsed && !isAnimating }
           )}
-          onClick={isCollapsed ? handleSidebarClick : undefined}
+          onClick={isCollapsed ? handleCollapsedSidebarClick : undefined}
         >
           <div className="w-full min-w-fit relative flex flex-col items-start gap-4">
             <div className="w-full relative flex items-center justify-between">
               <div className="flex items-center justify-center sm:size-10 size-9 relative">
                 {isCollapsed ? (
-                  <Tooltip content="Open Sidebar" position="right">
+                  <Tooltip content="Expand Sidebar" position="right">
                     <div className="icon-btn-bg group" tabIndex={0}>
-                      <Logo className="w-6 text-teal-500 group-hover:hidden group-focus:hidden group-hover/sidebar-collapsed:hidden" />
-                      <SidebarOpen className="hidden group-hover:block group-focus:block group-hover/sidebar-collapsed:block" />
+                      <Logo className="w-6 text-teal-500 group-hover:opacity-0 transition-opacity duration-200" />
+                      <SidebarOpen className="absolute inset-0 m-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                     </div>
                   </Tooltip>
                 ) : (
-                  <Link href="/dashboard">
+                  <Link href="/dashboard" data-clickable>
                     <Logo className="w-6 text-teal-500" />
                   </Link>
                 )}
@@ -184,7 +191,10 @@ const Sidebar = () => {
                         toggleSidebar(!isLargeScreen ? "hidden" : "collapsed")
                       }
                       disabled={isAnimating}
-                      aria-label="Close sidebar"
+                      aria-label={
+                        isLargeScreen ? "Collapse Sidebar" : "Close Sidebar"
+                      }
+                      aria-expanded={!isCollapsed}
                     >
                       {isLargeScreen ? <SidebarClose /> : <Cancel />}
                     </button>
@@ -219,6 +229,7 @@ const Sidebar = () => {
                           : undefined
                       }
                       aria-current={isActive ? "page" : undefined}
+                      data-clickable
                     >
                       <Icon className="w-5.5" />
                       {!isCollapsed && (
@@ -275,13 +286,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-
-/* 
-- Are the naming of three states clear and correct along with there textual elements like aria-labels or tooltips?
-- Is that diffrent icons on mobile for opening and closing the sidebar correct for better user experience?
-- on collapsed sidebar is that on sidebar empty space clickable to open sidebar correct specially with that resize cursor? if yes i need a ui such like when i hover over that empty space the logo icon should change to open icon but ensuring prevention to not change on clickable elements like links or buttons.
-
-also ensure the component is perfectly optimal and maintainable.
-
-NOTE: not use usememo and usecallback as they are not needed here. its react 19.
-*/
