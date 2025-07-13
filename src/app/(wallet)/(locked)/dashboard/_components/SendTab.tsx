@@ -204,7 +204,7 @@ const SendTab = ({
             options={networkOptions}
             value={network}
             onChange={handleNetworkChange}
-            widthClassName="w-full max-w-lg"
+            containerClassName="w-full max-w-lg"
           />
 
           <form

@@ -17,7 +17,7 @@ interface SelectProps<T> {
   selecting?: boolean;
   variant?: TSelectVariant;
   style?: TSelectStyle;
-  widthClassName?: string;
+  containerClassName?: string;
 }
 
 const Select = <T,>({
@@ -27,7 +27,7 @@ const Select = <T,>({
   selecting = false,
   variant = "dropdown",
   style = "default",
-  widthClassName = "w-full",
+  containerClassName = "w-full",
 }: SelectProps<T>) => {
   const [opened, setOpened] = useState(false);
   const outsideClickRef = useOutsideClick<HTMLDivElement>(() => {
@@ -48,7 +48,7 @@ const Select = <T,>({
           "border-1.5": style === "default",
           "bg-input border": style === "input",
         },
-        widthClassName
+        containerClassName
       )}
     >
       <button

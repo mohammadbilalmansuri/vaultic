@@ -11,7 +11,7 @@ interface PresetSelectProps<T extends FieldValues> {
   options: string[];
   placeholder?: string;
   valueSuffix?: string;
-  widthClassName?: string;
+  containerClassName?: string;
   gridCols?: number;
 }
 
@@ -21,7 +21,7 @@ const PresetSelect = <T extends FieldValues>({
   options,
   placeholder = "Select",
   valueSuffix = "",
-  widthClassName = "",
+  containerClassName = "",
   gridCols = 2,
 }: PresetSelectProps<T>) => {
   const [opened, setOpened] = useState(false);
@@ -36,7 +36,10 @@ const PresetSelect = <T extends FieldValues>({
       render={({ field: { onChange, value } }) => (
         <div
           ref={outsideClickRef}
-          className={cn("relative flex flex-col items-center", widthClassName)}
+          className={cn(
+            "relative flex flex-col items-center",
+            containerClassName
+          )}
         >
           <button
             type="button"

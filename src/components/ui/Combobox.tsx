@@ -18,7 +18,7 @@ interface ComboboxProps<T extends FieldValues> {
     shortValue: string;
     valueIcon?: TIcon;
   }>;
-  widthClassName?: string;
+  containerClassName?: string;
   autoFocus?: InputHTMLAttributes<HTMLInputElement>["autoFocus"];
   autoComplete?: InputHTMLAttributes<HTMLInputElement>["autoComplete"];
   autoCapitalize?: InputHTMLAttributes<HTMLInputElement>["autoCapitalize"];
@@ -31,7 +31,7 @@ const Combobox = <T extends FieldValues>({
   placeholder = "Enter or select value",
   control,
   options,
-  widthClassName = "w-full",
+  containerClassName = "w-full",
   ...inputProps
 }: ComboboxProps<T>) => {
   const [opened, setOpened] = useState(false);
@@ -46,7 +46,10 @@ const Combobox = <T extends FieldValues>({
       render={({ field: { onChange, value, ref } }) => (
         <div
           ref={outsideClickRef}
-          className={cn("relative flex flex-col items-center", widthClassName)}
+          className={cn(
+            "relative flex flex-col items-center",
+            containerClassName
+          )}
         >
           <div className="w-full relative flex items-center">
             <Input

@@ -6,12 +6,12 @@ import { CopyToggle, EyeToggle } from "../ui";
 
 interface MnemonicViewProps {
   mnemonic: string;
-  widthClassName?: string;
+  containerClassName?: string;
 }
 
 const MnemonicView = ({
   mnemonic,
-  widthClassName = "w-full",
+  containerClassName = "w-full",
 }: MnemonicViewProps) => {
   const copyToClipboard = useClipboard();
   const [visible, setVisible] = useState(false);
@@ -21,7 +21,7 @@ const MnemonicView = ({
     <div
       className={cn(
         "relative flex flex-col items-center gap-4",
-        widthClassName
+        containerClassName
       )}
     >
       <div className="w-full flex items-center justify-between gap-3 xs:px-0.5">
