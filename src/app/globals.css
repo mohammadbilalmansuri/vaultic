@@ -17,6 +17,7 @@
   --border-width-1\.5: 1.5px;
   --radius-3xl: 1.25rem;
   --radius-4xl: 1.5rem;
+  --radius-5xl: 1.75rem;
 }
 
 @utility webkit-autofil-color-for-dark {
@@ -84,7 +85,7 @@
 }
 
 @utility icon-btn {
-  @apply text-color hover:heading-color transition-all duration-300;
+  @apply text-color hover:heading-color transition-all duration-200;
 }
 
 @utility icon-btn-bg {
@@ -171,7 +172,7 @@
   }
 
   .input {
-    @apply w-full flex items-center sm:h-13 h-12 sm:p-4 p-3 outline-none transition-all duration-300 heading-color bg-input border border-color focus:border-focus rounded-2xl placeholder:text-zinc-500;
+    @apply w-full flex items-center sm:h-13 h-12 sm:p-4 p-3 outline-none transition-all duration-200 heading-color bg-input border border-color focus:border-focus rounded-2xl placeholder:text-zinc-500;
   }
 
   .mnemonic-word-input {
@@ -200,6 +201,6 @@
   }
 
   .link {
-    @apply leading-none heading-color transition-all duration-300 border-b border-transparent hover:border-current;
+    @apply leading-none heading-color transition-all duration-200 border-b border-transparent hover:border-current;
   }
 }

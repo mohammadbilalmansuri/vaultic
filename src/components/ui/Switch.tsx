@@ -26,7 +26,7 @@ const Switch = ({
       {...props}
     >
       <span
-        className={cn("block rounded-full transition-transform duration-300", {
+        className={cn("block rounded-full transition-transform duration-200", {
           "size-3": size === "sm",
           "size-4": size === "md",
           "translate-x-4": size === "sm" && state,

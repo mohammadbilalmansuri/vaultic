@@ -79,7 +79,7 @@ const ChangePasswordTab = () => {
 
         <Button
           type="submit"
-          className={cn("w-full mt-px", {
+          className={cn("w-full mt-0.5", {
             "opacity-60 pointer-events-none": !isValid,
           })}
           disabled={!isValid || changing}

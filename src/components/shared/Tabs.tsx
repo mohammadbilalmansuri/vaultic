@@ -57,25 +57,16 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
               aria-controls={`tabpanel-${label}`}
               id={`tab-${label}`}
               className={cn(
-                "h-full px-3 transition-all duration-300 relative z-10 flex items-center justify-center gap-2 group",
-                {
-                  "heading-color cursor-default pointer-events-none": isActive,
-                  "hover:heading-color": !isActive,
-                }
+                "h-full px-3 transition-all duration-200 relative z-10 flex items-center justify-center gap-2 group",
+                isActive
+                  ? "heading-color pointer-events-none"
+                  : "hover:heading-color"
               )}
               onClick={() => setActiveTab(label)}
               tabIndex={isActive ? 0 : -1}
             >
-              {Icon && (
-                <Icon
-                  className={cn("w-5 transition-all duration-300", {
-                    "group-hover:scale-110": !isActive,
-                    "scale-110": isActive,
-                  })}
-                  aria-hidden="true"
-                />
-              )}
-              <span className="font-medium mt-px">{label}</span>
+              {Icon && <Icon className="w-5" aria-hidden="true" />}
+              <span className="font-medium leading-snug">{label}</span>
             </button>
           );
         })}

@@ -27,7 +27,7 @@ const TestnetModeTab = () => {
           state={isTestnetModeOn}
           onClick={handleSwitchNetworkMode}
           disabled={switching}
-          className={cn(switching ? "pointer-events-none" : "")}
+          className={cn({ "pointer-events-none": switching })}
         />
       </div>
 
@@ -47,10 +47,7 @@ const TestnetModeTab = () => {
         </p>
         <p className="mt-0.5">
           Need test tokens?{" "}
-          <Link
-            href="/faucet"
-            className="heading-color border-b border-transparent hover:border-current transition-colors duration-300"
-          >
+          <Link href="/faucet" className="link">
             Get them from available faucets
           </Link>
           .

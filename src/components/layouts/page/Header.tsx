@@ -80,7 +80,7 @@ const Header = () => {
               <button
                 aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
                 aria-expanded={isMenuOpen}
-                className={cn("icon-btn-bg", { "bg-primary": isMenuOpen })}
+                className={cn("icon-btn-bg", { "bg-secondary": isMenuOpen })}
                 onClick={toggleMenu}
               >
                 {isMenuOpen ? <Cancel /> : <AlignRight className="w-7" />}
