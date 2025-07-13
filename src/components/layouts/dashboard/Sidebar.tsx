@@ -164,8 +164,8 @@ const Sidebar = () => {
                       className="icon-btn-bg group focus:bg-secondary focus:heading-color [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:bg-secondary [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:heading-color"
                       tabIndex={0}
                     >
-                      <Logo className="w-6 text-teal-500 relative z-10 transition-opacity group-hover:opacity-0 group-focus:opacity-0 [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:opacity-0" />
-                      <SidebarOpen className="transition-opacity absolute opacity-0 group-hover:opacity-100 group-focus:opacity-100 [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:opacity-100" />
+                      <Logo className="w-6 text-teal-500 group-hover:hidden group-focus:hidden [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:hidden" />
+                      <SidebarOpen className="absolute hidden group-hover:block group-focus:block [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:block" />
                     </div>
                   </Tooltip>
                 ) : (
@@ -207,8 +207,9 @@ const Sidebar = () => {
             </div>
 
             <nav
-              className="w-full relative flex flex-col gap-4"
+              className="w-full relative flex flex-col gap-4 cursor-default"
               aria-label="Sidebar Navigation"
+              data-clickable
             >
               {NAVIGATION_SIDEBAR.map(({ name, href, Icon }, index) => {
                 const isActive = pathname === href;
