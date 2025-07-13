@@ -6,7 +6,7 @@ import cn from "@/utils/cn";
 type TTooltipPosition = "top" | "bottom" | "left" | "right";
 
 interface TooltipProps {
-  content: ReactNode;
+  content?: ReactNode;
   children: ReactNode;
   position?: TTooltipPosition;
   containerClassName?: string;
@@ -55,6 +55,8 @@ const Tooltip = ({
   containerClassName = "",
   tooltipClassName = "",
 }: TooltipProps) => {
+  if (!content) return children;
+
   const tooltipId = useId();
   const [isVisible, setIsVisible] = useState(false);
 
