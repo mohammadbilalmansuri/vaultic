@@ -23,12 +23,12 @@ import {
 import { Button, ThemeSwitcher, Select, Tooltip } from "@/components/ui";
 import TestnetNotice from "./TestnetNotice";
 
-type TSidebarState = "hidden" | "collapsed" | "visible";
+type TSidebarState = "close" | "collapse" | "open";
 
 const SIDEBAR_VARIANTS: Record<TSidebarState, Variant> = {
-  hidden: { width: 0, opacity: 0 },
-  collapsed: { width: 64, opacity: 1 },
-  visible: { width: 256, opacity: 1 },
+  close: { width: 0, opacity: 0 },
+  collapse: { width: 64, opacity: 1 },
+  open: { width: 256, opacity: 1 },
 } as const;
 
 const Sidebar = () => {
@@ -50,23 +50,20 @@ const Sidebar = () => {
   const { switchActiveAccount } = useAccounts();
   const isLargeScreen = useMatchMedia("(min-width: 1024px)");
 
-  const sidebarDefaultState: TSidebarState = isLargeScreen
-    ? "visible"
-    : "hidden";
+  const sidebarDefaultState: TSidebarState = isLargeScreen ? "open" : "close";
 
   const [sidebarState, setSidebarState] =
     useState<TSidebarState>(sidebarDefaultState);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const isSidebarOpenOnSmallScreen =
-    sidebarState === "visible" && !isLargeScreen;
-  const isCollapsed = sidebarState === "collapsed";
-  const isHidden = sidebarState === "hidden";
+  const isOpenedOnSmallScreen = sidebarState === "open" && !isLargeScreen;
+  const isCollapsed = sidebarState === "collapse";
+  const isHidden = sidebarState === "close";
 
-  const toggleSidebar = (newState: TSidebarState) => {
+  const toggleSidebar = (targetState: TSidebarState) => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setSidebarState(newState);
+    setSidebarState(targetState);
     setTimeout(() => setIsAnimating(false), 300);
   };
 
@@ -75,26 +72,24 @@ const Sidebar = () => {
 
     const target = e.target;
     if (target instanceof Element && !target.closest("[data-clickable]")) {
-      toggleSidebar("visible");
+      toggleSidebar("open");
     }
   };
 
-  const hideSidebar = () => {
-    if (!isSidebarOpenOnSmallScreen) return;
-    toggleSidebar("hidden");
+  const closeSidebar = () => {
+    if (isOpenedOnSmallScreen) toggleSidebar("close");
   };
 
   const sidebarOutsideClickRef = useOutsideClick<HTMLDivElement>(
-    hideSidebar,
-    isSidebarOpenOnSmallScreen
+    closeSidebar,
+    isOpenedOnSmallScreen
   );
 
-  useEffect(hideSidebar, [pathname]);
+  useEffect(closeSidebar, [pathname]);
 
   useEffect(() => {
-    if (sidebarState !== sidebarDefaultState) {
-      toggleSidebar(sidebarDefaultState);
-    }
+    if (sidebarState === sidebarDefaultState) return;
+    toggleSidebar(sidebarDefaultState);
   }, [isLargeScreen]);
 
   return (
@@ -106,7 +101,7 @@ const Sidebar = () => {
             <button
               type="button"
               className="icon-btn-bg"
-              onClick={() => toggleSidebar("visible")}
+              onClick={() => toggleSidebar("open")}
               disabled={isAnimating}
               aria-label="Open Sidebar"
               aria-expanded={!isHidden}
@@ -122,7 +117,7 @@ const Sidebar = () => {
 
       {/* Mobile Overlay */}
       <AnimatePresence>
-        {isSidebarOpenOnSmallScreen && (
+        {isOpenedOnSmallScreen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -148,7 +143,7 @@ const Sidebar = () => {
         aria-expanded={!isHidden}
       >
         <div
-          ref={isSidebarOpenOnSmallScreen ? sidebarOutsideClickRef : null}
+          ref={isOpenedOnSmallScreen ? sidebarOutsideClickRef : null}
           className={cn(
             "size-full bg-default flex flex-col justify-between gap-4 border-r-1.5 px-3 pt-3 pb-4",
             { "cursor-e-resize group/collapsed": isCollapsed && !isAnimating }
@@ -159,7 +154,7 @@ const Sidebar = () => {
             <div className="w-full relative flex items-center justify-between">
               <div className="flex items-center justify-center sm:size-10 size-9 relative">
                 {isCollapsed ? (
-                  <Tooltip content="Expand Sidebar" position="right">
+                  <Tooltip content="Open Sidebar" position="right">
                     <div
                       className="icon-btn-bg group focus:bg-secondary focus:heading-color [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:bg-secondary [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:heading-color"
                       tabIndex={0}
@@ -191,7 +186,7 @@ const Sidebar = () => {
                         "cursor-e-resize": isLargeScreen && !isAnimating,
                       })}
                       onClick={() =>
-                        toggleSidebar(!isLargeScreen ? "hidden" : "collapsed")
+                        toggleSidebar(isLargeScreen ? "collapse" : "close")
                       }
                       disabled={isAnimating}
                       aria-label={
@@ -227,11 +222,7 @@ const Sidebar = () => {
                           ? "bg-secondary heading-color pointer-events-none"
                           : "hover:bg-secondary hover:heading-color"
                       )}
-                      onClick={
-                        isSidebarOpenOnSmallScreen
-                          ? () => toggleSidebar("hidden")
-                          : undefined
-                      }
+                      onClick={isOpenedOnSmallScreen ? closeSidebar : undefined}
                       aria-current={isActive ? "page" : undefined}
                       data-clickable
                     >
