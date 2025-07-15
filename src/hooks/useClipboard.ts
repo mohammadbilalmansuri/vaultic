@@ -1,5 +1,6 @@
 "use client";
-import { Dispatch, SetStateAction } from "react";
+import { useRef } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { useNotificationStore } from "@/stores";
 
 /**
@@ -8,43 +9,45 @@ import { useNotificationStore } from "@/stores";
  */
 const useClipboard = () => {
   const { notify } = useNotificationStore.getState();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   /**
    * Copies text to clipboard and manages copied state with auto-reset.
    * @param text - Text content to copy to clipboard
    * @param copied - Current copied state (prevents duplicate operations)
    * @param setCopied - State setter for copied status
-   * @returns Promise resolving to true if copy was successful
    */
   const copyToClipboard = async (
     text: string,
     copied: boolean,
     setCopied: Dispatch<SetStateAction<boolean>>
-  ): Promise<boolean> => {
-    if (copied) return false;
+  ): Promise<void> => {
+    if (copied) return;
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
 
     if (!navigator?.clipboard?.writeText) {
       notify({
         type: "error",
         message: "Clipboard not supported in this browser",
-        duration: 2500,
       });
-      return false;
+      return;
     }
 
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-      return true;
+
+      timeoutRef.current = setTimeout(() => {
+        setCopied(false);
+        timeoutRef.current = null;
+      }, 2000);
     } catch (error) {
+      notify({ type: "error", message: "Something went wrong while copying" });
       console.error("Failed to copy text:", error);
-      notify({
-        type: "error",
-        message: "Something went wrong while copying",
-        duration: 2500,
-      });
-      return false;
     }
   };
 
