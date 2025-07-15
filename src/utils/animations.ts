@@ -1,4 +1,4 @@
-import { MotionProps, Easing } from "motion/react";
+import type { MotionProps, Easing } from "motion/react";
 
 interface BaseAnimationConfig {
   delay?: number;

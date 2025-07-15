@@ -1,5 +1,6 @@
-import QRCode, { QRCodeToDataURLOptions } from "qrcode";
+import QRCode from "qrcode";
 import jsQR from "jsqr";
+import type { QRCodeToDataURLOptions } from "qrcode";
 
 // QR code generation configuration with high error correction
 const QR_CONFIG: QRCodeToDataURLOptions = {

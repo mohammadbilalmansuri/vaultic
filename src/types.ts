@@ -1,4 +1,5 @@
-import { ReactNode, Dispatch, SetStateAction, SVGProps, JSX } from "react";
+import { JSX } from "react";
+import type { ReactNode, Dispatch, SetStateAction, SVGProps } from "react";
 import { NETWORKS } from "@/config";
 
 // Global Types
@@ -54,7 +55,7 @@ export type Accounts = Record<number, Account>;
 
 // Transaction Types
 
-export interface TransactionRecord {
+export interface Transaction {
   readonly network: Network;
   readonly signature: string;
   readonly from: string;
@@ -67,7 +68,7 @@ export interface TransactionRecord {
   readonly type: "in" | "out" | "self";
 }
 
-export type Transactions = Record<Network, TransactionRecord[]>;
+export type Transactions = Record<Network, Transaction[]>;
 
 // Network Functions Types
 
@@ -84,13 +85,13 @@ export type DeriveNetworkAccountFunction = (
 
 export type FetchTransactionsFunction = (
   address: string
-) => Promise<TransactionRecord[]>;
+) => Promise<Transaction[]>;
 
 export type SendTokensFunction = (
   fromPrivateKey: string,
   toAddress: string,
   amount: string
-) => Promise<TransactionRecord>;
+) => Promise<Transaction>;
 
 export type GetExplorerUrlFunction = (
   type: "tx" | "address" | "block",

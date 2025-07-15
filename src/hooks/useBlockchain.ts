@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import { NETWORK_FUNCTIONS } from "@/config";
-import type { TransactionRecord, Network } from "@/types";
+import type { Transaction, Network } from "@/types";
 import {
   useWalletStore,
   useAccountsStore,
@@ -101,7 +101,7 @@ const useBlockchain = () => {
    * @param {Network} params.network - The network to send tokens on.
    * @param {string} params.toAddress - The recipient address.
    * @param {string} params.amount - The amount to send (in base units, e.g., SOL or ETH).
-   * @returns {Promise<TransactionRecord>} The resulting transaction object.
+   * @returns {Promise<Transaction>} The resulting transaction object.
    */
   const sendTokensFromActiveAccount = async ({
     network,
@@ -111,7 +111,7 @@ const useBlockchain = () => {
     network: Network;
     toAddress: string;
     amount: string;
-  }): Promise<TransactionRecord> => {
+  }): Promise<Transaction> => {
     const activeAccount = getActiveAccount();
     const networkAccount = activeAccount[network];
     const { sendTokens } = NETWORK_FUNCTIONS[network];

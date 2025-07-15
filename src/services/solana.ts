@@ -3,17 +3,17 @@ import {
   Keypair,
   PublicKey,
   SystemProgram,
-  Transaction,
+  Transaction as SolanaTransaction,
   sendAndConfirmTransaction,
   LAMPORTS_PER_SOL,
-  Commitment,
 } from "@solana/web3.js";
 import bs58 from "bs58";
 import { derivePath } from "ed25519-hd-key";
 import BigNumber from "bignumber.js";
 import { TRANSACTION_LIMIT } from "@/constants";
+import type { Commitment } from "@solana/web3.js";
 import type {
-  TransactionRecord,
+  Transaction,
   ResetConnectionFunction,
   IsValidAddressFunction,
   FetchBalanceFunction,
@@ -163,7 +163,7 @@ export const fetchSolanaTransactions: FetchTransactionsFunction = async (
 
   if (signatures.length === 0) return [];
 
-  const transactions: (TransactionRecord | null)[] = await Promise.all(
+  const transactions: (Transaction | null)[] = await Promise.all(
     signatures.map(async ({ signature }) => {
       try {
         const txn = await connection.getParsedTransaction(signature, {
@@ -207,7 +207,7 @@ export const fetchSolanaTransactions: FetchTransactionsFunction = async (
   );
 
   return transactions
-    .filter((txn): txn is TransactionRecord => txn !== null)
+    .filter((txn): txn is Transaction => txn !== null)
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
@@ -228,7 +228,7 @@ export const sendSolana: SendTokensFunction = async (
   const fromKeypair = getSolanaKeypairFromPrivateKey(fromPrivateKey);
   const connection = getSolanaConnection();
 
-  const transaction = new Transaction().add(
+  const transaction = new SolanaTransaction().add(
     SystemProgram.transfer({
       fromPubkey: fromKeypair.publicKey,
       toPubkey,

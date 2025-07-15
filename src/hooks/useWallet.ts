@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { UseFormSetError } from "react-hook-form";
+import type { UseFormSetError } from "react-hook-form";
 import {
   useWalletStore,
   useNotificationStore,
