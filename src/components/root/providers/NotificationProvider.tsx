@@ -1,7 +1,7 @@
 "use client";
 import { JSX } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { NotificationType } from "@/types";
+import type { NotificationType } from "@/types";
 import { useNotificationStore } from "@/stores";
 import { Cancel, Info, Success, Error } from "@/components/icons";
 

@@ -1,5 +1,5 @@
 "use client";
-import { ButtonHTMLAttributes, SVGProps } from "react";
+import type { ButtonHTMLAttributes, SVGProps } from "react";
 import cn from "@/utils/cn";
 import { Eye, EyeSlash } from "../icons";
 

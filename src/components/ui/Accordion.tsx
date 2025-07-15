@@ -1,6 +1,6 @@
 "use client";
-import { ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import type { ReactNode } from "react";
 import { expandCollapseAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { AngleDown } from "../icons";

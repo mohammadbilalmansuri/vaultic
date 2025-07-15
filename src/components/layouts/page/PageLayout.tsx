@@ -1,4 +1,4 @@
-import { Children } from "@/types";
+import type { Children } from "@/types";
 import Header from "./Header";
 import Footer from "./Footer";
 

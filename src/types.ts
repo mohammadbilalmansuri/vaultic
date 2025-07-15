@@ -136,7 +136,7 @@ export interface TabContentProps {
   showInitialAnimation?: boolean;
 }
 
-export type Tabs = Record<
+export type TabsData = Record<
   string,
   { icon?: Icon; content: (props: TabContentProps) => JSX.Element | null }
 >;

@@ -1,5 +1,5 @@
 import { NETWORKS } from "@/config";
-import { Network } from "@/types";
+import type { Network } from "@/types";
 import cn from "@/utils/cn";
 
 interface NetworkLogoProps {
