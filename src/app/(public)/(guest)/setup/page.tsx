@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { AnimatePresence } from "motion/react";
-import { SetupPath, SetupStep } from "@/types";
+import type { SetupPath, SetupStep } from "@/types";
 import { useMounted } from "@/hooks";
 import { StepProgress } from "@/components/shared";
 import ChoosePath from "./_components/ChoosePath";
