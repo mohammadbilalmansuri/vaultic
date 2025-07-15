@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { NETWORKS } from "@/config";
-import type { TransactionRecord, Network, Transactions } from "@/types";
+import type { Transaction, Network, Transactions } from "@/types";
 
 interface TransactionsStore {
   transactions: Transactions;
   clearTransactions: () => void;
   setTransactions: (transactions: Transactions) => void;
-  addTransaction: (network: Network, transaction: TransactionRecord) => void;
+  addTransaction: (network: Network, transaction: Transaction) => void;
 }
 
 // Initializes empty transaction arrays for all supported networks
@@ -26,7 +26,7 @@ const useTransactionsStore = create<TransactionsStore>((set) => ({
 
   setTransactions: (transactions: Transactions) => set({ transactions }),
 
-  addTransaction: (network: Network, transaction: TransactionRecord) =>
+  addTransaction: (network: Network, transaction: Transaction) =>
     set((state) => ({
       transactions: {
         ...state.transactions,

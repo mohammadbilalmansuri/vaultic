@@ -10,7 +10,7 @@ import { Alchemy, Network, AssetTransfersCategory } from "alchemy-sdk";
 import { ALCHEMY_API_KEY } from "@/config";
 import { TRANSACTION_LIMIT } from "@/constants";
 import type {
-  TransactionRecord,
+  Transaction,
   ResetConnectionFunction,
   IsValidAddressFunction,
   FetchBalanceFunction,
@@ -153,7 +153,7 @@ export const fetchEthereumTransactions: FetchTransactionsFunction = async (
     )
     .slice(0, TRANSACTION_LIMIT);
 
-  const transactions: (TransactionRecord | null)[] = await Promise.all(
+  const transactions: (Transaction | null)[] = await Promise.all(
     allTransfers.map(async ({ to, from, hash, metadata }) => {
       try {
         const [txDetails, receipt] = await Promise.all([
@@ -191,7 +191,7 @@ export const fetchEthereumTransactions: FetchTransactionsFunction = async (
   );
 
   return transactions
-    .filter((txn): txn is TransactionRecord => txn !== null)
+    .filter((txn): txn is Transaction => txn !== null)
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
