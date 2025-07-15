@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { IS_DEV } from "@/config";
-import { Indexes, NetworkMode, WalletStatus } from "@/types";
+import type { Indexes, NetworkMode, WalletStatus } from "@/types";
 
 interface WalletStore {
   walletStatus: WalletStatus;

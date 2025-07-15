@@ -2,7 +2,7 @@ import * as z from "zod";
 import BigNumber from "bignumber.js";
 import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { FAUCET_PRESET_AMOUNTS } from "@/constants";
-import { Network } from "@/types";
+import type { Network } from "@/types";
 
 // Base password validation schema (8-128 characters)
 const PasswordSchema = z

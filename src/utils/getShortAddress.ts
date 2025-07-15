@@ -1,5 +1,5 @@
 import { NETWORKS } from "@/config";
-import { Network } from "@/types";
+import type { Network } from "@/types";
 
 /**
  * Shortens a blockchain address for display purposes.

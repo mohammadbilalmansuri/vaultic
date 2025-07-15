@@ -1,6 +1,6 @@
 "use client";
 import { useRef, ChangeEvent } from "react";
-import { Network } from "@/types";
+import type { Network } from "@/types";
 import { useNotificationStore } from "@/stores";
 import { scanQRCode } from "@/services/qr";
 

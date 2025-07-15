@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import { NETWORK_FUNCTIONS } from "@/config";
-import { TransactionRecord, Network } from "@/types";
+import type { TransactionRecord, Network } from "@/types";
 import {
   useWalletStore,
   useAccountsStore,

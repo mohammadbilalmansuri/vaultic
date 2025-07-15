@@ -12,7 +12,7 @@ import bs58 from "bs58";
 import { derivePath } from "ed25519-hd-key";
 import BigNumber from "bignumber.js";
 import { TRANSACTION_LIMIT } from "@/constants";
-import {
+import type {
   TransactionRecord,
   ResetConnectionFunction,
   IsValidAddressFunction,
