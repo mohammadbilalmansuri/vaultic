@@ -13,15 +13,15 @@ import { derivePath } from "ed25519-hd-key";
 import BigNumber from "bignumber.js";
 import { TRANSACTION_LIMIT } from "@/constants";
 import {
-  ITransaction,
-  TResetConnectionFunction,
-  TIsValidAddressFunction,
-  TFetchBalanceFunction,
-  TDeriveNetworkAccountFunction,
-  TFetchTransactionsFunction,
-  TSendTokensFunction,
-  TGetExplorerUrlFunction,
-  TRequestAirdropFunction,
+  Transaction,
+  ResetConnectionFunction,
+  IsValidAddressFunction,
+  FetchBalanceFunction,
+  DeriveNetworkAccountFunction,
+  FetchTransactionsFunction,
+  SendTokensFunction,
+  GetExplorerUrlFunction,
+  RequestAirdropFunction,
 } from "@/types";
 import getRpcUrl from "@/utils/getRpcUrl";
 
@@ -89,7 +89,7 @@ const validateAndGetSolanaPublicKey = (address: string): PublicKey => {
  * Resets Solana connection instance.
  * Used when switching network mode or refreshing connections.
  */
-export const resetSolanaConnection: TResetConnectionFunction = () => {
+export const resetSolanaConnection: ResetConnectionFunction = () => {
   solanaConnection = null;
 };
 
@@ -98,7 +98,7 @@ export const resetSolanaConnection: TResetConnectionFunction = () => {
  * @param address - Address string to validate
  * @returns True if address is valid Solana format
  */
-export const isValidSolanaAddress: TIsValidAddressFunction = (address) => {
+export const isValidSolanaAddress: IsValidAddressFunction = (address) => {
   try {
     new PublicKey(address);
     return true;
@@ -112,7 +112,7 @@ export const isValidSolanaAddress: TIsValidAddressFunction = (address) => {
  * @param address - Solana address to check balance
  * @returns Balance in SOL as string
  */
-export const fetchSolanaBalance: TFetchBalanceFunction = async (address) => {
+export const fetchSolanaBalance: FetchBalanceFunction = async (address) => {
   const pubkey = validateAndGetSolanaPublicKey(address);
   const connection = getSolanaConnection();
   const balance = await connection.getBalance(pubkey);
@@ -125,7 +125,7 @@ export const fetchSolanaBalance: TFetchBalanceFunction = async (address) => {
  * @param index - Derivation path index
  * @returns Account object with address, private key, and balance
  */
-export const deriveSolanaAccount: TDeriveNetworkAccountFunction = async (
+export const deriveSolanaAccount: DeriveNetworkAccountFunction = async (
   seed,
   index
 ) => {
@@ -151,7 +151,7 @@ export const deriveSolanaAccount: TDeriveNetworkAccountFunction = async (
  * @param address - Solana address to fetch transactions for
  * @returns Array of formatted transaction objects
  */
-export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
+export const fetchSolanaTransactions: FetchTransactionsFunction = async (
   address
 ) => {
   const pubkey = validateAndGetSolanaPublicKey(address);
@@ -163,7 +163,7 @@ export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
 
   if (signatures.length === 0) return [];
 
-  const transactions: (ITransaction | null)[] = await Promise.all(
+  const transactions: (Transaction | null)[] = await Promise.all(
     signatures.map(async ({ signature }) => {
       try {
         const txn = await connection.getParsedTransaction(signature, {
@@ -207,7 +207,7 @@ export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
   );
 
   return transactions
-    .filter((txn): txn is ITransaction => txn !== null)
+    .filter((txn): txn is Transaction => txn !== null)
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
@@ -218,7 +218,7 @@ export const fetchSolanaTransactions: TFetchTransactionsFunction = async (
  * @param amount - Amount to send in SOL
  * @returns Transaction object with details
  */
-export const sendSolana: TSendTokensFunction = async (
+export const sendSolana: SendTokensFunction = async (
   fromPrivateKey,
   toAddress,
   amount
@@ -279,7 +279,7 @@ export const sendSolana: TSendTokensFunction = async (
  * @param value - Hash, address, or block number
  * @returns Solscan URL string
  */
-export const getSolanaExplorerUrl: TGetExplorerUrlFunction = (
+export const getSolanaExplorerUrl: GetExplorerUrlFunction = (
   type,
   networkMode,
   value
@@ -295,7 +295,7 @@ export const getSolanaExplorerUrl: TGetExplorerUrlFunction = (
  * @param amount - Amount of SOL to request (max 5)
  * @returns Transaction signature string
  */
-export const requestSolanaAirdrop: TRequestAirdropFunction = async (
+export const requestSolanaAirdrop: RequestAirdropFunction = async (
   toAddress,
   amount
 ) => {

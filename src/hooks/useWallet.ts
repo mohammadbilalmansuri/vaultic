@@ -6,7 +6,7 @@ import {
   useAccountsStore,
 } from "@/stores";
 import delay from "@/utils/delay";
-import { TVerifyPasswordForm } from "@/utils/validations";
+import { VerifyPasswordForm } from "@/utils/validations";
 import { useStorage, useAccounts } from "@/hooks";
 
 /**
@@ -67,8 +67,8 @@ const useWallet = () => {
    * @param setError - Form error setter for password validation feedback
    */
   const unlockWallet = async (
-    { password }: TVerifyPasswordForm,
-    setError: UseFormSetError<TVerifyPasswordForm>
+    { password }: VerifyPasswordForm,
+    setError: UseFormSetError<VerifyPasswordForm>
   ) => {
     try {
       await loadWallet(password);

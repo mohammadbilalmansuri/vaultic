@@ -1,17 +1,17 @@
 import { create } from "zustand";
-import { TAccount, TAccounts } from "@/types";
+import { Account, Accounts } from "@/types";
 
-interface IAccountsStore {
-  accounts: TAccounts;
+interface AccountsStore {
+  accounts: Accounts;
   activeAccountIndex: number;
   switchingToAccount: number | null;
-  addAccount: (index: number, account: TAccount) => void;
+  addAccount: (index: number, account: Account) => void;
   removeAccount: (index: number) => void;
-  setAccounts: (accounts: TAccounts) => void;
+  setAccounts: (accounts: Accounts) => void;
   clearAccounts: () => void;
-  getActiveAccount: () => TAccount;
+  getActiveAccount: () => Account;
   setActiveAccountIndex: (index: number) => void;
-  updateActiveAccount: (account: TAccount) => void;
+  updateActiveAccount: (account: Account) => void;
   setSwitchingToAccount: (accountIndex: number | null) => void;
 }
 
@@ -19,7 +19,7 @@ interface IAccountsStore {
  * Accounts store for managing wallet accounts across multiple networks.
  * Handles account creation, deletion, switching, and balance updates.
  */
-const useAccountsStore = create<IAccountsStore>((set, get) => ({
+const useAccountsStore = create<AccountsStore>((set, get) => ({
   accounts: {},
   activeAccountIndex: 0,
   switchingToAccount: null,
@@ -33,7 +33,7 @@ const useAccountsStore = create<IAccountsStore>((set, get) => ({
       return { accounts: remaining };
     }),
 
-  setAccounts: (accounts: TAccounts) => set(() => ({ accounts })),
+  setAccounts: (accounts: Accounts) => set(() => ({ accounts })),
 
   clearAccounts: () => set(() => ({ accounts: {}, activeAccountIndex: 0 })),
 

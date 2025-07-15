@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import { INotification } from "@/types";
+import { Notification } from "@/types";
 
-interface INotificationStore extends INotification {
+interface NotificationStore extends Notification {
   opened: boolean;
-  notify: ({ type, message, duration }: INotification) => void;
+  notify: ({ type, message, duration }: Notification) => void;
   closeNotification: () => void;
 }
 
@@ -11,7 +11,7 @@ interface INotificationStore extends INotification {
  * Notification store for managing toast notifications with auto-dismiss.
  * Handles notification queuing and smooth transitions between messages.
  */
-const useNotificationStore = create<INotificationStore>((set, get) => {
+const useNotificationStore = create<NotificationStore>((set, get) => {
   let timeoutId: NodeJS.Timeout | null = null;
 
   const startTimer = (duration: number) => {

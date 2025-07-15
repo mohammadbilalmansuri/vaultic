@@ -1,6 +1,6 @@
-import { TIcon } from "@/types";
+import { Icon } from "@/types";
 
-const WiFiOff: TIcon = (props) => {
+const WiFiOff: Icon = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

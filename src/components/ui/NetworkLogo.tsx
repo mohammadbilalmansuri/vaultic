@@ -1,9 +1,9 @@
 import { NETWORKS } from "@/config";
-import { TNetwork } from "@/types";
+import { Network } from "@/types";
 import cn from "@/utils/cn";
 
 interface NetworkLogoProps {
-  network: TNetwork;
+  network: Network;
   size?: "sm" | "md" | "lg" | "xl";
   className?: string;
 }

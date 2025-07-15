@@ -1,32 +1,32 @@
 import { create } from "zustand";
 import { NETWORKS } from "@/config";
-import { ITransaction, TNetwork, TTransactions } from "@/types";
+import { Transaction, Network, Transactions } from "@/types";
 
-interface ITransactionsStore {
-  transactions: TTransactions;
+interface TransactionsStore {
+  transactions: Transactions;
   clearTransactions: () => void;
-  setTransactions: (transactions: TTransactions) => void;
-  addTransaction: (network: TNetwork, transaction: ITransaction) => void;
+  setTransactions: (transactions: Transactions) => void;
+  addTransaction: (network: Network, transaction: Transaction) => void;
 }
 
 // Initializes empty transaction arrays for all supported networks
 const initialTransactions = Object.keys(NETWORKS).reduce((acc, network) => {
-  acc[network as TNetwork] = [];
+  acc[network as Network] = [];
   return acc;
-}, {} as TTransactions);
+}, {} as Transactions);
 
 /**
  * Transactions store for managing transaction history across all networks in the active account.
  * Handles transaction caching, updates, and network-specific organization.
  */
-const useTransactionsStore = create<ITransactionsStore>((set) => ({
+const useTransactionsStore = create<TransactionsStore>((set) => ({
   transactions: initialTransactions,
 
   clearTransactions: () => set({ transactions: initialTransactions }),
 
-  setTransactions: (transactions: TTransactions) => set({ transactions }),
+  setTransactions: (transactions: Transactions) => set({ transactions }),
 
-  addTransaction: (network: TNetwork, transaction: ITransaction) =>
+  addTransaction: (network: Network, transaction: Transaction) =>
     set((state) => ({
       transactions: {
         ...state.transactions,

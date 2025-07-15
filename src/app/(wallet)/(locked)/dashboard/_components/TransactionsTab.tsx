@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { DEFAULT_NETWORK } from "@/constants";
-import { TNetwork } from "@/types";
+import { Network } from "@/types";
 import {
   useAccountsStore,
   useNotificationStore,
@@ -29,7 +29,7 @@ const TransactionsTab = () => {
   const { fetchActiveAccountTransactions } = useBlockchain();
   const notify = useNotificationStore((state) => state.notify);
 
-  const [network, setNetwork] = useState<TNetwork>(DEFAULT_NETWORK);
+  const [network, setNetwork] = useState<Network>(DEFAULT_NETWORK);
   const [copiedItems, setCopiedItems] = useState("");
   const [refreshing, startRefreshing] = useTransition();
 
@@ -54,7 +54,7 @@ const TransactionsTab = () => {
     });
   };
 
-  const handleNetworkChange = (newNetwork: TNetwork) => {
+  const handleNetworkChange = (newNetwork: Network) => {
     if (newNetwork === network) return;
     setNetwork(newNetwork);
     setCopiedItems("");
@@ -81,7 +81,7 @@ const TransactionsTab = () => {
               key={`${id}-button`}
               type="button"
               disabled={id === network}
-              onClick={() => handleNetworkChange(id as TNetwork)}
+              onClick={() => handleNetworkChange(id as Network)}
               className={cn(
                 "flex items-center gap-2 leading-none py-2.5 px-3 rounded-xl transition-all duration-200 font-medium border",
                 id === network

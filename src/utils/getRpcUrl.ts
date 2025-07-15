@@ -1,5 +1,5 @@
 import { NETWORKS } from "@/config";
-import { TNetwork, TNetworkMode } from "@/types";
+import { Network, NetworkMode } from "@/types";
 import { useWalletStore } from "@/stores";
 
 /**
@@ -9,7 +9,7 @@ import { useWalletStore } from "@/stores";
  * @returns RPC URL string for the specified network and mode
  * @throws {Error} When RPC URL is not configured for the network/mode combination
  */
-const getRpcUrl = (network: TNetwork, mode?: TNetworkMode): string => {
+const getRpcUrl = (network: Network, mode?: NetworkMode): string => {
   const networkMode = mode ?? useWalletStore.getState().networkMode;
   const url = NETWORKS[network].rpc[networkMode];
 

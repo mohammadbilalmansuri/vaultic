@@ -3,17 +3,17 @@ import { useState, useId, ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import cn from "@/utils/cn";
 
-type TTooltipPosition = "top" | "bottom" | "left" | "right";
+type TooltipPosition = "top" | "bottom" | "left" | "right";
 
 interface TooltipProps {
   content?: ReactNode;
   children: ReactNode;
-  position?: TTooltipPosition;
+  position?: TooltipPosition;
   containerClassName?: string;
   tooltipClassName?: string;
 }
 
-const getAnimationVariants = (position: TTooltipPosition) => {
+const getAnimationVariants = (position: TooltipPosition) => {
   const offsetDistance = 8;
   const hidden = { scale: 0.9, opacity: 0 };
   const visible = { scale: 1, opacity: 1 };

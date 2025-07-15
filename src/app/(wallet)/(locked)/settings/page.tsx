@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "motion/react";
-import { TTabs } from "@/types";
+import { Tabs } from "@/types";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useWallet } from "@/hooks";
 import { Lock, Wallet } from "@/components/icons";
@@ -11,7 +11,7 @@ import TestnetModeTab from "./_components/TestnetModeTab";
 import ChangePasswordTab from "./_components/ChangePasswordTab";
 import RemoveWalletTab from "./_components/RemoveWalletTab";
 
-const TABS: TTabs = {
+const TABS: Tabs = {
   "Recovery Phrase": { content: RecoveryPhraseTab },
   "Testnet Mode": { content: TestnetModeTab },
   "Change Password": { content: ChangePasswordTab },

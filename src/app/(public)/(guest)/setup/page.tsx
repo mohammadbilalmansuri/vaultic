@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { AnimatePresence } from "motion/react";
-import { TSetupPath, TSetupStep } from "@/types";
+import { SetupPath, SetupStep } from "@/types";
 import { useMounted } from "@/hooks";
 import { StepProgress } from "@/components/shared";
 import ChoosePath from "./_components/ChoosePath";
@@ -16,8 +16,8 @@ const getStepProgress = (activeDot: number, backFn?: () => void) => (
 );
 
 const SetupPage = () => {
-  const [step, setStep] = useState<TSetupStep>(1);
-  const [path, setPath] = useState<TSetupPath>("create");
+  const [step, setStep] = useState<SetupStep>(1);
+  const [path, setPath] = useState<SetupPath>("create");
   const hasMounted = useMounted(500);
 
   return (

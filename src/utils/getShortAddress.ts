@@ -1,5 +1,5 @@
 import { NETWORKS } from "@/config";
-import { TNetwork } from "@/types";
+import { Network } from "@/types";
 
 /**
  * Shortens a blockchain address for display purposes.
@@ -10,7 +10,7 @@ import { TNetwork } from "@/types";
  */
 const getShortAddress = (
   address: string,
-  network?: TNetwork,
+  network?: Network,
   chars = 4
 ): string => {
   if (!address || address.length <= chars * 2 + 2) return address;

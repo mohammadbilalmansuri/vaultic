@@ -2,7 +2,7 @@
 import { useTransition, useState, MouseEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { NETWORKS } from "@/config";
-import { TNetwork } from "@/types";
+import { Network } from "@/types";
 import {
   useWalletStore,
   useAccountsStore,
@@ -273,7 +273,7 @@ const AccountsPage = () => {
                     <div className="w-full p-5 pt-0 grid grid-cols-2 gap-4">
                       {Object.entries(account).map(
                         ([networkKey, { address, privateKey, balance }]) => {
-                          const network = networkKey as TNetwork;
+                          const network = networkKey as Network;
                           const networkConfig = NETWORKS[network];
                           const parsedBalance = parseBalance(balance);
 

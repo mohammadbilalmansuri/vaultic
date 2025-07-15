@@ -1,13 +1,13 @@
 "use client";
 import { useRef, ChangeEvent } from "react";
-import { TNetwork } from "@/types";
+import { Network } from "@/types";
 import { useNotificationStore } from "@/stores";
 import { scanQRCode } from "@/services/qr";
 
 type AddressQRUploadConfig = {
-  network: TNetwork;
+  network: Network;
   onAddressScanned: (address: string) => void;
-  validateAddress: (network: TNetwork, address: string) => boolean;
+  validateAddress: (network: Network, address: string) => boolean;
 };
 
 /**

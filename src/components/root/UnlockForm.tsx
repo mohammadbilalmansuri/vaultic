@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IS_DEV, DEV_PASSWORD } from "@/config";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";
+import { VerifyPasswordSchema, VerifyPasswordForm } from "@/utils/validations";
 import { useWallet } from "@/hooks";
 import { Logo } from "../icons";
 import { Button, FormError, Loader, PasswordInput } from "../ui";
@@ -19,14 +19,14 @@ const UnlockForm = () => {
     handleSubmit,
     setError,
     formState: { errors, isValid },
-  } = useForm<TVerifyPasswordForm>({
+  } = useForm<VerifyPasswordForm>({
     resolver: zodResolver(VerifyPasswordSchema),
     mode: "onChange",
     defaultValues: { password: IS_DEV ? DEV_PASSWORD : "" },
   });
 
   const [unlocking, startUnlocking] = useTransition();
-  const handleUnlock = (data: TVerifyPasswordForm) => {
+  const handleUnlock = (data: VerifyPasswordForm) => {
     startUnlocking(async () => await unlockWallet(data, setError));
   };
 

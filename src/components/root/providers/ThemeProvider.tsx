@@ -1,9 +1,9 @@
 "use client";
 import { useEffect } from "react";
-import { IChildren } from "@/types";
+import { Children } from "@/types";
 import { useThemeStore } from "@/stores";
 
-const ThemeProvider = ({ children }: IChildren) => {
+const ThemeProvider = ({ children }: Children) => {
   const theme = useThemeStore((state) => state.theme);
   const isHydrated = useThemeStore((state) => state.isHydrated);
 

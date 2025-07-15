@@ -1,6 +1,6 @@
-import { IChildren } from "@/types";
+import { Children } from "@/types";
 
-const IconProcessing = ({ children }: IChildren) => {
+const IconProcessing = ({ children }: Children) => {
   return (
     <div
       className="relative flex items-center justify-center"

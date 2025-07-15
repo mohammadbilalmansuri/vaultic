@@ -1,23 +1,23 @@
 import { create } from "zustand";
 import { IS_DEV } from "@/config";
-import { IIndexes, TNetworkMode, TWalletStatus } from "@/types";
+import { Indexes, NetworkMode, WalletStatus } from "@/types";
 
-interface IWalletStore {
-  walletStatus: TWalletStatus;
+interface WalletStore {
+  walletStatus: WalletStatus;
   suppressRedirect: boolean;
   walletExists: boolean;
   authenticated: boolean;
   password: string;
   mnemonic: string;
-  indexes: IIndexes;
-  networkMode: TNetworkMode;
-  setWalletState: (updates: Partial<IWalletStore>) => void;
+  indexes: Indexes;
+  networkMode: NetworkMode;
+  setWalletState: (updates: Partial<WalletStore>) => void;
   clearWallet: () => void;
 }
 
 // Returns default wallet state
 const getDefaultState = (): Omit<
-  IWalletStore,
+  WalletStore,
   "setWalletState" | "clearWallet"
 > => ({
   walletStatus: "checking",
@@ -34,7 +34,7 @@ const getDefaultState = (): Omit<
  * Wallet store for managing authentication state, wallet data, and network configuration.
  * Handles wallet lifecycle from setup to authentication and account management.
  */
-const useWalletStore = create<IWalletStore>((set) => ({
+const useWalletStore = create<WalletStore>((set) => ({
   ...getDefaultState(),
 
   setWalletState: (updates) => set((state) => ({ ...state, ...updates })),

@@ -1,11 +1,11 @@
 "use client";
 import { JSX } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { TNotificationType } from "@/types";
+import { NotificationType } from "@/types";
 import { useNotificationStore } from "@/stores";
 import { Cancel, Info, Success, Error } from "@/components/icons";
 
-const NOTIFICATION_ICONS = new Map<TNotificationType, JSX.Element>([
+const NOTIFICATION_ICONS = new Map<NotificationType, JSX.Element>([
   ["info", <Info className="w-5.5 text-zinc-800 dark:text-zinc-200" />],
   ["success", <Success className="w-5.5 text-teal-500" />],
   ["error", <Error className="w-5.5 text-rose-500" />],

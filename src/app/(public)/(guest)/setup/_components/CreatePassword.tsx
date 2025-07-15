@@ -4,18 +4,18 @@ import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IS_DEV, DEV_PASSWORD } from "@/config";
-import { TSetupSetStep } from "@/types";
+import { SetupSetStep } from "@/types";
 import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import { CreatePasswordSchema, TCreatePasswordForm } from "@/utils/validations";
+import { CreatePasswordSchema, CreatePasswordForm } from "@/utils/validations";
 import { Button, FormError, PasswordInput } from "@/components/ui";
 
 const CreatePassword = ({
   setStep,
   StepProgress,
 }: {
-  setStep: TSetupSetStep;
+  setStep: SetupSetStep;
   StepProgress: JSX.Element;
 }) => {
   const setWalletState = useWalletStore((state) => state.setWalletState);
@@ -24,7 +24,7 @@ const CreatePassword = ({
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<TCreatePasswordForm>({
+  } = useForm<CreatePasswordForm>({
     resolver: zodResolver(CreatePasswordSchema),
     mode: "onChange",
     defaultValues: {
@@ -33,7 +33,7 @@ const CreatePassword = ({
     },
   });
 
-  const handleCreatePassword = ({ password }: TCreatePasswordForm) => {
+  const handleCreatePassword = ({ password }: CreatePasswordForm) => {
     setWalletState({ password });
     setStep(3);
   };

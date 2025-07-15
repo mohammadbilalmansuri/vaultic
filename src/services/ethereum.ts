@@ -10,14 +10,14 @@ import { Alchemy, Network, AssetTransfersCategory } from "alchemy-sdk";
 import { ALCHEMY_API_KEY } from "@/config";
 import { TRANSACTION_LIMIT } from "@/constants";
 import {
-  ITransaction,
-  TResetConnectionFunction,
-  TIsValidAddressFunction,
-  TFetchBalanceFunction,
-  TDeriveNetworkAccountFunction,
-  TFetchTransactionsFunction,
-  TSendTokensFunction,
-  TGetExplorerUrlFunction,
+  Transaction,
+  ResetConnectionFunction,
+  IsValidAddressFunction,
+  FetchBalanceFunction,
+  DeriveNetworkAccountFunction,
+  FetchTransactionsFunction,
+  SendTokensFunction,
+  GetExplorerUrlFunction,
 } from "@/types";
 import { useWalletStore } from "@/stores";
 import getRpcUrl from "@/utils/getRpcUrl";
@@ -61,7 +61,7 @@ const getEthereumTransactionFee = (
  * Resets Ethereum provider and Alchemy instance connections.
  * Used when switching network mode or refreshing connections.
  */
-export const resetEthereumConnection: TResetConnectionFunction = () => {
+export const resetEthereumConnection: ResetConnectionFunction = () => {
   ethereumProvider = null;
   alchemyInstance = null;
 };
@@ -71,7 +71,7 @@ export const resetEthereumConnection: TResetConnectionFunction = () => {
  * @param address - Address string to validate
  * @returns True if address is valid Ethereum format
  */
-export const isValidEthereumAddress: TIsValidAddressFunction = (address) => {
+export const isValidEthereumAddress: IsValidAddressFunction = (address) => {
   return isAddress(address);
 };
 
@@ -80,7 +80,7 @@ export const isValidEthereumAddress: TIsValidAddressFunction = (address) => {
  * @param address - Ethereum address to check balance
  * @returns Balance in ETH as string
  */
-export const fetchEthereumBalance: TFetchBalanceFunction = async (address) => {
+export const fetchEthereumBalance: FetchBalanceFunction = async (address) => {
   if (!isValidEthereumAddress(address)) {
     throw new Error("Invalid Ethereum address");
   }
@@ -97,7 +97,7 @@ export const fetchEthereumBalance: TFetchBalanceFunction = async (address) => {
  * @param index - Derivation path index
  * @returns Account object with address, private key, and balance
  */
-export const deriveEthereumAccount: TDeriveNetworkAccountFunction = async (
+export const deriveEthereumAccount: DeriveNetworkAccountFunction = async (
   seed,
   index
 ) => {
@@ -119,7 +119,7 @@ export const deriveEthereumAccount: TDeriveNetworkAccountFunction = async (
  * @param address - Ethereum address to fetch transactions for
  * @returns Array of formatted transaction objects
  */
-export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
+export const fetchEthereumTransactions: FetchTransactionsFunction = async (
   address
 ) => {
   if (!isValidEthereumAddress(address)) {
@@ -153,7 +153,7 @@ export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
     )
     .slice(0, TRANSACTION_LIMIT);
 
-  const transactions: (ITransaction | null)[] = await Promise.all(
+  const transactions: (Transaction | null)[] = await Promise.all(
     allTransfers.map(async ({ to, from, hash, metadata }) => {
       try {
         const [txDetails, receipt] = await Promise.all([
@@ -191,7 +191,7 @@ export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
   );
 
   return transactions
-    .filter((txn): txn is ITransaction => txn !== null)
+    .filter((txn): txn is Transaction => txn !== null)
     .sort((a, b) => b.timestamp - a.timestamp);
 };
 
@@ -202,7 +202,7 @@ export const fetchEthereumTransactions: TFetchTransactionsFunction = async (
  * @param amount - Amount to send in ETH
  * @returns Transaction object with details
  */
-export const sendEthereum: TSendTokensFunction = async (
+export const sendEthereum: SendTokensFunction = async (
   fromPrivateKey,
   toAddress,
   amount
@@ -248,7 +248,7 @@ export const sendEthereum: TSendTokensFunction = async (
  * @param value - Hash, address, or block number
  * @returns Etherscan URL string
  */
-export const getEthereumExplorerUrl: TGetExplorerUrlFunction = (
+export const getEthereumExplorerUrl: GetExplorerUrlFunction = (
   type,
   networkMode,
   value

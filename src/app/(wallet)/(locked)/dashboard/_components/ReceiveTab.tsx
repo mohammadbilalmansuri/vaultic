@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { NETWORKS } from "@/config";
-import { TNetwork } from "@/types";
+import { Network } from "@/types";
 import { useAccountsStore } from "@/stores";
 import { generateQRCode } from "@/services/qr";
 import { fadeUpAnimation } from "@/utils/animations";
@@ -13,8 +13,8 @@ import { Tooltip, CopyToggle } from "@/components/ui";
 
 const qrCache = new Map<string, string>();
 
-interface IQRCodeData {
-  network: TNetwork;
+interface QRCodeData {
+  network: Network;
   address: string;
   qrCode: string;
 }
@@ -25,7 +25,7 @@ const ReceiveTab = () => {
     (state) => state.activeAccountIndex
   );
 
-  const [qrDataList, setQrDataList] = useState<IQRCodeData[] | null>(null);
+  const [qrDataList, setQrDataList] = useState<QRCodeData[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
 
@@ -38,7 +38,7 @@ const ReceiveTab = () => {
         const entries = await Promise.all(
           Object.entries(activeAccount).map(
             async ([networkKey, { address }]) => {
-              const network = networkKey as TNetwork;
+              const network = networkKey as Network;
 
               let qrCode = qrCache.get(address);
               if (!qrCode) {

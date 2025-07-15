@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { TSelectStyle, TSelectVariant } from "@/types";
 import cn from "@/utils/cn";
 import { useOutsideClick } from "@/hooks";
 import { ChevronsUpDown, Check } from "../icons";
@@ -15,8 +14,8 @@ interface SelectProps<T> {
   value: T;
   onChange: (value: T) => Promise<void> | void;
   selecting?: boolean;
-  variant?: TSelectVariant;
-  style?: TSelectStyle;
+  variant?: "inline" | "dropdown";
+  style?: "default" | "input";
   containerClassName?: string;
 }
 

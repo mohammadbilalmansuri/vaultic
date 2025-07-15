@@ -2,7 +2,7 @@
 import { useState, useTransition } from "react";
 import { motion } from "motion/react";
 import { NETWORKS } from "@/config";
-import { TNetwork, TTabs } from "@/types";
+import { Network, Tabs } from "@/types";
 import {
   useWalletStore,
   useAccountsStore,
@@ -20,7 +20,7 @@ import SendTab from "./_components/SendTab";
 import ReceiveTab from "./_components/ReceiveTab";
 import TransactionsTab from "./_components/TransactionsTab";
 
-const TABS: TTabs = {
+const TABS: Tabs = {
   Send: { icon: Send, content: SendTab },
   Receive: { icon: QR, content: ReceiveTab },
   Transactions: { icon: Clock, content: TransactionsTab },
@@ -118,7 +118,7 @@ const DashboardPage = () => {
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
         {Object.entries(activeAccount).map(
           ([networkKey, { address, balance }], index) => {
-            const network = networkKey as TNetwork;
+            const network = networkKey as Network;
             const networkConfig = NETWORKS[network];
             const parsedBalance = parseBalance(balance);
             const isCopied = copiedText === address;

@@ -2,7 +2,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-interface IThemeStore {
+interface ThemeStore {
   theme: "light" | "dark";
   isHydrated: boolean;
   toggleTheme: () => void;
@@ -12,7 +12,7 @@ interface IThemeStore {
  * Theme store for managing light/dark mode with localStorage persistence.
  * Automatically hydrates from localStorage on initialization.
  */
-const useThemeStore = create<IThemeStore>()(
+const useThemeStore = create<ThemeStore>()(
   persist(
     (set, get) => ({
       theme: "dark",

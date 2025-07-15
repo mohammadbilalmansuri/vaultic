@@ -1,11 +1,11 @@
 "use client";
 import { useEffect } from "react";
-import { IChildren } from "@/types";
+import { Children } from "@/types";
 import { useWalletStore } from "@/stores";
 import { useWallet } from "@/hooks";
 import { Loading } from "@/components/shared";
 
-const WalletChecker = ({ children }: IChildren) => {
+const WalletChecker = ({ children }: Children) => {
   const { checkWalletExists } = useWallet();
   const walletStatus = useWalletStore((state) => state.walletStatus);
 

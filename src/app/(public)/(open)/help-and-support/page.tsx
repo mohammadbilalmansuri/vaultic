@@ -1,8 +1,8 @@
 "use client";
 import HeroSection from "./_components/HeroSection";
-import GuideSection, { IGuide } from "./_components/GuideSection";
+import GuideSection, { Guide } from "./_components/GuideSection";
 
-const GUIDES: IGuide[] = [
+const GUIDES: Guide[] = [
   {
     title: "Understanding Account Creation in Vaultic",
     content: (

@@ -1,4 +1,4 @@
-import { TNetworkFunctions } from "@/types";
+import { NetworkFunctions } from "@/types";
 import {
   resetEthereumConnection,
   isValidEthereumAddress,
@@ -22,7 +22,7 @@ import {
  * Network function mapping that provides a unified interface for blockchain operations.
  * Maps each network to its corresponding service functions for consistent API usage.
  */
-export const NETWORK_FUNCTIONS: TNetworkFunctions = {
+export const NETWORK_FUNCTIONS: NetworkFunctions = {
   ethereum: {
     resetConnection: resetEthereumConnection,
     isValidAddress: isValidEthereumAddress,
