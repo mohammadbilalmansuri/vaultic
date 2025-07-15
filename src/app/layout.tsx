@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Children } from "@/types";
+import type { Children } from "@/types";
 import cn from "@/utils/cn";
 import { Providers } from "@/components/root";
 import "./globals.css";

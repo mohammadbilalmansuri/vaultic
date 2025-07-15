@@ -2,7 +2,7 @@
 import { useState, useTransition } from "react";
 import { motion } from "motion/react";
 import { NETWORKS } from "@/config";
-import { Network, Tabs } from "@/types";
+import type { Network, TabsData } from "@/types";
 import {
   useWalletStore,
   useAccountsStore,
@@ -13,14 +13,14 @@ import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import { useBlockchain, useClipboard } from "@/hooks";
-import { Send, QR, Clock, Refresh, Wallet } from "@/components/icons";
+import { Send, QR, Clock, Refresh } from "@/components/icons";
 import { Tabs } from "@/components/shared";
 import { Loader, Tooltip, NetworkLogo, CopyToggle } from "@/components/ui";
 import SendTab from "./_components/SendTab";
 import ReceiveTab from "./_components/ReceiveTab";
 import TransactionsTab from "./_components/TransactionsTab";
 
-const TABS: Tabs = {
+const TABS: TabsData = {
   Send: { icon: Send, content: SendTab },
   Receive: { icon: QR, content: ReceiveTab },
   Transactions: { icon: Clock, content: TransactionsTab },

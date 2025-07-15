@@ -1,12 +1,13 @@
 "use client";
-import { useState, FormEvent, ReactNode } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { DEFAULT_NETWORK } from "@/constants";
-import { Network, TabContentProps } from "@/types";
+import type { ReactNode, FormEvent } from "react";
+import type { Network, TabContentProps } from "@/types";
 import { useAccountsStore, useWalletStore } from "@/stores";
 import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";

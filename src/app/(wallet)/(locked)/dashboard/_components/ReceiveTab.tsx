@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { NETWORKS } from "@/config";
-import { Network } from "@/types";
+import type { Network } from "@/types";
 import { useAccountsStore } from "@/stores";
 import { generateQRCode } from "@/services/qr";
 import { fadeUpAnimation } from "@/utils/animations";

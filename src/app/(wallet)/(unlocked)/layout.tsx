@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Children } from "@/types";
+import type { Children } from "@/types";
 import { useWalletStore } from "@/stores";
 import { PageLayout } from "@/components/layouts";
 import { Loading } from "@/components/shared";
