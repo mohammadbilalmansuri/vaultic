@@ -1,4 +1,4 @@
-import { Children } from "@/types";
+import type { Children } from "@/types";
 import { PageLayout } from "@/components/layouts";
 
 const OpenLayout = ({ children }: Children) => {

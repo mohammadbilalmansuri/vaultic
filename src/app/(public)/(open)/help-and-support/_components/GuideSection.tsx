@@ -1,6 +1,6 @@
 "use client";
-import { ReactNode } from "react";
 import { motion } from "motion/react";
+import type { ReactNode } from "react";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useMotionInView } from "@/hooks";
 

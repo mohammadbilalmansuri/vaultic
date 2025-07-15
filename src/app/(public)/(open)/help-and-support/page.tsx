@@ -1,6 +1,6 @@
 "use client";
 import HeroSection from "./_components/HeroSection";
-import GuideSection, { Guide } from "./_components/GuideSection";
+import GuideSection, { type Guide } from "./_components/GuideSection";
 
 const GUIDES: Guide[] = [
   {

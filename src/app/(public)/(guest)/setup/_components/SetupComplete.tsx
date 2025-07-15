@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "motion/react";
-import { SetupPath } from "@/types";
+import type { SetupPath } from "@/types";
 import { scaleUpAnimation } from "@/utils/animations";
 import { Logo } from "@/components/icons";
 import { Button } from "@/components/ui";

@@ -1,9 +1,10 @@
 "use client";
-import { useState, ClipboardEvent, JSX } from "react";
+import { useState, JSX } from "react";
 import { motion } from "motion/react";
 import { validateMnemonic, wordlists } from "bip39";
 import { useForm } from "react-hook-form";
-import { SetupSetStep } from "@/types";
+import type { ClipboardEvent } from "react";
+import type { SetupSetStep } from "@/types";
 import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";

@@ -2,7 +2,7 @@
 import { useState, useEffect, JSX } from "react";
 import { motion } from "motion/react";
 import { generateMnemonic } from "bip39";
-import { SetupSetStep } from "@/types";
+import type { SetupSetStep } from "@/types";
 import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";

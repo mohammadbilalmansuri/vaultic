@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, JSX } from "react";
 import { motion } from "motion/react";
-import { SetupPath, SetupSetStep } from "@/types";
+import type { SetupPath, SetupSetStep } from "@/types";
 import { useWalletStore, useNotificationStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import { useAccounts } from "@/hooks";
