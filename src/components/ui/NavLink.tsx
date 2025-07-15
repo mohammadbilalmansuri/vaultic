@@ -21,7 +21,7 @@ const NavLink = ({
     <Link
       href={href}
       className={cn(
-        "leading-none sm:min-h-10 min-h-8 sm:px-3 px-2.5 py-2.5 rounded-xl flex items-center justify-center transition-all duration-200",
+        "leading-none md:px-3 px-2.5 py-2.5 rounded-xl text-center transition-all duration-200",
         active
           ? "bg-secondary heading-color pointer-events-none"
           : "bg-transparent hover:heading-color hover:bg-secondary",
