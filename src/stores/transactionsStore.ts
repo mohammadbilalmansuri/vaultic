@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { NETWORKS } from "@/config";
-import { TransactionRecord, Network, Transactions } from "@/types";
+import type { TransactionRecord, Network, Transactions } from "@/types";
 
 interface TransactionsStore {
   transactions: Transactions;

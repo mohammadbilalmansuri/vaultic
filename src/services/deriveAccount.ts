@@ -1,6 +1,6 @@
 import { mnemonicToSeed } from "bip39";
 import { NETWORK_FUNCTIONS } from "@/config";
-import { Account } from "@/types";
+import type { Account } from "@/types";
 
 /**
  * Derives accounts across all supported networks from a mnemonic phrase.

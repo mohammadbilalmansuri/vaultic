@@ -1,4 +1,4 @@
-import { NetworkFunctions } from "@/types";
+import type { NetworkFunctions } from "@/types";
 import {
   resetEthereumConnection,
   isValidEthereumAddress,

@@ -1,4 +1,4 @@
-import { Accounts } from "@/types";
+import type { Accounts } from "@/types";
 import {
   useWalletStore,
   useAccountsStore,

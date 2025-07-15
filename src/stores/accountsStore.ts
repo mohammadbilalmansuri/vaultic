@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Account, Accounts } from "@/types";
+import type { Account, Accounts } from "@/types";
 
 interface AccountsStore {
   accounts: Accounts;

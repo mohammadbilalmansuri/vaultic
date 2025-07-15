@@ -9,7 +9,7 @@ import {
 import { Alchemy, Network, AssetTransfersCategory } from "alchemy-sdk";
 import { ALCHEMY_API_KEY } from "@/config";
 import { TRANSACTION_LIMIT } from "@/constants";
-import {
+import type {
   TransactionRecord,
   ResetConnectionFunction,
   IsValidAddressFunction,

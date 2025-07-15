@@ -1,5 +1,5 @@
 import { NETWORKS } from "@/config";
-import { Network, NetworkMode } from "@/types";
+import type { Network, NetworkMode } from "@/types";
 import { useWalletStore } from "@/stores";
 
 /**
