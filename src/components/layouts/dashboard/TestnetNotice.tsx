@@ -10,7 +10,7 @@ const TestnetNotice = () => {
     <div
       role="status"
       aria-label="Testnet Mode Indicator"
-      className="bg-warning text-warning border border-warning uppercase text-sm font-medium leading-none p-2 rounded-lg select-none cursor-default"
+      className="bg-warning text-warning border border-warning uppercase text-sm font-medium text-center leading-none p-2 rounded-lg select-none cursor-default"
     >
       Testnet Mode
     </div>
