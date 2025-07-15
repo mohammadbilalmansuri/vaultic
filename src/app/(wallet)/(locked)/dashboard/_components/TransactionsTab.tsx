@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { DEFAULT_NETWORK } from "@/constants";
-import { Network } from "@/types";
+import type { Network } from "@/types";
 import {
   useAccountsStore,
   useNotificationStore,

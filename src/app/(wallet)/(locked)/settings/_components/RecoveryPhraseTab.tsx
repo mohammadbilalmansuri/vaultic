@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "motion/react";
-import { TabContentProps } from "@/types";
+import type { TabContentProps } from "@/types";
 import { useWalletStore } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import { MnemonicView } from "@/components/shared";

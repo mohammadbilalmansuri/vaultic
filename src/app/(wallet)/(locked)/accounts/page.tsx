@@ -1,8 +1,9 @@
 "use client";
-import { useTransition, useState, MouseEvent } from "react";
+import { useTransition, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { NETWORKS } from "@/config";
-import { Network } from "@/types";
+import type { MouseEvent } from "react";
+import type { Network } from "@/types";
 import {
   useWalletStore,
   useAccountsStore,
