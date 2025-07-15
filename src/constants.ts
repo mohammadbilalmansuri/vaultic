@@ -15,7 +15,7 @@ export const FAUCET_PRESET_AMOUNTS = ["0.5", "1", "2.5", "5"];
 
 export const TRANSACTION_LIMIT = 10;
 
-export const NAVIGATION_HEADER = (walletExists: boolean) => [
+export const HEADER_NAV_LINKS = (walletExists: boolean) => [
   walletExists
     ? { href: "/dashboard", label: "Dashboard" }
     : { href: "/setup", label: "Wallet Setup" },
@@ -23,7 +23,7 @@ export const NAVIGATION_HEADER = (walletExists: boolean) => [
   { href: "/help-and-support", label: "Help & Support" },
 ];
 
-export const NAVIGATION_SIDEBAR = [
+export const SIDEBAR_NAV_LINKS = [
   { name: "Dashboard", href: "/dashboard", Icon: Home },
   { name: "Accounts", href: "/accounts", Icon: Wallet },
   { name: "Settings", href: "/settings", Icon: Setting },
