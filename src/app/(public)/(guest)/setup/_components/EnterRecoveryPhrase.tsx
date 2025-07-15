@@ -3,14 +3,14 @@ import { useState, ClipboardEvent, JSX } from "react";
 import { motion } from "motion/react";
 import { validateMnemonic, wordlists } from "bip39";
 import { useForm } from "react-hook-form";
-import { TSetupSetStep } from "@/types";
+import { SetupSetStep } from "@/types";
 import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { Button, FormError } from "@/components/ui";
 
-type TEnterMnemonicForm = { [key: `word${number}`]: string };
-type TMnemonicLength = 12 | 24;
+type EnterMnemonicForm = { [key: `word${number}`]: string };
+type MnemonicLength = 12 | 24;
 
 const mnemonicWordValidator = (index: number) => (value: string) => {
   const trimmed = value.trim().toLowerCase();
@@ -24,10 +24,10 @@ const EnterRecoveryPhrase = ({
   setStep,
   StepProgress,
 }: {
-  setStep: TSetupSetStep;
+  setStep: SetupSetStep;
   StepProgress: JSX.Element;
 }) => {
-  const [mnemonicLength, setMnemonicLength] = useState<TMnemonicLength>(12);
+  const [mnemonicLength, setMnemonicLength] = useState<MnemonicLength>(12);
   const setWalletState = useWalletStore((state) => state.setWalletState);
 
   const {
@@ -40,14 +40,14 @@ const EnterRecoveryPhrase = ({
     getValues,
 
     formState: { errors, isValid },
-  } = useForm<TEnterMnemonicForm>({
+  } = useForm<EnterMnemonicForm>({
     mode: "onChange",
     defaultValues: Object.fromEntries(
       Array.from({ length: 12 }, (_, i) => [`word${i + 1}`, ""])
     ),
   });
 
-  const updateMnemonicForm = (newLength: TMnemonicLength, words?: string[]) => {
+  const updateMnemonicForm = (newLength: MnemonicLength, words?: string[]) => {
     setMnemonicLength(newLength);
 
     const currentValues = getValues();
@@ -70,7 +70,7 @@ const EnterRecoveryPhrase = ({
     event.preventDefault();
 
     if (words.length === 12 || words.length === 24) {
-      updateMnemonicForm(words.length as TMnemonicLength, words);
+      updateMnemonicForm(words.length as MnemonicLength, words);
     } else {
       setError("root", {
         message: "Recovery phrase must contain exactly 12 or 24 valid words.",
@@ -79,7 +79,7 @@ const EnterRecoveryPhrase = ({
     }
   };
 
-  const handleContinue = (data: TEnterMnemonicForm) => {
+  const handleContinue = (data: EnterMnemonicForm) => {
     const phrase = Array.from({ length: mnemonicLength }, (_, i) =>
       (data[`word${i + 1}`] || "").trim()
     ).join(" ");

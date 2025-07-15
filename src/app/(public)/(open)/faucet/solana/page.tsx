@@ -11,7 +11,7 @@ import { requestSolanaAirdrop } from "@/services/solana";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
-import { SolanaAirdropSchema, TSolanaAirdropForm } from "@/utils/validations";
+import { SolanaAirdropSchema, SolanaAirdropForm } from "@/utils/validations";
 import { Solana } from "@/components/icons";
 import {
   Input,
@@ -41,12 +41,12 @@ const SolanaFaucetPage = () => {
     control,
     reset,
     formState: { errors, isValid },
-  } = useForm<TSolanaAirdropForm>({
+  } = useForm<SolanaAirdropForm>({
     resolver: zodResolver(SolanaAirdropSchema),
     mode: "onChange",
   });
 
-  const handleAirdrop = async ({ address, amount }: TSolanaAirdropForm) => {
+  const handleAirdrop = async ({ address, amount }: SolanaAirdropForm) => {
     startAirdropping(async () => {
       try {
         await requestSolanaAirdrop(address, amount);

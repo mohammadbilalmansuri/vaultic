@@ -1,6 +1,6 @@
 import { mnemonicToSeed } from "bip39";
 import { NETWORK_FUNCTIONS } from "@/config";
-import { TAccount } from "@/types";
+import { Account } from "@/types";
 
 /**
  * Derives accounts across all supported networks from a mnemonic phrase.
@@ -11,7 +11,7 @@ import { TAccount } from "@/types";
 const deriveAccount = async (
   mnemonic: string,
   index: number
-): Promise<TAccount> => {
+): Promise<Account> => {
   const seed = await mnemonicToSeed(mnemonic);
 
   const accountEntries = await Promise.all(
@@ -26,7 +26,7 @@ const deriveAccount = async (
     )
   );
 
-  return Object.fromEntries(accountEntries) as TAccount;
+  return Object.fromEntries(accountEntries) as Account;
 };
 
 export default deriveAccount;

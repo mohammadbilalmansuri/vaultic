@@ -1,6 +1,6 @@
-import { TIcon } from "@/types";
+import { Icon } from "@/types";
 
-const Solana: TIcon = (props) => {
+const Solana: Icon = (props) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 101 88" {...props}>
       <path

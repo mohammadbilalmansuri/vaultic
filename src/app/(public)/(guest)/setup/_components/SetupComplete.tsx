@@ -1,11 +1,11 @@
 "use client";
 import { motion } from "motion/react";
-import { TSetupPath } from "@/types";
+import { SetupPath } from "@/types";
 import { scaleUpAnimation } from "@/utils/animations";
 import { Logo } from "@/components/icons";
 import { Button } from "@/components/ui";
 
-const SetupComplete = ({ path }: { path: TSetupPath }) => {
+const SetupComplete = ({ path }: { path: SetupPath }) => {
   return (
     <motion.div
       key="setup-complete"

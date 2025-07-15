@@ -1,17 +1,17 @@
 "use client";
 import { useNotificationStore } from "@/stores";
 
-type TFile = string | Blob | File;
+type FileSource = string | Blob | File;
 
-interface IDownloadFileArgs {
-  file: TFile;
+interface DownloadFileArgs {
+  file: FileSource;
   fileName: string;
   successMessage?: string;
   onComplete?: () => void;
 }
 
-interface IShareFileArgs {
-  file: TFile;
+interface ShareFileArgs {
+  file: FileSource;
   fileName: string;
   title: string;
   text: string;
@@ -25,7 +25,7 @@ const useFileActions = () => {
   const { notify } = useNotificationStore.getState();
 
   // Converts various file types to Blob for consistent handling
-  const resolveBlob = async (file: TFile): Promise<Blob> => {
+  const resolveBlob = async (file: FileSource): Promise<Blob> => {
     if (typeof file === "string") {
       try {
         const res = await fetch(file);
@@ -50,7 +50,7 @@ const useFileActions = () => {
     fileName,
     successMessage = "Download started.",
     onComplete,
-  }: IDownloadFileArgs) => {
+  }: DownloadFileArgs) => {
     try {
       const blob = await resolveBlob(file);
       const url = URL.createObjectURL(blob);
@@ -82,7 +82,7 @@ const useFileActions = () => {
    * @param title - Share dialog title
    * @param text - Share dialog description text
    */
-  const shareFile = async ({ file, fileName, title, text }: IShareFileArgs) => {
+  const shareFile = async ({ file, fileName, title, text }: ShareFileArgs) => {
     try {
       if (!navigator.share) {
         notify({

@@ -1,4 +1,4 @@
-import { TNetwork } from "./types";
+import { Network } from "./types";
 import {
   Home,
   Wallet,
@@ -7,7 +7,7 @@ import {
   QuestionMark,
 } from "@/components/icons";
 
-export const DEFAULT_NETWORK: TNetwork = "ethereum";
+export const DEFAULT_NETWORK: Network = "ethereum";
 
 export const BALANCE_DISPLAY_DECIMALS = 4;
 

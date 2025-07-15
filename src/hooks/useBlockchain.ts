@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import { NETWORK_FUNCTIONS } from "@/config";
-import { ITransaction, TNetwork } from "@/types";
+import { Transaction, Network } from "@/types";
 import {
   useWalletStore,
   useAccountsStore,
@@ -29,11 +29,11 @@ const useBlockchain = () => {
   /**
    * Validates whether an address is valid for the given blockchain network.
    *
-   * @param {TNetwork} network - The target blockchain network (e.g., 'solana', 'ethereum').
+   * @param {Network} network - The target blockchain network (e.g., 'solana', 'ethereum').
    * @param {string} address - The wallet address to validate.
    * @returns {boolean} `true` if the address is valid for the network, otherwise `false`.
    */
-  const isValidAddress = (network: TNetwork, address: string): boolean => {
+  const isValidAddress = (network: Network, address: string): boolean => {
     return NETWORK_FUNCTIONS[network].isValidAddress(address);
   };
 
@@ -49,7 +49,7 @@ const useBlockchain = () => {
     const updatedEntries = await Promise.all(
       Object.entries(activeAccount).map(
         async ([networkKey, { address, privateKey, balance }]) => {
-          const network = networkKey as TNetwork;
+          const network = networkKey as Network;
           const { fetchBalance } = NETWORK_FUNCTIONS[network];
 
           try {
@@ -77,7 +77,7 @@ const useBlockchain = () => {
 
     const transactionEntries = await Promise.all(
       Object.entries(activeAccount).map(async ([networkKey, { address }]) => {
-        const network = networkKey as TNetwork;
+        const network = networkKey as Network;
         const { fetchTransactions } = NETWORK_FUNCTIONS[network];
 
         try {
@@ -98,20 +98,20 @@ const useBlockchain = () => {
    * Updates account balance and transaction history upon success.
    *
    * @param {Object} params - The send transaction parameters.
-   * @param {TNetwork} params.network - The network to send tokens on.
+   * @param {Network} params.network - The network to send tokens on.
    * @param {string} params.toAddress - The recipient address.
    * @param {string} params.amount - The amount to send (in base units, e.g., SOL or ETH).
-   * @returns {Promise<ITransaction>} The resulting transaction object.
+   * @returns {Promise<Transaction>} The resulting transaction object.
    */
   const sendTokensFromActiveAccount = async ({
     network,
     toAddress,
     amount,
   }: {
-    network: TNetwork;
+    network: Network;
     toAddress: string;
     amount: string;
-  }): Promise<ITransaction> => {
+  }): Promise<Transaction> => {
     const activeAccount = getActiveAccount();
     const networkAccount = activeAccount[network];
     const { sendTokens } = NETWORK_FUNCTIONS[network];

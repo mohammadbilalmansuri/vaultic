@@ -1,7 +1,7 @@
-import { IChildren } from "@/types";
+import { Children } from "@/types";
 import { PageLayout } from "@/components/layouts";
 
-const OpenLayout = ({ children }: IChildren) => {
+const OpenLayout = ({ children }: Children) => {
   return <PageLayout>{children}</PageLayout>;
 };
 

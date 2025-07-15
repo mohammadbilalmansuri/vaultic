@@ -23,9 +23,9 @@ import {
 import { Button, ThemeSwitcher, Select, Tooltip } from "@/components/ui";
 import TestnetNotice from "./TestnetNotice";
 
-type TSidebarState = "close" | "collapse" | "open";
+type SidebarState = "close" | "collapse" | "open";
 
-const SIDEBAR_VARIANTS: Record<TSidebarState, Variant> = {
+const SIDEBAR_VARIANTS: Record<SidebarState, Variant> = {
   close: { width: 0, opacity: 0 },
   collapse: { width: 64, opacity: 1 },
   open: { width: 256, opacity: 1 },
@@ -50,17 +50,17 @@ const Sidebar = () => {
   const { switchActiveAccount } = useAccounts();
   const isLargeScreen = useMatchMedia("(min-width: 1024px)");
 
-  const sidebarDefaultState: TSidebarState = isLargeScreen ? "open" : "close";
+  const sidebarDefaultState: SidebarState = isLargeScreen ? "open" : "close";
 
   const [sidebarState, setSidebarState] =
-    useState<TSidebarState>(sidebarDefaultState);
+    useState<SidebarState>(sidebarDefaultState);
   const [isAnimating, setIsAnimating] = useState(false);
 
   const isOpenedOnSmallScreen = sidebarState === "open" && !isLargeScreen;
   const isCollapsed = sidebarState === "collapse";
   const isHidden = sidebarState === "close";
 
-  const toggleSidebar = (targetState: TSidebarState) => {
+  const toggleSidebar = (targetState: SidebarState) => {
     if (isAnimating) return;
     setIsAnimating(true);
     setSidebarState(targetState);

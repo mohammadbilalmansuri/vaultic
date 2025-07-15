@@ -2,7 +2,7 @@
 import { useState, InputHTMLAttributes } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Controller, Control, FieldValues, Path } from "react-hook-form";
-import { TIcon } from "@/types";
+import { Icon } from "@/types";
 import cn from "@/utils/cn";
 import { useOutsideClick } from "@/hooks";
 import { AngleDown, Check } from "../icons";
@@ -16,7 +16,7 @@ interface ComboboxProps<T extends FieldValues> {
     label: string;
     value: string;
     shortValue: string;
-    valueIcon?: TIcon;
+    valueIcon?: Icon;
   }>;
   containerClassName?: string;
   autoFocus?: InputHTMLAttributes<HTMLInputElement>["autoFocus"];

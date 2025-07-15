@@ -4,12 +4,12 @@ import { motion } from "motion/react";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useMotionInView } from "@/hooks";
 
-export interface IGuide {
+export interface Guide {
   title: string;
   content: ReactNode;
 }
 
-const GuideSection = ({ title, content }: IGuide) => {
+const GuideSection = ({ title, content }: Guide) => {
   const { ref, inView } = useMotionInView<HTMLDivElement>();
 
   return (

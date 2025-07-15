@@ -1,8 +1,8 @@
-import { IChildren } from "@/types";
+import { Children } from "@/types";
 import Header from "./Header";
 import Footer from "./Footer";
 
-const PageLayout = ({ children }: IChildren) => {
+const PageLayout = ({ children }: Children) => {
   return (
     <>
       <Header />

@@ -2,7 +2,7 @@
 import { useState, useEffect, JSX } from "react";
 import { motion } from "motion/react";
 import { generateMnemonic } from "bip39";
-import { TSetupSetStep } from "@/types";
+import { SetupSetStep } from "@/types";
 import { useWalletStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
@@ -13,7 +13,7 @@ const ShowRecoveryPhrase = ({
   setStep,
   StepProgress,
 }: {
-  setStep: TSetupSetStep;
+  setStep: SetupSetStep;
   StepProgress: JSX.Element;
 }) => {
   const setWalletState = useWalletStore((state) => state.setWalletState);

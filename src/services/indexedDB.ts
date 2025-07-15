@@ -1,5 +1,5 @@
 import { INDEXED_DB } from "@/config";
-import { IStoredWalletData } from "@/types";
+import { StoredWalletData } from "@/types";
 
 let dbInstance: IDBDatabase | null = null;
 
@@ -55,7 +55,7 @@ const withTransaction = async <T>(
  */
 export const saveWalletData = async (
   id: string,
-  value: IStoredWalletData
+  value: StoredWalletData
 ): Promise<void> => {
   await withTransaction("readwrite", (store) => store.put({ id, value }));
 };
@@ -67,7 +67,7 @@ export const saveWalletData = async (
  */
 export const getWalletData = async (
   id: string
-): Promise<IStoredWalletData | null> => {
+): Promise<StoredWalletData | null> => {
   const result = await withTransaction("readonly", (store) => store.get(id));
   return result?.value ?? null;
 };

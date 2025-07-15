@@ -1,7 +1,7 @@
-import { IChildren } from "@/types";
+import { Children } from "@/types";
 import Sidebar from "./Sidebar";
 
-const DashboardLayout = ({ children }: IChildren) => {
+const DashboardLayout = ({ children }: Children) => {
   return (
     <div className="w-full h-dvh max-h-dvh relative flex-1 flex lg:flex-row flex-col overflow-hidden">
       <Sidebar />

@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "motion/react";
-import { TSetupPath, TSetupSetPath, TSetupSetStep } from "@/types";
+import { SetupPath, SetupSetPath, SetupSetStep } from "@/types";
 import { scaleUpAnimation } from "@/utils/animations";
 import { Logo } from "@/components/icons";
 import { Button } from "@/components/ui";
@@ -10,11 +10,11 @@ const ChoosePath = ({
   setStep,
   hasMounted = false,
 }: {
-  setPath: TSetupSetPath;
-  setStep: TSetupSetStep;
+  setPath: SetupSetPath;
+  setStep: SetupSetStep;
   hasMounted?: boolean;
 }) => {
-  const handleChoosePath = (path: TSetupPath) => {
+  const handleChoosePath = (path: SetupPath) => {
     setPath(path);
     setStep(2);
   };

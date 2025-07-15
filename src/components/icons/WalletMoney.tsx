@@ -1,6 +1,6 @@
-import { TIcon } from "@/types";
+import { Icon } from "@/types";
 
-const WalletMoney: TIcon = (props) => {
+const WalletMoney: Icon = (props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,4 @@
-import { TAccounts } from "@/types";
+import { Accounts } from "@/types";
 import {
   useWalletStore,
   useAccountsStore,
@@ -72,7 +72,7 @@ const useAccounts = () => {
       const { mnemonic, indexes } = useWalletStore.getState();
       if (!mnemonic) throw new Error("Mnemonic not available");
 
-      const accounts: TAccounts = {};
+      const accounts: Accounts = {};
 
       for (const index of indexes.inUse) {
         const account = await deriveAccount(mnemonic, index);

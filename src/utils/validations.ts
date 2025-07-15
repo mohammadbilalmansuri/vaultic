@@ -2,7 +2,7 @@ import * as z from "zod";
 import BigNumber from "bignumber.js";
 import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { FAUCET_PRESET_AMOUNTS } from "@/constants";
-import { TNetwork } from "@/types";
+import { Network } from "@/types";
 
 // Base password validation schema (8-128 characters)
 const PasswordSchema = z
@@ -12,7 +12,7 @@ const PasswordSchema = z
   .max(128, "Password must be less than 128 characters");
 
 // Creates network-specific address validation schema
-const AddressSchema = (network: TNetwork) => {
+const AddressSchema = (network: Network) => {
   return z
     .string()
     .trim()
@@ -76,7 +76,7 @@ export const SolanaAirdropSchema = z.object({
  * @param network - Target blockchain network
  * @param availableBalance - Available balance to validate against
  */
-export const SendSchema = (network: TNetwork, availableBalance: string) => {
+export const SendSchema = (network: Network, availableBalance: string) => {
   return z.object({
     toAddress: AddressSchema(network),
     amount: z
@@ -102,8 +102,8 @@ export const SendSchema = (network: TNetwork, availableBalance: string) => {
   });
 };
 
-export type TCreatePasswordForm = z.infer<typeof CreatePasswordSchema>;
-export type TVerifyPasswordForm = z.infer<typeof VerifyPasswordSchema>;
-export type TChangePasswordForm = z.infer<typeof ChangePasswordSchema>;
-export type TSolanaAirdropForm = z.infer<typeof SolanaAirdropSchema>;
-export type TSendForm = z.infer<ReturnType<typeof SendSchema>>;
+export type CreatePasswordForm = z.infer<typeof CreatePasswordSchema>;
+export type VerifyPasswordForm = z.infer<typeof VerifyPasswordSchema>;
+export type ChangePasswordForm = z.infer<typeof ChangePasswordSchema>;
+export type SolanaAirdropForm = z.infer<typeof SolanaAirdropSchema>;
+export type SendForm = z.infer<ReturnType<typeof SendSchema>>;

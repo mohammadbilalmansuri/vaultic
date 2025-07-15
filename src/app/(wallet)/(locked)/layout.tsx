@@ -1,14 +1,14 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { IChildren } from "@/types";
+import { Children } from "@/types";
 import { useWalletStore } from "@/stores";
 import { useNetworkStatus } from "@/hooks";
 import { PageLayout, DashboardLayout } from "@/components/layouts";
 import { UnlockForm, OfflineView } from "@/components/root";
 import { Loading } from "@/components/shared";
 
-const LockedLayout = ({ children }: IChildren) => {
+const LockedLayout = ({ children }: Children) => {
   const router = useRouter();
   const isOnline = useNetworkStatus();
 

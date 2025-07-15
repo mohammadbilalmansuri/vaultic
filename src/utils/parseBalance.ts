@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import { NETWORKS } from "@/config";
 import { BALANCE_DISPLAY_DECIMALS } from "@/constants";
-import { TNetwork } from "@/types";
+import { Network } from "@/types";
 
 type ParsedBalanceBase = {
   original: string;
@@ -21,12 +21,12 @@ type ParsedBalanceWithMax = ParsedBalanceBase & {
  * @returns Parsed balance object with original, display, wasRounded flag, and optionally max amounts
  */
 
-function parseBalance(balance: string, network: TNetwork): ParsedBalanceWithMax;
+function parseBalance(balance: string, network: Network): ParsedBalanceWithMax;
 function parseBalance(balance: string, network?: undefined): ParsedBalanceBase;
 
 function parseBalance(
   balance: string,
-  network?: TNetwork
+  network?: Network
 ): ParsedBalanceBase | ParsedBalanceWithMax {
   const bn = new BigNumber(balance.trim());
 

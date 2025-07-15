@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, JSX } from "react";
 import { motion } from "motion/react";
-import { TSetupPath, TSetupSetStep } from "@/types";
+import { SetupPath, SetupSetStep } from "@/types";
 import { useWalletStore, useNotificationStore } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import { useAccounts } from "@/hooks";
@@ -13,8 +13,8 @@ const SettingUpWallet = ({
   setStep,
   StepProgress,
 }: {
-  path: TSetupPath;
-  setStep: TSetupSetStep;
+  path: SetupPath;
+  setStep: SetupSetStep;
   StepProgress: JSX.Element;
 }) => {
   const { createAccount } = useAccounts();

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNotificationStore } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import { TChangePasswordForm, ChangePasswordSchema } from "@/utils/validations";
+import { ChangePasswordForm, ChangePasswordSchema } from "@/utils/validations";
 import { useStorage } from "@/hooks";
 import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 
@@ -22,7 +22,7 @@ const ChangePasswordTab = () => {
     clearErrors,
     reset,
     formState: { errors, isValid },
-  } = useForm<TChangePasswordForm>({
+  } = useForm<ChangePasswordForm>({
     resolver: zodResolver(ChangePasswordSchema),
     mode: "onChange",
   });
@@ -30,7 +30,7 @@ const ChangePasswordTab = () => {
   const handlePasswordChange = ({
     currentPassword,
     newPassword,
-  }: TChangePasswordForm) => {
+  }: ChangePasswordForm) => {
     startChanging(async () => {
       try {
         await updatePassword(currentPassword, newPassword);

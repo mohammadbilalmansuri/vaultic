@@ -9,7 +9,7 @@ import { DEV_PASSWORD, IS_DEV } from "@/config";
 import { useWalletStore, useNotificationStore } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import { VerifyPasswordSchema, TVerifyPasswordForm } from "@/utils/validations";
+import { VerifyPasswordSchema, VerifyPasswordForm } from "@/utils/validations";
 import { useStorage } from "@/hooks";
 import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 
@@ -25,13 +25,13 @@ const RemoveWalletTab = () => {
     setError,
     clearErrors,
     formState: { errors, isValid },
-  } = useForm<TVerifyPasswordForm>({
+  } = useForm<VerifyPasswordForm>({
     resolver: zodResolver(VerifyPasswordSchema),
     mode: "onChange",
     defaultValues: { password: IS_DEV ? DEV_PASSWORD : "" },
   });
 
-  const handleRemove = ({ password }: TVerifyPasswordForm) => {
+  const handleRemove = ({ password }: VerifyPasswordForm) => {
     startRemoving(async () => {
       try {
         const { password: storedPassword } = useWalletStore.getState();

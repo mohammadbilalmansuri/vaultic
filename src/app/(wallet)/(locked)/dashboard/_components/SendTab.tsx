@@ -6,13 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { DEFAULT_NETWORK } from "@/constants";
-import { TNetwork, ITabContentProps } from "@/types";
+import { Network, TabContentProps } from "@/types";
 import { useAccountsStore, useWalletStore } from "@/stores";
 import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
-import { TSendForm, SendSchema } from "@/utils/validations";
+import { SendForm, SendSchema } from "@/utils/validations";
 import { useBlockchain, useMounted, useAddressQRUpload } from "@/hooks";
 import { Check, Cancel, QR } from "@/components/icons";
 import { StepProgress } from "@/components/shared";
@@ -27,9 +27,9 @@ import {
   Tooltip,
 } from "@/components/ui";
 
-type TSendStep = 1 | 2 | 3 | 4;
+type SendStep = 1 | 2 | 3 | 4;
 
-type TSendStatus = {
+type SendStatus = {
   state: "sending" | "success" | "error";
   message: ReactNode;
   signature: string;
@@ -42,7 +42,7 @@ const getStepProgress = (activeDot: number, backFn?: () => void) => (
 const SendTab = ({
   initialAnimationDelay,
   showInitialAnimation,
-}: ITabContentProps) => {
+}: TabContentProps) => {
   const networkMode = useWalletStore((state) => state.networkMode);
   const accounts = useAccountsStore((state) => state.accounts);
   const activeAccountIndex = useAccountsStore(
@@ -50,9 +50,9 @@ const SendTab = ({
   );
   const activeAccount = useAccountsStore((state) => state.getActiveAccount());
 
-  const [step, setStep] = useState<TSendStep>(1);
-  const [network, setNetwork] = useState<TNetwork>(DEFAULT_NETWORK);
-  const [sendStatus, setSendStatus] = useState<TSendStatus>({
+  const [step, setStep] = useState<SendStep>(1);
+  const [network, setNetwork] = useState<Network>(DEFAULT_NETWORK);
+  const [sendStatus, setSendStatus] = useState<SendStatus>({
     state: "sending",
     message: "",
     signature: "",
@@ -63,10 +63,10 @@ const SendTab = ({
 
   const networkOptions = Object.entries(activeAccount).map(
     ([net, { balance }]) => {
-      const { name, token } = NETWORKS[net as TNetwork];
+      const { name, token } = NETWORKS[net as Network];
       return {
         label: `${name} - ${parseBalance(balance).display} ${token}`,
-        value: net as TNetwork,
+        value: net as Network,
       };
     }
   );
@@ -91,7 +91,7 @@ const SendTab = ({
     setValue,
     getValues,
     formState: { errors, isValid },
-  } = useForm<TSendForm>({
+  } = useForm<SendForm>({
     resolver: zodResolver(SendSchema(network, networkBalance.max)),
     mode: "onChange",
     defaultValues: { toAddress: "", amount: "" },
@@ -111,7 +111,7 @@ const SendTab = ({
     setSendStatus({ state: "sending", message: "", signature: "" });
   };
 
-  const handleNetworkChange = (value: TNetwork) => {
+  const handleNetworkChange = (value: Network) => {
     if (value === network) return;
     reset();
     setNetwork(value);

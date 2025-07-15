@@ -1,12 +1,12 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { IChildren } from "@/types";
+import { Children } from "@/types";
 import { useWalletStore } from "@/stores";
 import { PageLayout } from "@/components/layouts";
 import { Loading } from "@/components/shared";
 
-const GuestLayout = ({ children }: IChildren) => {
+const GuestLayout = ({ children }: Children) => {
   const router = useRouter();
   const walletStatus = useWalletStore((state) => state.walletStatus);
   const suppressRedirect = useWalletStore((state) => state.suppressRedirect);
