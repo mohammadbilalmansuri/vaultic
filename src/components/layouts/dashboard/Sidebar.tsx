@@ -64,14 +64,11 @@ const Sidebar = () => {
     if (isAnimating) return;
     setIsAnimating(true);
     setSidebarState(targetState);
-    setTimeout(() => setIsAnimating(false), 300);
   };
 
   const handleCollapsedSidebarClick = (e: MouseEvent) => {
     if (isAnimating || !isCollapsed) return;
-
-    const target = e.target;
-    if (target instanceof Element && !target.closest("[data-clickable]")) {
+    if (e.target instanceof Element && !e.target.closest("[data-clickable]")) {
       toggleSidebar("open");
     }
   };
@@ -135,6 +132,7 @@ const Sidebar = () => {
         animate={sidebarState}
         variants={SIDEBAR_VARIANTS}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        onAnimationComplete={() => setIsAnimating(false)}
         className={cn("h-full will-change-auto", {
           "overflow-hidden": isAnimating || isHidden,
           "fixed top-0 left-0 z-50": !isLargeScreen,
@@ -173,7 +171,6 @@ const Sidebar = () => {
               {!isCollapsed && (
                 <div className="flex items-center gap-2">
                   {isLargeScreen && <ThemeSwitcher />}
-
                   <Tooltip
                     content={
                       isLargeScreen ? "Collapse Sidebar" : "Close Sidebar"
