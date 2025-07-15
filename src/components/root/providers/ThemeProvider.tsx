@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { Children } from "@/types";
+import type { Children } from "@/types";
 import { useThemeStore } from "@/stores";
 
 const ThemeProvider = ({ children }: Children) => {

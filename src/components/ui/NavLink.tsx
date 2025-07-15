@@ -1,6 +1,7 @@
 "use client";
-import { ReactNode, HTMLAttributeAnchorTarget } from "react";
-import Link, { LinkProps } from "next/link";
+import Link from "next/link";
+import type { ReactNode, HTMLAttributeAnchorTarget } from "react";
+import type { LinkProps } from "next/link";
 import cn from "@/utils/cn";
 
 interface NavLinkProps extends LinkProps {

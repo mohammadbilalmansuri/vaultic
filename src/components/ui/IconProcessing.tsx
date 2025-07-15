@@ -1,4 +1,4 @@
-import { Children } from "@/types";
+import type { Children } from "@/types";
 
 const IconProcessing = ({ children }: Children) => {
   return (

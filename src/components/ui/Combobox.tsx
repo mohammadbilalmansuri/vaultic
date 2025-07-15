@@ -1,8 +1,10 @@
 "use client";
-import { useState, InputHTMLAttributes } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Controller, Control, FieldValues, Path } from "react-hook-form";
-import { Icon } from "@/types";
+import { Controller } from "react-hook-form";
+import type { InputHTMLAttributes } from "react";
+import type { Control, FieldValues, Path } from "react-hook-form";
+import type { Icon } from "@/types";
 import cn from "@/utils/cn";
 import { useOutsideClick } from "@/hooks";
 import { AngleDown, Check } from "../icons";

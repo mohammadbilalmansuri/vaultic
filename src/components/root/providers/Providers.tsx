@@ -1,5 +1,5 @@
 "use client";
-import { Children } from "@/types";
+import type { Children } from "@/types";
 import NotificationProvider from "./NotificationProvider";
 import ThemeProvider from "./ThemeProvider";
 import WalletChecker from "./WalletChecker";

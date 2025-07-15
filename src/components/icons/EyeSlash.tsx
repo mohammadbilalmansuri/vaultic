@@ -1,4 +1,4 @@
-import { Icon } from "@/types";
+import type { Icon } from "@/types";
 
 const EyeSlash: Icon = (props) => {
   return (

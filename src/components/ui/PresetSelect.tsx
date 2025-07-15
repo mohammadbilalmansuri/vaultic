@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Controller, Control, FieldValues, Path } from "react-hook-form";
+import { Controller } from "react-hook-form";
+import type { Control, FieldValues, Path } from "react-hook-form";
 import cn from "@/utils/cn";
 import { useOutsideClick } from "@/hooks";
 

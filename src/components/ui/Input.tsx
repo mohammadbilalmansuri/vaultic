@@ -1,5 +1,5 @@
 "use client";
-import { InputHTMLAttributes, Ref } from "react";
+import type { InputHTMLAttributes, Ref } from "react";
 import cn from "@/utils/cn";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {

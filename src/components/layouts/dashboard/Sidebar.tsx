@@ -1,9 +1,11 @@
 "use client";
-import { useState, useEffect, MouseEvent } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { motion, AnimatePresence, Variant } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { SIDEBAR_NAV_LINKS } from "@/constants";
+import type { MouseEvent } from "react";
+import type { Variant } from "motion/react";
 import { useAccountsStore } from "@/stores";
 import cn from "@/utils/cn";
 import {

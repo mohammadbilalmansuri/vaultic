@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
 import { motion } from "motion/react";
-import { Tabs } from "@/types";
+import type { TabsData } from "@/types";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { useMounted } from "@/hooks";
 
 interface TabsProps {
-  tabs: Tabs;
+  tabs: TabsData;
   delay?: { header: number; content: number };
 }
 

@@ -1,6 +1,11 @@
 "use client";
-import { ReactNode, ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
-import Link, { LinkProps } from "next/link";
+import Link from "next/link";
+import type { LinkProps } from "next/link";
+import type {
+  ReactNode,
+  ButtonHTMLAttributes,
+  AnchorHTMLAttributes,
+} from "react";
 import cn from "@/utils/cn";
 
 type ButtonVariant = "teal" | "zinc";
