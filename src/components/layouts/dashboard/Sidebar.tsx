@@ -3,7 +3,7 @@ import { useState, useEffect, MouseEvent } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence, Variant } from "motion/react";
-import { NAVIGATION_SIDEBAR } from "@/constants";
+import { SIDEBAR_NAV_LINKS } from "@/constants";
 import { useAccountsStore } from "@/stores";
 import cn from "@/utils/cn";
 import {
@@ -203,7 +203,7 @@ const Sidebar = () => {
               aria-label="Sidebar Navigation"
               data-clickable
             >
-              {NAVIGATION_SIDEBAR.map(({ name, href, Icon }, index) => {
+              {SIDEBAR_NAV_LINKS.map(({ name, href, Icon }, index) => {
                 const isActive = pathname === href;
                 return (
                   <Tooltip
