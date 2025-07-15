@@ -54,7 +54,7 @@ export type Accounts = Record<number, Account>;
 
 // Transaction Types
 
-export interface Transaction {
+export interface TransactionRecord {
   readonly network: Network;
   readonly signature: string;
   readonly from: string;
@@ -67,7 +67,7 @@ export interface Transaction {
   readonly type: "in" | "out" | "self";
 }
 
-export type Transactions = Record<Network, Transaction[]>;
+export type Transactions = Record<Network, TransactionRecord[]>;
 
 // Network Functions Types
 
@@ -84,13 +84,13 @@ export type DeriveNetworkAccountFunction = (
 
 export type FetchTransactionsFunction = (
   address: string
-) => Promise<Transaction[]>;
+) => Promise<TransactionRecord[]>;
 
 export type SendTokensFunction = (
   fromPrivateKey: string,
   toAddress: string,
   amount: string
-) => Promise<Transaction>;
+) => Promise<TransactionRecord>;
 
 export type GetExplorerUrlFunction = (
   type: "tx" | "address" | "block",
