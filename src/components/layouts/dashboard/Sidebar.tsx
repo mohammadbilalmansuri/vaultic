@@ -29,7 +29,7 @@ type SidebarState = "close" | "collapse" | "open";
 
 const SIDEBAR_VARIANTS: Record<SidebarState, Variant> = {
   close: { width: 0, opacity: 0 },
-  collapse: { width: 64, opacity: 1 },
+  collapse: { width: 65, opacity: 1 },
   open: { width: 256, opacity: 1 },
 } as const;
 
