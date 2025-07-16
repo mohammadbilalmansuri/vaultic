@@ -30,7 +30,7 @@ type SidebarState = "close" | "collapse" | "open";
 const SIDEBAR_VARIANTS: Record<SidebarState, Variant> = {
   close: { width: 0, opacity: 0 },
   collapse: { width: 65, opacity: 1 },
-  open: { width: 260, opacity: 1 },
+  open: { width: 250, opacity: 1 },
 } as const;
 
 const Sidebar = () => {
@@ -52,7 +52,9 @@ const Sidebar = () => {
   const { switchActiveAccount } = useAccounts();
   const isLargeScreen = useMatchMedia("(min-width: 1024px)");
 
-  const sidebarDefaultState: SidebarState = isLargeScreen ? "open" : "close";
+  const sidebarDefaultState: SidebarState = isLargeScreen
+    ? "collapse"
+    : "close";
 
   const [sidebarState, setSidebarState] =
     useState<SidebarState>(sidebarDefaultState);
@@ -66,6 +68,7 @@ const Sidebar = () => {
     if (isAnimating) return;
     setIsAnimating(true);
     setSidebarState(targetState);
+    setTimeout(() => setIsAnimating(false), 300);
   };
 
   const handleCollapsedSidebarClick = (e: MouseEvent) => {
@@ -134,7 +137,6 @@ const Sidebar = () => {
         animate={sidebarState}
         variants={SIDEBAR_VARIANTS}
         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        onAnimationComplete={() => setIsAnimating(false)}
         className={cn("h-full will-change-auto", {
           "overflow-hidden": isAnimating || isHidden,
           "fixed top-0 left-0 z-50": !isLargeScreen,
