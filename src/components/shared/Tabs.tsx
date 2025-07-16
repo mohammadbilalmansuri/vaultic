@@ -8,7 +8,7 @@ import { useMounted } from "@/hooks";
 
 interface TabsProps {
   tabs: TabsData;
-  delay?: { header: number; content: number };
+  delay?: { list: number; panel: number };
 }
 
 const Tabs = ({ tabs, delay }: TabsProps) => {
@@ -17,19 +17,19 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
 
   const [activeTab, setActiveTab] = useState(tabKeys[0]);
   const activeIndex = tabKeys.indexOf(activeTab);
-  const ActiveTabContent = tabs[activeTab].content;
+  const ActiveTabContent = tabs[activeTab].panel;
 
   const hasMounted = useMounted(2000);
 
   return (
     <div className="w-full relative flex flex-col items-center gap-7">
       <motion.div
-        className="w-full relative bg-primary rounded-2xl h-14 flex items-center"
+        className="w-full relative bg-primary rounded-2xl h-14 items-center"
         style={{
           display: "grid",
           gridTemplateColumns: `repeat(${tabKeys.length}, 1fr)`,
         }}
-        {...fadeUpAnimation({ delay: delay?.header })}
+        {...fadeUpAnimation({ delay: delay?.list })}
         role="tablist"
         aria-label="Tabs Navigation"
       >
@@ -79,7 +79,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
         aria-labelledby={`tab-${activeTab}`}
       >
         <ActiveTabContent
-          initialAnimationDelay={delay?.content}
+          initialAnimationDelay={delay?.panel}
           showInitialAnimation={!hasMounted}
         />
       </div>
