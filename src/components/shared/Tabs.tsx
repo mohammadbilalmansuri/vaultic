@@ -24,9 +24,8 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
   return (
     <div className="w-full relative flex flex-col items-center gap-7">
       <motion.div
-        className="w-full relative bg-primary rounded-2xl h-14 items-center"
+        className="w-full relative bg-primary rounded-2xl h-14 grid items-center"
         style={{
-          display: "grid",
           gridTemplateColumns: `repeat(${tabKeys.length}, 1fr)`,
         }}
         {...fadeUpAnimation({ delay: delay?.list })}
@@ -73,7 +72,7 @@ const Tabs = ({ tabs, delay }: TabsProps) => {
       </motion.div>
 
       <div
-        className="w-full relative px-4 flex flex-col items-center"
+        className="w-full relative md:px-2 px-1 flex flex-col items-center"
         role="tabpanel"
         id={`tabpanel-${activeTab}`}
         aria-labelledby={`tab-${activeTab}`}
