@@ -14,16 +14,16 @@ import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import { useBlockchain, useClipboard } from "@/hooks";
 import { Send, QR, Clock, Refresh } from "@/components/icons";
-import { Tabs } from "@/components/shared";
+import { Tabs, TestnetIndicator } from "@/components/shared";
 import { Loader, Tooltip, NetworkLogo, CopyToggle } from "@/components/ui";
 import SendTab from "./_components/SendTab";
 import ReceiveTab from "./_components/ReceiveTab";
 import TransactionsTab from "./_components/TransactionsTab";
 
 const TABS: TabsData = {
-  Send: { icon: Send, content: SendTab },
-  Receive: { icon: QR, content: ReceiveTab },
-  Transactions: { icon: Clock, content: TransactionsTab },
+  Send: { icon: Send, panel: SendTab },
+  Receive: { icon: QR, panel: ReceiveTab },
+  Transactions: { icon: Clock, panel: TransactionsTab },
 } as const;
 
 const DashboardPage = () => {
@@ -43,6 +43,12 @@ const DashboardPage = () => {
   const [refreshing, startRefreshing] = useTransition();
   const [copiedText, setCopiedText] = useState<string | null>(null);
 
+  const handleCopy = (text: string) => {
+    copyToClipboard(text, copiedText === text, (copied) =>
+      setCopiedText(copied ? text : null)
+    );
+  };
+
   const handleBalanceRefresh = () => {
     startRefreshing(async () => {
       try {
@@ -60,17 +66,13 @@ const DashboardPage = () => {
     });
   };
 
-  const handleCopy = (text: string) => {
-    copyToClipboard(text, copiedText === text, (copied) =>
-      setCopiedText(copied ? text : null)
-    );
-  };
-
   if (switchingToAccount !== null) {
     return (
-      <div className="size-full flex flex-col items-center justify-center gap-8">
+      <div className="flex flex-col items-center justify-center gap-8 text-center flex-1">
         <Loader />
-        <p className="text-lg">Switching to Account {switchingToAccount + 1}</p>
+        <p className="sm:text-lg">
+          Switching to Account {switchingToAccount + 1}
+        </p>
       </div>
     );
   }
@@ -84,7 +86,7 @@ const DashboardPage = () => {
         {...fadeUpAnimation()}
       >
         <div className="flex items-center gap-4">
-          <div className="size-12 rounded-2xl bg-teal-500/10 text-teal-600 dark:text-teal-500 flex items-center justify-center shrink-0 font-semibold uppercase text-xl">
+          <div className="size-12 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-500 flex items-center justify-center shrink-0 font-semibold uppercase text-xl">
             {`A${activeAccountIndex + 1}`}
           </div>
           <div className="flex flex-col">
@@ -93,10 +95,11 @@ const DashboardPage = () => {
             </h2>
             <p>
               {networkMode === "testnet"
-                ? "Safe to explore — these are test assets only"
-                : "Live network — real funds at stake"}
+                ? "Safe to explore - these are test assets only"
+                : "Live network - real funds at stake"}
             </p>
           </div>
+          <TestnetIndicator className="lg:block hidden" />
         </div>
 
         <Tooltip
@@ -186,8 +189,8 @@ const DashboardPage = () => {
       <Tabs
         tabs={TABS}
         delay={{
-          header: lastNetworkCardDelay + 0.1,
-          content: lastNetworkCardDelay + 0.2,
+          list: lastNetworkCardDelay + 0.1,
+          panel: lastNetworkCardDelay + 0.2,
         }}
       />
     </div>
