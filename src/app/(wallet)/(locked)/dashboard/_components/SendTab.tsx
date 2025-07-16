@@ -7,7 +7,7 @@ import Link from "next/link";
 import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { DEFAULT_NETWORK } from "@/constants";
 import type { ReactNode, FormEvent } from "react";
-import type { Network, TabContentProps } from "@/types";
+import type { Network, TabPanelProps } from "@/types";
 import { useAccountsStore, useWalletStore } from "@/stores";
 import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
@@ -43,7 +43,7 @@ const getStepProgress = (activeDot: number, backFn?: () => void) => (
 const SendTab = ({
   initialAnimationDelay,
   showInitialAnimation,
-}: TabContentProps) => {
+}: TabPanelProps) => {
   const networkMode = useWalletStore((state) => state.networkMode);
   const accounts = useAccountsStore((state) => state.accounts);
   const activeAccountIndex = useAccountsStore(
