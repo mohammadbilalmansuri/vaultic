@@ -131,12 +131,12 @@ export type SetupSetStep = Dispatch<SetStateAction<SetupStep>>;
 
 // UI and Component Types
 
-export interface TabContentProps {
+export interface TabPanelProps {
   initialAnimationDelay?: number;
   showInitialAnimation?: boolean;
 }
 
 export type TabsData = Record<
   string,
-  { icon?: Icon; content: (props: TabContentProps) => JSX.Element | null }
+  { icon?: Icon; panel: (props: TabPanelProps) => JSX.Element | null }
 >;
