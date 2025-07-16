@@ -12,10 +12,10 @@ import ChangePasswordTab from "./_components/ChangePasswordTab";
 import RemoveWalletTab from "./_components/RemoveWalletTab";
 
 const TABS: TabsData = {
-  "Recovery Phrase": { content: RecoveryPhraseTab },
-  "Testnet Mode": { content: TestnetModeTab },
-  "Change Password": { content: ChangePasswordTab },
-  "Remove Wallet": { content: RemoveWalletTab },
+  "Recovery Phrase": { panel: RecoveryPhraseTab },
+  "Testnet Mode": { panel: TestnetModeTab },
+  "Change Password": { panel: ChangePasswordTab },
+  "Remove Wallet": { panel: RemoveWalletTab },
 } as const;
 
 const SettingsPage = () => {
@@ -45,7 +45,7 @@ const SettingsPage = () => {
         </Tooltip>
       </motion.div>
 
-      <Tabs tabs={TABS} delay={{ header: 0.1, content: 0.2 }} />
+      <Tabs tabs={TABS} delay={{ list: 0.1, panel: 0.2 }} />
     </div>
   );
 };

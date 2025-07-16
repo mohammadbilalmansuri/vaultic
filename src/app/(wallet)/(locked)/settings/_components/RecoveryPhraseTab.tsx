@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "motion/react";
-import type { TabContentProps } from "@/types";
+import type { TabPanelProps } from "@/types";
 import { useWalletStore } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import { MnemonicView } from "@/components/shared";
@@ -8,7 +8,7 @@ import { MnemonicView } from "@/components/shared";
 const RecoveryPhraseTab = ({
   showInitialAnimation,
   initialAnimationDelay,
-}: TabContentProps) => {
+}: TabPanelProps) => {
   const mnemonic = useWalletStore((state) => state.mnemonic);
 
   const animationProps = fadeUpAnimation({
