@@ -22,7 +22,7 @@ import {
   Cancel,
   AlignLeft,
 } from "@/components/icons";
-import { TestnetIndicator } from "@/components/shared";
+import { TestnetStatus } from "@/components/shared";
 import { Button, ThemeSwitcher, Select, Tooltip } from "@/components/ui";
 
 type SidebarState = "close" | "collapse" | "open";
@@ -112,7 +112,7 @@ const Sidebar = () => {
             </button>
           </Tooltip>
 
-          <TestnetIndicator />
+          <TestnetStatus variant="indicator" />
           <ThemeSwitcher />
         </header>
       )}
