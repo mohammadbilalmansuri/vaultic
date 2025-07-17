@@ -43,6 +43,8 @@ const DashboardPage = () => {
   const [refreshing, startRefreshing] = useTransition();
   const [copiedText, setCopiedText] = useState<string | null>(null);
 
+  const lastNetworkCardDelay = Object.keys(activeAccount).length * 0.05;
+
   const handleCopy = (text: string) => {
     copyToClipboard(text, copiedText === text, (copied) =>
       setCopiedText(copied ? text : null)
@@ -77,8 +79,6 @@ const DashboardPage = () => {
     );
   }
 
-  const lastNetworkCardDelay = Object.keys(activeAccount).length * 0.1;
-
   return (
     <div className="w-full max-w-screen-lg relative flex flex-col gap-6 flex-1">
       <motion.div
@@ -90,10 +90,10 @@ const DashboardPage = () => {
             {`A${activeAccountIndex + 1}`}
           </div>
           <div className="flex flex-col">
-            <h2 className="text-xl font-semibold heading-color">
+            <h1 className="text-xl font-semibold heading-color">
               Account {activeAccountIndex + 1}
-            </h2>
-            <p>
+            </h1>
+            <p className="text-sm sm:text-base">
               {networkMode === "testnet"
                 ? "Safe to explore - these are test assets only"
                 : "Live network - real funds at stake"}
@@ -117,7 +117,7 @@ const DashboardPage = () => {
         </Tooltip>
       </motion.div>
 
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
         {Object.entries(activeAccount).map(
           ([networkKey, { address, balance }], index) => {
             const network = networkKey as Network;
@@ -138,7 +138,7 @@ const DashboardPage = () => {
             return (
               <motion.div
                 key={`${network}-card`}
-                {...fadeUpAnimation({ delay: (index + 1) * 0.1 })}
+                {...fadeUpAnimation({ delay: index * 0.05 + 0.05 })}
                 className="w-full relative flex items-center justify-between rounded-3xl bg-primary px-5 py-6"
               >
                 <div className="flex items-center gap-2.5">
@@ -170,15 +170,16 @@ const DashboardPage = () => {
                   </div>
                 </div>
 
-                {parsedBalance.wasRounded ? (
-                  <Tooltip
-                    content={`${parsedBalance.original} ${networkConfig.token}`}
-                  >
-                    {balanceElement}
-                  </Tooltip>
-                ) : (
-                  balanceElement
-                )}
+                <Tooltip
+                  content={
+                    parsedBalance.wasRounded
+                      ? `${parsedBalance.original} ${networkConfig.token}`
+                      : undefined
+                  }
+                  position="left"
+                >
+                  {balanceElement}
+                </Tooltip>
               </motion.div>
             );
           }
@@ -188,8 +189,8 @@ const DashboardPage = () => {
       <Tabs
         tabs={TABS}
         delay={{
-          list: lastNetworkCardDelay + 0.1,
-          panel: lastNetworkCardDelay + 0.2,
+          list: lastNetworkCardDelay + 0.05,
+          panel: lastNetworkCardDelay + 0.1,
         }}
       />
     </div>
