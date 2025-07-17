@@ -65,10 +65,10 @@ const ReceiveTab = () => {
 
   if (error) {
     return (
-      <div className="box p-8 gap-6">
+      <motion.div className="box p-8 gap-6" {...fadeUpAnimation()}>
         <Error className="text-rose-500 icon-lg" strokeWidth={1.5} />
         <p>{error}</p>
-      </div>
+      </motion.div>
     );
   }
 
@@ -83,7 +83,7 @@ const ReceiveTab = () => {
             <motion.div
               key={`${network}-address-card`}
               className="w-full flex flex-col items-center border-1.5 rounded-3xl"
-              {...fadeUpAnimation({ delay: 0.1 * index })}
+              {...fadeUpAnimation({ delay: index * 0.05 })}
             >
               <div className="w-full flex items-center justify-between border-b-1.5 px-4 py-3">
                 <h4 className="text-lg font-medium heading-color">
@@ -160,7 +160,7 @@ const ReceiveTab = () => {
         })}
       </div>
 
-      <motion.p {...fadeUpAnimation({ delay: qrDataList.length * 0.1 })}>
+      <motion.p {...fadeUpAnimation({ delay: qrDataList.length * 0.05 })}>
         Use these QR codes or addresses to receive tokens on each supported
         network.
       </motion.p>
