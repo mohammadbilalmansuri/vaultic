@@ -14,7 +14,7 @@ import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import { useBlockchain, useClipboard } from "@/hooks";
 import { Send, QR, Clock, Refresh } from "@/components/icons";
-import { Tabs, TestnetIndicator } from "@/components/shared";
+import { Tabs } from "@/components/shared";
 import { Loader, Tooltip, NetworkLogo, CopyToggle } from "@/components/ui";
 import SendTab from "./_components/SendTab";
 import ReceiveTab from "./_components/ReceiveTab";
@@ -99,7 +99,6 @@ const DashboardPage = () => {
                 : "Live network - real funds at stake"}
             </p>
           </div>
-          <TestnetIndicator className="lg:block hidden" />
         </div>
 
         <Tooltip
