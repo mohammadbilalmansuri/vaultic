@@ -20,11 +20,11 @@ import SendTab from "./_components/SendTab";
 import ReceiveTab from "./_components/ReceiveTab";
 import TransactionsTab from "./_components/TransactionsTab";
 
-const TABS: TabsData = {
-  Send: { icon: Send, panel: SendTab },
-  Receive: { icon: QR, panel: ReceiveTab },
-  Transactions: { icon: Clock, panel: TransactionsTab },
-} as const;
+const TABS: TabsData = [
+  { label: "Send", icon: Send, panel: SendTab },
+  { label: "Receive", icon: QR, panel: ReceiveTab },
+  { label: "Transactions", icon: Clock, panel: TransactionsTab },
+];
 
 const DashboardPage = () => {
   const networkMode = useWalletStore((state) => state.networkMode);
@@ -42,8 +42,6 @@ const DashboardPage = () => {
 
   const [refreshing, startRefreshing] = useTransition();
   const [copiedText, setCopiedText] = useState<string | null>(null);
-
-  const lastNetworkCardDelay = Object.keys(activeAccount).length * 0.05;
 
   const handleCopy = (text: string) => {
     copyToClipboard(text, copiedText === text, (copied) =>
@@ -117,7 +115,10 @@ const DashboardPage = () => {
         </Tooltip>
       </motion.div>
 
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+      <motion.div
+        className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5"
+        {...fadeUpAnimation({ delay: 0.05 })}
+      >
         {Object.entries(activeAccount).map(
           ([networkKey, { address, balance }], index) => {
             const network = networkKey as Network;
@@ -136,9 +137,8 @@ const DashboardPage = () => {
             );
 
             return (
-              <motion.div
+              <div
                 key={`${network}-card`}
-                {...fadeUpAnimation({ delay: index * 0.05 + 0.05 })}
                 className="w-full relative flex items-center justify-between rounded-3xl bg-primary px-5 py-6"
               >
                 <div className="flex items-center gap-2.5">
@@ -180,18 +180,16 @@ const DashboardPage = () => {
                 >
                   {balanceElement}
                 </Tooltip>
-              </motion.div>
+              </div>
             );
           }
         )}
-      </div>
+      </motion.div>
 
       <Tabs
         tabs={TABS}
-        delay={{
-          list: lastNetworkCardDelay + 0.05,
-          panel: lastNetworkCardDelay + 0.1,
-        }}
+        delay={{ list: 0.1, panel: 0.15 }}
+        buttonClassName="xxs:flex-row flex-col"
       />
     </div>
   );
