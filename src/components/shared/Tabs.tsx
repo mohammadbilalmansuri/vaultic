@@ -11,6 +11,7 @@ interface TabsProps {
   delay?: { list: number; panel: number };
   containerClassName?: string;
   listClassName?: string;
+  buttonClassName?: string;
   panelClassName?: string;
 }
 
@@ -19,6 +20,7 @@ const Tabs = ({
   delay,
   containerClassName = "",
   listClassName = "",
+  buttonClassName = "",
   panelClassName = "",
 }: TabsProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -30,7 +32,7 @@ const Tabs = ({
   return (
     <div
       className={cn(
-        "w-full relative flex flex-col items-center gap-7",
+        "w-full relative flex flex-col items-center gap-6",
         containerClassName
       )}
     >
@@ -56,15 +58,16 @@ const Tabs = ({
               aria-selected={isActive}
               aria-controls={`tabpanel-${index}`}
               className={cn(
-                "col-span-1 min-w-fit relative z-10 p-3 flex items-center justify-center gap-1.5 rounded-xl transition-all duration-200 font-medium leading-none text-nowrap group",
+                "col-span-1 p-3 flex items-center justify-center gap-2 rounded-xl transition-all duration-200 font-medium leading-none",
                 isActive
                   ? "heading-color bg-secondary shadow pointer-events-none"
-                  : "hover:heading-color"
+                  : "hover:heading-color",
+                buttonClassName
               )}
               onClick={() => setActiveTabIndex(index)}
               disabled={isActive}
             >
-              {Icon && <Icon className="w-5 shrink-0" aria-hidden="true" />}
+              {Icon && <Icon className="h-5 shrink-0" aria-hidden="true" />}
               <span>{label}</span>
             </button>
           );
