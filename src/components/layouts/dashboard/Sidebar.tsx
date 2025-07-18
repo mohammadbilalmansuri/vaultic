@@ -207,7 +207,7 @@ const Sidebar = () => {
               aria-label="Sidebar Navigation"
               data-clickable
             >
-              {SIDEBAR_NAV_LINKS.map(({ name, href, Icon }, index) => {
+              {SIDEBAR_NAV_LINKS.map(({ name, href, icon: Icon }, index) => {
                 const isActive = pathname === href;
                 return (
                   <Tooltip
