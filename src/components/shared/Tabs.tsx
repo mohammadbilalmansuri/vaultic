@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion } from "motion/react";
-import type { TabsData } from "@/types";
+import { TabsData } from "@/types";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { useMounted } from "@/hooks";
@@ -9,77 +9,78 @@ import { useMounted } from "@/hooks";
 interface TabsProps {
   tabs: TabsData;
   delay?: { list: number; panel: number };
+  containerClassName?: string;
+  listClassName?: string;
+  panelClassName?: string;
 }
 
-const Tabs = ({ tabs, delay }: TabsProps) => {
-  const tabKeys = Object.keys(tabs);
-  if (tabKeys.length === 0) return null;
-
-  const [activeTab, setActiveTab] = useState(tabKeys[0]);
-  const activeIndex = tabKeys.indexOf(activeTab);
-  const ActiveTabContent = tabs[activeTab].panel;
-
+const Tabs = ({
+  tabs,
+  delay,
+  containerClassName = "",
+  listClassName = "",
+  panelClassName = "",
+}: TabsProps) => {
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const { panel: ActiveTabPanel } = tabs[activeTabIndex];
   const hasMounted = useMounted(2000);
 
+  if (tabs.length === 0) return null;
+
   return (
-    <div className="w-full relative flex flex-col items-center gap-7">
+    <div
+      className={cn(
+        "w-full relative flex flex-col items-center gap-7",
+        containerClassName
+      )}
+    >
       <motion.div
         role="tablist"
         aria-label="Tabs Navigation"
-        className="w-full relative bg-primary rounded-2xl p-1.5 grid gap-1.5 items-center overflow-x-auto scrollbar-hide"
-        style={{ gridTemplateColumns: `repeat(${tabKeys.length}, 1fr)` }}
+        className={cn(
+          "w-full relative bg-primary rounded-2xl p-1.5 grid items-center gap-1.5 overflow-x-auto scrollbar-hide",
+          listClassName
+        )}
+        style={{ gridTemplateColumns: `repeat(${tabs.length}, 1fr)` }}
         {...fadeUpAnimation({ delay: delay?.list })}
       >
-        {/* <motion.div
-          className="absolute bg-secondary rounded-xl h-[calc(100%-10px)]"
-          animate={{
-            left: `calc(${activeIndex} * ${100 / tabKeys.length}% + 5px)`,
-            width: `calc(${100 / tabKeys.length}% - 10px)`,
-          }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          initial={false}
-          aria-hidden="true"
-        /> */}
-
-        {tabKeys.map((label, index) => {
-          const Icon = tabs[label]?.icon;
-          const isActive = activeTab === label;
+        {tabs.map(({ icon: Icon, label }, index) => {
+          const isActive = activeTabIndex === index;
 
           return (
             <button
               key={`tab-${index}`}
               type="button"
               role="tab"
+              id={`tab-${index}`}
               aria-selected={isActive}
-              aria-controls={`tabpanel-${label}`}
-              id={`tab-${label}`}
+              aria-controls={`tabpanel-${index}`}
               className={cn(
-                "min-w-fit p-3 relative z-10 rounded-xl transition-all duration-200",
-                {
-                  "flex items-center justify-center gap-2": !!Icon,
-                  "bg-secondary heading-color pointer-events-none": isActive,
-                  "hover:heading-color": !isActive,
-                }
+                "col-span-1 min-w-fit relative z-10 p-3 flex items-center justify-center gap-1.5 rounded-xl transition-all duration-200 font-medium leading-none text-nowrap group",
+                isActive
+                  ? "heading-color bg-secondary shadow pointer-events-none"
+                  : "hover:heading-color"
               )}
-              onClick={() => setActiveTab(label)}
-              tabIndex={isActive ? 0 : -1}
+              onClick={() => setActiveTabIndex(index)}
+              disabled={isActive}
             >
               {Icon && <Icon className="w-5 shrink-0" aria-hidden="true" />}
-              <span className="font-medium leading-none text-nowrap">
-                {label}
-              </span>
+              <span>{label}</span>
             </button>
           );
         })}
       </motion.div>
 
       <div
-        className="w-full relative md:px-2 px-1 flex flex-col items-center"
         role="tabpanel"
-        id={`tabpanel-${activeTab}`}
-        aria-labelledby={`tab-${activeTab}`}
+        id={`tabpanel-${activeTabIndex}`}
+        aria-labelledby={`tab-${activeTabIndex}`}
+        className={cn(
+          "w-full relative md:px-2 px-1 flex flex-col items-center",
+          panelClassName
+        )}
       >
-        <ActiveTabContent
+        <ActiveTabPanel
           initialAnimationDelay={delay?.panel}
           showInitialAnimation={!hasMounted}
         />
