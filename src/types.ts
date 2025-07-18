@@ -1,5 +1,11 @@
 import { JSX } from "react";
-import type { ReactNode, Dispatch, SetStateAction, SVGProps } from "react";
+import type {
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+  SVGProps,
+  ComponentType,
+} from "react";
 import { NETWORKS } from "@/config";
 
 // Global Types
@@ -8,7 +14,7 @@ export interface Children {
   children: ReactNode;
 }
 
-export type Icon = (props: SVGProps<SVGSVGElement>) => JSX.Element;
+export type Icon = ComponentType<SVGProps<SVGSVGElement>>;
 
 // Notification Type
 
@@ -136,7 +142,8 @@ export interface TabPanelProps {
   showInitialAnimation?: boolean;
 }
 
-export type TabsData = Record<
-  string,
-  { icon?: Icon; panel: (props: TabPanelProps) => JSX.Element | null }
->;
+export type TabsData = Array<{
+  label: string;
+  icon?: Icon;
+  panel: ComponentType<TabPanelProps>;
+}>;
