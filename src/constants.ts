@@ -24,9 +24,9 @@ export const HEADER_NAV_LINKS = (walletExists: boolean) => [
 ];
 
 export const SIDEBAR_NAV_LINKS = [
-  { name: "Dashboard", href: "/dashboard", Icon: Home },
-  { name: "Accounts", href: "/accounts", Icon: Wallet },
-  { name: "Settings", href: "/settings", Icon: Setting },
-  { name: "Faucet", href: "/faucet", Icon: WalletMoney },
-  { name: "Help & Support", href: "/help-and-support", Icon: QuestionMark },
+  { name: "Dashboard", href: "/dashboard", icon: Home },
+  { name: "Accounts", href: "/accounts", icon: Wallet },
+  { name: "Settings", href: "/settings", icon: Setting },
+  { name: "Faucet", href: "/faucet", icon: WalletMoney },
+  { name: "Help & Support", href: "/help-and-support", icon: QuestionMark },
 ];
