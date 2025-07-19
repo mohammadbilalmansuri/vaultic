@@ -11,12 +11,12 @@ import TestnetModeTab from "./_components/TestnetModeTab";
 import ChangePasswordTab from "./_components/ChangePasswordTab";
 import RemoveWalletTab from "./_components/RemoveWalletTab";
 
-const TABS: TabsData = {
-  "Recovery Phrase": { panel: RecoveryPhraseTab },
-  "Testnet Mode": { panel: TestnetModeTab },
-  "Change Password": { panel: ChangePasswordTab },
-  "Remove Wallet": { panel: RemoveWalletTab },
-} as const;
+const TABS: TabsData = [
+  { label: "Recovery Phrase", panel: RecoveryPhraseTab },
+  { label: "Testnet Mode", panel: TestnetModeTab },
+  { label: "Change Password", panel: ChangePasswordTab },
+  { label: "Remove Wallet", panel: RemoveWalletTab },
+];
 
 const SettingsPage = () => {
   const { lockWallet } = useWallet();
