@@ -1,12 +1,11 @@
 "use client";
-
 import { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import { TabsData } from "@/types";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { useMounted } from "@/hooks";
-import { AngleLeft, AngleRight, ArrowLeft, ArrowRight } from "../icons";
+import { ArrowLeft, ArrowRight } from "../icons";
 
 interface TabsProps {
   tabs: TabsData;
@@ -62,6 +61,7 @@ const Tabs = ({
     resizeObserver.observe(el);
 
     el.addEventListener("scroll", updateScrollButtons);
+
     return () => {
       resizeObserver.disconnect();
       el.removeEventListener("scroll", updateScrollButtons);
@@ -99,10 +99,10 @@ const Tabs = ({
           <button
             type="button"
             onClick={() => handleScroll("left")}
-            className="size-7 flex items-center justify-center bg-secondary rounded-full absolute left-1 z-10"
+            className="p-1 bg-secondary hover:heading-color transition-all duration-200 rounded-full absolute left-1 z-10"
             aria-label="Scroll left"
           >
-            <ArrowLeft className="size-5.5" />
+            <ArrowLeft className="size-5" />
           </button>
         )}
 
@@ -110,17 +110,17 @@ const Tabs = ({
           <button
             type="button"
             onClick={() => handleScroll("right")}
-            className="size-7 flex items-center justify-center bg-secondary rounded-full absolute right-1 z-10"
+            className="p-1 bg-secondary hover:heading-color transition-all duration-200 rounded-full absolute right-1 z-10"
             aria-label="Scroll right"
           >
-            <ArrowRight className="size-5.5" />
+            <ArrowRight className="size-5" />
           </button>
         )}
 
         <div
           ref={listRef}
           className={cn(
-            "w-full relative p-1.5 flex items-center gap-1.5 overflow-x-auto scrollbar-hide scroll-smooth rounded-2xl",
+            "w-full relative p-1.5 flex items-center gap-3 overflow-x-auto scrollbar-hide scroll-smooth rounded-2xl",
             {
               "mask-l-from-80%": canScrollLeft,
               "mask-r-from-80%": canScrollRight,
@@ -159,11 +159,7 @@ const Tabs = ({
                   <motion.div
                     layoutId="activeTabIndicator"
                     className="absolute inset-0 z-[-1] bg-secondary rounded-xl shadow"
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 25,
-                    }}
+                    transition={{ type: "spring", stiffness: 250, damping: 25 }}
                   />
                 )}
               </button>
