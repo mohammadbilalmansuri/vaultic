@@ -1,8 +1,6 @@
 export { default as AlignLeft } from "./AlignLeft";
 export { default as AlignRight } from "./AlignRight";
 export { default as AngleDown } from "./AngleDown";
-export { default as AngleLeft } from "./AngleLeft";
-export { default as AngleRight } from "./AngleRight";
 export { default as ArrowLeft } from "./ArrowLeft";
 export { default as ArrowRight } from "./ArrowRight";
 export { default as Cancel } from "./Cancel";
