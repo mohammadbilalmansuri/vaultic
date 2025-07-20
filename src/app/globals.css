@@ -21,9 +21,6 @@
   --radius-3xl: 1.25rem;
   --radius-4xl: 1.5rem;
   --radius-5xl: 1.75rem;
-
-  --color-accent: var(--color-teal-500);
-  --color-error: var(--color-red-500);
 }
 
 /* Text Utilities */
@@ -34,14 +31,6 @@
 
 @utility text-secondary {
   @apply text-zinc-600 dark:text-zinc-400;
-}
-
-@utility text-placeholder {
-  @apply text-zinc-500;
-}
-
-@utility text-warning {
-  @apply text-yellow-600 dark:text-yellow-500;
 }
 
 /* Background Utilities */
@@ -117,7 +106,7 @@
   }
 
   ::selection {
-    @apply bg-teal-500 text-zinc-800;
+    @apply text-teal-950 bg-teal-500;
   }
 
   body,
@@ -217,5 +206,17 @@
 
   .link {
     @apply leading-none text-primary transition-all duration-200 border-b border-transparent hover:border-current;
+  }
+
+  .highlight-yellow {
+    @apply text-yellow-600 dark:text-yellow-500 bg-yellow-500/20 dark:bg-yellow-500/10 border-yellow-500/20 dark:border-yellow-500/10;
+  }
+
+  .highlight-teal {
+    @apply text-teal-600 dark:text-teal-500 bg-teal-500/20 dark:bg-teal-500/10 border-teal-500/20 dark:border-teal-500/10;
+  }
+
+  .highlight-zinc {
+    @apply text-primary bg-primary border-default;
   }
 }
