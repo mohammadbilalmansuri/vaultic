@@ -87,9 +87,7 @@ const Tabs = ({
       )}
     >
       <motion.div
-        role="tablist"
-        aria-label="Tabs Navigation"
-        className={cn("w-full bg-primary rounded-2xl flex items-center")}
+        className="w-full bg-primary rounded-2xl flex items-center"
         {...fadeUpAnimation({ delay: delay?.list })}
       >
         {canScrollLeft && (
@@ -116,8 +114,10 @@ const Tabs = ({
 
         <div
           ref={listRef}
+          role="tablist"
+          aria-label="Tabs Navigation"
           className={cn(
-            "w-full relative p-1.5 flex items-center gap-3 overflow-x-auto scrollbar-hide scroll-smooth rounded-2xl",
+            "w-full relative p-1.5 flex items-center gap-2 overflow-x-auto scrollbar-hide scroll-smooth rounded-2xl",
             {
               "mask-l-from-80%": canScrollLeft,
               "mask-r-from-80%": canScrollRight,
@@ -138,7 +138,8 @@ const Tabs = ({
                 role="tab"
                 aria-selected={isActive}
                 aria-controls={`tabpanel-${index}`}
-                tabIndex={isActive ? 0 : -1}
+                tabIndex={isActive ? -1 : 0}
+                disabled={isActive}
                 onClick={() => setActiveTabIndex(index)}
                 className={cn(
                   "flex-1 relative shrink-0 px-4 py-3 flex items-center justify-center gap-2 rounded-xl transition-all duration-200 font-medium whitespace-nowrap",
