@@ -22,7 +22,7 @@ const TestnetModeTab = () => {
   return (
     <motion.div className="box max-w-lg gap-0" {...fadeUpAnimation()}>
       <div className="w-full flex items-center justify-between gap-4 pl-4 pr-3 py-3 border-b-1.5">
-        <h3 className="text-lg font-medium heading-color">Testnet Mode</h3>
+        <h3 className="text-lg font-medium text-primary">Testnet Mode</h3>
         <Switch
           state={isTestnetModeOn}
           onClick={handleSwitchNetworkMode}

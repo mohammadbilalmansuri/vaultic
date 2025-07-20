@@ -11,7 +11,7 @@ const OfflineView = () => {
       className="box without-progress"
       {...scaleUpAnimation()}
     >
-      <WiFiOff className="icon-lg icon-warning" aria-hidden="true" />
+      <WiFiOff className="icon-lg text-yellow-500" aria-hidden="true" />
       <h1>Connection Lost</h1>
       <p className="max-w-xs -mt-2.5">
         Please check your internet connection and try again.

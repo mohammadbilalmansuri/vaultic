@@ -86,7 +86,7 @@ const TransactionsTab = () => {
                 "flex items-center gap-2 leading-none py-2.5 px-3 rounded-xl transition-all duration-200 font-medium border",
                 id === network
                   ? "bg-teal-500/10 border-teal-500/30 dark:border-teal-500/10 text-teal-500 pointer-events-none"
-                  : "bg-primary heading-color hover:bg-secondary hover:border-focus"
+                  : "bg-primary text-primary hover:bg-secondary hover:border-focus"
               )}
             >
               {name}
@@ -130,7 +130,7 @@ const TransactionsTab = () => {
                 ].map((header) => (
                   <th
                     key={`${network}-${header}`}
-                    className="px-4 heading-color font-semibold whitespace-nowrap"
+                    className="px-4 text-primary font-semibold whitespace-nowrap"
                   >
                     {header}
                   </th>
@@ -210,14 +210,11 @@ const TransactionsTab = () => {
                       <td className="px-4 whitespace-nowrap">
                         <span
                           className={cn(
-                            "w-11 h-6.5 pt-px flex items-center justify-center text-xs font-semibold rounded-lg uppercase tracking-wide",
+                            "w-11 h-6.5 pt-px flex items-center justify-center text-xs font-semibold rounded-lg uppercase tracking-wide border select-none",
                             {
-                              "bg-teal-500/10 text-teal-500 border border-teal-500/30 dark:border-teal-500/10":
-                                txn.type === "in",
-                              "text-warning bg-warning border border-warning":
-                                txn.type === "out",
-                              "bg-primary heading-color border border-color":
-                                txn.type === "self",
+                              "highlight-teal": txn.type === "in",
+                              "highlight-yellow": txn.type === "out",
+                              "highlight-zinc": txn.type === "self",
                             }
                           )}
                         >
@@ -264,7 +261,7 @@ const TransactionsTab = () => {
                       </td>
 
                       {/* Amount */}
-                      <td className="px-4 whitespace-nowrap heading-color">
+                      <td className="px-4 whitespace-nowrap text-primary">
                         {`${parseBalance(txn.amount).original} ${
                           networkConfig.token
                         }`}
@@ -281,7 +278,7 @@ const TransactionsTab = () => {
                 <tr className="h-60 border-t-1.5">
                   <td colSpan={7} className="px-4 size-full">
                     <div className="size-full flex flex-col items-center justify-center gap-2 text-center">
-                      <ListCross className="h-14 icon-warning" />
+                      <ListCross className="icon-lg text-yellow-500" />
                       <p className="text-md max-w-60">
                         No transactions found for this {network} address.
                       </p>

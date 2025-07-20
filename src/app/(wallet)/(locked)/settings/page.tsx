@@ -33,7 +33,7 @@ const SettingsPage = () => {
           </div>
 
           <div className="flex flex-col">
-            <h2 className="text-xl font-semibold heading-color">Settings</h2>
+            <h2 className="text-xl font-semibold text-primary">Settings</h2>
             <p>Security, recovery, and network preferences.</p>
           </div>
         </div>

@@ -24,8 +24,8 @@ const NavLink = ({
       className={cn(
         "leading-none md:px-3 px-2.5 py-2.5 rounded-xl text-center transition-all duration-200",
         active
-          ? "bg-secondary heading-color pointer-events-none"
-          : "bg-transparent hover:heading-color hover:bg-secondary",
+          ? "bg-secondary text-primary pointer-events-none"
+          : "bg-transparent hover:text-primary hover:bg-secondary",
         className
       )}
       aria-current={active ? "page" : undefined}

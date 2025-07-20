@@ -164,9 +164,9 @@ const SendTab = ({
         state: "success",
         message: (
           <>
-            <span className="heading-color">{`${amount} ${networkConfig.token}`}</span>
+            <span className="text-primary">{`${amount} ${networkConfig.token}`}</span>
             <span> has been sent successfully to </span>
-            <span className="heading-color">
+            <span className="text-primary">
               {getShortAddress(toAddress, network)}
             </span>
           </>
@@ -249,7 +249,7 @@ const SendTab = ({
                     triggerUpload();
                     currentTarget.blur();
                   }}
-                  className="flex items-center justify-center size-13 hover:heading-color bg-input border rounded-2xl transition-all duration-200"
+                  className="flex items-center justify-center size-13 hover:text-primary bg-input border rounded-2xl transition-all duration-200"
                 >
                   <QR className="w-6" />
                 </button>
@@ -274,7 +274,7 @@ const SendTab = ({
                   <button
                     type="button"
                     onClick={handleMaxAmount}
-                    className="bg-primary p-2 leading-none heading-color rounded-lg transition-colors duration-200 hover:bg-secondary"
+                    className="bg-primary p-2 leading-none text-primary rounded-lg transition-colors duration-200 hover:bg-secondary"
                   >
                     Max
                   </button>
@@ -318,7 +318,7 @@ const SendTab = ({
                   value: (
                     <Tooltip
                       content={getValues("toAddress")}
-                      containerClassName="cursor-default heading-color"
+                      containerClassName="cursor-default text-primary"
                     >
                       {getShortAddress(getValues("toAddress"), network)}
                     </Tooltip>
@@ -345,7 +345,7 @@ const SendTab = ({
                   {typeof value === "object" ? (
                     value
                   ) : (
-                    <span className="heading-color">{value}</span>
+                    <span className="text-primary">{value}</span>
                   )}
                 </div>
               ))}
@@ -380,7 +380,7 @@ const SendTab = ({
             <h2 className="mt-2">
               Sending<span className="animate-pulse">...</span>
             </h2>
-            <div className="flex items-center gap-2.5 heading-color">
+            <div className="flex items-center gap-2.5 text-primary">
               <span>{`${getValues("amount")} ${networkConfig.token} `}</span>
               <span className="font-bold -mt-0.5 text-teal-500">&#8594;</span>
               <span>{getShortAddress(getValues("toAddress"), network)}</span>
@@ -401,16 +401,16 @@ const SendTab = ({
         >
           <div
             className={cn(
-              "size-20 rounded-full flex items-center justify-center",
-              sendStatus.state === "success"
-                ? "bg-teal-500/15 dark:bg-teal-500/10"
-                : "bg-rose-500/15 dark:bg-rose-500/10"
+              "size-16 rounded-3xl flex items-center justify-center border",
+              sendStatus.state !== "success"
+                ? "highlight-teal"
+                : "highlight-rose"
             )}
           >
             {sendStatus.state === "success" ? (
-              <Check className="w-10 text-teal-500" />
+              <Check className="w-10" />
             ) : (
-              <Cancel className="w-10 text-rose-500" />
+              <Cancel className="w-10" />
             )}
           </div>
 

@@ -151,7 +151,7 @@ const AccountsPage = () => {
             <Cards className="w-6 text-teal-500" />
           </div>
           <div className="flex flex-col">
-            <h2 className="text-xl font-semibold heading-color">Accounts</h2>
+            <h2 className="text-xl font-semibold text-primary">Accounts</h2>
             <p className="text-secondary">Add, remove, or switch accounts.</p>
           </div>
         </div>
@@ -192,7 +192,7 @@ const AccountsPage = () => {
                   onClick={() => handleAccountCardToggle(accountIndex)}
                 >
                   <div className="flex items-center gap-2 pl-1">
-                    <h3 className="text-xl font-medium heading-color pr-2">
+                    <h3 className="text-xl font-medium text-primary pr-2">
                       Account {accountIndex + 1}
                     </h3>
 
@@ -298,7 +298,7 @@ const AccountsPage = () => {
                               <div className="w-full flex items-center justify-between">
                                 <div className="flex items-center gap-2.5">
                                   <NetworkLogo network={network} size="sm" />
-                                  <h4 className="text-lg font-medium heading-color">
+                                  <h4 className="text-lg font-medium text-primary">
                                     {networkDisplayName}
                                   </h4>
                                 </div>
@@ -346,7 +346,7 @@ const AccountsPage = () => {
                                     className="w-full flex flex-col gap-1"
                                   >
                                     <div className="w-full flex items-center justify-between gap-8">
-                                      <h5 className="leading-none text-md heading-color font-medium">
+                                      <h5 className="leading-none text-md text-primary font-medium">
                                         {label}
                                       </h5>
 
