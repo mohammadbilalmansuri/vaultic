@@ -115,7 +115,7 @@ const Combobox = <T extends FieldValues>({
                       >
                         <span
                           className={cn("flex items-center xs:gap-2 gap-1", {
-                            "heading-color": isSelected,
+                            "text-primary": isSelected,
                           })}
                         >
                           <span className="xs:text-base text-sm">

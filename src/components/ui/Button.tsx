@@ -39,8 +39,8 @@ const Button = ({
   const classes = cn(
     "font-medium transition-all duration-200 flex items-center justify-center gap-2 rounded-2xl hover:rounded-5xl sm:h-13 h-12 sm:px-5 px-4",
     {
-      "text-zinc-800 bg-teal-500": variant === "teal",
-      "heading-color bg-secondary": variant === "zinc",
+      "text-teal-950 bg-teal-500": variant === "teal",
+      "text-primary bg-secondary": variant === "zinc",
     },
     className
   );

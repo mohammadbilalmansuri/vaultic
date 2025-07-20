@@ -10,7 +10,7 @@ const FormError = ({ errors, className = "" }: FormErrorProps) => {
   const firstError = Object.values(errors).find((err) => err?.message);
   return firstError ? (
     <p
-      className={cn("text-warning", className)}
+      className={cn("text-yellow-600 dark:text-yellow-500", className)}
       role="alert"
       aria-live="polite"
     >

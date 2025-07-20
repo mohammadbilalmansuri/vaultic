@@ -40,13 +40,13 @@ const Accordion = ({
       >
         <span
           className={cn("h4 transition-all duration-200", {
-            "text-color group-hover:heading-color": !isOpen,
+            "text-secondary group-hover:text-primary": !isOpen,
           })}
         >
           {question}
         </span>
 
-        <span className="icon-btn-bg group-hover:heading-color">
+        <span className="icon-btn-bg group-hover:text-primary">
           <AngleDown
             className={cn("transition-all duration-200", {
               "rotate-180": isOpen,

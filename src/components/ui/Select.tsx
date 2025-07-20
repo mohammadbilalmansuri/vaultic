@@ -66,10 +66,10 @@ const Select = <T,>({
         role="select"
         aria-label="Select option"
       >
-        <span className="heading-color font-medium text-nowrap">
+        <span className="text-primary font-medium text-nowrap">
           {selectedLabel}
         </span>
-        <span className={cn("icon-btn-bg-sm", { "heading-color": opened })}>
+        <span className={cn("icon-btn-bg-sm", { "text-primary": opened })}>
           <ChevronsUpDown />
         </span>
       </button>
@@ -121,8 +121,8 @@ const Select = <T,>({
                       className={cn(
                         "w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl transition-all duration-200",
                         isSelected
-                          ? "bg-secondary heading-color pointer-events-none"
-                          : "hover:bg-secondary hover:heading-color"
+                          ? "bg-secondary text-primary pointer-events-none"
+                          : "hover:bg-secondary hover:text-primary"
                       )}
                       onClick={async () => {
                         try {

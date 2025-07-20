@@ -56,12 +56,12 @@ const RemoveWalletTab = () => {
 
   return (
     <motion.div className="box max-w-lg gap-0" {...fadeUpAnimation()}>
-      <h3 className="w-full text-lg font-medium heading-color border-b-1.5 p-3">
+      <h3 className="w-full text-lg font-medium text-primary border-b-1.5 p-3">
         Remove Wallet
       </h3>
 
       <div className="w-full flex flex-col gap-6 p-6">
-        <div className="w-full p-5 rounded-2xl bg-warning text-warning text-center flex flex-col items-center justify-center gap-2.5">
+        <div className="highlight-yellow w-full p-5 rounded-2xl text-center flex flex-col items-center justify-center gap-2.5">
           <p>
             Removing your wallet will erase local access and settings from this
             device.

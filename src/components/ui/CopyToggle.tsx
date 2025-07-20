@@ -31,7 +31,7 @@ const CopyToggle = ({
       className={cn(
         "icon-btn",
         {
-          "pointer-events-none heading-color": hasCopied,
+          "pointer-events-none text-primary": hasCopied,
           "flex items-center xxs:gap-2 gap-1.5": !!labels,
         },
         className

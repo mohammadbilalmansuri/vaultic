@@ -15,7 +15,7 @@ const HeroSection = () => {
       className="hero"
       {...fadeUpAnimation({ inView })}
     >
-      <p className="min-w-max sm:px-2.5 sm:py-2 px-2 py-1.5 sm:text-sm text-xs rounded-lg font-medium leading-none border border-teal-500/10 dark:border-teal-500/5 bg-teal-500/10 dark:bg-teal-500/5 text-teal-600 dark:text-teal-500">
+      <p className="min-w-max sm:px-2.5 sm:py-2 px-2 py-1.5 sm:text-sm text-xs rounded-lg font-medium leading-none border highlight-teal">
         No Extensions &#8226; No Servers &#8226; 100% Yours
       </p>
 

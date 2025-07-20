@@ -86,7 +86,7 @@ const ReceiveTab = () => {
               {...fadeUpAnimation({ delay: index * 0.05 })}
             >
               <div className="w-full flex items-center justify-between border-b-1.5 px-4 py-3">
-                <h4 className="text-lg font-medium heading-color">
+                <h4 className="text-lg font-medium text-primary">
                   {networkName} Address
                 </h4>
 
@@ -137,7 +137,7 @@ const ReceiveTab = () => {
                 />
 
                 <div className="w-full bg-input border rounded-2xl">
-                  <p className="heading-color pt-4 pb-3 px-8 break-all">
+                  <p className="text-primary pt-4 pb-3 px-8 break-all">
                     {address}
                   </p>
 

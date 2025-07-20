@@ -158,7 +158,7 @@ const Sidebar = () => {
                 {isCollapsed ? (
                   <Tooltip content="Open Sidebar" position="right">
                     <div
-                      className="icon-btn-bg group focus:bg-secondary focus:heading-color [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:bg-secondary [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:heading-color"
+                      className="icon-btn-bg group focus:bg-secondary focus:text-primary [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:bg-secondary [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:text-primary"
                       tabIndex={0}
                     >
                       <Logo className="w-6 text-teal-500 group-hover:hidden group-focus:hidden [.group\/collapsed:hover:not(:has([data-clickable]:hover))_&]:hidden" />
@@ -220,8 +220,8 @@ const Sidebar = () => {
                       className={cn(
                         "p-2.25 rounded-xl flex items-center gap-2 relative transition-all duration-200",
                         isActive
-                          ? "bg-secondary heading-color pointer-events-none"
-                          : "hover:bg-secondary hover:heading-color"
+                          ? "bg-secondary text-primary pointer-events-none"
+                          : "hover:bg-secondary hover:text-primary"
                       )}
                       onClick={isOpenedOnSmallScreen ? closeSidebar : undefined}
                       aria-current={isActive ? "page" : undefined}
