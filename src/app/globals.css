@@ -8,18 +8,25 @@
   --breakpoint-sm: 660px;
   --breakpoint-md: 840px;
   --breakpoint-lg: 1024px;
+
   --text-md: 1.0625rem;
   --text-h1: 2.125rem;
   --text-h2: 1.75rem;
   --text-h3: 1.375rem;
   --text-15: 0.9375rem;
   --text-26: 1.625rem;
+
   --border-width-1\.5: 1.5px;
+
   --radius-3xl: 1.25rem;
   --radius-4xl: 1.5rem;
   --radius-5xl: 1.75rem;
+
   --color-accent: var(--color-teal-500);
+  --color-error: var(--color-red-500);
 }
+
+/* Text Utilities */
 
 @utility text-primary {
   @apply text-zinc-800 dark:text-zinc-200;
@@ -29,25 +36,15 @@
   @apply text-zinc-600 dark:text-zinc-400;
 }
 
+@utility text-placeholder {
+  @apply text-zinc-500;
+}
+
 @utility text-warning {
   @apply text-yellow-600 dark:text-yellow-500;
 }
 
-@utility border-default {
-  @apply border-zinc-200 dark:border-zinc-800;
-}
-
-@utility border-focus {
-  @apply border-zinc-400 dark:border-zinc-600;
-}
-
-@utility border-warning {
-  @apply border-yellow-500/30 dark:border-yellow-500/10;
-}
-
-@utility border-accent {
-  @apply border-teal-500/20 dark:border-teal-500/10;
-}
+/* Background Utilities */
 
 @utility bg-default {
   @apply bg-zinc-100 dark:bg-zinc-900;
@@ -61,21 +58,21 @@
   @apply bg-zinc-200 dark:bg-zinc-800;
 }
 
-@utility bg-warning {
-  @apply bg-yellow-500/20 dark:bg-yellow-500/10;
-}
-
-@utility bg-accent {
-  @apply bg-teal-500/20 dark:bg-teal-500/10;
-}
-
 @utility bg-input {
-  @apply bg-white dark:bg-zinc-950/40;
+  @apply bg-zinc-50 dark:bg-zinc-950/40;
 }
 
-@utility icon-warning {
-  @apply text-yellow-500;
+/* Border Utilities */
+
+@utility border-default {
+  @apply border-zinc-300/60 dark:border-zinc-800;
 }
+
+@utility border-focus {
+  @apply border-zinc-400 dark:border-zinc-600;
+}
+
+/* Icon Utilities */
 
 @utility icon-lg {
   @apply xs:w-14 w-12;
@@ -93,6 +90,8 @@
   @apply icon-btn size-8 flex items-center justify-center rounded-lg hover:bg-secondary shrink-0;
 }
 
+/* Scrollbar Utilities */
+
 @utility scrollbar-thin {
   scrollbar-width: thin;
 }
@@ -101,10 +100,8 @@
   &::-webkit-scrollbar {
     display: none;
   }
-
   -ms-overflow-style: none;
   scrollbar-width: none;
-
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   will-change: scroll-position;
