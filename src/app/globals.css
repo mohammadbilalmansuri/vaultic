@@ -18,21 +18,14 @@
   --radius-3xl: 1.25rem;
   --radius-4xl: 1.5rem;
   --radius-5xl: 1.75rem;
+  --color-accent: var(--color-teal-500);
 }
 
-@utility webkit-autofil-color-for-dark {
-  -webkit-text-fill-color: #e4e4e7;
-}
-
-@utility webkit-autofil-color-for-light {
-  -webkit-text-fill-color: #27272a;
-}
-
-@utility heading-color {
+@utility text-primary {
   @apply text-zinc-800 dark:text-zinc-200;
 }
 
-@utility text-color {
+@utility text-secondary {
   @apply text-zinc-600 dark:text-zinc-400;
 }
 
@@ -40,7 +33,7 @@
   @apply text-yellow-600 dark:text-yellow-500;
 }
 
-@utility border-color {
+@utility border-default {
   @apply border-zinc-200 dark:border-zinc-800;
 }
 
@@ -50,6 +43,10 @@
 
 @utility border-warning {
   @apply border-yellow-500/30 dark:border-yellow-500/10;
+}
+
+@utility border-accent {
+  @apply border-teal-500/20 dark:border-teal-500/10;
 }
 
 @utility bg-default {
@@ -68,12 +65,12 @@
   @apply bg-yellow-500/20 dark:bg-yellow-500/10;
 }
 
-@utility bg-input {
-  @apply bg-white dark:bg-zinc-950/30;
+@utility bg-accent {
+  @apply bg-teal-500/20 dark:bg-teal-500/10;
 }
 
-@utility icon-teal {
-  @apply text-teal-500;
+@utility bg-input {
+  @apply bg-white dark:bg-zinc-950/40;
 }
 
 @utility icon-warning {
@@ -85,7 +82,7 @@
 }
 
 @utility icon-btn {
-  @apply text-color hover:heading-color transition-all duration-200;
+  @apply text-secondary hover:text-primary transition-all duration-200;
 }
 
 @utility icon-btn-bg {
@@ -128,11 +125,11 @@
 
   body,
   body * {
-    @apply box-border border-color scrollbar-thin;
+    @apply box-border border-default scrollbar-thin;
   }
 
   body {
-    @apply text-color bg-default w-full relative overflow-x-hidden;
+    @apply text-secondary bg-default w-full relative overflow-x-hidden;
   }
 
   .root {
@@ -148,13 +145,21 @@
     cursor: pointer;
   }
 
-  input:autofill,
+  input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
-  input:-webkit-autofill:active {
-    @apply webkit-autofil-color-for-light dark:webkit-autofil-color-for-dark;
-    transition: background-color 100000s ease-in-out 0s;
-    box-shadow: none;
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-zinc-800);
+    -webkit-box-shadow: 0 0 0px 1000px oklch(98.5% 0 0) inset;
+    &:where(.dark, .dark *) {
+      -webkit-text-fill-color: var(--color-zinc-200);
+      -webkit-box-shadow: 0 0 0px 1000px oklch(0.1836 0.0061 285.79) inset;
+    }
   }
 
   .icon-btn svg,
@@ -169,40 +174,40 @@
 
 @layer components {
   .h1 {
-    @apply md:text-h1 sm:text-3xl text-h2 font-semibold leading-snug heading-color;
+    @apply md:text-h1 sm:text-3xl text-h2 font-semibold leading-snug text-primary;
   }
 
   .h2 {
-    @apply md:text-h2 sm:text-2xl text-h3 font-medium leading-snug heading-color;
+    @apply md:text-h2 sm:text-2xl text-h3 font-medium leading-snug text-primary;
   }
 
   .h3 {
-    @apply lg:text-h3 sm:text-xl text-lg font-medium leading-snug heading-color;
+    @apply lg:text-h3 sm:text-xl text-lg font-medium leading-snug text-primary;
   }
 
   .h4 {
-    @apply sm:text-lg text-md font-medium leading-snug heading-color;
+    @apply sm:text-lg text-md font-medium leading-snug text-primary;
   }
 
   .input {
-    @apply w-full flex items-center sm:h-13 h-12 sm:p-4 p-3 outline-none transition-all duration-200 heading-color bg-input border border-color focus:border-focus rounded-2xl placeholder:text-zinc-500;
+    @apply w-full flex items-center sm:h-13 h-12 sm:p-4 p-3 outline-none transition-all duration-200 text-primary bg-input border border-default focus:border-focus rounded-2xl placeholder:text-zinc-500;
   }
 
   .mnemonic-word-input {
-    @apply w-full flex items-center xs:gap-1 gap-0.5 sm:p-3 p-2 sm:h-12 h-11 leading-none heading-color bg-input border border-color focus-within:border-focus rounded-xl xs:text-base text-15;
+    @apply w-full flex items-center xs:gap-1 gap-0.5 sm:p-3 p-2 sm:h-12 h-11 leading-none text-primary bg-input border border-default focus-within:border-focus rounded-xl xs:text-base text-15;
   }
 
   .box {
-    @apply w-full max-w-md relative flex flex-col items-center text-center border-1.5 border-color rounded-3xl;
+    @apply w-full max-w-md relative flex flex-col items-center text-center border-1.5 border-default rounded-3xl;
   }
 
   .box h1,
   .box h2 {
-    @apply xs:text-h2 text-2xl font-medium leading-snug heading-color;
+    @apply xs:text-h2 text-2xl font-medium leading-snug text-primary;
   }
 
   .box h3 {
-    @apply xs:text-2xl text-xl font-medium leading-snug heading-color;
+    @apply xs:text-2xl text-xl font-medium leading-snug text-primary;
   }
 
   .box.without-progress {
@@ -214,6 +219,6 @@
   }
 
   .link {
-    @apply leading-none heading-color transition-all duration-200 border-b border-transparent hover:border-current;
+    @apply leading-none text-primary transition-all duration-200 border-b border-transparent hover:border-current;
   }
 }
