@@ -1,15 +1,9 @@
 "use client";
-import { JSX } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import type { NotificationType } from "@/types";
+import { NOTIFICATION_ICONS } from "@/constants";
 import { useNotificationStore } from "@/stores";
-import { Cancel, Info, Success, Error } from "@/components/icons";
-
-const NOTIFICATION_ICONS = new Map<NotificationType, JSX.Element>([
-  ["info", <Info className="w-5.5 text-zinc-800 dark:text-zinc-200" />],
-  ["success", <Success className="w-5.5 text-teal-500" />],
-  ["error", <Error className="w-5.5 text-rose-500" />],
-]);
+import cn from "@/utils/cn";
+import { Cancel } from "@/components/icons";
 
 const NotificationProvider = () => {
   const opened = useNotificationStore((state) => state.opened);
@@ -18,7 +12,8 @@ const NotificationProvider = () => {
   const closeNotification = useNotificationStore(
     (state) => state.closeNotification
   );
-  const notificationType = type || "info";
+
+  const { icon: Icon, colorClassName } = NOTIFICATION_ICONS[type || "info"];
 
   return (
     <AnimatePresence mode="wait">
@@ -29,29 +24,26 @@ const NotificationProvider = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -30 }}
           transition={{ duration: 0.15, ease: "easeInOut" }}
-          className="max-w-lg fixed bottom-8 right-8 z-50 backdrop-blur-xl p-5 rounded-2xl flex items-center justify-between gap-4 border-1.5 shadow-xl"
+          className="max-w-xl fixed md:bottom-4 sm:bottom-2 bottom-0 md:right-4 sm:right-2 z-50 m-4 py-4 sm:px-4 px-3 rounded-2xl flex items-center justify-between gap-2.5 bg-primary border-1.5 shadow-xl backdrop-blur-xl"
           role="alert"
           aria-live="polite"
           aria-atomic="true"
         >
-          <div className="flex items-center gap-2.5">
-            <span
-              className="shrink-0"
-              aria-label={`${notificationType} notification icon`}
-            >
-              {NOTIFICATION_ICONS.get(notificationType)}
-            </span>
-            <p className="text-zinc-800 dark:text-zinc-200 leading-tight">
-              {message}
-            </p>
+          <div className="flex items-center gap-2">
+            <Icon
+              className={cn("shrink-0 sm:w-5.5 w-5", colorClassName)}
+              aria-hidden={true}
+            />
+            <p className="text-primary leading-tight">{message}</p>
           </div>
 
           <button
             type="button"
             onClick={closeNotification}
             aria-label="Close notification"
+            className="-mr-0.5"
           >
-            <Cancel className="icon-btn w-4.5" />
+            <Cancel className="icon-btn w-4.5 shrink-0" />
           </button>
         </motion.div>
       )}
