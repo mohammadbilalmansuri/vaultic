@@ -79,6 +79,7 @@ const FeaturesSection = () => {
               <Icon
                 className="md:w-8 sm:w-7 w-6 text-teal-500"
                 aria-hidden="true"
+                strokeWidth={1.5}
               />
               <h3 className="h3">{title}</h3>
             </div>
