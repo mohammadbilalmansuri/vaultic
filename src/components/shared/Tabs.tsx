@@ -89,10 +89,7 @@ const Tabs = ({
       <motion.div
         role="tablist"
         aria-label="Tabs Navigation"
-        className={cn(
-          "w-full bg-primary rounded-2xl flex items-center",
-          listClassName
-        )}
+        className={cn("w-full bg-primary rounded-2xl flex items-center")}
         {...fadeUpAnimation({ delay: delay?.list })}
       >
         {canScrollLeft && (
@@ -124,7 +121,8 @@ const Tabs = ({
             {
               "mask-l-from-80%": canScrollLeft,
               "mask-r-from-80%": canScrollRight,
-            }
+            },
+            listClassName
           )}
         >
           {tabs.map(({ icon: Icon, label }, index) => {
@@ -140,7 +138,6 @@ const Tabs = ({
                 role="tab"
                 aria-selected={isActive}
                 aria-controls={`tabpanel-${index}`}
-                disabled={isActive}
                 tabIndex={isActive ? 0 : -1}
                 onClick={() => setActiveTabIndex(index)}
                 className={cn(
@@ -159,7 +156,7 @@ const Tabs = ({
                   <motion.div
                     layoutId="activeTabIndicator"
                     className="absolute inset-0 z-[-1] bg-secondary rounded-xl shadow"
-                    transition={{ type: "spring", stiffness: 250, damping: 25 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
                   />
                 )}
               </button>
