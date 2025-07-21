@@ -10,7 +10,7 @@ import { ChangePasswordForm, ChangePasswordSchema } from "@/utils/validations";
 import { useStorage } from "@/hooks";
 import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 
-const ChangePasswordTab = () => {
+const ChangePasswordTabPanel = () => {
   const notify = useNotificationStore((state) => state.notify);
   const { updatePassword } = useStorage();
   const [changing, startChanging] = useTransition();
@@ -52,14 +52,14 @@ const ChangePasswordTab = () => {
   };
 
   return (
-    <motion.div className="box max-w-lg gap-0" {...fadeUpAnimation()}>
-      <h3 className="w-full text-lg font-medium text-primary border-b-1.5 p-3">
+    <motion.div className="box max-w-lg" {...fadeUpAnimation()}>
+      <h3 className="w-full xs:text-lg text-md font-medium text-primary border-b-1.5 p-3">
         Change Password
       </h3>
 
       <form
         onSubmit={handleSubmit(handlePasswordChange)}
-        className="w-full flex flex-col gap-4 p-6"
+        className="w-full flex flex-col xs:gap-4 gap-3 xs:p-6 p-5"
       >
         <PasswordInput
           placeholder="Current password"
@@ -93,4 +93,4 @@ const ChangePasswordTab = () => {
   );
 };
 
-export default ChangePasswordTab;
+export default ChangePasswordTabPanel;
