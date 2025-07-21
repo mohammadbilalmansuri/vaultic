@@ -9,7 +9,7 @@ import {
   useAccountsStore,
   useNotificationStore,
 } from "@/stores";
-import { fadeUpAnimation } from "@/utils/animations";
+import { expandCollapseAnimation, fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
@@ -34,7 +34,6 @@ const AccountsPage = () => {
   );
   const notify = useNotificationStore((state) => state.notify);
 
-  const [creating, startCreating] = useTransition();
   const { createAccount, deleteAccount, switchActiveAccount } = useAccounts();
   const copyToClipboard = useClipboard();
 
@@ -42,11 +41,16 @@ const AccountsPage = () => {
   const [openedAccounts, setOpenedAccounts] = useState<Set<number>>(
     new Set([activeAccountIndex])
   );
-  const [copiedText, setCopiedText] = useState<string | null>(null);
   const [showingFullTexts, setShowingFullTexts] = useState<Set<string>>(
     new Set()
   );
-  const [togglingAccountCard, setTogglingAccountCard] = useState(false);
+  const [copiedText, setCopiedText] = useState<string | null>(null);
+
+  const [creating, startCreating] = useTransition();
+  const [removing, startRemoving] = useTransition();
+
+  const accountEntries = Object.entries(accounts);
+  const hasMultipleAccounts = accountEntries.length > 1;
 
   const handleCreateAccount = () => {
     startCreating(async () => {
@@ -65,21 +69,20 @@ const AccountsPage = () => {
     });
   };
 
-  const handleRemoveAccount = async (e: MouseEvent, index: number) => {
-    e.stopPropagation();
+  const handleRemoveAccount = async (index: number) => {
     if (removingIndex !== null) return;
     setRemovingIndex(index);
 
     try {
       await deleteAccount(index);
-      notify({
-        type: "success",
-        message: `Account ${index + 1} deleted successfully.`,
-      });
       setOpenedAccounts((prev) => {
         const newSet = new Set(prev);
         newSet.delete(index);
         return newSet;
+      });
+      notify({
+        type: "success",
+        message: `Account ${index + 1} deleted successfully.`,
       });
     } catch (error) {
       notify({
@@ -94,29 +97,18 @@ const AccountsPage = () => {
     }
   };
 
-  const handleSwitchActiveAccount = async (
-    e: MouseEvent,
-    accountIndex: number
-  ) => {
-    e.stopPropagation();
-    await switchActiveAccount(accountIndex);
-  };
-
-  const handleAccountCardToggle = (index: number) => {
-    if (togglingAccountCard) return;
-    setTogglingAccountCard(true);
-
-    setOpenedAccounts((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(index)) {
-        newSet.delete(index);
-      } else {
-        newSet.add(index);
-      }
-      return newSet;
-    });
-
-    setTimeout(() => setTogglingAccountCard(false), 300);
+  const handleAccountCardToggle = (e: MouseEvent, index: number) => {
+    if (e.target instanceof Element && !e.target.closest("[data-clickable]")) {
+      setOpenedAccounts((prev) => {
+        const newSet = new Set(prev);
+        if (newSet.has(index)) {
+          newSet.delete(index);
+        } else {
+          newSet.add(index);
+        }
+        return newSet;
+      });
+    }
   };
 
   const handleFullTextToggle = (text: string) => {
@@ -137,22 +129,27 @@ const AccountsPage = () => {
     });
   };
 
-  const accountEntries = Object.entries(accounts);
-  const hasMultipleAccounts = accountEntries.length > 1;
-
   return (
-    <div className="w-full max-w-screen-lg relative flex flex-col gap-6 flex-1">
+    <div className="w-full max-w-screen-lg relative flex flex-col sm:gap-6 gap-5">
       <motion.div
-        className="w-full relative flex items-center justify-between gap-4"
+        className="w-full relative flex items-center justify-between gap-3"
         {...fadeUpAnimation()}
       >
-        <div className="flex items-center gap-4">
-          <div className="size-12 rounded-2xl bg-teal-500/10 flex items-center justify-center">
-            <Cards className="w-6 text-teal-500" />
-          </div>
-          <div className="flex flex-col">
-            <h2 className="text-xl font-semibold text-primary">Accounts</h2>
-            <p className="text-secondary">Add, remove, or switch accounts.</p>
+        <div className="flex items-center sm:gap-3 gap-2.5">
+          <span
+            className="highlight-teal sm:size-12 size-11 rounded-xl border hidden xs:flex items-center justify-center shrink-0"
+            aria-hidden="true"
+          >
+            <Cards className="w-6" />
+          </span>
+
+          <div>
+            <h1 className="sm:text-xl text-lg font-semibold text-primary">
+              Accounts
+            </h1>
+            <p className="sm:text-base text-sm">
+              Add, remove, or switch accounts.
+            </p>
           </div>
         </div>
 
@@ -161,6 +158,7 @@ const AccountsPage = () => {
           position="left"
         >
           <button
+            type="button"
             className={cn("icon-btn-bg", {
               "bg-secondary pointer-events-none": creating,
             })}
@@ -174,22 +172,22 @@ const AccountsPage = () => {
 
       <div className="w-full relative flex flex-col gap-6">
         <AnimatePresence>
-          {accountEntries.map(([key, account], idx) => {
+          {accountEntries.map(([key, account], index) => {
             const accountIndex = parseInt(key);
+            const isActive = accountIndex === activeAccountIndex;
             const isOpen = openedAccounts.has(accountIndex);
             const isDeleting = removingIndex === accountIndex;
             const isSwitching = switchingToAccount === accountIndex;
-            const isActive = accountIndex === activeAccountIndex;
 
             return (
               <motion.div
                 key={`account-${accountIndex}`}
                 className="w-full relative rounded-4xl border-1.5"
-                {...fadeUpAnimation({ delay: idx * 0.1 + 0.1 })}
+                {...fadeUpAnimation({ delay: index * 0.05 + 0.05 })}
               >
                 <div
                   className="w-full relative flex items-center justify-between gap-4 p-4 pl-5 cursor-pointer"
-                  onClick={() => handleAccountCardToggle(accountIndex)}
+                  onClick={(e) => handleAccountCardToggle(e, accountIndex)}
                 >
                   <div className="flex items-center gap-2 pl-1">
                     <h3 className="text-xl font-medium text-primary pr-2">
@@ -222,8 +220,8 @@ const AccountsPage = () => {
                               className={cn("icon-btn-bg hover:text-teal-500", {
                                 "bg-secondary pointer-events-none": isSwitching,
                               })}
-                              onClick={(e) =>
-                                handleSwitchActiveAccount(e, accountIndex)
+                              onClick={async () =>
+                                await switchActiveAccount(accountIndex)
                               }
                               disabled={isSwitching}
                             >
@@ -237,8 +235,8 @@ const AccountsPage = () => {
                             className={cn("icon-btn-bg hover:text-rose-500", {
                               "bg-secondary pointer-events-none": isDeleting,
                             })}
-                            onClick={(e) =>
-                              handleRemoveAccount(e, accountIndex)
+                            onClick={async (e) =>
+                              await handleRemoveAccount(accountIndex)
                             }
                             disabled={isDeleting}
                           >
@@ -258,138 +256,131 @@ const AccountsPage = () => {
                   </div>
                 </div>
 
-                <AnimatePresence>
-                  <motion.div
-                    initial={false}
-                    animate={{
-                      height: isOpen ? "auto" : 0,
-                      opacity: isOpen ? 1 : 0,
-                    }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className={cn("w-full relative", {
-                      "overflow-hidden": togglingAccountCard,
-                    })}
-                  >
-                    <div className="w-full p-5 pt-0 grid grid-cols-2 gap-4">
-                      {Object.entries(account).map(
-                        ([networkKey, { address, privateKey, balance }]) => {
-                          const network = networkKey as Network;
-                          const networkConfig = NETWORKS[network];
-                          const parsedBalance = parseBalance(balance);
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      className="w-full relative overflow-hidden"
+                      {...expandCollapseAnimation()}
+                    >
+                      <div className="w-full p-5 pt-0 grid grid-cols-2 gap-4">
+                        {Object.entries(account).map(
+                          ([networkKey, { address, privateKey, balance }]) => {
+                            const network = networkKey as Network;
+                            const networkConfig = NETWORKS[network];
+                            const parsedBalance = parseBalance(balance);
 
-                          const networkDisplayName = `${networkConfig.name}${
-                            networkMode === "testnet"
-                              ? ` ${networkConfig.testnetName}`
-                              : ""
-                          }`;
+                            const networkDisplayName = `${networkConfig.name}${
+                              networkMode === "testnet"
+                                ? ` ${networkConfig.testnetName}`
+                                : ""
+                            }`;
 
-                          const balanceElement = (
-                            <p className="text-md font-semibold leading-none cursor-default">
-                              {parsedBalance.display} {networkConfig.token}
-                            </p>
-                          );
+                            return (
+                              <div
+                                key={`account-${accountIndex}-${network}`}
+                                className="w-full relative flex flex-col items-start gap-3 rounded-3xl bg-primary p-5"
+                              >
+                                <div className="w-full flex items-center justify-between">
+                                  <div className="flex items-center gap-2.5">
+                                    <NetworkLogo network={network} size="sm" />
+                                    <h4 className="text-lg font-medium text-primary">
+                                      {networkDisplayName}
+                                    </h4>
+                                  </div>
 
-                          return (
-                            <div
-                              key={`account-${accountIndex}-${network}`}
-                              className="w-full relative flex flex-col items-start gap-3 rounded-3xl bg-primary p-5"
-                            >
-                              <div className="w-full flex items-center justify-between">
-                                <div className="flex items-center gap-2.5">
-                                  <NetworkLogo network={network} size="sm" />
-                                  <h4 className="text-lg font-medium text-primary">
-                                    {networkDisplayName}
-                                  </h4>
+                                  <Tooltip
+                                    content={
+                                      parsedBalance.wasRounded
+                                        ? `${parsedBalance.original} ${networkConfig.token}`
+                                        : undefined
+                                    }
+                                    position="left"
+                                  >
+                                    <p className="text-md font-semibold leading-none cursor-default">
+                                      {`${parsedBalance.display} ${networkConfig.token}`}
+                                    </p>
+                                  </Tooltip>
                                 </div>
 
-                                {parsedBalance.wasRounded ? (
-                                  <Tooltip
-                                    content={`${parsedBalance.original} ${networkConfig.token}`}
-                                  >
-                                    {balanceElement}
-                                  </Tooltip>
-                                ) : (
-                                  balanceElement
+                                {[
+                                  {
+                                    label: "Address",
+                                    value: address,
+                                    shortValue: getShortAddress(
+                                      address,
+                                      network,
+                                      10
+                                    ),
+                                    isVisible: showingFullTexts.has(address),
+                                    copied: copiedText === address,
+                                  },
+                                  {
+                                    label: "Private Key",
+                                    value: privateKey,
+                                    shortValue: `${privateKey.slice(0, 25)}...`,
+                                    isVisible: showingFullTexts.has(privateKey),
+                                    copied: copiedText === privateKey,
+                                  },
+                                ].map(
+                                  ({
+                                    label,
+                                    value,
+                                    isVisible,
+                                    copied,
+                                    shortValue,
+                                  }) => (
+                                    <div
+                                      key={label}
+                                      className="w-full flex flex-col gap-1"
+                                    >
+                                      <div className="w-full flex items-center justify-between gap-8">
+                                        <h5 className="leading-none text-md text-primary font-medium">
+                                          {label}
+                                        </h5>
+
+                                        <div className="min-w-fit flex items-center gap-4">
+                                          <Tooltip
+                                            content={
+                                              isVisible
+                                                ? `Hide Full ${label}`
+                                                : `Show Full ${label}`
+                                            }
+                                          >
+                                            <EyeToggle
+                                              isVisible={isVisible}
+                                              onClick={() =>
+                                                handleFullTextToggle(value)
+                                              }
+                                            />
+                                          </Tooltip>
+                                          <Tooltip
+                                            content={
+                                              copied
+                                                ? "Copied!"
+                                                : `Copy ${label}`
+                                            }
+                                          >
+                                            <CopyToggle
+                                              hasCopied={copied}
+                                              onClick={() => handleCopy(value)}
+                                            />
+                                          </Tooltip>
+                                        </div>
+                                      </div>
+
+                                      <p className="break-all max-w-[85%]">
+                                        {isVisible ? value : shortValue}
+                                      </p>
+                                    </div>
+                                  )
                                 )}
                               </div>
-
-                              {[
-                                {
-                                  label: "Address",
-                                  value: address,
-                                  shortValue: getShortAddress(
-                                    address,
-                                    network,
-                                    10
-                                  ),
-                                  isVisible: showingFullTexts.has(address),
-                                  copied: copiedText === address,
-                                },
-                                {
-                                  label: "Private Key",
-                                  value: privateKey,
-                                  shortValue: `${privateKey.slice(0, 25)}...`,
-                                  isVisible: showingFullTexts.has(privateKey),
-                                  copied: copiedText === privateKey,
-                                },
-                              ].map(
-                                ({
-                                  label,
-                                  value,
-                                  isVisible,
-                                  copied,
-                                  shortValue,
-                                }) => (
-                                  <div
-                                    key={label}
-                                    className="w-full flex flex-col gap-1"
-                                  >
-                                    <div className="w-full flex items-center justify-between gap-8">
-                                      <h5 className="leading-none text-md text-primary font-medium">
-                                        {label}
-                                      </h5>
-
-                                      <div className="min-w-fit flex items-center gap-4">
-                                        <Tooltip
-                                          content={
-                                            isVisible
-                                              ? `Hide Full ${label}`
-                                              : `Show Full ${label}`
-                                          }
-                                        >
-                                          <EyeToggle
-                                            isVisible={isVisible}
-                                            onClick={() =>
-                                              handleFullTextToggle(value)
-                                            }
-                                          />
-                                        </Tooltip>
-                                        <Tooltip
-                                          content={
-                                            copied ? "Copied!" : `Copy ${label}`
-                                          }
-                                        >
-                                          <CopyToggle
-                                            hasCopied={copied}
-                                            onClick={() => handleCopy(value)}
-                                          />
-                                        </Tooltip>
-                                      </div>
-                                    </div>
-
-                                    <p className="break-all max-w-[85%]">
-                                      {isVisible ? value : shortValue}
-                                    </p>
-                                  </div>
-                                )
-                              )}
-                            </div>
-                          );
-                        }
-                      )}
-                    </div>
-                  </motion.div>
+                            );
+                          }
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
                 </AnimatePresence>
               </motion.div>
             );
