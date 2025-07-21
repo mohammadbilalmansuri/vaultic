@@ -142,7 +142,7 @@ const Tabs = ({
                 disabled={isActive}
                 onClick={() => setActiveTabIndex(index)}
                 className={cn(
-                  "flex-1 relative shrink-0 px-4 py-3 flex items-center justify-center gap-2 rounded-xl transition-all duration-200 font-medium leading-none whitespace-nowrap",
+                  "flex-1 relative shrink-0 px-3.5 py-3 flex items-center justify-center gap-2 rounded-xl transition-all duration-200 font-medium leading-none whitespace-nowrap",
                   isActive
                     ? "text-primary pointer-events-none"
                     : "hover:text-primary",
