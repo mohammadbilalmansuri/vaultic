@@ -52,7 +52,7 @@ const UnlockForm = () => {
           })}
           disabled={!isValid || unlocking}
         >
-          {unlocking ? <Loader size="sm" color="black" /> : "Unlock"}
+          {unlocking ? <Loader size="sm" color="current" /> : "Unlock"}
         </Button>
         <FormError errors={errors} className="mt-2 -mb-2" />
       </form>

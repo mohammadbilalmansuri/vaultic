@@ -74,7 +74,7 @@ const ForgotPassword = () => {
           "opacity-60 pointer-events-none": !agree,
         })}
       >
-        {resetting ? <Loader size="sm" color="black" /> : "Reset Vaultic"}
+        {resetting ? <Loader size="sm" color="current" /> : "Reset Vaultic"}
       </Button>
     </motion.div>
   );

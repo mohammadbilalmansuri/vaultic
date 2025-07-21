@@ -99,7 +99,11 @@ const RemoveWalletTab = () => {
             })}
             disabled={!isValid || removing}
           >
-            {removing ? <Loader size="sm" color="black" /> : "Confirm & Remove"}
+            {removing ? (
+              <Loader size="sm" color="current" />
+            ) : (
+              "Confirm & Remove"
+            )}
           </Button>
 
           <FormError errors={errors} />

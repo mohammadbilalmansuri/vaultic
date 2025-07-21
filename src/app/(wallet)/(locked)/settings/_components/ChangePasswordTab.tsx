@@ -84,7 +84,7 @@ const ChangePasswordTab = () => {
           })}
           disabled={!isValid || changing}
         >
-          {changing ? <Loader size="sm" color="black" /> : "Save"}
+          {changing ? <Loader size="sm" color="current" /> : "Save"}
         </Button>
 
         <FormError errors={errors} />
