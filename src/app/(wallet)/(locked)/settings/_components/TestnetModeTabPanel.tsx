@@ -22,9 +22,9 @@ const TestnetModeTabPanel = () => {
   return (
     <motion.div className="box max-w-lg" {...fadeUpAnimation()}>
       <div className="w-full flex items-center justify-between gap-3 pl-3.5 pr-3 py-3 border-b-1.5">
-        <h3 className="xs:text-lg text-md font-medium text-primary">
+        <h2 className="xs:text-lg text-md font-medium text-primary">
           Testnet Mode
-        </h3>
+        </h2>
         <Switch
           state={isTestnetModeOn}
           onClick={handleSwitchNetworkMode}
@@ -49,7 +49,11 @@ const TestnetModeTabPanel = () => {
         </p>
         <p className="mt-0.5">
           Need test tokens?{" "}
-          <Link href="/faucet" className="link">
+          <Link
+            href="/faucet"
+            className="link"
+            aria-label="Navigate to faucet page to get test tokens"
+          >
             Get them from available faucets
           </Link>
           .
