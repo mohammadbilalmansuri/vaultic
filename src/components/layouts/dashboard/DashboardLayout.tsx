@@ -7,7 +7,7 @@ const DashboardLayout = ({ children }: Children) => {
     <div className="w-full h-dvh max-h-dvh relative flex-1 flex lg:flex-row flex-col overflow-hidden">
       <Sidebar />
       <main
-        className="w-full relative flex flex-col items-center"
+        className="w-full relative flex-1 flex flex-col items-center"
         role="main"
         aria-label="Dashboard Main Content"
       >
