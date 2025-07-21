@@ -56,9 +56,9 @@ const RemoveWalletTabPanel = () => {
 
   return (
     <motion.div className="box max-w-lg" {...fadeUpAnimation()}>
-      <h3 className="w-full xs:text-lg text-md font-medium text-primary border-b-1.5 p-3">
+      <h2 className="w-full xs:text-lg text-md font-medium text-primary border-b-1.5 p-3">
         Remove Wallet
-      </h3>
+      </h2>
 
       <div className="w-full flex flex-col items-center xs:gap-6 gap-5 xs:p-6 p-5">
         <div className="highlight-yellow border w-full p-4 rounded-2xl text-center flex flex-col items-center sm:gap-2.5 gap-2">
@@ -77,6 +77,7 @@ const RemoveWalletTabPanel = () => {
             href="/help-and-support"
             target="_blank"
             className="leading-none border-b border-current transition-all duration-200 hover:opacity-75 mt-1"
+            aria-label="Learn about wallet recovery process in Help & Support Page (opens in new tab)"
           >
             Learn about recovery
           </Link>

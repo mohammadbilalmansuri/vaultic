@@ -53,9 +53,9 @@ const ChangePasswordTabPanel = () => {
 
   return (
     <motion.div className="box max-w-lg" {...fadeUpAnimation()}>
-      <h3 className="w-full xs:text-lg text-md font-medium text-primary border-b-1.5 p-3">
+      <h2 className="w-full xs:text-lg text-md font-medium text-primary border-b-1.5 p-3">
         Change Password
-      </h3>
+      </h2>
 
       <form
         onSubmit={handleSubmit(handlePasswordChange)}
