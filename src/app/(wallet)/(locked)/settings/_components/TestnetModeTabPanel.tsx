@@ -8,7 +8,7 @@ import cn from "@/utils/cn";
 import { useBlockchain } from "@/hooks";
 import { Switch } from "@/components/ui";
 
-const TestnetModeTab = () => {
+const TestnetModeTabPanel = () => {
   const networkMode = useWalletStore((state) => state.networkMode);
   const isTestnetModeOn = networkMode === "testnet";
 
@@ -16,13 +16,15 @@ const TestnetModeTab = () => {
   const [switching, startSwitching] = useTransition();
 
   const handleSwitchNetworkMode = () => {
-    startSwitching(async () => await switchNetworkMode());
+    startSwitching(switchNetworkMode);
   };
 
   return (
-    <motion.div className="box max-w-lg gap-0" {...fadeUpAnimation()}>
-      <div className="w-full flex items-center justify-between gap-4 pl-4 pr-3 py-3 border-b-1.5">
-        <h3 className="text-lg font-medium text-primary">Testnet Mode</h3>
+    <motion.div className="box max-w-lg" {...fadeUpAnimation()}>
+      <div className="w-full flex items-center justify-between gap-3 pl-3.5 pr-3 py-3 border-b-1.5">
+        <h3 className="xs:text-lg text-md font-medium text-primary">
+          Testnet Mode
+        </h3>
         <Switch
           state={isTestnetModeOn}
           onClick={handleSwitchNetworkMode}
@@ -31,7 +33,7 @@ const TestnetModeTab = () => {
         />
       </div>
 
-      <div className="flex flex-col gap-3 p-6 pt-5.5">
+      <div className="w-full flex flex-col items-center gap-3 xs:p-6 p-5">
         <p>
           Testnet Mode provides a safe sandbox environment to explore Vaultic
           without any risk to your real crypto assets. When enabled, your wallet
@@ -57,4 +59,4 @@ const TestnetModeTab = () => {
   );
 };
 
-export default TestnetModeTab;
+export default TestnetModeTabPanel;
