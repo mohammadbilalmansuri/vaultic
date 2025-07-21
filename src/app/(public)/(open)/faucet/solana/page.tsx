@@ -132,7 +132,7 @@ const SolanaFaucetPage = () => {
           })}
           disabled={!isValid || airdropping}
         >
-          {airdropping ? <Loader size="sm" color="black" /> : "Send Airdrop"}
+          {airdropping ? <Loader size="sm" color="current" /> : "Send Airdrop"}
         </Button>
 
         <FormError errors={errors} className="mt-2" />
