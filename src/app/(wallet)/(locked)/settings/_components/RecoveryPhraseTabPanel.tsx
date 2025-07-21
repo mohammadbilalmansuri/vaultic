@@ -5,7 +5,7 @@ import { useWalletStore } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import { MnemonicView } from "@/components/shared";
 
-const RecoveryPhraseTab = ({
+const RecoveryPhraseTabPanel = ({
   showInitialAnimation,
   initialAnimationDelay,
 }: TabPanelProps) => {
@@ -16,17 +16,17 @@ const RecoveryPhraseTab = ({
   });
 
   return (
-    <motion.div className="box max-w-lg gap-0" {...animationProps}>
-      <h3 className="w-full text-lg font-medium text-primary border-b-1.5 p-3">
+    <motion.div className="box max-w-lg" {...animationProps}>
+      <h3 className="w-full xs:text-lg text-md font-medium text-primary border-b-1.5 p-3">
         Your Recovery Phrase
       </h3>
 
-      <div className="w-full flex flex-col gap-6 p-6">
-        <div className="highlight-yellow w-full p-5 rounded-2xl text-center flex flex-col items-center gap-2.5">
+      <div className="w-full flex flex-col items-center xs:gap-6 gap-5 xs:p-6 p-5">
+        <div className="highlight-yellow border w-full p-4 rounded-2xl text-center flex flex-col items-center sm:gap-2.5 gap-2">
           <p className="font-semibold">
             <u>Never</u> share your Recovery Phrase.
           </p>
-          <p>
+          <p className="sm:text-base text-15">
             It gives full access to your wallet. If someone gets it, they
             can&nbsp;
             <span className="font-semibold">steal your assets permanently</span>
@@ -42,4 +42,4 @@ const RecoveryPhraseTab = ({
   );
 };
 
-export default RecoveryPhraseTab;
+export default RecoveryPhraseTabPanel;
