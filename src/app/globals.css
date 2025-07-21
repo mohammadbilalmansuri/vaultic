@@ -96,6 +96,23 @@
   will-change: scroll-position;
 }
 
+/* Shimmer Animation */
+
+@utility animate-shimmer {
+  @apply relative inline-block overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:size-full before:bg-gradient-to-r before:from-transparent before:via-black/10 dark:before:via-white/10 before:to-transparent before:transform-[translateX(-100%)] before:animate-[shimmer_1s_infinite_linear];
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Base Styles */
+
 @layer base {
   .dark {
     color-scheme: dark;
@@ -157,6 +174,8 @@
     @apply w-5.5;
   }
 }
+
+/* Components */
 
 @layer components {
   .h1 {
