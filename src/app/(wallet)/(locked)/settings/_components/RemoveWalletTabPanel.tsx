@@ -13,10 +13,10 @@ import { VerifyPasswordSchema, VerifyPasswordForm } from "@/utils/validations";
 import { useStorage } from "@/hooks";
 import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 
-const RemoveWalletTab = () => {
+const RemoveWalletTabPanel = () => {
+  const notify = useNotificationStore((state) => state.notify);
   const router = useRouter();
   const { removeWallet } = useStorage();
-  const notify = useNotificationStore((state) => state.notify);
   const [removing, startRemoving] = useTransition();
 
   const {
@@ -55,13 +55,13 @@ const RemoveWalletTab = () => {
   };
 
   return (
-    <motion.div className="box max-w-lg gap-0" {...fadeUpAnimation()}>
-      <h3 className="w-full text-lg font-medium text-primary border-b-1.5 p-3">
+    <motion.div className="box max-w-lg" {...fadeUpAnimation()}>
+      <h3 className="w-full xs:text-lg text-md font-medium text-primary border-b-1.5 p-3">
         Remove Wallet
       </h3>
 
-      <div className="w-full flex flex-col gap-6 p-6">
-        <div className="highlight-yellow w-full p-5 rounded-2xl text-center flex flex-col items-center justify-center gap-2.5">
+      <div className="w-full flex flex-col items-center xs:gap-6 gap-5 xs:p-6 p-5">
+        <div className="highlight-yellow border w-full p-4 rounded-2xl text-center flex flex-col items-center sm:gap-2.5 gap-2">
           <p>
             Removing your wallet will erase local access and settings from this
             device.
@@ -76,7 +76,7 @@ const RemoveWalletTab = () => {
           <Link
             href="/help-and-support"
             target="_blank"
-            className="leading-tight border-b border-current transition-all duration-200 hover:opacity-75 mt-0.5"
+            className="leading-none border-b border-current transition-all duration-200 hover:opacity-75 mt-1"
           >
             Learn about recovery
           </Link>
@@ -84,7 +84,7 @@ const RemoveWalletTab = () => {
 
         <form
           onSubmit={handleSubmit(handleRemove)}
-          className="w-full flex flex-col items-center gap-4"
+          className="w-full flex flex-col items-center xs:gap-4 gap-3"
         >
           <PasswordInput
             placeholder="Password"
@@ -113,4 +113,4 @@ const RemoveWalletTab = () => {
   );
 };
 
-export default RemoveWalletTab;
+export default RemoveWalletTabPanel;
