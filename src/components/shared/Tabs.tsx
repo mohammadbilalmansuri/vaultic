@@ -82,7 +82,7 @@ const Tabs = ({
   return (
     <div
       className={cn(
-        "w-full relative flex flex-col gap-7 items-center",
+        "w-full relative flex flex-col sm:gap-7 gap-6 items-center",
         containerClassName
       )}
     >
