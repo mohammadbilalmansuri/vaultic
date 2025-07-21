@@ -84,11 +84,11 @@ const DashboardPage = () => {
         {...fadeUpAnimation()}
       >
         <div className="flex items-center gap-4">
-          <div className="size-12 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-500 flex items-center justify-center shrink-0 font-semibold uppercase text-xl">
-            {`A${activeAccountIndex + 1}`}
-          </div>
-          <div className="flex flex-col">
-            <h1 className="text-xl font-semibold heading-color">
+          <span className="highlight-teal size-12 rounded-xl border flex items-center justify-center shrink-0 font-semibold uppercase text-xl">
+            A{activeAccountIndex + 1}
+          </span>
+          <div>
+            <h1 className="text-xl font-semibold text-primary">
               Account {activeAccountIndex + 1}
             </h1>
             <p className="text-sm sm:text-base">
@@ -130,12 +130,6 @@ const DashboardPage = () => {
               networkMode === "testnet" ? ` ${networkConfig.testnetName}` : ""
             }`;
 
-            const balanceElement = (
-              <p className="text-md font-semibold leading-none cursor-default">
-                {parsedBalance.display} {networkConfig.token}
-              </p>
-            );
-
             return (
               <div
                 key={`${network}-card`}
@@ -145,7 +139,7 @@ const DashboardPage = () => {
                   <NetworkLogo network={network} size="md" />
 
                   <div className="flex flex-col items-start gap-1">
-                    <h4 className="font-medium heading-color">
+                    <h4 className="font-medium text-primary">
                       {networkDisplayName}
                     </h4>
 
@@ -154,7 +148,7 @@ const DashboardPage = () => {
                       position="bottom"
                     >
                       <div
-                        className="flex items-center gap-1.5 cursor-pointer hover:heading-color transition-all duration-200"
+                        className="flex items-center gap-1.5 cursor-pointer hover:text-primary transition-all duration-200"
                         onClick={() => handleCopy(address)}
                       >
                         <p className="leading-none">
@@ -178,7 +172,13 @@ const DashboardPage = () => {
                   }
                   position="left"
                 >
-                  {balanceElement}
+                  <p className="text-md font-semibold leading-none cursor-default">
+                    {refreshing ? (
+                      <span className="h-5 w-15 rounded bg-secondary animate-shimmer" />
+                    ) : (
+                      `${parsedBalance.display} ${networkConfig.token}`
+                    )}
+                  </p>
                 </Tooltip>
               </div>
             );
