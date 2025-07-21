@@ -20,8 +20,9 @@ const TestnetStatus = ({
       className={cn(
         "highlight-yellow select-none cursor-default text-center p-2",
         {
-          "uppercase text-sm font-medium leading-none border rounded-lg pb-1.75":
+          "uppercase text-sm font-medium leading-none rounded-lg pb-1.75 border":
             variant === "indicator",
+          "border-y": variant === "notice",
         },
         className
       )}

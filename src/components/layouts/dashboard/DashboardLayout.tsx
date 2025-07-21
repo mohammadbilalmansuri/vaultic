@@ -1,6 +1,6 @@
 import type { Children } from "@/types";
-import { TestnetStatus } from "@/components/shared";
 import Sidebar from "./Sidebar";
+import TestnetStatus from "./TestnetStatus";
 
 const DashboardLayout = ({ children }: Children) => {
   return (
