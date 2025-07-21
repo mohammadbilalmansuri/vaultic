@@ -86,7 +86,7 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="w-full max-w-screen-lg relative flex flex-col gap-6 flex-1">
+    <div className="w-full max-w-screen-lg relative flex flex-col sm:gap-6 gap-5">
       <motion.div
         className="w-full relative flex items-center justify-between gap-4"
         {...fadeUpAnimation()}
