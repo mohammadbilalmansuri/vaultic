@@ -98,7 +98,7 @@ const Sidebar = () => {
     <div className="flex lg:flex-row flex-col">
       {/* Mobile Header */}
       {!isLargeScreen && (
-        <header className="w-full relative z-30 lg:hidden flex items-center justify-between gap-4 md:px-5 px-4 md:py-4 py-3 bg-default">
+        <header className="w-full relative z-30 lg:hidden flex items-center justify-between gap-4 md:p-4 p-3 bg-default">
           <Tooltip content="Open Sidebar" position="right">
             <button
               type="button"
@@ -108,7 +108,7 @@ const Sidebar = () => {
               aria-label="Open Sidebar"
               aria-expanded={!isHidden}
             >
-              <AlignLeft className="w-7" />
+              <AlignLeft className="w-6.5" />
             </button>
           </Tooltip>
 
