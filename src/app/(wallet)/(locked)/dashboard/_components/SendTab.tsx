@@ -212,7 +212,7 @@ const SendTab = ({
             onSubmit={handleSubmit(() => setStep(2))}
             className="box max-w-lg sm:p-6 p-5 sm:gap-6 gap-5"
           >
-            <NetworkLogo network={network} size="xl" />
+            <NetworkLogo network={network} size="lg" />
             <h2>Send {networkConfig.token}</h2>
 
             <div className="w-full relative flex items-center gap-2">
