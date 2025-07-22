@@ -155,7 +155,7 @@ const DashboardPage = () => {
                   <NetworkLogo network={network} size="md" />
                 </span>
 
-                <div className="flex flex-col items-start gap-1">
+                <div className="flex flex-col items-start sm:gap-1">
                   <h4 className="font-medium text-primary">
                     {networkDisplayName}
                   </h4>
