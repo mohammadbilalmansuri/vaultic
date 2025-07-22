@@ -78,7 +78,7 @@ const FAQSection = () => {
         Frequently Asked. Clearly Answered.
       </motion.h2>
 
-      <div className="w-full flex flex-col sm:gap-5 gap-4">
+      <div className="w-full flex flex-col md:gap-5 gap-4">
         {FAQs.map((faq, index) => (
           <motion.div
             key={`faq-${index}`}

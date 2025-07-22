@@ -62,7 +62,7 @@ const TestnetSection = () => {
         Test Freely. Learn Safely.
       </motion.h2>
 
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 sm:gap-5 gap-4">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 md:gap-5 gap-4">
         {CONTENTS.map(({ title, paragraphs, button }, index) => (
           <motion.div
             key={`content-${index}`}
