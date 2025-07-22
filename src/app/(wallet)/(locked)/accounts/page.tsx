@@ -175,20 +175,20 @@ const AccountsPage = () => {
               {...fadeUpAnimation({ delay: index * 0.05 + 0.05 })}
             >
               <div
-                className="w-full relative flex items-center justify-between gap-4 p-4 pl-5 cursor-pointer"
+                className="w-full relative flex items-center justify-between gap-4 p-4 cursor-pointer"
                 onClick={(e) => handleAccountCardToggle(e, accountIndex)}
               >
                 <div className="flex items-center gap-2 pl-1">
-                  <h3 className="text-xl font-medium text-primary pr-2">
+                  <h2 className="sm:text-xl text-lg font-medium text-primary sm:pr-2">
                     Account {accountIndex + 1}
-                  </h3>
+                  </h2>
 
-                  <span className="text-sm font-medium uppercase tracking-wide p-2 h-7.5 flex items-center justify-center rounded-lg bg-primary border">
+                  <span className="highlight-zinc border text-sm font-medium uppercase leading-none p-2 pb-1.75 rounded-lg">
                     Index {accountIndex}
                   </span>
 
                   {isActive && (
-                    <span className="text-sm font-medium uppercase tracking-wide p-2 h-7.5 flex items-center justify-center rounded-lg bg-teal-500/10 text-teal-500 border border-teal-500/30 dark:border-teal-500/10">
+                    <span className="highlight-teal border text-sm font-medium uppercase leading-none p-2 pb-1.75 rounded-lg">
                       Active
                     </span>
                   )}
@@ -196,59 +196,40 @@ const AccountsPage = () => {
 
                 <div className="flex items-center gap-2">
                   {isOpen && hasMultipleAccounts && (
-                    <AnimatePresence>
+                    <>
                       {(isSwitching || !isActive) && (
-                        <motion.div
-                          key={`switch-btn-${accountIndex}`}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.3 }}
+                        <Tooltip
+                          content={
+                            isSwitching ? "Switching..." : "Set Active Account"
+                          }
                         >
-                          <Tooltip
-                            content={
-                              isSwitching
-                                ? "Switching..."
-                                : "Set Active Account"
-                            }
-                          >
-                            <button
-                              className={cn("icon-btn-bg hover:text-teal-500", {
-                                "bg-secondary pointer-events-none": isSwitching,
-                              })}
-                              onClick={() => switchActiveAccount(accountIndex)} //
-                              disabled={isSwitching}
-                              aria-label="Switch Account"
-                              data-clickable
-                            >
-                              {isSwitching ? <Loader size="sm" /> : <Check />}
-                            </button>
-                          </Tooltip>
-                        </motion.div>
-                      )}
-
-                      <motion.div
-                        key={`remove-btn-${accountIndex}`}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <Tooltip content="Remove Account">
                           <button
-                            className={cn("icon-btn-bg hover:text-rose-500", {
-                              "bg-secondary pointer-events-none": isDeleting,
+                            className={cn("icon-btn-bg hover:text-teal-500", {
+                              "bg-secondary pointer-events-none": isSwitching,
                             })}
-                            onClick={() => handleRemoveAccount(accountIndex)} //
-                            disabled={isDeleting}
-                            aria-label="Remove Account"
+                            onClick={() => switchActiveAccount(accountIndex)} //
+                            disabled={isSwitching}
+                            aria-label="Switch Account"
                             data-clickable
                           >
-                            {isDeleting ? <Loader size="sm" /> : <Trash />}
+                            {isSwitching ? <Loader size="sm" /> : <Check />}
                           </button>
                         </Tooltip>
-                      </motion.div>
-                    </AnimatePresence>
+                      )}
+                      <Tooltip content="Remove Account">
+                        <button
+                          className={cn("icon-btn-bg hover:text-rose-500", {
+                            "bg-secondary pointer-events-none": isDeleting,
+                          })}
+                          onClick={() => handleRemoveAccount(accountIndex)} //
+                          disabled={isDeleting}
+                          aria-label="Remove Account"
+                          data-clickable
+                        >
+                          {isDeleting ? <Loader size="sm" /> : <Trash />}
+                        </button>
+                      </Tooltip>
+                    </>
                   )}
                   <div
                     className="icon-btn-bg"
@@ -268,11 +249,12 @@ const AccountsPage = () => {
               <AnimatePresence initial={false}>
                 {isOpen && (
                   <motion.div
+                    key={`account-details-${accountIndex}`}
                     id={`account-details-${accountIndex}`}
                     className="w-full relative overflow-hidden"
                     {...expandCollapseAnimation()}
                   >
-                    <div className="w-full p-5 pt-0 grid md:grid-cols-2 grid-cols-1 gap-4">
+                    <div className="w-full sm:px-5 px-4 sm:pb-5 pb-4 grid md:grid-cols-2 grid-cols-1 gap-4">
                       {networkEntries.map(
                         ([networkKey, { address, privateKey, balance }]) => {
                           const network = networkKey as Network;
@@ -342,6 +324,7 @@ const AccountsPage = () => {
                                               ? `Hide Full ${label}`
                                               : `Show Full ${label}`
                                           }
+                                          position="left"
                                         >
                                           <EyeToggle
                                             isVisible={isVisible}
@@ -354,6 +337,7 @@ const AccountsPage = () => {
                                           content={
                                             copied ? "Copied!" : `Copy ${label}`
                                           }
+                                          position="left"
                                         >
                                           <CopyToggle
                                             hasCopied={copied}
@@ -362,7 +346,11 @@ const AccountsPage = () => {
                                         </Tooltip>
                                       </div>
                                     </div>
-                                    <p className="break-all max-w-[85%]">
+                                    <p
+                                      className={cn(
+                                        isVisible ? "break-all" : "truncate"
+                                      )}
+                                    >
                                       {isVisible ? value : shortValue}
                                     </p>
                                   </div>
