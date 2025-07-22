@@ -56,11 +56,11 @@ const RemoveWalletTabPanel = () => {
 
   return (
     <motion.div className="box max-w-lg" {...fadeUpAnimation()}>
-      <h2 className="w-full xs:text-lg text-md font-medium text-primary border-b-1.5 p-3">
+      <h2 className="w-full sm:text-lg text-md font-medium text-primary border-b-1.5 p-3">
         Remove Wallet
       </h2>
 
-      <div className="w-full flex flex-col items-center xs:gap-6 gap-5 xs:p-6 p-5">
+      <div className="w-full flex flex-col items-center sm:gap-6 gap-5 sm:p-6 p-5">
         <div className="highlight-yellow border w-full p-4 rounded-2xl text-center flex flex-col items-center sm:gap-2.5 gap-2">
           <p>
             Removing your wallet will erase local access and settings from this
@@ -85,7 +85,7 @@ const RemoveWalletTabPanel = () => {
 
         <form
           onSubmit={handleSubmit(handleRemove)}
-          className="w-full flex flex-col items-center xs:gap-4 gap-3"
+          className="w-full flex flex-col items-center sm:gap-4 gap-3"
         >
           <PasswordInput
             placeholder="Password"

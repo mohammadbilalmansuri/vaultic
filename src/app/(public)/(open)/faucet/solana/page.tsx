@@ -73,7 +73,7 @@ const SolanaFaucetPage = () => {
       className="box max-w-lg sm:gap-6 gap-5 sm:p-6 p-5"
       {...scaleUpAnimation()}
     >
-      <NetworkLogo network="solana" size="xl" className="mt-2" />
+      <NetworkLogo network="solana" size="lg" className="mt-2" />
       <h1>Solana Devnet Faucet</h1>
       <p className="-mt-2.5">
         Request free SOL on the Solana Devnet to build, test, and explore. Each
@@ -95,7 +95,7 @@ const SolanaFaucetPage = () => {
         className="w-full flex flex-col sm:gap-4 gap-3"
         aria-label="Solana Airdrop Form"
       >
-        <div className="flex items-center xs:gap-2 gap-1.5">
+        <div className="flex items-center sm:gap-2 gap-1.5">
           {accountsOptions.length > 0 ? (
             <Combobox
               name="address"

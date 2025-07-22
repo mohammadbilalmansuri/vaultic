@@ -53,13 +53,13 @@ const ChangePasswordTabPanel = () => {
 
   return (
     <motion.div className="box max-w-lg" {...fadeUpAnimation()}>
-      <h2 className="w-full xs:text-lg text-md font-medium text-primary border-b-1.5 p-3">
+      <h2 className="w-full sm:text-lg text-md font-medium text-primary border-b-1.5 p-3">
         Change Password
       </h2>
 
       <form
         onSubmit={handleSubmit(handlePasswordChange)}
-        className="w-full flex flex-col xs:gap-4 gap-3 xs:p-6 p-5"
+        className="w-full flex flex-col sm:gap-4 gap-3 sm:p-6 p-5"
       >
         <PasswordInput
           placeholder="Current password"
