@@ -220,7 +220,7 @@
   }
 
   .hero {
-    @apply w-full flex flex-col text-center sm:gap-6 gap-5 items-center bg-primary md:py-16 sm:py-13 py-10 md:px-12 sm:px-9 px-6 rounded-4xl relative overflow-hidden before:content-[''] before:pointer-events-none before:absolute before:top-0 before:right-0 md:before:size-32 sm:before:size-28 before:size-24 before:bg-teal-500/10 before:rounded-bl-full after:content-[''] after:pointer-events-none after:absolute after:bottom-0 after:left-0 md:after:size-48 sm:after:size-42 after:size-36 after:bg-teal-500/5 after:rounded-tr-full;
+    @apply w-full flex flex-col text-center md:gap-6 gap-5 items-center bg-primary md:py-16 sm:py-13 py-10 md:px-12 sm:px-9 px-6 rounded-4xl relative overflow-hidden before:content-[''] before:pointer-events-none before:absolute before:top-0 before:right-0 md:before:size-32 sm:before:size-28 before:size-24 before:bg-teal-500/10 before:rounded-bl-full after:content-[''] after:pointer-events-none after:absolute after:bottom-0 after:left-0 md:after:size-48 sm:after:size-42 after:size-36 after:bg-teal-500/5 after:rounded-tr-full;
   }
 
   .link {
