@@ -108,7 +108,7 @@ const Sidebar = () => {
               aria-label="Open Sidebar"
               aria-expanded={!isHidden}
             >
-              <AlignLeft className="w-6.5" />
+              <AlignLeft className="w-7" />
             </button>
           </Tooltip>
 
