@@ -22,7 +22,7 @@ const SettingsPage = () => {
   const { lockWallet } = useWallet();
 
   return (
-    <div className="w-full max-w-screen-lg relative flex flex-col sm:gap-6 gap-5">
+    <div className="w-full max-w-screen-lg relative flex flex-col md:gap-6 gap-5">
       <motion.div
         className="w-full relative flex items-center justify-between gap-3"
         {...fadeUpAnimation()}

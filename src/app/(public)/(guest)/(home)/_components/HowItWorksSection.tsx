@@ -38,7 +38,7 @@ const HowItWorksSection = () => {
         Set Up. Encrypt. Transact.
       </motion.h2>
 
-      <div className="w-full relative grid grid-cols-1 md:grid-cols-3 sm:gap-5 gap-4">
+      <div className="w-full relative grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-4">
         {STEPS.map(({ title, description }, index) => (
           <motion.div
             key={`step-${index}`}
