@@ -22,7 +22,7 @@ const TestnetModeTabPanel = () => {
   return (
     <motion.div className="box max-w-lg" {...fadeUpAnimation()}>
       <div className="w-full flex items-center justify-between gap-3 pl-3.5 pr-3 py-3 border-b-1.5">
-        <h2 className="xs:text-lg text-md font-medium text-primary">
+        <h2 className="sm:text-lg text-md font-medium text-primary">
           Testnet Mode
         </h2>
         <Switch
@@ -33,7 +33,7 @@ const TestnetModeTabPanel = () => {
         />
       </div>
 
-      <div className="w-full flex flex-col items-center gap-3 xs:p-6 p-5">
+      <div className="w-full flex flex-col items-center gap-3 sm:p-6 p-5">
         <p>
           Testnet Mode provides a safe sandbox environment to explore Vaultic
           without any risk to your real crypto assets. When enabled, your wallet
