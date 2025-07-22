@@ -54,7 +54,7 @@ const Header = () => {
           ))}
         </nav>
 
-        <div className="flex items-center xs:gap-3 gap-2 -mr-0.5">
+        <div className="flex items-center xs:gap-3 gap-2 -mr-1">
           <Link
             href="https://github.com/mohammadbilalmansuri/vaultic"
             target="_blank"
