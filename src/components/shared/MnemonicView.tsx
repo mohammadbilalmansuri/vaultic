@@ -15,7 +15,8 @@ const MnemonicView = ({
   mnemonic,
   containerClassName = "w-full",
 }: MnemonicViewProps) => {
-  const { copiedId, copyToClipboard } = useClipboardStore();
+  const copyToClipboard = useClipboardStore((state) => state.copyToClipboard);
+  const copiedId = useClipboardStore((state) => state.copiedId);
   const [visible, setVisible] = useState(false);
 
   return (
