@@ -14,7 +14,7 @@ import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import { useAccounts, useClipboard } from "@/hooks";
-import { Cards, Plus, Trash, AngleDown, Check } from "@/components/icons";
+import { Wallet, Plus, Trash, AngleDown, Check } from "@/components/icons";
 import {
   Loader,
   NetworkLogo,
@@ -94,8 +94,11 @@ const AccountsPage = () => {
     }
   };
 
-  const handleAccountCardToggle = (e: MouseEvent, index: number) => {
-    if (e.target instanceof Element && !e.target.closest("[data-clickable]")) {
+  const handleAccountCardToggle = (event: MouseEvent, index: number) => {
+    if (
+      event.target instanceof Element &&
+      !event.target.closest("[data-clickable]")
+    ) {
       setOpenedAccounts((prev) => {
         const newSet = new Set(prev);
         newSet.has(index) ? newSet.delete(index) : newSet.add(index);
@@ -119,7 +122,7 @@ const AccountsPage = () => {
   };
 
   return (
-    <div className="w-full max-w-screen-lg relative flex flex-col sm:gap-6 gap-5">
+    <div className="w-full max-w-screen-lg relative flex flex-col md:gap-6 gap-5">
       <motion.div
         className="w-full relative flex items-center justify-between gap-3"
         {...fadeUpAnimation()}
@@ -129,7 +132,7 @@ const AccountsPage = () => {
             className="highlight-teal sm:size-12 size-11 rounded-xl border hidden xs:flex items-center justify-center shrink-0"
             aria-hidden="true"
           >
-            <Cards className="w-6" />
+            <Wallet className="w-6" />
           </span>
           <div>
             <h1 className="sm:text-xl text-lg font-semibold text-primary">
@@ -159,36 +162,32 @@ const AccountsPage = () => {
         </Tooltip>
       </motion.div>
 
-      <div className="w-full relative flex flex-col gap-6">
+      <div className="w-full relative flex flex-col md:gap-6 gap-5">
         {accountEntries.map(([key, account], index) => {
           const accountIndex = parseInt(key);
+          const networkEntries = Object.entries(account);
           const isActive = accountIndex === activeAccountIndex;
           const isOpen = openedAccounts.has(accountIndex);
-          const isDeleting = removingIndex === accountIndex;
+          const isRemoving = removingIndex === accountIndex;
           const isSwitching = switchingToAccount === accountIndex;
-          const networkEntries = Object.entries(account);
 
           return (
             <motion.div
               key={`account-${accountIndex}`}
-              className="w-full relative rounded-4xl border-1.5"
+              className="w-full relative rounded-3xl border-1.5"
               {...fadeUpAnimation({ delay: index * 0.05 + 0.05 })}
             >
               <div
-                className="w-full relative flex items-center justify-between gap-4 p-4 cursor-pointer"
+                className="w-full relative flex items-center justify-between gap-3 md:py-4 py-3 md:pl-5 pl-4 pr-2 cursor-pointer"
                 onClick={(e) => handleAccountCardToggle(e, accountIndex)}
               >
-                <div className="flex items-center gap-2 pl-1">
-                  <h2 className="sm:text-xl text-lg font-medium text-primary sm:pr-2">
+                <div className="flex items-center gap-3">
+                  <h2 className="sm:text-xl text-lg font-medium text-primary leading-[0.8]">
                     Account {accountIndex + 1}
                   </h2>
 
-                  <span className="highlight-zinc border text-sm font-medium uppercase leading-none p-2 pb-1.75 rounded-lg">
-                    Index {accountIndex}
-                  </span>
-
                   {isActive && (
-                    <span className="highlight-teal border text-sm font-medium uppercase leading-none p-2 pb-1.75 rounded-lg">
+                    <span className="highlight-teal border sm:text-sm text-xs font-medium uppercase leading-none p-2 pb-1.75 rounded-lg whitespace-nowrap">
                       Active
                     </span>
                   )}
@@ -207,7 +206,7 @@ const AccountsPage = () => {
                             className={cn("icon-btn-bg hover:text-teal-500", {
                               "bg-secondary pointer-events-none": isSwitching,
                             })}
-                            onClick={() => switchActiveAccount(accountIndex)} //
+                            onClick={() => switchActiveAccount(accountIndex)}
                             disabled={isSwitching}
                             aria-label="Switch Account"
                             data-clickable
@@ -219,23 +218,22 @@ const AccountsPage = () => {
                       <Tooltip content="Remove Account">
                         <button
                           className={cn("icon-btn-bg hover:text-rose-500", {
-                            "bg-secondary pointer-events-none": isDeleting,
+                            "bg-secondary pointer-events-none": isRemoving,
                           })}
-                          onClick={() => handleRemoveAccount(accountIndex)} //
-                          disabled={isDeleting}
+                          onClick={() => handleRemoveAccount(accountIndex)}
+                          disabled={isRemoving}
                           aria-label="Remove Account"
                           data-clickable
                         >
-                          {isDeleting ? <Loader size="sm" /> : <Trash />}
+                          {isRemoving ? <Loader size="sm" /> : <Trash />}
                         </button>
                       </Tooltip>
                     </>
                   )}
                   <div
                     className="icon-btn-bg"
-                    aria-label="Toggle Details"
+                    aria-label="Toggle Account Details"
                     aria-expanded={isOpen}
-                    aria-controls={`account-details-${accountIndex}`}
                   >
                     <AngleDown
                       className={cn("transition-all duration-200", {
@@ -250,11 +248,10 @@ const AccountsPage = () => {
                 {isOpen && (
                   <motion.div
                     key={`account-details-${accountIndex}`}
-                    id={`account-details-${accountIndex}`}
                     className="w-full relative overflow-hidden"
                     {...expandCollapseAnimation()}
                   >
-                    <div className="w-full sm:px-5 px-4 sm:pb-5 pb-4 grid md:grid-cols-2 grid-cols-1 gap-4">
+                    <div className="w-full grid md:grid-cols-2 grid-cols-1 md:gap-5 gap-4 md:px-5 px-4 md:pb-5 pb-4">
                       {networkEntries.map(
                         ([networkKey, { address, privateKey, balance }]) => {
                           const network = networkKey as Network;
@@ -269,14 +266,14 @@ const AccountsPage = () => {
                           return (
                             <div
                               key={`account-${accountIndex}-${network}`}
-                              className="col-span-1 flex flex-col gap-3 rounded-3xl bg-primary p-5"
+                              className="col-span-1 flex flex-col gap-3 rounded-2xl bg-primary sm:p-5 xxs:p-4 p-3.5"
                             >
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2.5">
                                   <NetworkLogo network={network} size="sm" />
-                                  <h4 className="text-lg font-medium text-primary">
+                                  <h3 className="sm:text-lg text-md font-medium text-primary">
                                     {networkDisplayName}
-                                  </h4>
+                                  </h3>
                                 </div>
                                 <Tooltip
                                   content={
@@ -313,10 +310,10 @@ const AccountsPage = () => {
                                     key={label}
                                     className="flex flex-col gap-1"
                                   >
-                                    <div className="flex justify-between items-center gap-8">
-                                      <h5 className="text-md font-medium text-primary">
+                                    <div className="w-full flex justify-between items-center gap-3">
+                                      <h4 className="sm:text-md font-medium text-primary leading-none">
                                         {label}
-                                      </h5>
+                                      </h4>
                                       <div className="flex items-center gap-4">
                                         <Tooltip
                                           content={
