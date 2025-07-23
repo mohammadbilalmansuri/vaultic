@@ -3,32 +3,34 @@ import { useNotificationStore } from "@/stores";
 
 interface ClipboardStore {
   copiedId: string | null;
-  copyToClipboard: (text: string, id: string) => Promise<void>;
+  copyToClipboard: (text: string, id?: string) => Promise<void>;
 }
 
 /**
  * Global clipboard store for managing copy operations across the application.
  *
  * Features:
- * - Only one item can be "copied" at a time globally
+ * - Global state management - only one item copied at a time
  * - Auto-resets copied state after 2 seconds
  * - Prevents race conditions between multiple copy buttons
- * - Provides error notifications on failure
+ * - Flexible ID system - use custom ID or fallback to text
+ * - Error handling with user notifications
  */
 const useClipboardStore = create<ClipboardStore>((set, get) => {
-  let timeoutId: NodeJS.Timeout | null = null;
+  let timeoutRef: NodeJS.Timeout | null = null;
 
   return {
     copiedId: null,
 
-    copyToClipboard: async (text: string, id: string) => {
+    copyToClipboard: async (text: string, id?: string) => {
       const { copiedId } = get();
+      const targetId = id || text;
 
-      if (copiedId === id) return;
+      if (copiedId === targetId) return;
 
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-        timeoutId = null;
+      if (timeoutRef) {
+        clearTimeout(timeoutRef);
+        timeoutRef = null;
       }
 
       if (!navigator?.clipboard?.writeText) {
@@ -41,11 +43,11 @@ const useClipboardStore = create<ClipboardStore>((set, get) => {
 
       try {
         await navigator.clipboard.writeText(text);
-        set({ copiedId: id });
+        set({ copiedId: targetId });
 
-        timeoutId = setTimeout(() => {
+        timeoutRef = setTimeout(() => {
           set({ copiedId: null });
-          timeoutId = null;
+          timeoutRef = null;
         }, 2000);
       } catch (error) {
         useNotificationStore.getState().notify({
