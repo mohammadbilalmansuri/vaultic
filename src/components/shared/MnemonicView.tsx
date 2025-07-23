@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import cn from "@/utils/cn";
-import { useClipboard } from "@/hooks";
+import { useClipboardStore } from "@/stores";
 import { CopyToggle, EyeToggle } from "../ui";
 
 interface MnemonicViewProps {
@@ -9,13 +9,14 @@ interface MnemonicViewProps {
   containerClassName?: string;
 }
 
+const MNEMONIC_COPY_ID = "mnemonic-phrase";
+
 const MnemonicView = ({
   mnemonic,
   containerClassName = "w-full",
 }: MnemonicViewProps) => {
-  const copyToClipboard = useClipboard();
+  const { copiedId, copyToClipboard } = useClipboardStore();
   const [visible, setVisible] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   return (
     <div
@@ -32,8 +33,8 @@ const MnemonicView = ({
           className="xxs:text-base text-15 shrink-0"
         />
         <CopyToggle
-          hasCopied={copied}
-          onClick={() => copyToClipboard(mnemonic, copied, setCopied)}
+          hasCopied={copiedId === MNEMONIC_COPY_ID}
+          onClick={() => copyToClipboard(mnemonic, MNEMONIC_COPY_ID)}
           labels={{ copy: "Copy Phrase", copied: "Copied!" }}
           className="xxs:text-base text-15 shrink-0"
         />
