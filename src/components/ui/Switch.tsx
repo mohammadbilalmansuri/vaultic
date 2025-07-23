@@ -20,7 +20,7 @@ const Switch = ({
       aria-checked={state}
       className={cn(
         "shrink-0 relative p-1 rounded-full flex items-center bg-secondary",
-        { "h-5 w-9": size === "sm", "h-6 w-12": size === "md" },
+        { "h-5 w-9": size === "sm", "h-6 w-11": size === "md" },
         className
       )}
       {...props}
@@ -30,7 +30,7 @@ const Switch = ({
           "size-3": size === "sm",
           "size-4": size === "md",
           "translate-x-4": size === "sm" && state,
-          "translate-x-6": size === "md" && state,
+          "translate-x-5": size === "md" && state,
           "bg-teal-500": state,
           "translate-x-0 bg-zinc-500 dark:bg-zinc-400": !state,
         })}
