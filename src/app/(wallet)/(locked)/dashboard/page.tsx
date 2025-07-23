@@ -1,18 +1,19 @@
 "use client";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { motion } from "motion/react";
 import { NETWORKS } from "@/config";
 import type { Network, TabsData } from "@/types";
 import {
-  useWalletStore,
   useAccountsStore,
+  useClipboardStore,
   useNotificationStore,
+  useWalletStore,
 } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
-import { useBlockchain, useClipboard } from "@/hooks";
+import { useBlockchain } from "@/hooks";
 import { Send, QR, Clock, Refresh } from "@/components/icons";
 import { Tabs } from "@/components/shared";
 import { Loader, Tooltip, NetworkLogo, CopyToggle } from "@/components/ui";
@@ -36,22 +37,15 @@ const DashboardPage = () => {
     (state) => state.switchingToAccount
   );
   const notify = useNotificationStore((state) => state.notify);
+  const copiedId = useClipboardStore((state) => state.copiedId);
+  const copyToClipboard = useClipboardStore((state) => state.copyToClipboard);
 
   const { fetchActiveAccountBalances } = useBlockchain();
-  const copyToClipboard = useClipboard();
-
   const [refreshing, startRefreshing] = useTransition();
-  const [copiedText, setCopiedText] = useState<string | null>(null);
 
   const accountNumber = activeAccountIndex + 1;
   const accountLabel = `Account ${accountNumber}`;
   const networkAccounts = Object.entries(activeAccount);
-
-  const handleCopy = (text: string) => {
-    copyToClipboard(text, copiedText === text, (copied) =>
-      setCopiedText(copied ? text : null)
-    );
-  };
 
   const handleBalanceRefresh = () => {
     startRefreshing(async () => {
@@ -138,7 +132,7 @@ const DashboardPage = () => {
           const network = networkKey as Network;
           const networkConfig = NETWORKS[network];
           const parsedBalance = parseBalance(balance);
-          const isCopied = copiedText === address;
+          const isCopied = copiedId === address;
 
           const networkDisplayName = `${networkConfig.name}${
             networkMode === "testnet" ? ` ${networkConfig.testnetName}` : ""
@@ -166,7 +160,7 @@ const DashboardPage = () => {
                   >
                     <div
                       className="flex items-center gap-1.5 cursor-pointer hover:text-primary transition-all duration-200 group"
-                      onClick={() => handleCopy(address)}
+                      onClick={() => copyToClipboard(address)}
                       role="button"
                       tabIndex={0}
                       aria-label={`Copy ${network} address`}
