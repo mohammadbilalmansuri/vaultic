@@ -2,7 +2,6 @@ export { default as useAccounts } from "./useAccounts";
 export { default as useAddressQRUpload } from "./useAddressQRUpload";
 export { default as useBlockchain } from "./useBlockchain";
 export { default as useMounted } from "./useMounted";
-export { default as useClipboard } from "./useClipboard";
 export { default as useFileActions } from "./useFileActions";
 export { default as useMatchMedia } from "./useMatchMedia";
 export { default as useMotionInView } from "./useMotionInView";
