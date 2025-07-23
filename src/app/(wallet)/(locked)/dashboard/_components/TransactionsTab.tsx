@@ -7,6 +7,7 @@ import { DEFAULT_NETWORK } from "@/constants";
 import type { Network } from "@/types";
 import {
   useAccountsStore,
+  useClipboardStore,
   useNotificationStore,
   useTransactionsStore,
   useWalletStore,
@@ -16,7 +17,7 @@ import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
 import parseTimestamp from "@/utils/parseTimestamp";
-import { useBlockchain, useClipboard, useMounted } from "@/hooks";
+import { useBlockchain, useMounted } from "@/hooks";
 import { ListCross, ExternalLink, Refresh } from "@/components/icons";
 import { Tooltip, CopyToggle, Button, Loader } from "@/components/ui";
 
@@ -24,15 +25,14 @@ const TransactionsTab = () => {
   const transactions = useTransactionsStore((state) => state.transactions);
   const activeAccount = useAccountsStore((state) => state.getActiveAccount());
   const networkMode = useWalletStore((state) => state.networkMode);
-
-  const copyToClipboard = useClipboard();
-  const { fetchActiveAccountTransactions } = useBlockchain();
   const notify = useNotificationStore((state) => state.notify);
+  const copiedId = useClipboardStore((state) => state.copiedId);
+  const copyToClipboard = useClipboardStore((state) => state.copyToClipboard);
 
-  const [network, setNetwork] = useState<Network>(DEFAULT_NETWORK);
-  const [copiedItems, setCopiedItems] = useState("");
+  const { fetchActiveAccountTransactions } = useBlockchain();
   const [refreshing, startRefreshing] = useTransition();
 
+  const [network, setNetwork] = useState<Network>(DEFAULT_NETWORK);
   const networkTransactions = transactions[network];
   const networkConfig = NETWORKS[network];
   const networkGetExplorerUrl = NETWORK_FUNCTIONS[network].getExplorerUrl;
@@ -57,14 +57,6 @@ const TransactionsTab = () => {
   const handleNetworkChange = (newNetwork: Network) => {
     if (newNetwork === network) return;
     setNetwork(newNetwork);
-    setCopiedItems("");
-  };
-
-  const handleCopy = (text: string, id?: string) => {
-    const uniqueText = id ? `${text}-${id}` : text;
-    copyToClipboard(text, copiedItems === uniqueText, (copied) =>
-      setCopiedItems(copied ? uniqueText : "")
-    );
   };
 
   const hasTabMounted = useMounted(1000);
@@ -115,35 +107,36 @@ const TransactionsTab = () => {
         key={`transactions-table-${network}`}
         {...fadeUpAnimation({ delay: !hasTabMounted ? 0.1 : undefined })}
       >
-        <div className="w-full relative overflow-x-auto">
-          <table className="w-full relative text-sm text-left">
-            <thead>
-              <tr className="h-12">
-                {[
-                  networkConfig.txnSignatureLabel,
-                  "Block",
-                  "Date Time (UTC)",
-                  "Type",
-                  "From/To",
-                  "Amount",
-                  `Fee (${networkConfig.token})`,
-                ].map((header) => (
-                  <th
-                    key={`${network}-${header}`}
-                    className="px-4 text-primary font-semibold whitespace-nowrap"
-                  >
-                    {header}
-                  </th>
-                ))}
-              </tr>
-            </thead>
+        {networkTransactions.length > 0 ? (
+          <div className="w-full relative overflow-x-auto">
+            <table className="w-full relative text-sm text-left">
+              <thead>
+                <tr className="h-12">
+                  {[
+                    networkConfig.txnSignatureLabel,
+                    "Block",
+                    "Date Time (UTC)",
+                    "Type",
+                    "From/To",
+                    "Amount",
+                    `Fee (${networkConfig.token})`,
+                  ].map((header) => (
+                    <th
+                      key={`${network}-${header}`}
+                      className="px-4 text-primary font-semibold whitespace-nowrap"
+                    >
+                      {header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
 
-            <tbody>
-              {networkTransactions.length > 0 ? (
-                networkTransactions.map((txn) => {
+              <tbody>
+                {networkTransactions.map((txn, index) => {
                   const { utc, age } = parseTimestamp(txn.timestamp);
                   const addressToShow = txn.type === "in" ? txn.from : txn.to;
-                  const addressWithId = `${addressToShow}-${txn.signature}`;
+                  const signatureCopyId = `${network}-signature-${index}`;
+                  const addressCopyId = `${network}-address-${index}`;
 
                   return (
                     <tr
@@ -169,14 +162,16 @@ const TransactionsTab = () => {
                           </Tooltip>
                           <Tooltip
                             content={
-                              copiedItems === txn.signature
+                              copiedId === signatureCopyId
                                 ? "Copied!"
                                 : `Copy Txn ${networkConfig.txnSignatureLabel}`
                             }
                           >
                             <CopyToggle
-                              hasCopied={copiedItems === txn.signature}
-                              onClick={() => handleCopy(txn.signature)}
+                              hasCopied={copiedId === signatureCopyId}
+                              onClick={() =>
+                                copyToClipboard(txn.signature, signatureCopyId)
+                              }
                               iconProps={{ className: "w-4" }}
                             />
                           </Tooltip>
@@ -244,15 +239,15 @@ const TransactionsTab = () => {
                           </Tooltip>
                           <Tooltip
                             content={
-                              copiedItems === addressWithId
+                              copiedId === addressCopyId
                                 ? "Copied!"
                                 : "Copy Address"
                             }
                           >
                             <CopyToggle
-                              hasCopied={copiedItems === addressWithId}
+                              hasCopied={copiedId === addressCopyId}
                               onClick={() =>
-                                handleCopy(addressToShow, txn.signature)
+                                copyToClipboard(addressToShow, addressCopyId)
                               }
                               iconProps={{ className: "w-4" }}
                             />
@@ -273,22 +268,18 @@ const TransactionsTab = () => {
                       </td>
                     </tr>
                   );
-                })
-              ) : (
-                <tr className="h-60 border-t-1.5">
-                  <td colSpan={7} className="px-4 size-full">
-                    <div className="size-full flex flex-col items-center justify-center gap-2 text-center">
-                      <ListCross className="icon-lg text-yellow-500" />
-                      <p className="text-md max-w-60">
-                        No transactions found for this {network} address.
-                      </p>
-                    </div>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="h-60 w-full flex items-center justify-center text-center gap-3">
+            <ListCross className="icon-lg text-yellow-500" />
+            <p className="text-md max-w-60">
+              No transactions found for this {network} address.
+            </p>
+          </div>
+        )}
       </motion.div>
 
       {networkTransactions.length === 10 && (
