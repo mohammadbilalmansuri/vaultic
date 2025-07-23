@@ -5,16 +5,24 @@ import { NETWORKS } from "@/config";
 import type { MouseEvent } from "react";
 import type { Network } from "@/types";
 import {
-  useWalletStore,
   useAccountsStore,
+  useClipboardStore,
   useNotificationStore,
+  useWalletStore,
 } from "@/stores";
 import { expandCollapseAnimation, fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
 import parseBalance from "@/utils/parseBalance";
-import { useAccounts, useClipboard } from "@/hooks";
-import { Wallet, Plus, Trash, AngleDown, Check } from "@/components/icons";
+import { useAccounts } from "@/hooks";
+import {
+  Wallet,
+  Plus,
+  Trash,
+  AngleDown,
+  Check,
+  Cancel,
+} from "@/components/icons";
 import {
   Loader,
   NetworkLogo,
@@ -33,18 +41,21 @@ const AccountsPage = () => {
     (state) => state.switchingToAccount
   );
   const notify = useNotificationStore((state) => state.notify);
+  const copiedId = useClipboardStore((state) => state.copiedId);
+  const copyToClipboard = useClipboardStore((state) => state.copyToClipboard);
 
   const { createAccount, deleteAccount, switchActiveAccount } = useAccounts();
-  const copyToClipboard = useClipboard();
 
   const [openedAccounts, setOpenedAccounts] = useState<Set<number>>(
     new Set([activeAccountIndex])
   );
-  const [removingIndex, setRemovingIndex] = useState<number | null>(null);
+  const [removingAccount, setRemovingAccount] = useState<{
+    index: number | null;
+    confirmed: boolean | false;
+  }>({ index: null, confirmed: false });
   const [showingFullTexts, setShowingFullTexts] = useState<Set<string>>(
     new Set()
   );
-  const [copiedText, setCopiedText] = useState<string | null>(null);
   const [creating, startCreating] = useTransition();
 
   const accountEntries = Object.entries(accounts);
@@ -68,8 +79,7 @@ const AccountsPage = () => {
   };
 
   const handleRemoveAccount = async (index: number) => {
-    if (removingIndex !== null) return;
-    setRemovingIndex(index);
+    if (!removingAccount.confirmed) return;
     try {
       await deleteAccount(index);
       setOpenedAccounts((prev) => {
@@ -90,7 +100,7 @@ const AccountsPage = () => {
             : "Failed to delete account. Please try again.",
       });
     } finally {
-      setRemovingIndex(null);
+      setRemovingAccount({ index: null, confirmed: false });
     }
   };
 
@@ -112,12 +122,6 @@ const AccountsPage = () => {
       const newSet = new Set(prev);
       newSet.has(text) ? newSet.delete(text) : newSet.add(text);
       return newSet;
-    });
-  };
-
-  const handleCopy = (text: string) => {
-    copyToClipboard(text, copiedText === text, (copied) => {
-      setCopiedText(copied ? text : null);
     });
   };
 
@@ -168,8 +172,8 @@ const AccountsPage = () => {
           const networkEntries = Object.entries(account);
           const isActive = accountIndex === activeAccountIndex;
           const isOpen = openedAccounts.has(accountIndex);
-          const isRemoving = removingIndex === accountIndex;
           const isSwitching = switchingToAccount === accountIndex;
+          const isRemoving = removingAccount.index === accountIndex;
 
           return (
             <motion.div
@@ -215,21 +219,60 @@ const AccountsPage = () => {
                           </button>
                         </Tooltip>
                       )}
-                      <Tooltip content="Remove Account">
-                        <button
-                          className={cn("icon-btn-bg hover:text-rose-500", {
-                            "bg-secondary pointer-events-none": isRemoving,
-                          })}
-                          onClick={() => handleRemoveAccount(accountIndex)}
-                          disabled={isRemoving}
-                          aria-label="Remove Account"
-                          data-clickable
-                        >
-                          {isRemoving ? <Loader size="sm" /> : <Trash />}
-                        </button>
-                      </Tooltip>
+
+                      <div className="relative flex flex-col items-center">
+                        <Tooltip content="Remove Account">
+                          <button
+                            className={cn(
+                              "icon-btn-bg",
+                              isRemoving
+                                ? "bg-secondary"
+                                : "hover:text-rose-500"
+                            )}
+                            onClick={() =>
+                              setRemovingAccount((prev) => ({
+                                confirmed: false,
+                                index: isRemoving ? null : accountIndex,
+                              }))
+                            }
+                            aria-label="Remove Account"
+                            data-clickable
+                          >
+                            {isRemoving ? <Cancel /> : <Trash />}
+                          </button>
+                        </Tooltip>
+
+                        <AnimatePresence>
+                          {isRemoving && (
+                            <motion.div
+                              className="absolute z-50 top-full mt-1.5 min-w-40 bg-default border rounded-xl overflow-hidden"
+                              initial={{ opacity: 0, y: -10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -10 }}
+                              transition={{ duration: 0.15 }}
+                            >
+                              <div className="flex flex-col items-center gap-2 text-center bg-input rounded-xl p-2.5">
+                                <p className="text-sm">
+                                  Confirm removal of Account {accountIndex + 1}
+                                </p>
+                                <div className="flex gap-2">
+                                  <button
+                                    className="px-3 py-1 text-xs bg-rose-500 text-white rounded hover:bg-rose-600"
+                                    onClick={() =>
+                                      handleRemoveAccount(accountIndex)
+                                    }
+                                  >
+                                    Delete
+                                  </button>
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
                     </>
                   )}
+
                   <div
                     className="icon-btn-bg"
                     aria-label="Toggle Account Details"
@@ -304,7 +347,7 @@ const AccountsPage = () => {
                                 },
                               ].map(({ label, value, shortValue }) => {
                                 const isVisible = showingFullTexts.has(value);
-                                const copied = copiedText === value;
+                                const copied = copiedId === value;
                                 return (
                                   <div
                                     key={label}
@@ -338,7 +381,9 @@ const AccountsPage = () => {
                                         >
                                           <CopyToggle
                                             hasCopied={copied}
-                                            onClick={() => handleCopy(value)}
+                                            onClick={() =>
+                                              copyToClipboard(value)
+                                            }
                                           />
                                         </Tooltip>
                                       </div>
