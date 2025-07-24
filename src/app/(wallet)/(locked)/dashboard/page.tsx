@@ -159,7 +159,7 @@ const DashboardPage = () => {
                     position="bottom"
                   >
                     <div
-                      className="flex items-center gap-1.5 cursor-pointer hover:text-primary transition-all duration-200 group"
+                      className="flex items-center gap-1.5 cursor-pointer hover:text-primary transition-all duration-200"
                       onClick={() => copyToClipboard(address)}
                       role="button"
                       tabIndex={0}
