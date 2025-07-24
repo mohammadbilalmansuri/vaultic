@@ -5,7 +5,7 @@ import cn from "@/utils/cn";
 import { Providers } from "@/components/root";
 import "./globals.css";
 
-const inter = Inter({ variable: "--font-inter" });
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Vaultic - The Wallet That Lives in Your Browser",
