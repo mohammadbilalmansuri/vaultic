@@ -1,10 +1,14 @@
 "use client";
-import { use, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { DEFAULT_NETWORK } from "@/constants";
 import type { Account, Network } from "@/types";
 import { useAccountsStore, useNotificationStore } from "@/stores";
-import { expandCollapseAnimation, fadeUpAnimation } from "@/utils/animations";
+import {
+  fadeInAnimation,
+  fadeUpAnimation,
+  scaleUpAnimation,
+} from "@/utils/animations";
 import cn from "@/utils/cn";
 import delay from "@/utils/delay";
 import { useAccounts, useOutsideClick } from "@/hooks";
@@ -32,22 +36,25 @@ const AccountCard = ({
 
   const [showingNetwork, setShowingNetwork] =
     useState<Network>(DEFAULT_NETWORK);
-  const [removeState, setRemoveState] = useState<"want" | "removeState" | "no">(
-    "no"
-  );
 
-  const isRemoveConfirmationOpen = removeState === "want";
+  const [removalState, setRemovalState] = useState<
+    "idle" | "confirming" | "removing"
+  >("idle");
+
+  const isConfirmingRemoval = removalState === "confirming";
+  const isRemovingAccount = removalState === "removing";
 
   const { switchActiveAccount, deleteAccount } = useAccounts();
-  const removeDropdownOutsideClickRef = useOutsideClick<HTMLDivElement>(() => {
-    if (isRemoveConfirmationOpen) setRemoveState("no");
-  }, isRemoveConfirmationOpen);
+
+  const removeModalRef = useOutsideClick<HTMLDivElement>(() => {
+    if (isConfirmingRemoval) setRemovalState("idle");
+  }, isConfirmingRemoval);
 
   const isSwitching = switchingToAccount === accountIndex;
 
   const handleAccountRemove = async () => {
-    if (removeState !== "want") return;
-    setRemoveState("removeState");
+    if (!isConfirmingRemoval) return;
+    setRemovalState("removing");
 
     try {
       await delay(1000);
@@ -62,7 +69,7 @@ const AccountCard = ({
         message: "Failed to remove account. Please try again.",
       });
     } finally {
-      setRemoveState("no");
+      setRemovalState("idle");
     }
   };
 
@@ -127,50 +134,69 @@ const AccountCard = ({
             )}
 
             <div className="flex flex-col items-end">
-              <Tooltip
-                content={removeState === "want" ? "Cancel" : "Remove Account"}
-                position="left"
-              >
+              <Tooltip content="Remove Account" position="left">
                 <button
                   className={cn("icon-btn-bg-sm", {
-                    "hover:text-rose-500": removeState === "no",
-                    "bg-secondary": removeState === "want",
+                    "hover:text-rose-500": removalState === "idle",
                   })}
                   onClick={() =>
-                    setRemoveState((prev) => (prev === "want" ? "no" : "want"))
+                    setRemovalState((prev) =>
+                      prev === "confirming" ? "idle" : "confirming"
+                    )
                   }
-                  aria-label={
-                    removeState === "want"
-                      ? "Cancel Account Removal"
-                      : "Remove Account"
-                  }
+                  aria-label="Remove Account"
                 >
-                  {removeState === "want" ? <Cancel /> : <Trash />}
+                  {isConfirmingRemoval ? <Cancel /> : <Trash />}
                 </button>
               </Tooltip>
 
               <AnimatePresence>
-                {removeState === "want" && (
+                {isConfirmingRemoval && (
                   <motion.div
-                    className="max-w-60 absolute z-50 top-full mt-2 bg-default border rounded-lg shadow-xl overflow-hidden"
-                    {...expandCollapseAnimation({
-                      duration: 0.15,
-                      ease: "easeOut",
-                    })}
+                    className="fixed inset-0 z-40 bg-zinc-950/50 flex items-center justify-center"
+                    {...fadeInAnimation()}
                   >
-                    <div className="flex flex-col items-center gap-2 text-center p-3 bg-input">
-                      <p className="leading-snug text-15">
-                        Are you sure you want to remove this account?
-                      </p>
-                      <button
-                        type="button"
-                        className="px-2 py-1 border highlight-rose rounded-lg text-sm"
-                        onClick={handleAccountRemove}
-                        aria-label="Remove Account"
-                      >
-                        Remove
-                      </button>
-                    </div>
+                    <motion.div
+                      ref={removeModalRef}
+                      className="bg-default rounded-2xl p-6 w-full max-w-sm border shadow-xl text-center space-y-4"
+                      {...scaleUpAnimation()}
+                    >
+                      <h2 className="text-lg font-semibold text-white">
+                        Remove Account {accountIndex + 1}
+                      </h2>
+                      <div className="text-zinc-400 text-sm space-y-2 leading-relaxed">
+                        <p>
+                          Removing this account only deletes it from Vaultic —
+                          it still exists on the blockchain and may hold funds.
+                        </p>
+                        <p>
+                          Deleted accounts cannot be recreated automatically.
+                          Vaultic does{" "}
+                          <strong>not reuse account indexes</strong>.
+                        </p>
+                        <p>
+                          To restore it later, reset your wallet and re-import
+                          using your recovery phrase.
+                        </p>
+                      </div>
+                      <div className="flex items-center justify-center gap-4 pt-2">
+                        <button
+                          type="button"
+                          className="flex-1 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-medium"
+                          onClick={() => setRemovalState("idle")}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          className="flex-1 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-semibold"
+                          onClick={handleAccountRemove}
+                          disabled={isRemovingAccount}
+                        >
+                          {isRemovingAccount ? <Loader size="sm" /> : "Remove"}
+                        </button>
+                      </div>
+                    </motion.div>
                   </motion.div>
                 )}
               </AnimatePresence>

@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NETWORKS } from "@/config";
 import { Network, NetworkAccount } from "@/types";
 import { useClipboardStore, useWalletStore } from "@/stores";
 import parseBalance from "@/utils/parseBalance";
-import { CopyToggle, NetworkLogo, Tooltip } from "@/components/ui";
+import { CopyToggle, EyeToggle, NetworkLogo, Tooltip } from "@/components/ui";
 
 interface NetworkDetailsProps extends NetworkAccount {
   network: Network;
@@ -20,7 +20,9 @@ const NetworkDetails = ({
   const copiedId = useClipboardStore((state) => state.copiedId);
   const copyToClipboard = useClipboardStore((state) => state.copyToClipboard);
 
-  const [showingPrivateKey, setShowingFullPrivateKey] = useState(false);
+  const [showingPrivateKey, setShowingPrivateKey] = useState(false);
+
+  useEffect(() => setShowingPrivateKey(false), [network]);
 
   const { name, testnetName, token } = NETWORKS[network];
   const parsedBalance = parseBalance(balance);
@@ -49,74 +51,49 @@ const NetworkDetails = ({
       </div>
 
       <div className="flex flex-col items-start gap-1">
-        <h4 className="text-lg font-medium text-primary leading-none">
-          Address
-        </h4>
-
-        <Tooltip
-          content={copiedId === address ? "Copied!" : "Copy Address"}
-          position="bottom"
-        >
-          <div
-            className="flex items-center gap-2 cursor-pointer hover:text-primary transition-all duration-200 group"
-            onClick={() => copyToClipboard(address)}
-            role="button"
-            tabIndex={0}
-            aria-label="Copy Address"
+        <div className="w-full flex items-center justify-between gap-3">
+          <h4 className="text-lg font-medium text-primary leading-none">
+            Address
+          </h4>
+          <Tooltip
+            content={copiedId === address ? "Copied!" : "Copy Address"}
+            position="left"
           >
-            <p className="break-all font-mono">{address}</p>
             <CopyToggle
               hasCopied={copiedId === address}
-              className="text-teal-500 group-hover:text-current -mt-px"
-              iconProps={{ className: "w-4.5" }}
+              className="text-current"
+              onClick={() => copyToClipboard(address)}
             />
-          </div>
-        </Tooltip>
+          </Tooltip>
+        </div>
+
+        <p className="break-all">{address}</p>
       </div>
 
       <div className="flex flex-col items-start gap-1">
-        <h4 className="text-md font-medium text-primary leading-none">
-          Private Key
-        </h4>
-
-        <div className="flex items-center gap-2 text-left">
-          {showingPrivateKey ? (
-            <Tooltip
-              content={copiedId === privateKey ? "Copied!" : "Copy Private Key"}
-              position="bottom"
-            >
-              <div
-                className="flex items-center gap-1.5 cursor-pointer hover:text-primary transition-all duration-200"
-                onClick={() => copyToClipboard(privateKey)}
-                role="button"
-                tabIndex={0}
-                aria-label="Copy Private Key"
-              >
-                <p className="break-all">{privateKey}</p>
-                <CopyToggle
-                  hasCopied={copiedId === privateKey}
-                  className="text-current"
-                  iconProps={{ className: "w-4" }}
-                />
-              </div>
-            </Tooltip>
-          ) : (
-            <p className="truncate max-w-52">
-              {privateKey.slice(0, 25) + "..."}
-            </p>
-          )}
-
-          <button
-            type="button"
-            className="link text-teal-500"
-            onClick={() => setShowingFullPrivateKey((prev) => !prev)}
-            aria-label={
-              showingPrivateKey ? "Hide Private Key" : "Show Private Key"
-            }
-          >
-            {showingPrivateKey ? "Hide" : "Show"}
-          </button>
+        <div className="w-full flex items-center justify-between gap-3">
+          <h4 className="text-md font-medium text-primary leading-none">
+            Private Key
+          </h4>
+          <div className="flex items-center gap-4">
+            <EyeToggle
+              isVisible={showingPrivateKey}
+              className="text-current"
+              onClick={() => setShowingPrivateKey((prev) => !prev)}
+            />
+            <CopyToggle
+              hasCopied={copiedId === privateKey}
+              className="text-current"
+              onClick={() => copyToClipboard(privateKey)}
+            />
+          </div>
         </div>
+
+        <p className="break-all">
+          {showingPrivateKey
+            ? privateKey
+            : Array.from({ length: privateKey.length }).fill("•").join("")}
+        </p>
       </div>
     </div>
   );
