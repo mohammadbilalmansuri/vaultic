@@ -75,10 +75,10 @@ const TransactionsTab = () => {
               disabled={id === network}
               onClick={() => handleNetworkChange(id as Network)}
               className={cn(
-                "flex items-center gap-2 leading-none py-2.5 px-3 rounded-xl transition-all duration-200 font-medium border",
+                "leading-none py-2.5 px-3 rounded-lg transition-all duration-200 font-medium border",
                 id === network
-                  ? "bg-teal-500/10 border-teal-500/30 dark:border-teal-500/10 text-teal-500 pointer-events-none"
-                  : "bg-primary text-primary hover:bg-secondary hover:border-focus"
+                  ? "highlight-teal pointer-events-none"
+                  : "highlight-zinc hover:bg-secondary"
               )}
             >
               {name}
