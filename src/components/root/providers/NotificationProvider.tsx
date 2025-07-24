@@ -2,6 +2,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { NOTIFICATION_ICONS } from "@/constants";
 import { useNotificationStore } from "@/stores";
+import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { Cancel } from "@/components/icons";
 
@@ -20,10 +21,11 @@ const NotificationProvider = () => {
       {opened && (
         <motion.div
           key="notification"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -30 }}
-          transition={{ duration: 0.15, ease: "easeInOut" }}
+          {...fadeUpAnimation({
+            duration: 0.15,
+            ease: "easeInOut",
+            withExit: true,
+          })}
           className="max-w-xl fixed md:bottom-4 sm:bottom-2 bottom-0 md:right-4 sm:right-2 z-50 m-4 py-4 sm:px-4 px-3 rounded-2xl flex items-center justify-between gap-2.5 bg-primary border-1.5 shadow-xl backdrop-blur-xl"
           role="alert"
           aria-live="polite"
