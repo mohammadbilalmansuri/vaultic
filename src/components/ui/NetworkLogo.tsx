@@ -20,7 +20,7 @@ const NetworkLogo = ({
       className={cn(
         "bg-white dark:bg-black flex items-center justify-center shrink-0",
         {
-          "sm:size-8 size-7 rounded-lg": size === "sm",
+          "size-7 rounded-lg": size === "sm",
           "sm:size-10 size-9 rounded-xl": size === "md",
           "sm:size-14 size-12 rounded-2xl": size === "lg",
         },
