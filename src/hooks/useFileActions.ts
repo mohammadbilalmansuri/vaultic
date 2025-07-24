@@ -31,7 +31,7 @@ const useFileActions = () => {
         const res = await fetch(file);
         if (!res.ok) throw new Error("Failed to fetch file from URL.");
         return await res.blob();
-      } catch (err) {
+      } catch {
         throw new Error("Could not fetch the file. Check the URL or network.");
       }
     }

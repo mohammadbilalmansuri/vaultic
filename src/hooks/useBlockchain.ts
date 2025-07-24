@@ -183,7 +183,7 @@ const useBlockchain = () => {
 
       await updateWallet();
       await refreshActiveAccount();
-    } catch (error) {
+    } catch {
       notify({
         type: "error",
         message: "Failed to switch network mode. Please try again.",
