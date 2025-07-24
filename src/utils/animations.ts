@@ -29,7 +29,7 @@ export const fadeUpAnimation = ({
   return {
     initial: { opacity: 0, y },
     animate: inView ? { opacity: 1, y: 0 } : undefined,
-    exit: withExit ? { opacity: 0, y } : undefined,
+    exit: withExit ? { opacity: 0, y: -y } : undefined,
     transition: inView || withExit ? { duration, delay, ease } : undefined,
   };
 };
@@ -70,13 +70,34 @@ export const expandCollapseAnimation = ({
   duration = 0.3,
   ease = "easeInOut",
 }: {
-  duration?: number;
-  ease?: string;
+  duration?: BaseAnimationConfig["duration"];
+  ease?: BaseAnimationConfig["ease"];
 } = {}): MotionProps => {
   return {
     initial: { opacity: 0, height: 0 },
     animate: { opacity: 1, height: "auto" },
     exit: { opacity: 0, height: 0 },
+    transition: { duration, ease },
+  };
+};
+
+/**
+ * Creates a fade-in animation using opacity only.
+ * @param duration - Animation duration in seconds (default: 0.15)
+ * @param ease - Easing function (default: "easeOut")
+ * @returns MotionProps object for Motion components
+ */
+export const fadeInAnimation = ({
+  duration = 0.15,
+  ease = "easeOut",
+}: {
+  duration?: BaseAnimationConfig["duration"];
+  ease?: BaseAnimationConfig["ease"];
+} = {}): MotionProps => {
+  return {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
     transition: { duration, ease },
   };
 };
