@@ -13,7 +13,7 @@ const Loader = ({ size = "lg", color = "teal" }: LoaderProps) => {
         size === "xs" ? "border-t-2 border-r-2" : "border-t-3 border-r-3",
         {
           "size-4": size === "xs",
-          "size-5.5": size === "sm",
+          "size-5": size === "sm",
           "size-8": size === "md",
           "size-10": size === "lg",
           "border-t-teal-500": color === "teal",
