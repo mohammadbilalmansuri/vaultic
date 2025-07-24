@@ -1,61 +1,22 @@
 "use client";
-import { useTransition, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { NETWORKS } from "@/config";
-import type { MouseEvent } from "react";
-import type { Network } from "@/types";
-import {
-  useAccountsStore,
-  useClipboardStore,
-  useNotificationStore,
-  useWalletStore,
-} from "@/stores";
-import { expandCollapseAnimation, fadeUpAnimation } from "@/utils/animations";
+import { useTransition } from "react";
+import { motion } from "motion/react";
+import { useAccountsStore, useNotificationStore } from "@/stores";
+import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import getShortAddress from "@/utils/getShortAddress";
-import parseBalance from "@/utils/parseBalance";
 import { useAccounts } from "@/hooks";
-import {
-  Wallet,
-  Plus,
-  Trash,
-  AngleDown,
-  Check,
-  Cancel,
-} from "@/components/icons";
-import {
-  Loader,
-  NetworkLogo,
-  Tooltip,
-  CopyToggle,
-  EyeToggle,
-} from "@/components/ui";
+import { Wallet, Plus } from "@/components/icons";
+import { Loader, Tooltip } from "@/components/ui";
+import AccountCard from "./_components/AccountCard";
 
 const AccountsPage = () => {
-  const networkMode = useWalletStore((state) => state.networkMode);
   const accounts = useAccountsStore((state) => state.accounts);
   const activeAccountIndex = useAccountsStore(
     (state) => state.activeAccountIndex
   );
-  const switchingToAccount = useAccountsStore(
-    (state) => state.switchingToAccount
-  );
   const notify = useNotificationStore((state) => state.notify);
-  const copiedId = useClipboardStore((state) => state.copiedId);
-  const copyToClipboard = useClipboardStore((state) => state.copyToClipboard);
 
-  const { createAccount, deleteAccount, switchActiveAccount } = useAccounts();
-
-  const [openedAccounts, setOpenedAccounts] = useState<Set<number>>(
-    new Set([activeAccountIndex])
-  );
-  const [removingAccount, setRemovingAccount] = useState<{
-    index: number | null;
-    confirmed: boolean | false;
-  }>({ index: null, confirmed: false });
-  const [showingFullTexts, setShowingFullTexts] = useState<Set<string>>(
-    new Set()
-  );
+  const { createAccount } = useAccounts();
   const [creating, startCreating] = useTransition();
 
   const accountEntries = Object.entries(accounts);
@@ -75,53 +36,6 @@ const AccountsPage = () => {
           message: "Failed to create new account. Please try again.",
         });
       }
-    });
-  };
-
-  const handleRemoveAccount = async (index: number) => {
-    if (!removingAccount.confirmed) return;
-    try {
-      await deleteAccount(index);
-      setOpenedAccounts((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(index);
-        return newSet;
-      });
-      notify({
-        type: "success",
-        message: `Account ${index + 1} deleted successfully.`,
-      });
-    } catch (error) {
-      notify({
-        type: "error",
-        message:
-          error instanceof Error
-            ? error.message
-            : "Failed to delete account. Please try again.",
-      });
-    } finally {
-      setRemovingAccount({ index: null, confirmed: false });
-    }
-  };
-
-  const handleAccountCardToggle = (event: MouseEvent, index: number) => {
-    if (
-      event.target instanceof Element &&
-      !event.target.closest("[data-clickable]")
-    ) {
-      setOpenedAccounts((prev) => {
-        const newSet = new Set(prev);
-        newSet.has(index) ? newSet.delete(index) : newSet.add(index);
-        return newSet;
-      });
-    }
-  };
-
-  const handleFullTextToggle = (text: string) => {
-    setShowingFullTexts((prev) => {
-      const newSet = new Set(prev);
-      newSet.has(text) ? newSet.delete(text) : newSet.add(text);
-      return newSet;
     });
   };
 
@@ -167,246 +81,17 @@ const AccountsPage = () => {
       </motion.div>
 
       <div className="w-full relative flex flex-col md:gap-6 gap-5">
-        {accountEntries.map(([key, account], index) => {
+        {accountEntries.map(([key, account]) => {
           const accountIndex = parseInt(key);
-          const networkEntries = Object.entries(account);
           const isActive = accountIndex === activeAccountIndex;
-          const isOpen = openedAccounts.has(accountIndex);
-          const isSwitching = switchingToAccount === accountIndex;
-          const isRemoving = removingAccount.index === accountIndex;
-
           return (
-            <motion.div
+            <AccountCard
               key={`account-${accountIndex}`}
-              className="w-full relative rounded-3xl border-1.5"
-              {...fadeUpAnimation({ delay: index * 0.05 + 0.05 })}
-            >
-              <div
-                className="w-full relative flex items-center justify-between gap-3 md:py-4 py-3 md:pl-5 pl-4 pr-2 cursor-pointer"
-                onClick={(e) => handleAccountCardToggle(e, accountIndex)}
-              >
-                <div className="flex items-center gap-3">
-                  <h2 className="sm:text-xl text-lg font-medium text-primary leading-[0.8]">
-                    Account {accountIndex + 1}
-                  </h2>
-
-                  {isActive && (
-                    <span className="highlight-teal border sm:text-sm text-xs font-medium uppercase leading-none p-2 pb-1.75 rounded-lg whitespace-nowrap">
-                      Active
-                    </span>
-                  )}
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {isOpen && hasMultipleAccounts && (
-                    <>
-                      {(isSwitching || !isActive) && (
-                        <Tooltip
-                          content={
-                            isSwitching ? "Switching..." : "Set Active Account"
-                          }
-                        >
-                          <button
-                            className={cn("icon-btn-bg hover:text-teal-500", {
-                              "bg-secondary pointer-events-none": isSwitching,
-                            })}
-                            onClick={() => switchActiveAccount(accountIndex)}
-                            disabled={isSwitching}
-                            aria-label="Switch Account"
-                            data-clickable
-                          >
-                            {isSwitching ? <Loader size="sm" /> : <Check />}
-                          </button>
-                        </Tooltip>
-                      )}
-
-                      <div className="relative flex flex-col items-center">
-                        <Tooltip content="Remove Account">
-                          <button
-                            className={cn(
-                              "icon-btn-bg",
-                              isRemoving
-                                ? "bg-secondary"
-                                : "hover:text-rose-500"
-                            )}
-                            onClick={() =>
-                              setRemovingAccount((prev) => ({
-                                confirmed: false,
-                                index: isRemoving ? null : accountIndex,
-                              }))
-                            }
-                            aria-label="Remove Account"
-                            data-clickable
-                          >
-                            {isRemoving ? <Cancel /> : <Trash />}
-                          </button>
-                        </Tooltip>
-
-                        <AnimatePresence>
-                          {isRemoving && (
-                            <motion.div
-                              className="absolute z-50 top-full mt-1.5 min-w-40 bg-default border rounded-xl overflow-hidden"
-                              initial={{ opacity: 0, y: -10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -10 }}
-                              transition={{ duration: 0.15 }}
-                            >
-                              <div className="flex flex-col items-center gap-2 text-center bg-input rounded-xl p-2.5">
-                                <p className="text-sm">
-                                  Confirm removal of Account {accountIndex + 1}
-                                </p>
-                                <div className="flex gap-2">
-                                  <button
-                                    className="px-3 py-1 text-xs bg-rose-500 text-white rounded hover:bg-rose-600"
-                                    onClick={() =>
-                                      handleRemoveAccount(accountIndex)
-                                    }
-                                  >
-                                    Delete
-                                  </button>
-                                </div>
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    </>
-                  )}
-
-                  <div
-                    className="icon-btn-bg"
-                    aria-label="Toggle Account Details"
-                    aria-expanded={isOpen}
-                  >
-                    <AngleDown
-                      className={cn("transition-all duration-200", {
-                        "rotate-180": isOpen,
-                      })}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <AnimatePresence initial={false}>
-                {isOpen && (
-                  <motion.div
-                    key={`account-details-${accountIndex}`}
-                    className="w-full relative overflow-hidden"
-                    {...expandCollapseAnimation()}
-                  >
-                    <div className="w-full grid md:grid-cols-2 grid-cols-1 md:gap-5 gap-4 md:px-5 px-4 md:pb-5 pb-4">
-                      {networkEntries.map(
-                        ([networkKey, { address, privateKey, balance }]) => {
-                          const network = networkKey as Network;
-                          const networkConfig = NETWORKS[network];
-                          const parsedBalance = parseBalance(balance);
-                          const networkDisplayName = `${networkConfig.name}${
-                            networkMode === "testnet"
-                              ? ` ${networkConfig.testnetName}`
-                              : ""
-                          }`;
-
-                          return (
-                            <div
-                              key={`account-${accountIndex}-${network}`}
-                              className="col-span-1 flex flex-col gap-3 rounded-2xl bg-primary sm:p-5 xxs:p-4 p-3.5"
-                            >
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2.5">
-                                  <NetworkLogo network={network} size="sm" />
-                                  <h3 className="sm:text-lg text-md font-medium text-primary">
-                                    {networkDisplayName}
-                                  </h3>
-                                </div>
-                                <Tooltip
-                                  content={
-                                    parsedBalance.wasRounded
-                                      ? `${parsedBalance.original} ${networkConfig.token}`
-                                      : undefined
-                                  }
-                                  position="left"
-                                >
-                                  <p className="text-md font-semibold leading-none cursor-default">{`${parsedBalance.display} ${networkConfig.token}`}</p>
-                                </Tooltip>
-                              </div>
-
-                              {[
-                                {
-                                  label: "Address",
-                                  value: address,
-                                  shortValue: getShortAddress(
-                                    address,
-                                    network,
-                                    10
-                                  ),
-                                },
-                                {
-                                  label: "Private Key",
-                                  value: privateKey,
-                                  shortValue: `${privateKey.slice(0, 25)}...`,
-                                },
-                              ].map(({ label, value, shortValue }) => {
-                                const isVisible = showingFullTexts.has(value);
-                                const copied = copiedId === value;
-                                return (
-                                  <div
-                                    key={label}
-                                    className="flex flex-col gap-1"
-                                  >
-                                    <div className="w-full flex justify-between items-center gap-3">
-                                      <h4 className="sm:text-md font-medium text-primary leading-none">
-                                        {label}
-                                      </h4>
-                                      <div className="flex items-center gap-4">
-                                        <Tooltip
-                                          content={
-                                            isVisible
-                                              ? `Hide Full ${label}`
-                                              : `Show Full ${label}`
-                                          }
-                                          position="left"
-                                        >
-                                          <EyeToggle
-                                            isVisible={isVisible}
-                                            onClick={() =>
-                                              handleFullTextToggle(value)
-                                            }
-                                          />
-                                        </Tooltip>
-                                        <Tooltip
-                                          content={
-                                            copied ? "Copied!" : `Copy ${label}`
-                                          }
-                                          position="left"
-                                        >
-                                          <CopyToggle
-                                            hasCopied={copied}
-                                            onClick={() =>
-                                              copyToClipboard(value)
-                                            }
-                                          />
-                                        </Tooltip>
-                                      </div>
-                                    </div>
-                                    <p
-                                      className={cn(
-                                        isVisible ? "break-all" : "truncate"
-                                      )}
-                                    >
-                                      {isVisible ? value : shortValue}
-                                    </p>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          );
-                        }
-                      )}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+              accountIndex={accountIndex}
+              account={account}
+              isActive={isActive}
+              hasMultipleAccounts={hasMultipleAccounts}
+            />
           );
         })}
       </div>
