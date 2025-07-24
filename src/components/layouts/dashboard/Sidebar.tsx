@@ -7,6 +7,7 @@ import { SIDEBAR_NAV_LINKS } from "@/constants";
 import type { MouseEvent } from "react";
 import type { Variant } from "motion/react";
 import { useAccountsStore } from "@/stores";
+import { fadeInAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import {
   useWallet,
@@ -121,12 +122,9 @@ const Sidebar = () => {
       <AnimatePresence>
         {isOpenedOnSmallScreen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
             className="fixed inset-0 bg-zinc-950/50 z-40 lg:hidden will-change-auto"
             aria-hidden="true"
+            {...fadeInAnimation()}
           />
         )}
       </AnimatePresence>
