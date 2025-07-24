@@ -51,7 +51,7 @@ const useWallet = () => {
       await delay(4000);
       await removeWallet();
       router.replace("/");
-    } catch (error) {
+    } catch {
       notify({
         type: "error",
         message:
