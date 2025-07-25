@@ -146,7 +146,7 @@ const TransactionsTab = () => {
                       {/* Txn Signature */}
                       <td className="px-4 whitespace-nowrap">
                         <div className="flex items-center gap-px">
-                          <Tooltip content="View Txn On Explorer">
+                          <Tooltip content="View Txn On Explorer" delay={0}>
                             <Link
                               href={networkGetExplorerUrl(
                                 "tx",
@@ -196,7 +196,7 @@ const TransactionsTab = () => {
 
                       {/* Timestamp */}
                       <td className="px-4 whitespace-nowrap">
-                        <Tooltip content={age}>
+                        <Tooltip content={age} delay={0}>
                           <span className="cursor-default">{utc}</span>
                         </Tooltip>
                       </td>
@@ -223,7 +223,7 @@ const TransactionsTab = () => {
                           {txn.type !== "self" && (
                             <span>{txn.type === "in" ? "From" : "To"}</span>
                           )}
-                          <Tooltip content={addressToShow}>
+                          <Tooltip content={addressToShow} delay={0}>
                             <Link
                               href={networkGetExplorerUrl(
                                 "address",

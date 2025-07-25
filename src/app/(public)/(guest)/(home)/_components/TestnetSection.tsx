@@ -72,7 +72,7 @@ const TestnetSection = () => {
           >
             <div className="w-full relative flex items-center-safe justify-between gap-3">
               <h3 className="h3">{title}</h3>
-              <Tooltip content={link.text} position="left">
+              <Tooltip content={link.text} position="left" delay={0}>
                 <Link
                   href={link.href}
                   className="icon-btn-bg"

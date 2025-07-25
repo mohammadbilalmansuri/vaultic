@@ -45,6 +45,7 @@ const NetworkDetails = ({
               : undefined
           }
           position="left"
+          delay={0}
         >
           <p className="text-md font-medium leading-none cursor-default">{`${parsedBalance.display} ${token}`}</p>
         </Tooltip>
