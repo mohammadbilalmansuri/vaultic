@@ -41,11 +41,11 @@ const TestnetModeTabPanel = () => {
           Sepolia) instead of the main blockchain networks.
         </p>
         <p>
-          You'll work with test tokens that have no real-world value, making it
-          perfect for learning wallet operations, practicing transactions, and
-          testing integrations. This risk-free environment is ideal for both
-          newcomers getting familiar with crypto wallets and developers building
-          applications.
+          You&apos;ll work with test tokens that have no real-world value,
+          making it perfect for learning wallet operations, practicing
+          transactions, and testing integrations. This risk-free environment is
+          ideal for both newcomers getting familiar with crypto wallets and
+          developers building applications.
         </p>
         <p className="mt-0.5">
           Need test tokens?{" "}

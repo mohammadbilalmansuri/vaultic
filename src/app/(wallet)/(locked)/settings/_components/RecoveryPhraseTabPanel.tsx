@@ -31,7 +31,9 @@ const RecoveryPhraseTabPanel = ({
             can&nbsp;
             <span className="font-semibold">steal your assets permanently</span>
             , and you&nbsp;
-            <span className="font-semibold">won't be able to recover them</span>
+            <span className="font-semibold">
+              won&apos;t be able to recover them
+            </span>
             .
           </p>
         </div>

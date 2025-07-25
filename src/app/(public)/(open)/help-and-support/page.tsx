@@ -22,9 +22,9 @@ const GUIDES: Guide[] = [
         </p>
         <p>
           Every account supports multiple blockchain networks. For example,
-          "Account 1" will have both an Ethereum address and a Solana address —
-          each derived using the same index but through different derivation
-          paths.
+          &quot;Account 1&quot; will have both an Ethereum address and a Solana
+          address — each derived using the same index but through different
+          derivation paths.
         </p>
         <p>
           This design ensures that your entire wallet — across all supported
@@ -76,7 +76,7 @@ const GUIDES: Guide[] = [
           key.
         </p>
         <p>
-          Vaultic cannot revoke, reset, or recover this phrase. It's the
+          Vaultic cannot revoke, reset, or recover this phrase. It&apos;s the
           cornerstone of your wallet’s security and ownership.
         </p>
       </>
@@ -87,10 +87,10 @@ const GUIDES: Guide[] = [
     content: (
       <>
         <p>
-          If you've lost access to your device or cleared your browser storage,
-          you can restore your Vaultic wallet using your 12-word recovery
-          phrase. This phrase allows you to recover all your accounts and
-          addresses.
+          If you&apos;ve lost access to your device or cleared your browser
+          storage, you can restore your Vaultic wallet using your 12-word
+          recovery phrase. This phrase allows you to recover all your accounts
+          and addresses.
         </p>
         <p>
           Vaultic will automatically restore your first account (index 0). If
@@ -115,10 +115,10 @@ const GUIDES: Guide[] = [
           recovery phrase and unlock your accounts.
         </p>
         <p>
-          To regain access, you'll need to reset your wallet. You can do this
-          using the in-app reset option or by manually clearing your browser
-          storage. After that, simply re-import your wallet using your 12-word
-          recovery phrase and set a new password.
+          To regain access, you&apos;ll need to reset your wallet. You can do
+          this using the in-app reset option or by manually clearing your
+          browser storage. After that, simply re-import your wallet using your
+          12-word recovery phrase and set a new password.
         </p>
         <p>
           This process ensures that only someone with your recovery phrase — and
@@ -155,9 +155,9 @@ const GUIDES: Guide[] = [
     content: (
       <>
         <p>
-          In Vaultic, the "active account" is the one currently selected for
-          performing actions like viewing balances, sending tokens, or listing
-          transactions.
+          In Vaultic, the &quot;active account&quot; is the one currently
+          selected for performing actions like viewing balances, sending tokens,
+          or listing transactions.
         </p>
         <p>
           You can switch between accounts at any time. This helps manage
@@ -200,13 +200,13 @@ const GUIDES: Guide[] = [
           included in the next block.
         </p>
         <p>
-          On Ethereum, this is called gas and is paid in ETH. On Solana, it's a
-          small fee paid in SOL. These fees are typically very low (usually
-          0.0001 ETH or 0.00008 SOL).
+          On Ethereum, this is called gas and is paid in ETH. On Solana,
+          it&apos;s a small fee paid in SOL. These fees are typically very low
+          (usually 0.0001 ETH or 0.00008 SOL).
         </p>
         <p>
-          Vaultic doesn't charge anything extra — these fees go directly to the
-          network and may vary depending on traffic.
+          Vaultic doesn&apos;t charge anything extra — these fees go directly to
+          the network and may vary depending on traffic.
         </p>
       </>
     ),
@@ -217,7 +217,8 @@ const GUIDES: Guide[] = [
       <>
         <p>
           Solana requires a minimum balance to keep certain accounts (like token
-          accounts) permanently alive. This is known as "rent exemption."
+          accounts) permanently alive. This is known as &quot;rent
+          exemption.&quot;
         </p>
         <p>
           The threshold is typically around 0.00089088 SOL. If your balance
