@@ -23,7 +23,7 @@ const CONTENTS = [
         </p>
       </>
     ),
-    button: { text: "Set Up Wallet & Use Testnet", href: "/setup" },
+    link: { text: "Set Up Wallet & Use Testnet", href: "/setup" },
   },
   {
     title: "Get Testnet Tokens",
@@ -41,7 +41,7 @@ const CONTENTS = [
         </p>
       </>
     ),
-    button: { text: "Visit Faucet", href: "/faucet" },
+    link: { text: "Visit Faucet", href: "/faucet" },
   },
 ];
 
@@ -63,7 +63,7 @@ const TestnetSection = () => {
       </motion.h2>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 md:gap-5 gap-4">
-        {CONTENTS.map(({ title, paragraphs, button }, index) => (
+        {CONTENTS.map(({ title, paragraphs, link }, index) => (
           <motion.div
             key={`content-${index}`}
             aria-label={title}
@@ -72,8 +72,12 @@ const TestnetSection = () => {
           >
             <div className="w-full relative flex items-center-safe justify-between gap-3">
               <h3 className="h3">{title}</h3>
-              <Tooltip content={button.text} position="left">
-                <Link href={button.href} className="icon-btn-bg">
+              <Tooltip content={link.text} position="left">
+                <Link
+                  href={link.href}
+                  className="icon-btn-bg"
+                  aria-label={link.text}
+                >
                   <ArrowRight />
                 </Link>
               </Tooltip>
