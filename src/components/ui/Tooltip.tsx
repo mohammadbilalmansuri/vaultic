@@ -56,8 +56,6 @@ const Tooltip = ({
   containerClassName = "",
   tooltipClassName = "",
 }: TooltipProps) => {
-  if (!content) return children;
-
   const tooltipId = useId();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -65,6 +63,8 @@ const Tooltip = ({
   const hideTooltip = () => setIsVisible(false);
 
   const { initial, animate, exit } = getAnimationVariants(position);
+
+  if (!content) return children;
 
   return (
     <div
