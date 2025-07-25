@@ -236,7 +236,10 @@ const SendTab = ({
                 />
               )}
 
-              <Tooltip content={`Upload ${networkConfig.name} Address QR Code`}>
+              <Tooltip
+                content={`Upload ${networkConfig.name} Address QR Code`}
+                position="left"
+              >
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -273,6 +276,7 @@ const SendTab = ({
                 <span className="font-medium">{networkConfig.token}</span>
                 <Tooltip
                   content="Set to Max Transferable Amount"
+                  position="left"
                   containerClassName="max-w-sm"
                 >
                   <button
@@ -322,6 +326,8 @@ const SendTab = ({
                   value: (
                     <Tooltip
                       content={getValues("toAddress")}
+                      position="left"
+                      delay={0}
                       containerClassName="cursor-default text-primary"
                     >
                       {getShortAddress(getValues("toAddress"), network)}

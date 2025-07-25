@@ -90,7 +90,7 @@ const ReceiveTab = () => {
                     </h4>
 
                     <div className="flex items-center gap-5">
-                      <Tooltip content="Download QR Code">
+                      <Tooltip content="Download QR Code" position="left">
                         <button
                           className="icon-btn"
                           onClick={({ currentTarget }) => {
@@ -106,7 +106,7 @@ const ReceiveTab = () => {
                         </button>
                       </Tooltip>
 
-                      <Tooltip content="Share QR Code">
+                      <Tooltip content="Share QR Code" position="left">
                         <button
                           className="icon-btn"
                           onClick={async ({ currentTarget }) => {

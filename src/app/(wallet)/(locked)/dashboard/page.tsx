@@ -185,6 +185,7 @@ const DashboardPage = () => {
                     : undefined
                 }
                 position="left"
+                delay={0}
               >
                 <p className="text-md font-semibold leading-none cursor-default">
                   {refreshing ? (
