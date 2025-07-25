@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import type { Children } from "@/types";
 import cn from "@/utils/cn";
@@ -38,6 +38,12 @@ export const metadata: Metadata = {
     "solana wallet",
     "ethereum wallet",
   ],
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 const RootLayout = ({ children }: Children) => {
