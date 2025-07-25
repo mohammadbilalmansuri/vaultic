@@ -55,7 +55,12 @@ const useAccounts = () => {
         },
       });
 
-      isInitialSetup ? await saveWallet() : await updateWallet();
+      if (isInitialSetup) {
+        await saveWallet();
+      } else {
+        await updateWallet();
+      }
+
       await fetchActiveAccountTransactions();
     } catch (error) {
       console.error("Error creating account:", error);
