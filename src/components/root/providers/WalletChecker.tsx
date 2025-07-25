@@ -11,6 +11,7 @@ const WalletChecker = ({ children }: Children) => {
 
   useEffect(() => {
     (async () => await checkWalletExists())();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (walletStatus === "checking") return <Loading />;

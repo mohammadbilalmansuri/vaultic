@@ -93,6 +93,7 @@ const Sidebar = () => {
   useEffect(() => {
     if (sidebarState === sidebarDefaultState) return;
     toggleSidebar(sidebarDefaultState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLargeScreen]);
 
   return (

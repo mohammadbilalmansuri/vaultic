@@ -39,6 +39,7 @@ const SettingUpWallet = ({
         setStep(3);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

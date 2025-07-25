@@ -60,6 +60,7 @@ const ReceiveTab = () => {
         );
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeAccountIndex]);
 
   if (error) {

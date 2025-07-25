@@ -15,6 +15,7 @@ const GuestLayout = ({ children }: Children) => {
   useEffect(() => {
     if (walletStatus !== "ready" || suppressRedirect) return;
     if (walletExists) router.replace("/dashboard");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (walletStatus === "checking" || (walletExists && !suppressRedirect)) {
