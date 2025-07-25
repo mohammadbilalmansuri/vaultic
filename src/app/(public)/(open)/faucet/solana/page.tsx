@@ -28,7 +28,7 @@ const SolanaFaucetPage = () => {
   const notify = useNotificationStore((state) => state.notify);
   const [airdropping, startAirdropping] = useTransition();
 
-  let accountsOptions = Object.entries(accounts).map(([key, { solana }]) => ({
+  const accountsOptions = Object.entries(accounts).map(([key, { solana }]) => ({
     label: `Account ${Number(key) + 1}`,
     value: solana.address,
     valueIcon: Solana,
@@ -78,7 +78,7 @@ const SolanaFaucetPage = () => {
       <p className="-mt-2.5">
         Request free SOL on the Solana Devnet to build, test, and explore. Each
         address can receive up to 5 SOL once every 8 hours. These are test
-        tokens with no real-world value. If this doesn't work,&nbsp;
+        tokens with no real-world value. If this doesn&apos;t work,&nbsp;
         <Link
           href="https://faucet.solana.com/"
           target="_blank"
