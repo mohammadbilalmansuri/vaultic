@@ -102,17 +102,17 @@ const SolanaFaucetPage = () => {
               control={control}
               options={accountsOptions}
               placeholder="Solana address"
-              autoFocus
               autoComplete="off"
               autoCapitalize="off"
+              spellCheck="false"
             />
           ) : (
             <Input
               {...register("address")}
               placeholder="Solana address"
-              autoFocus
-              autoComplete="off"
               autoCapitalize="off"
+              autoComplete="off"
+              spellCheck="false"
             />
           )}
 

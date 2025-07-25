@@ -224,6 +224,7 @@ const SendTab = ({
                   placeholder={`Recipient's ${networkConfig.name} address`}
                   autoComplete="off"
                   autoCapitalize="off"
+                  spellCheck="false"
                 />
               ) : (
                 <Input
@@ -231,6 +232,7 @@ const SendTab = ({
                   placeholder={`Recipient's ${networkConfig.name} address`}
                   autoComplete="off"
                   autoCapitalize="off"
+                  spellCheck="false"
                 />
               )}
 
@@ -262,6 +264,8 @@ const SendTab = ({
                 placeholder="Amount"
                 autoComplete="off"
                 autoCapitalize="off"
+                inputMode="decimal"
+                spellCheck="false"
                 onInput={handleAmountInput}
               />
 
