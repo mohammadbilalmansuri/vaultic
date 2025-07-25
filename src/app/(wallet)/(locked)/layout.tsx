@@ -20,6 +20,7 @@ const LockedLayout = ({ children }: Children) => {
   useEffect(() => {
     if (walletStatus !== "ready" || suppressRedirect) return;
     if (!walletExists) router.replace("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (walletStatus === "checking" || (!walletExists && !suppressRedirect)) {

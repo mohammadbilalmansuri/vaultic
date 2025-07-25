@@ -20,6 +20,7 @@ const UnlockedLayout = ({ children }: Children) => {
       return;
     }
     if (authenticated) router.replace("/dashboard");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (walletStatus === "checking" || (!walletExists && !suppressRedirect)) {
