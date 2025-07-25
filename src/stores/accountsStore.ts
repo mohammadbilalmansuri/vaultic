@@ -29,8 +29,9 @@ const useAccountsStore = create<AccountsStore>((set, get) => ({
 
   removeAccount: (index) =>
     set(({ accounts }) => {
-      const { [index]: _, ...remaining } = accounts;
-      return { accounts: remaining };
+      const remainingAccounts = { ...accounts };
+      delete remainingAccounts[index];
+      return { accounts: remainingAccounts };
     }),
 
   setAccounts: (accounts: Accounts) => set(() => ({ accounts })),
