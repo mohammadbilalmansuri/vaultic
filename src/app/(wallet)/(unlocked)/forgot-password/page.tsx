@@ -50,8 +50,8 @@ const ForgotPassword = () => {
         </p>
 
         <p>
-          To continue, you'll need to reset Vaultic and re-import your wallet
-          using your recovery phrase. For more details, visit our&nbsp;
+          To continue, you&apos;ll need to reset Vaultic and re-import your
+          wallet using your recovery phrase. For more details, visit our&nbsp;
           <Link href="/help-and-support" target="_blank" className="link">
             Help & Support
           </Link>
