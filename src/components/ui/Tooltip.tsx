@@ -81,6 +81,7 @@ const Tooltip = ({
       onTouchStart={showTooltip}
       onTouchEnd={hideTooltip}
       onTouchCancel={hideTooltip}
+      onClick={hideTooltip}
       aria-describedby={isVisible ? tooltipId : undefined}
     >
       {children}
