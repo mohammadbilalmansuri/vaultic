@@ -24,6 +24,7 @@ interface ComboboxProps<T extends FieldValues> {
   autoFocus?: InputHTMLAttributes<HTMLInputElement>["autoFocus"];
   autoComplete?: InputHTMLAttributes<HTMLInputElement>["autoComplete"];
   autoCapitalize?: InputHTMLAttributes<HTMLInputElement>["autoCapitalize"];
+  spellCheck?: InputHTMLAttributes<HTMLInputElement>["spellCheck"];
   minLength?: number;
   maxLength?: number;
 }

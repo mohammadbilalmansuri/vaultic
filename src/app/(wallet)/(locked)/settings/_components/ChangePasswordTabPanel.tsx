@@ -64,7 +64,6 @@ const ChangePasswordTabPanel = () => {
         <PasswordInput
           placeholder="Current password"
           {...register("currentPassword")}
-          autoFocus
         />
 
         <PasswordInput

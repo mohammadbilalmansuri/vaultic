@@ -137,10 +137,11 @@ const EnterRecoveryPhrase = ({
                 </label>
                 <input
                   type="text"
-                  id={`word${index + 1}`}
-                  autoComplete="off"
                   autoCapitalize="off"
+                  autoComplete="off"
                   autoFocus={index === 0}
+                  spellCheck="false"
+                  id={`word${index + 1}`}
                   {...register(`word${index + 1}`, {
                     required: true,
                     validate: mnemonicWordValidator(index),

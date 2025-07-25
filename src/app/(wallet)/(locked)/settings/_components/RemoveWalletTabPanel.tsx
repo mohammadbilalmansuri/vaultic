@@ -87,11 +87,7 @@ const RemoveWalletTabPanel = () => {
           onSubmit={handleSubmit(handleRemove)}
           className="w-full flex flex-col items-center sm:gap-4 gap-3"
         >
-          <PasswordInput
-            placeholder="Password"
-            {...register("password")}
-            autoFocus
-          />
+          <PasswordInput placeholder="Password" {...register("password")} />
 
           <Button
             type="submit"
