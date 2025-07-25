@@ -224,6 +224,7 @@ const Sidebar = () => {
                           : "hover:bg-secondary hover:text-primary"
                       )}
                       onClick={isOpenedOnSmallScreen ? closeSidebar : undefined}
+                      aria-label={name}
                       aria-current={isActive ? "page" : undefined}
                       data-clickable
                     >
