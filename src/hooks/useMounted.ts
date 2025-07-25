@@ -13,6 +13,7 @@ const useMounted = (delay = 0): boolean => {
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), delay);
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return mounted;
