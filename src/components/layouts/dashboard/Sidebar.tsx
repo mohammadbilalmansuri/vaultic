@@ -88,6 +88,7 @@ const Sidebar = () => {
     isOpenedOnSmallScreen
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(closeSidebar, [pathname]);
 
   useEffect(() => {
