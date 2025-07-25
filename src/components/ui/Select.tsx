@@ -61,9 +61,6 @@ const Select = <T,>({
           }
         )}
         onClick={() => setOpened((prev) => !prev)}
-        aria-expanded={opened}
-        aria-haspopup="listbox"
-        role="select"
         aria-label="Select option"
       >
         <span className="text-primary font-medium text-nowrap">
