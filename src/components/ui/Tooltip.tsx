@@ -10,6 +10,7 @@ interface TooltipProps {
   content?: ReactNode;
   children: ReactNode;
   position?: TooltipPosition;
+  delay?: number;
   containerClassName?: string;
   tooltipClassName?: string;
 }
@@ -53,6 +54,7 @@ const Tooltip = ({
   content,
   children,
   position = "top",
+  delay = 0.3,
   containerClassName = "",
   tooltipClassName = "",
 }: TooltipProps) => {
@@ -91,7 +93,7 @@ const Tooltip = ({
             initial={initial}
             animate={animate}
             exit={exit}
-            transition={{ duration: 0.15, ease: "easeOut" }}
+            transition={{ duration: 0.15, ease: "easeOut", delay }}
             className={cn(
               "absolute z-50 rounded-lg pointer-events-none bg-zinc-950 after:absolute after:-z-10 after:size-2.5 after:bg-zinc-950 after:rotate-45",
               {
