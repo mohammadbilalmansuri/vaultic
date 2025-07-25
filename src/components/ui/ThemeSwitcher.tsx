@@ -17,7 +17,6 @@ const ThemeSwitcher = ({ className = "" }) => {
       onClick={toggleTheme}
       className={cn("icon-btn-bg", className)}
       aria-label={label}
-      role="switch"
     >
       <Icon />
     </button>
