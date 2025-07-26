@@ -136,6 +136,8 @@ export type SetupSetStep = Dispatch<SetStateAction<SetupStep>>;
 
 // UI and Component Types
 
+export type TooltipPosition = "top" | "bottom" | "left" | "right";
+
 export interface TabPanelProps {
   initialAnimationDelay?: number;
   showInitialAnimation?: boolean;
