@@ -2,9 +2,9 @@
 import { useState, useId } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import type { ReactNode } from "react";
+import type { TooltipPosition } from "@/types";
+import { tooltipSlideAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-
-type TooltipPosition = "top" | "bottom" | "left" | "right";
 
 interface TooltipProps {
   content?: ReactNode;
@@ -15,40 +15,14 @@ interface TooltipProps {
   tooltipClassName?: string;
 }
 
-const getAnimationVariants = (position: TooltipPosition) => {
-  const offsetDistance = 8;
-  const hidden = { scale: 0.9, opacity: 0 };
-  const visible = { scale: 1, opacity: 1 };
-
-  switch (position) {
-    case "top":
-      return {
-        initial: { ...hidden, y: offsetDistance },
-        animate: { ...visible, y: 0 },
-        exit: { ...hidden, y: offsetDistance },
-      };
-    case "bottom":
-      return {
-        initial: { ...hidden, y: -offsetDistance },
-        animate: { ...visible, y: 0 },
-        exit: { ...hidden, y: -offsetDistance },
-      };
-    case "left":
-      return {
-        initial: { ...hidden, x: offsetDistance },
-        animate: { ...visible, x: 0 },
-        exit: { ...hidden, x: offsetDistance },
-      };
-    case "right":
-      return {
-        initial: { ...hidden, x: -offsetDistance },
-        animate: { ...visible, x: 0 },
-        exit: { ...hidden, x: -offsetDistance },
-      };
-    default:
-      return {};
-  }
-};
+const POSITION_STYLES = {
+  top: "bottom-full mb-2 after:top-full after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2",
+  bottom:
+    "top-full mt-2 after:bottom-full after:left-1/2 after:-translate-x-1/2 after:translate-y-1/2",
+  left: "right-full mr-2 after:left-full after:top-1/2 after:-translate-y-1/2 after:-translate-x-1/2",
+  right:
+    "left-full ml-2 after:right-full after:top-1/2 after:-translate-y-1/2 after:translate-x-1/2",
+} as const;
 
 const Tooltip = ({
   content,
@@ -61,12 +35,12 @@ const Tooltip = ({
   const tooltipId = useId();
   const [isVisible, setIsVisible] = useState(false);
 
+  if (!content) return children;
+
+  const { initial, animate, exit } = tooltipSlideAnimation(position, delay);
+
   const showTooltip = () => setIsVisible(true);
   const hideTooltip = () => setIsVisible(false);
-
-  const { initial, animate, exit } = getAnimationVariants(position);
-
-  if (!content) return children;
 
   return (
     <div
@@ -94,24 +68,14 @@ const Tooltip = ({
             initial={initial}
             animate={animate}
             exit={exit}
-            transition={{ duration: 0.15, ease: "easeOut", delay }}
             className={cn(
-              "absolute z-50 rounded-lg pointer-events-none bg-zinc-950 after:absolute after:-z-10 after:size-2.5 after:bg-zinc-950 after:rotate-45",
-              {
-                "bottom-full mb-2 after:top-full after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2":
-                  position === "top",
-                "top-full mt-2 after:bottom-full after:left-1/2 after:-translate-x-1/2 after:translate-y-1/2":
-                  position === "bottom",
-                "right-full mr-2 after:left-full after:top-1/2 after:-translate-y-1/2 after:-translate-x-1/2":
-                  position === "left",
-                "left-full ml-2 after:right-full after:top-1/2 after:-translate-y-1/2 after:translate-x-1/2":
-                  position === "right",
-              }
+              "absolute z-50 pointer-events-none rounded-lg bg-zinc-950 after:absolute after:-z-10 after:size-2.5 after:bg-zinc-950 after:rotate-45",
+              POSITION_STYLES[position]
             )}
           >
             <div
               className={cn(
-                "relative text-zinc-200 sm:text-sm text-xs font-medium px-2 py-1.5 leading-tight whitespace-nowrap text-center",
+                "relative px-2 py-1.5 text-xs sm:text-sm font-medium text-zinc-200 leading-tight whitespace-nowrap text-center",
                 tooltipClassName
               )}
             >
