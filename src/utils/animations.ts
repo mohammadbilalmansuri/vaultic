@@ -1,4 +1,5 @@
 import type { MotionProps, Easing } from "motion/react";
+import type { TooltipPosition } from "@/types";
 
 interface BaseAnimationConfig {
   delay?: number;
@@ -99,5 +100,38 @@ export const fadeInAnimation = ({
     animate: { opacity: 1 },
     exit: { opacity: 0 },
     transition: { duration, ease },
+  };
+};
+
+/**
+ * Creates directional tooltip animation with scale, opacity, and slide-in.
+ * @param position - Direction of tooltip (top, bottom, left, right)
+ * @param delay - Delay before animation starts (default: 0)
+ * @returns MotionProps object for Motion components
+ */
+export const tooltipSlideAnimation = (
+  position: TooltipPosition,
+  delay = 0
+): MotionProps => {
+  const offset = 8;
+
+  const initialOffsets: Record<TooltipPosition, { x?: number; y?: number }> = {
+    top: { y: offset },
+    bottom: { y: -offset },
+    left: { x: offset },
+    right: { x: -offset },
+  };
+
+  const initialOffset = initialOffsets[position];
+  const axis = "x" in initialOffset ? "x" : "y";
+
+  const hidden = { scale: 0.9, opacity: 0 };
+  const visible = { scale: 1, opacity: 1 };
+  const transition = { duration: 0.15, ease: "easeOut" };
+
+  return {
+    initial: { ...hidden, ...initialOffset, transition },
+    animate: { ...visible, [axis]: 0, transition: { ...transition, delay } },
+    exit: { ...hidden, ...initialOffset, transition },
   };
 };
