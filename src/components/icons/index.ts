@@ -19,6 +19,7 @@ export { default as EyeSlash } from "./EyeSlash";
 export { default as Github } from "./Github";
 export { default as Home } from "./Home";
 export { default as Info } from "./Info";
+export { default as Key } from "./Key";
 export { default as ListCross } from "./ListCross";
 export { default as Lock } from "./Lock";
 export { default as Logo } from "./Logo";
