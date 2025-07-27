@@ -80,7 +80,7 @@ const AccountsPage = () => {
         </Tooltip>
       </motion.div>
 
-      <div className="w-full relative flex flex-col md:gap-12 gap-10 md:mt-2 mt-4">
+      <div className="w-full relative flex flex-col md:gap-6 gap-5">
         {accountEntries.map(([key, account]) => {
           const accountIndex = parseInt(key);
           const isActive = accountIndex === activeAccountIndex;
