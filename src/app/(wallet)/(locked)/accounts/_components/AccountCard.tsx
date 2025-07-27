@@ -309,7 +309,6 @@ const AccountCard = ({
       <Modal
         isOpen={isRemovingAccount || isConfirmingRemoval}
         onClose={() => setRemovalState("idle")}
-        closeOnOutsideClick={!isRemovingAccount}
       >
         <h2 className="text-xl font-medium text-primary">
           Remove Account {accountIndex + 1}
