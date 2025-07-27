@@ -10,21 +10,12 @@ interface ModalProps {
   onClose: () => void;
   children: ReactNode;
   className?: string;
-  closeOnOutsideClick?: boolean;
 }
 
-const Modal = ({
-  isOpen,
-  onClose,
-  children,
-  className = "",
-  closeOnOutsideClick = true,
-}: ModalProps) => {
-  const modalOutsideClickRef = closeOnOutsideClick
-    ? useOutsideClick<HTMLDivElement>(() => {
-        if (isOpen) onClose();
-      }, isOpen)
-    : undefined;
+const Modal = ({ isOpen, onClose, children, className = "" }: ModalProps) => {
+  const modalOutsideClickRef = useOutsideClick<HTMLDivElement>(() => {
+    if (isOpen) onClose();
+  }, isOpen);
 
   if (!isOpen) return null;
 
