@@ -75,7 +75,7 @@ const AccountCard = ({
 
   return (
     <motion.div
-      className="w-full relative rounded-3xl border-1.5 md:p-4 p-3 flex flex-col items-center md:gap-4 gap-3"
+      className="w-full relative rounded-3xl border-1.5 flex flex-col items-center md:gap-4 gap-3 md:p-4 p-3"
       {...fadeUpAnimation({ delay: accountIndex * 0.05 })}
     >
       <div className="flex items-center gap-2 bg-default rounded-lg absolute z-10 -top-4.25">
@@ -99,12 +99,14 @@ const AccountCard = ({
                 key={network}
                 type="button"
                 className={cn(
-                  "border h-8 py-2 px-2.5 rounded-lg leading-none capitalize flex items-center justify-center",
+                  "border h-8 py-2 px-2.5 rounded-lg leading-none capitalize flex items-center justify-center transition-all duration-200",
                   isSelected
                     ? "pointer-events-none highlight-teal"
                     : "highlight-zinc hover:bg-secondary"
                 )}
                 onClick={() => setShowingNetwork(network)}
+                disabled={isSelected}
+                aria-label={`See ${network} details`}
               >
                 {network}
               </button>
@@ -121,20 +123,25 @@ const AccountCard = ({
               >
                 <button
                   type="button"
-                  className={cn("icon-btn-bg-sm hover:text-teal-500", {
+                  className={cn("icon-btn-bg-sm", {
                     "bg-secondary pointer-events-none": isSwitching,
                   })}
                   onClick={() => switchActiveAccount(accountIndex)}
                   disabled={isSwitching}
                   aria-label="Set as Active Account"
                 >
-                  {isSwitching ? <Loader size="sm" /> : <Check />}
+                  {isSwitching ? <Loader size="xs" /> : <Check />}
                 </button>
               </Tooltip>
             )}
 
-            <div className="flex flex-col items-end">
-              <Tooltip content="Remove Account" position="left">
+            <div className="relative">
+              <Tooltip
+                content={
+                  isConfirmingRemoval ? "Cancel Removal" : "Remove Account"
+                }
+                position="left"
+              >
                 <button
                   className={cn("icon-btn-bg-sm", {
                     "hover:text-rose-500": removalState === "idle",
@@ -144,27 +151,29 @@ const AccountCard = ({
                       prev === "confirming" ? "idle" : "confirming"
                     )
                   }
-                  aria-label="Remove Account"
+                  aria-label={
+                    isConfirmingRemoval ? "Cancel Removal" : "Remove Account"
+                  }
                 >
                   {isConfirmingRemoval ? <Cancel /> : <Trash />}
                 </button>
               </Tooltip>
 
               <AnimatePresence>
-                {isConfirmingRemoval && (
+                {(isRemovingAccount || isConfirmingRemoval) && (
                   <motion.div
                     className="fixed inset-0 z-40 bg-zinc-950/50 flex items-center justify-center"
                     {...fadeInAnimation()}
                   >
                     <motion.div
                       ref={removeModalRef}
-                      className="bg-default rounded-2xl p-6 w-full max-w-sm border shadow-xl text-center space-y-4"
-                      {...scaleUpAnimation()}
+                      className="bg-default rounded-3xl md:p-6 p-5 w-full max-w-sm border shadow-xl text-center m-4 flex flex-col items-center md:gap-4 gap-3"
+                      {...scaleUpAnimation({ delay: 0.15 })}
                     >
-                      <h2 className="text-lg font-semibold text-white">
+                      <h2 className="text-xl font-medium text-primary">
                         Remove Account {accountIndex + 1}
                       </h2>
-                      <div className="text-zinc-400 text-sm space-y-2 leading-relaxed">
+                      <div className="w-full flex flex-col gap-2">
                         <p>
                           Removing this account only deletes it from Vaultic —
                           it still exists on the blockchain and may hold funds.
@@ -179,21 +188,25 @@ const AccountCard = ({
                           using your recovery phrase.
                         </p>
                       </div>
-                      <div className="flex items-center justify-center gap-4 pt-2">
+                      <div className="w-full flex items-center justify-center gap-4 pt-2">
                         <button
                           type="button"
-                          className="flex-1 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-medium"
+                          className="flex-1 py-2 rounded-xl bg-secondary font-medium"
                           onClick={() => setRemovalState("idle")}
                         >
                           Cancel
                         </button>
                         <button
                           type="button"
-                          className="flex-1 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-semibold"
+                          className="flex-1 py-2 rounded-xl bg-rose-500 text-zinc-200 font-medium flex items-center justify-center"
                           onClick={handleAccountRemove}
                           disabled={isRemovingAccount}
                         >
-                          {isRemovingAccount ? <Loader size="sm" /> : "Remove"}
+                          {isRemovingAccount ? (
+                            <Loader size="sm" color="current" />
+                          ) : (
+                            "Remove"
+                          )}
                         </button>
                       </div>
                     </motion.div>
