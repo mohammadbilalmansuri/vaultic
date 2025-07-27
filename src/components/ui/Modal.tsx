@@ -27,7 +27,7 @@ const Modal = ({ isOpen, onClose, children, className = "" }: ModalProps) => {
       >
         <div
           ref={modalOutsideClickRef}
-          className={cn("box bg-default xs:p-6 p-5 gap-4", className)}
+          className={cn("box bg-default xs:p-6 p-5", className)}
         >
           {children}
         </div>
