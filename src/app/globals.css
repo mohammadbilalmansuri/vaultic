@@ -203,7 +203,7 @@
   }
 
   .box {
-    @apply w-full max-w-md relative flex flex-col items-center text-center border-1.5 border-default rounded-3xl;
+    @apply w-full max-w-md relative flex flex-col items-center text-center border-1.5 rounded-3xl;
   }
 
   .box h1,
