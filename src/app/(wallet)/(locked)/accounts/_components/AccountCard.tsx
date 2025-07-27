@@ -4,16 +4,12 @@ import { AnimatePresence, motion } from "motion/react";
 import { DEFAULT_NETWORK } from "@/constants";
 import type { Account, Network } from "@/types";
 import { useAccountsStore, useNotificationStore } from "@/stores";
-import {
-  fadeInAnimation,
-  fadeUpAnimation,
-  scaleUpAnimation,
-} from "@/utils/animations";
+import { fadeInAnimation, fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import delay from "@/utils/delay";
 import { useAccounts, useOutsideClick } from "@/hooks";
 import { Trash, Check, Cancel } from "@/components/icons";
-import { Loader, Tooltip } from "@/components/ui";
+import { Button, Loader, Tooltip } from "@/components/ui";
 import NetworkDetails from "./NetworkDetails";
 
 interface AccountCardProps {
@@ -135,90 +131,90 @@ const AccountCard = ({
               </Tooltip>
             )}
 
-            <div className="relative">
-              <Tooltip
-                content={
+            <Tooltip
+              content={
+                isConfirmingRemoval ? "Cancel Removal" : "Remove Account"
+              }
+              position="left"
+            >
+              <button
+                className={cn("icon-btn-bg-sm", {
+                  "hover:text-rose-500": removalState === "idle",
+                })}
+                onClick={() =>
+                  setRemovalState((prev) =>
+                    prev === "confirming" ? "idle" : "confirming"
+                  )
+                }
+                aria-label={
                   isConfirmingRemoval ? "Cancel Removal" : "Remove Account"
                 }
-                position="left"
               >
-                <button
-                  className={cn("icon-btn-bg-sm", {
-                    "hover:text-rose-500": removalState === "idle",
-                  })}
-                  onClick={() =>
-                    setRemovalState((prev) =>
-                      prev === "confirming" ? "idle" : "confirming"
-                    )
-                  }
-                  aria-label={
-                    isConfirmingRemoval ? "Cancel Removal" : "Remove Account"
-                  }
-                >
-                  {isConfirmingRemoval ? <Cancel /> : <Trash />}
-                </button>
-              </Tooltip>
-
-              <AnimatePresence>
-                {(isRemovingAccount || isConfirmingRemoval) && (
-                  <motion.div
-                    className="fixed inset-0 z-40 bg-zinc-950/50 flex items-center justify-center"
-                    {...fadeInAnimation()}
-                  >
-                    <motion.div
-                      ref={removeModalRef}
-                      className="bg-default rounded-3xl md:p-6 p-5 w-full max-w-sm border shadow-xl text-center m-4 flex flex-col items-center md:gap-4 gap-3"
-                      {...scaleUpAnimation({ delay: 0.15 })}
-                    >
-                      <h2 className="text-xl font-medium text-primary">
-                        Remove Account {accountIndex + 1}
-                      </h2>
-                      <div className="w-full flex flex-col gap-2">
-                        <p>
-                          Removing this account only deletes it from Vaultic —
-                          it still exists on the blockchain and may hold funds.
-                        </p>
-                        <p>
-                          Deleted accounts cannot be recreated automatically.
-                          Vaultic does{" "}
-                          <strong>not reuse account indexes</strong>.
-                        </p>
-                        <p>
-                          To restore it later, reset your wallet and re-import
-                          using your recovery phrase.
-                        </p>
-                      </div>
-                      <div className="w-full flex items-center justify-center gap-4 pt-2">
-                        <button
-                          type="button"
-                          className="flex-1 py-2 rounded-xl bg-secondary font-medium"
-                          onClick={() => setRemovalState("idle")}
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="button"
-                          className="flex-1 py-2 rounded-xl bg-rose-500 text-zinc-200 font-medium flex items-center justify-center"
-                          onClick={handleAccountRemove}
-                          disabled={isRemovingAccount}
-                        >
-                          {isRemovingAccount ? (
-                            <Loader size="sm" color="current" />
-                          ) : (
-                            "Remove"
-                          )}
-                        </button>
-                      </div>
-                    </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                {isConfirmingRemoval ? <Cancel /> : <Trash />}
+              </button>
+            </Tooltip>
           </div>
         )}
       </div>
 
       <NetworkDetails network={showingNetwork} {...account[showingNetwork]} />
+
+      <AnimatePresence>
+        {(isRemovingAccount || isConfirmingRemoval) && (
+          <motion.div
+            className="fixed inset-0 z-40 bg-zinc-950/50 flex items-center justify-center p-4"
+            {...fadeInAnimation()}
+          >
+            <div
+              ref={removeModalRef}
+              className="relative w-full max-w-sm text-center flex flex-col items-center gap-3 xs:p-6 p-5 border-1.5 rounded-3xl bg-default"
+            >
+              <h2 className="text-xl font-medium text-primary">
+                Remove Account {accountIndex + 1}
+              </h2>
+              <div className="w-full flex flex-col items-center gap-2">
+                <p>
+                  Removing this account only deletes it from Vaultic — it still
+                  exists on the blockchain and may hold funds.
+                </p>
+                <p>
+                  Deleted accounts cannot be recreated automatically. Vaultic
+                  does not reuse account indexes.
+                </p>
+                <p>
+                  To restore it later, reset your wallet and re-import using
+                  your recovery phrase.
+                </p>
+              </div>
+              <div className="w-full flex items-center justify-center gap-3 mt-3">
+                <Button
+                  variant="zinc"
+                  size="sm"
+                  className="flex-1"
+                  onClick={() => setRemovalState("idle")}
+                  aria-label="Cancel Removal"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="rose"
+                  size="sm"
+                  className="flex-1"
+                  onClick={handleAccountRemove}
+                  disabled={isRemovingAccount}
+                  aria-label="Confirm Account Removal"
+                >
+                  {isRemovingAccount ? (
+                    <Loader size="sm" color="current" />
+                  ) : (
+                    "Remove"
+                  )}
+                </Button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };
