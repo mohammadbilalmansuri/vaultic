@@ -2,10 +2,10 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import type { Account, Network } from "@/types";
-import { useAccountsStore, useNotificationStore } from "@/stores";
+import { useSwitchingToAccount, useNotificationActions } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import { useAccounts } from "@/hooks";
+import { useAccountManager } from "@/hooks";
 import { Trash, Check, Cancel } from "@/components/icons";
 import { Tooltip, Button, Modal, Loader } from "@/components/ui";
 import { NetworkCard } from "@/components/shared";
@@ -23,12 +23,10 @@ const AccountCard = ({
   isActive,
   hasMultipleAccounts,
 }: AccountCardProps) => {
-  const switchingToAccount = useAccountsStore(
-    (state) => state.switchingToAccount
-  );
-  const notify = useNotificationStore((state) => state.notify);
+  const switchingToAccount = useSwitchingToAccount();
+  const { notify } = useNotificationActions();
 
-  const { switchActiveAccount, deleteAccount } = useAccounts();
+  const { switchActiveAccount, deleteAccount } = useAccountManager();
 
   const [removalState, setRemovalState] = useState<
     "idle" | "confirming" | "removing"
