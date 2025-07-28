@@ -1,11 +1,11 @@
 "use client";
 import { useEffect } from "react";
 import type { Children } from "@/types";
-import { useThemeStore } from "@/stores";
+import { useTheme, useIsHydrated } from "@/stores";
 
 const ThemeProvider = ({ children }: Children) => {
-  const theme = useThemeStore((state) => state.theme);
-  const isHydrated = useThemeStore((state) => state.isHydrated);
+  const theme = useTheme();
+  const isHydrated = useIsHydrated();
 
   useEffect(() => {
     if (isHydrated) {
