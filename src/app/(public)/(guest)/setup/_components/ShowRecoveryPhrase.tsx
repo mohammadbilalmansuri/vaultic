@@ -3,7 +3,7 @@ import { useState, useEffect, JSX } from "react";
 import { motion } from "motion/react";
 import { generateMnemonic } from "bip39";
 import type { SetupSetStep } from "@/types";
-import { useWalletStore } from "@/stores";
+import { useWalletActions } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { MnemonicView } from "@/components/shared";
@@ -16,7 +16,7 @@ const ShowRecoveryPhrase = ({
   setStep: SetupSetStep;
   StepProgress: JSX.Element;
 }) => {
-  const setWalletState = useWalletStore((state) => state.setWalletState);
+  const { setWalletState } = useWalletActions();
   const [saved, setSaved] = useState(false);
   const [mnemonic, setMnemonic] = useState<string>("");
 
