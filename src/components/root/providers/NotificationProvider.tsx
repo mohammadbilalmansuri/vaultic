@@ -1,18 +1,21 @@
 "use client";
 import { motion, AnimatePresence } from "motion/react";
 import { NOTIFICATION_ICONS } from "@/constants";
-import { useNotificationStore } from "@/stores";
+import {
+  useNotificationOpened,
+  useNotificationType,
+  useNotificationMessage,
+  useNotificationActions,
+} from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { Cancel } from "@/components/icons";
 
 const NotificationProvider = () => {
-  const opened = useNotificationStore((state) => state.opened);
-  const type = useNotificationStore((state) => state.type);
-  const message = useNotificationStore((state) => state.message);
-  const closeNotification = useNotificationStore(
-    (state) => state.closeNotification
-  );
+  const opened = useNotificationOpened();
+  const type = useNotificationType();
+  const message = useNotificationMessage();
+  const { closeNotification } = useNotificationActions();
 
   const { icon: Icon, colorClassName } = NOTIFICATION_ICONS[type || "info"];
 
