@@ -5,7 +5,7 @@ import { validateMnemonic, wordlists } from "bip39";
 import { useForm } from "react-hook-form";
 import type { ClipboardEvent } from "react";
 import type { SetupSetStep } from "@/types";
-import { useWalletStore } from "@/stores";
+import { useWalletActions } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { Button, FormError } from "@/components/ui";
@@ -29,7 +29,7 @@ const EnterRecoveryPhrase = ({
   StepProgress: JSX.Element;
 }) => {
   const [mnemonicLength, setMnemonicLength] = useState<MnemonicLength>(12);
-  const setWalletState = useWalletStore((state) => state.setWalletState);
+  const { setWalletState } = useWalletActions();
 
   const {
     register,
