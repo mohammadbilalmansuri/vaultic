@@ -4,7 +4,12 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import { NETWORKS } from "@/config";
 import type { Network } from "@/types";
-import { useAccountsStore, useClipboardStore } from "@/stores";
+import {
+  useAccountActions,
+  useActiveAccountIndex,
+  useCopiedId,
+  useClipboardActions,
+} from "@/stores";
 import { generateQRCode } from "@/services/qr";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useFileActions } from "@/hooks";
@@ -20,12 +25,10 @@ interface QRCodeData {
 }
 
 const ReceiveTab = () => {
-  const activeAccount = useAccountsStore((state) => state.getActiveAccount());
-  const activeAccountIndex = useAccountsStore(
-    (state) => state.activeAccountIndex
-  );
-  const copiedId = useClipboardStore((state) => state.copiedId);
-  const copyToClipboard = useClipboardStore((state) => state.copyToClipboard);
+  const activeAccount = useAccountActions().getActiveAccount();
+  const activeAccountIndex = useActiveAccountIndex();
+  const copiedId = useCopiedId();
+  const { copyToClipboard } = useClipboardActions();
 
   const { downloadFile, shareFile } = useFileActions();
 
