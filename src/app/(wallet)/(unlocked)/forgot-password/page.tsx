@@ -3,7 +3,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { useNotificationStore } from "@/stores";
+import { useNotificationActions } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { useStorage } from "@/hooks";
@@ -12,7 +12,7 @@ import { Button, Loader, Switch } from "@/components/ui";
 const ForgotPassword = () => {
   const router = useRouter();
   const { removeWallet } = useStorage();
-  const notify = useNotificationStore((state) => state.notify);
+  const { notify } = useNotificationActions();
   const [agree, setAgree] = useState(false);
   const [resetting, startResetting] = useTransition();
 
