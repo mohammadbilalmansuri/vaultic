@@ -1,7 +1,7 @@
 "use client";
 import { useRef, ChangeEvent } from "react";
 import type { Network } from "@/types";
-import { useNotificationStore } from "@/stores";
+import { useNotificationActions } from "@/stores";
 import { scanQRCode } from "@/services/qr";
 
 type AddressQRUploadConfig = {
@@ -23,8 +23,9 @@ const useAddressQRUpload = ({
   onAddressScanned,
   validateAddress,
 }: AddressQRUploadConfig) => {
+  const { notify } = useNotificationActions();
+
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { notify } = useNotificationStore.getState();
 
   const triggerUpload = () => fileInputRef.current?.click();
 
