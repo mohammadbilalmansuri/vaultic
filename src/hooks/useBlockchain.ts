@@ -2,10 +2,11 @@ import BigNumber from "bignumber.js";
 import { NETWORK_FUNCTIONS } from "@/config";
 import type { Transaction, Network } from "@/types";
 import {
-  useWalletStore,
-  useAccountsStore,
-  useTransactionsStore,
-  useNotificationStore,
+  getWalletState,
+  useAccountActions,
+  useNotificationActions,
+  useTransactionActions,
+  useWalletActions,
 } from "@/stores";
 import { useStorage } from "@/hooks";
 
@@ -21,10 +22,11 @@ import { useStorage } from "@/hooks";
  */
 const useBlockchain = () => {
   const { updateWallet } = useStorage();
-  const { setWalletState } = useWalletStore.getState();
-  const { getActiveAccount, updateActiveAccount } = useAccountsStore.getState();
-  const { setTransactions, addTransaction } = useTransactionsStore.getState();
-  const { notify } = useNotificationStore.getState();
+
+  const { getActiveAccount, updateActiveAccount } = useAccountActions();
+  const { setTransactions, addTransaction } = useTransactionActions();
+  const { setWalletState } = useWalletActions();
+  const { notify } = useNotificationActions();
 
   /**
    * Validates whether an address is valid for the given blockchain network.
@@ -171,7 +173,7 @@ const useBlockchain = () => {
    * @returns {Promise<void>} A promise that resolves after the mode switch is complete.
    */
   const switchNetworkMode = async (): Promise<void> => {
-    const { networkMode } = useWalletStore.getState();
+    const { networkMode } = getWalletState();
     const switchToMode = networkMode === "mainnet" ? "testnet" : "mainnet";
 
     try {
