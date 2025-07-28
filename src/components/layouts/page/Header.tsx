@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { HEADER_NAV_LINKS } from "@/constants";
-import { useWalletStore } from "@/stores";
+import { useWalletExists } from "@/stores";
 import { expandCollapseAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { useOutsideClick } from "@/hooks";
@@ -13,7 +13,7 @@ import { ThemeSwitcher, NavLink, Tooltip } from "@/components/ui";
 
 const Header = () => {
   const pathname = usePathname();
-  const walletExists = useWalletStore((state) => state.walletExists);
+  const walletExists = useWalletExists();
   const navLinks = HEADER_NAV_LINKS(walletExists);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
