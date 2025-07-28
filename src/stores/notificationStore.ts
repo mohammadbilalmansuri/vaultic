@@ -1,10 +1,19 @@
 import { create } from "zustand";
 import type { Notification } from "@/types";
 
-interface NotificationStore extends Notification {
+interface NotificationState {
   opened: boolean;
+  type: "info" | "success" | "error";
+  message: string;
+}
+
+interface NotificationActions {
   notify: ({ type, message, duration }: Notification) => void;
   closeNotification: () => void;
+}
+
+interface NotificationStore extends NotificationState {
+  actions: NotificationActions;
 }
 
 /**
@@ -16,7 +25,7 @@ const useNotificationStore = create<NotificationStore>((set, get) => {
 
   const startTimer = (duration: number) => {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => get().closeNotification(), duration);
+    timeoutId = setTimeout(() => get().actions.closeNotification(), duration);
   };
 
   return {
@@ -24,26 +33,40 @@ const useNotificationStore = create<NotificationStore>((set, get) => {
     type: "info",
     message: "",
 
-    notify: ({ type = "info", message, duration = 4000 }) => {
-      const { opened } = get();
+    actions: {
+      notify: ({ type = "info", message, duration = 4000 }) => {
+        const { opened } = get();
 
-      if (opened) {
-        set({ opened: false });
-        setTimeout(() => {
+        if (opened) {
+          set({ opened: false });
+          setTimeout(() => {
+            set({ opened: true, type, message });
+            startTimer(duration);
+          }, 250);
+        } else {
           set({ opened: true, type, message });
           startTimer(duration);
-        }, 250);
-      } else {
-        set({ opened: true, type, message });
-        startTimer(duration);
-      }
-    },
+        }
+      },
 
-    closeNotification: () => {
-      if (timeoutId) clearTimeout(timeoutId);
-      set({ opened: false, type: "info", message: "" });
+      closeNotification: () => {
+        if (timeoutId) clearTimeout(timeoutId);
+        set({ opened: false, type: "info", message: "" });
+      },
     },
   };
 });
 
-export default useNotificationStore;
+export const useNotificationOpened = () =>
+  useNotificationStore((state) => state.opened);
+
+export const useNotificationType = () =>
+  useNotificationStore((state) => state.type);
+
+export const useNotificationMessage = () =>
+  useNotificationStore((state) => state.message);
+
+export const useNotificationActions = () =>
+  useNotificationStore((state) => state.actions);
+
+export const getNotificationState = () => useNotificationStore.getState();

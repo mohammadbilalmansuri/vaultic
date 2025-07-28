@@ -1,10 +1,13 @@
 import { create } from "zustand";
 import type { Account, Accounts } from "@/types";
 
-interface AccountsStore {
+interface AccountsState {
   accounts: Accounts;
   activeAccountIndex: number;
   switchingToAccount: number | null;
+}
+
+interface AccountsActions {
   addAccount: (index: number, account: Account) => void;
   removeAccount: (index: number) => void;
   setAccounts: (accounts: Accounts) => void;
@@ -13,6 +16,10 @@ interface AccountsStore {
   setActiveAccountIndex: (index: number) => void;
   updateActiveAccount: (account: Account) => void;
   setSwitchingToAccount: (accountIndex: number | null) => void;
+}
+
+interface AccountsStore extends AccountsState {
+  actions: AccountsActions;
 }
 
 /**
@@ -24,37 +31,51 @@ const useAccountsStore = create<AccountsStore>((set, get) => ({
   activeAccountIndex: 0,
   switchingToAccount: null,
 
-  addAccount: (index, account) =>
-    set(({ accounts }) => ({ accounts: { ...accounts, [index]: account } })),
+  actions: {
+    addAccount: (index, account) =>
+      set(({ accounts }) => ({ accounts: { ...accounts, [index]: account } })),
 
-  removeAccount: (index) =>
-    set(({ accounts }) => {
-      const remainingAccounts = { ...accounts };
-      delete remainingAccounts[index];
-      return { accounts: remainingAccounts };
-    }),
+    removeAccount: (index) =>
+      set(({ accounts }) => {
+        const remainingAccounts = { ...accounts };
+        delete remainingAccounts[index];
+        return { accounts: remainingAccounts };
+      }),
 
-  setAccounts: (accounts: Accounts) => set(() => ({ accounts })),
+    setAccounts: (accounts: Accounts) => set(() => ({ accounts })),
 
-  clearAccounts: () => set(() => ({ accounts: {}, activeAccountIndex: 0 })),
+    clearAccounts: () => set(() => ({ accounts: {}, activeAccountIndex: 0 })),
 
-  getActiveAccount: () => {
-    const { accounts, activeAccountIndex } = get();
-    return accounts[activeAccountIndex];
+    getActiveAccount: () => {
+      const { accounts, activeAccountIndex } = get();
+      return accounts[activeAccountIndex];
+    },
+
+    setActiveAccountIndex: (index) =>
+      set(() => ({ activeAccountIndex: index })),
+
+    updateActiveAccount: (account) =>
+      set(({ accounts, activeAccountIndex }) => ({
+        accounts: {
+          ...accounts,
+          [activeAccountIndex]: account,
+        },
+      })),
+
+    setSwitchingToAccount: (accountIndex) =>
+      set(() => ({ switchingToAccount: accountIndex })),
   },
-
-  setActiveAccountIndex: (index) => set(() => ({ activeAccountIndex: index })),
-
-  updateActiveAccount: (account) =>
-    set(({ accounts, activeAccountIndex }) => ({
-      accounts: {
-        ...accounts,
-        [activeAccountIndex]: account,
-      },
-    })),
-
-  setSwitchingToAccount: (accountIndex) =>
-    set(() => ({ switchingToAccount: accountIndex })),
 }));
 
-export default useAccountsStore;
+export const useAccounts = () => useAccountsStore((state) => state.accounts);
+
+export const useActiveAccountIndex = () =>
+  useAccountsStore((state) => state.activeAccountIndex);
+
+export const useSwitchingToAccount = () =>
+  useAccountsStore((state) => state.switchingToAccount);
+
+export const useAccountActions = () =>
+  useAccountsStore((state) => state.actions);
+
+export const getAccountsState = () => useAccountsStore.getState();
