@@ -6,12 +6,16 @@ import { motion, AnimatePresence } from "motion/react";
 import { SIDEBAR_NAV_LINKS } from "@/constants";
 import type { MouseEvent } from "react";
 import type { Variant } from "motion/react";
-import { useAccountsStore } from "@/stores";
+import {
+  useAccounts,
+  useActiveAccountIndex,
+  useSwitchingToAccount,
+} from "@/stores";
 import { fadeInAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import {
-  useWallet,
-  useAccounts,
+  useWalletAuth,
+  useAccountManager,
   useMatchMedia,
   useOutsideClick,
 } from "@/hooks";
@@ -35,13 +39,9 @@ const SIDEBAR_VARIANTS: Record<SidebarState, Variant> = {
 } as const;
 
 const Sidebar = () => {
-  const accounts = useAccountsStore((state) => state.accounts);
-  const activeAccountIndex = useAccountsStore(
-    (state) => state.activeAccountIndex
-  );
-  const switchingToAccount = useAccountsStore(
-    (state) => state.switchingToAccount
-  );
+  const accounts = useAccounts();
+  const activeAccountIndex = useActiveAccountIndex();
+  const switchingToAccount = useSwitchingToAccount();
 
   const accountOptions = Object.keys(accounts)
     .map(Number)
@@ -49,8 +49,8 @@ const Sidebar = () => {
     .map((index) => ({ label: `Account ${index + 1}`, value: index }));
 
   const pathname = usePathname();
-  const { lockWallet } = useWallet();
-  const { switchActiveAccount } = useAccounts();
+  const { lockWallet } = useWalletAuth();
+  const { switchActiveAccount } = useAccountManager();
   const isLargeScreen = useMatchMedia("(min-width: 1024px)");
 
   const sidebarDefaultState: SidebarState = isLargeScreen
