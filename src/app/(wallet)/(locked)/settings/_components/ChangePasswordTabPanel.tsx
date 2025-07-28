@@ -3,7 +3,7 @@ import { useTransition } from "react";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNotificationStore } from "@/stores";
+import { useNotificationActions } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { ChangePasswordForm, ChangePasswordSchema } from "@/utils/validations";
@@ -11,7 +11,7 @@ import { useStorage } from "@/hooks";
 import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 
 const ChangePasswordTabPanel = () => {
-  const notify = useNotificationStore((state) => state.notify);
+  const { notify } = useNotificationActions();
   const { updatePassword } = useStorage();
   const [changing, startChanging] = useTransition();
 
