@@ -3,9 +3,11 @@ import { useTransition } from "react";
 import { motion } from "motion/react";
 import type { Network, TabsData } from "@/types";
 import {
-  useAccountsStore,
-  useNotificationStore,
-  useWalletStore,
+  useNetworkMode,
+  useActiveAccountIndex,
+  useAccountActions,
+  useSwitchingToAccount,
+  useNotificationActions,
 } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
@@ -24,22 +26,17 @@ const TABS: TabsData = [
 ];
 
 const DashboardPage = () => {
-  const networkMode = useWalletStore((state) => state.networkMode);
-  const activeAccountIndex = useAccountsStore(
-    (state) => state.activeAccountIndex
-  );
-  const activeAccount = useAccountsStore((state) => state.getActiveAccount());
-  const switchingToAccount = useAccountsStore(
-    (state) => state.switchingToAccount
-  );
-  const notify = useNotificationStore((state) => state.notify);
+  const networkMode = useNetworkMode();
+  const activeAccountIndex = useActiveAccountIndex();
+  const activeAccount = useAccountActions().getActiveAccount();
+  const switchingToAccount = useSwitchingToAccount();
+  const { notify } = useNotificationActions();
 
   const { fetchActiveAccountBalances } = useBlockchain();
   const [refreshing, startRefreshing] = useTransition();
 
   const accountNumber = activeAccountIndex + 1;
   const accountLabel = `Account ${accountNumber}`;
-  const networkAccounts = Object.entries(activeAccount);
 
   const handleBalanceRefresh = () => {
     startRefreshing(async () => {
@@ -122,7 +119,7 @@ const DashboardPage = () => {
         className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5"
         {...fadeUpAnimation({ delay: 0.05 })}
       >
-        {networkAccounts.map(([network, networkData]) => (
+        {Object.entries(activeAccount).map(([network, networkData]) => (
           <NetworkCard
             key={`${network}-card`}
             isFor="dashboard"
