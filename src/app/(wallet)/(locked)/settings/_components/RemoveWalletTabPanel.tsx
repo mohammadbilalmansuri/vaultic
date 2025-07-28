@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DEV_PASSWORD, IS_DEV } from "@/config";
-import { useWalletStore, useNotificationStore } from "@/stores";
+import { getWalletState, useNotificationActions } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { VerifyPasswordSchema, VerifyPasswordForm } from "@/utils/validations";
@@ -14,9 +14,10 @@ import { useStorage } from "@/hooks";
 import { Button, Loader, PasswordInput, FormError } from "@/components/ui";
 
 const RemoveWalletTabPanel = () => {
-  const notify = useNotificationStore((state) => state.notify);
+  const { notify } = useNotificationActions();
   const router = useRouter();
   const { removeWallet } = useStorage();
+
   const [removing, startRemoving] = useTransition();
 
   const {
@@ -34,7 +35,7 @@ const RemoveWalletTabPanel = () => {
   const handleRemove = ({ password }: VerifyPasswordForm) => {
     startRemoving(async () => {
       try {
-        const { password: storedPassword } = useWalletStore.getState();
+        const storedPassword = getWalletState().password;
 
         if (storedPassword !== password) {
           setError("password", { message: "Incorrect password" });
