@@ -2,7 +2,7 @@
 import { motion } from "motion/react";
 import type { TabsData } from "@/types";
 import { fadeUpAnimation } from "@/utils/animations";
-import { useWallet } from "@/hooks";
+import { useWalletAuth } from "@/hooks";
 import { Lock, Setting } from "@/components/icons";
 import { Tabs } from "@/components/shared";
 import { Tooltip } from "@/components/ui";
@@ -19,7 +19,7 @@ const TABS: TabsData = [
 ];
 
 const SettingsPage = () => {
-  const { lockWallet } = useWallet();
+  const { lockWallet } = useWalletAuth();
 
   return (
     <div className="w-full max-w-screen-lg relative flex flex-col md:gap-6 gap-5">
