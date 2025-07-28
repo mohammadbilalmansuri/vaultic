@@ -1,25 +1,26 @@
 import { useRouter } from "next/navigation";
 import type { UseFormSetError } from "react-hook-form";
 import {
-  useWalletStore,
-  useNotificationStore,
-  useAccountsStore,
+  useAccountActions,
+  useNotificationActions,
+  useWalletActions,
 } from "@/stores";
 import delay from "@/utils/delay";
 import { VerifyPasswordForm } from "@/utils/validations";
-import { useStorage, useAccounts } from "@/hooks";
+import { useAccountManager, useStorage } from "@/hooks";
 
 /**
  * Wallet management hook for authentication, wallet existence checks, and security operations.
  * Handles wallet unlock/lock operations with error handling and automatic security measures.
  */
-const useWallet = () => {
+const useWalletAuth = () => {
   const router = useRouter();
   const { isWalletStored, loadWallet, removeWallet } = useStorage();
-  const { loadAccounts } = useAccounts();
-  const { setWalletState } = useWalletStore.getState();
-  const { clearAccounts } = useAccountsStore.getState();
-  const { notify } = useNotificationStore.getState();
+  const { loadAccounts } = useAccountManager();
+
+  const { setWalletState } = useWalletActions();
+  const { clearAccounts } = useAccountActions();
+  const { notify } = useNotificationActions();
 
   /**
    * Checks if a wallet exists in storage and updates wallet state.
@@ -103,4 +104,4 @@ const useWallet = () => {
   return { checkWalletExists, unlockWallet, lockWallet };
 };
 
-export default useWallet;
+export default useWalletAuth;
