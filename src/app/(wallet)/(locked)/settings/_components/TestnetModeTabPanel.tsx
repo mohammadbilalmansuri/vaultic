@@ -2,14 +2,14 @@
 import { useTransition } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { useWalletStore } from "@/stores";
+import { useNetworkMode } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { useBlockchain } from "@/hooks";
 import { Switch } from "@/components/ui";
 
 const TestnetModeTabPanel = () => {
-  const networkMode = useWalletStore((state) => state.networkMode);
+  const networkMode = useNetworkMode();
   const isTestnetModeOn = networkMode === "testnet";
 
   const { switchNetworkMode } = useBlockchain();
