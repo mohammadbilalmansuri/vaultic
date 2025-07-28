@@ -6,11 +6,12 @@ import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { DEFAULT_NETWORK } from "@/constants";
 import type { Network } from "@/types";
 import {
-  useAccountsStore,
-  useClipboardStore,
-  useNotificationStore,
-  useTransactionsStore,
-  useWalletStore,
+  useAccountActions,
+  useClipboardActions,
+  useCopiedId,
+  useNetworkMode,
+  useNotificationActions,
+  useTransactions,
 } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
@@ -22,12 +23,12 @@ import { ListCross, ExternalLink, Refresh } from "@/components/icons";
 import { Tooltip, CopyToggle, Button, Loader } from "@/components/ui";
 
 const TransactionsTab = () => {
-  const transactions = useTransactionsStore((state) => state.transactions);
-  const activeAccount = useAccountsStore((state) => state.getActiveAccount());
-  const networkMode = useWalletStore((state) => state.networkMode);
-  const notify = useNotificationStore((state) => state.notify);
-  const copiedId = useClipboardStore((state) => state.copiedId);
-  const copyToClipboard = useClipboardStore((state) => state.copyToClipboard);
+  const transactions = useTransactions();
+  const activeAccount = useAccountActions().getActiveAccount();
+  const networkMode = useNetworkMode();
+  const copiedId = useCopiedId();
+  const { copyToClipboard } = useClipboardActions();
+  const { notify } = useNotificationActions();
 
   const { fetchActiveAccountTransactions } = useBlockchain();
   const [refreshing, startRefreshing] = useTransition();
