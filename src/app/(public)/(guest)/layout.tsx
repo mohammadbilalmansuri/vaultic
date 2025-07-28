@@ -2,15 +2,19 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import type { Children } from "@/types";
-import { useWalletStore } from "@/stores";
+import {
+  useSuppressRedirect,
+  useWalletExists,
+  useWalletStatus,
+} from "@/stores";
 import { PageLayout } from "@/components/layouts";
 import { Loading } from "@/components/shared";
 
 const GuestLayout = ({ children }: Children) => {
   const router = useRouter();
-  const walletStatus = useWalletStore((state) => state.walletStatus);
-  const suppressRedirect = useWalletStore((state) => state.suppressRedirect);
-  const walletExists = useWalletStore((state) => state.walletExists);
+  const walletStatus = useWalletStatus();
+  const suppressRedirect = useSuppressRedirect();
+  const walletExists = useWalletExists();
 
   useEffect(() => {
     if (walletStatus !== "ready" || suppressRedirect) return;
