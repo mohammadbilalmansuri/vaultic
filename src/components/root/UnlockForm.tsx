@@ -8,12 +8,12 @@ import { IS_DEV, DEV_PASSWORD } from "@/config";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { VerifyPasswordSchema, VerifyPasswordForm } from "@/utils/validations";
-import { useWallet } from "@/hooks";
+import { useWalletAuth } from "@/hooks";
 import { Logo } from "../icons";
 import { Button, FormError, Loader, PasswordInput } from "../ui";
 
 const UnlockForm = () => {
-  const { unlockWallet } = useWallet();
+  const { unlockWallet } = useWalletAuth();
   const {
     register,
     handleSubmit,
