@@ -1,7 +1,9 @@
 import {
-  useWalletStore,
-  useAccountsStore,
-  useTransactionsStore,
+  getAccountsState,
+  getWalletState,
+  useAccountActions,
+  useTransactionActions,
+  useWalletActions,
 } from "@/stores";
 import {
   getWalletData,
@@ -20,9 +22,9 @@ import {
  * Handles wallet creation, loading, updating, password changes, and secure deletion.
  */
 const useStorage = () => {
-  const { setWalletState, clearWallet } = useWalletStore.getState();
-  const { setActiveAccountIndex, clearAccounts } = useAccountsStore.getState();
-  const { clearTransactions } = useTransactionsStore.getState();
+  const { setWalletState, clearWallet } = useWalletActions();
+  const { setActiveAccountIndex, clearAccounts } = useAccountActions();
+  const { clearTransactions } = useTransactionActions();
 
   /**
    * Checks if a wallet exists in IndexedDB storage.
@@ -43,9 +45,8 @@ const useStorage = () => {
    */
   const saveWallet = async (): Promise<void> => {
     try {
-      const { mnemonic, password, indexes, networkMode } =
-        useWalletStore.getState();
-      const { activeAccountIndex } = useAccountsStore.getState();
+      const { indexes, mnemonic, networkMode, password } = getWalletState();
+      const { activeAccountIndex } = getAccountsState();
 
       if (!mnemonic || !password)
         throw new Error("Missing mnemonic or password");
@@ -108,8 +109,8 @@ const useStorage = () => {
    */
   const updateWallet = async (): Promise<void> => {
     try {
-      const { indexes, networkMode } = useWalletStore.getState();
-      const { activeAccountIndex } = useAccountsStore.getState();
+      const { indexes, networkMode } = getWalletState();
+      const { activeAccountIndex } = getAccountsState();
 
       const wallet = await getWalletData("wallet");
       if (!wallet) throw new Error("Wallet not found");
@@ -136,7 +137,8 @@ const useStorage = () => {
     newPassword: string
   ): Promise<void> => {
     try {
-      const { password, mnemonic } = useWalletStore.getState();
+      const { mnemonic, password } = getWalletState();
+
       if (password !== currentPassword) {
         throw new Error("Incorrect current password");
       }
