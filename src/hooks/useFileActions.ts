@@ -1,5 +1,5 @@
 "use client";
-import { useNotificationStore } from "@/stores";
+import { useNotificationActions } from "@/stores";
 
 type FileSource = string | Blob | File;
 
@@ -22,7 +22,7 @@ interface ShareFileArgs {
  * Supports URLs, Blobs, and File objects with native browser sharing.
  */
 const useFileActions = () => {
-  const { notify } = useNotificationStore.getState();
+  const { notify } = useNotificationActions();
 
   // Converts various file types to Blob for consistent handling
   const resolveBlob = async (file: FileSource): Promise<Blob> => {
