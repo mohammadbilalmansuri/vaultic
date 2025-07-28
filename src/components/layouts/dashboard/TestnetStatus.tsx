@@ -1,5 +1,5 @@
 "use client";
-import { useWalletStore } from "@/stores";
+import { useNetworkMode } from "@/stores";
 import cn from "@/utils/cn";
 
 interface TestnetStatusProps {
@@ -11,7 +11,7 @@ const TestnetStatus = ({
   variant = "indicator",
   className = "",
 }: TestnetStatusProps) => {
-  const networkMode = useWalletStore((state) => state.networkMode);
+  const networkMode = useNetworkMode();
 
   if (networkMode !== "testnet") return null;
 
