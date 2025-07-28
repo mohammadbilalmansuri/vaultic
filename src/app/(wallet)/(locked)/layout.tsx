@@ -2,7 +2,12 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import type { Children } from "@/types";
-import { useWalletStore } from "@/stores";
+import {
+  useAuthenticated,
+  useSuppressRedirect,
+  useWalletExists,
+  useWalletStatus,
+} from "@/stores";
 import { useNetworkStatus } from "@/hooks";
 import { PageLayout, DashboardLayout } from "@/components/layouts";
 import { UnlockForm, OfflineView } from "@/components/root";
@@ -12,10 +17,10 @@ const LockedLayout = ({ children }: Children) => {
   const router = useRouter();
   const isOnline = useNetworkStatus();
 
-  const walletStatus = useWalletStore((state) => state.walletStatus);
-  const suppressRedirect = useWalletStore((state) => state.suppressRedirect);
-  const walletExists = useWalletStore((state) => state.walletExists);
-  const authenticated = useWalletStore((state) => state.authenticated);
+  const walletStatus = useWalletStatus();
+  const suppressRedirect = useSuppressRedirect();
+  const walletExists = useWalletExists();
+  const authenticated = useAuthenticated();
 
   useEffect(() => {
     if (walletStatus !== "ready" || suppressRedirect) return;
