@@ -1,22 +1,18 @@
 "use client";
 import { useTransition } from "react";
 import { motion } from "motion/react";
-import { NETWORKS } from "@/config";
 import type { Network, TabsData } from "@/types";
 import {
   useAccountsStore,
-  useClipboardStore,
   useNotificationStore,
   useWalletStore,
 } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import getShortAddress from "@/utils/getShortAddress";
-import parseBalance from "@/utils/parseBalance";
 import { useBlockchain } from "@/hooks";
 import { Send, QR, Clock, Refresh } from "@/components/icons";
-import { Tabs } from "@/components/shared";
-import { Loader, Tooltip, NetworkLogo, CopyToggle } from "@/components/ui";
+import { NetworkCard, Tabs } from "@/components/shared";
+import { Loader, Tooltip } from "@/components/ui";
 import SendTab from "./_components/SendTab";
 import ReceiveTab from "./_components/ReceiveTab";
 import TransactionsTab from "./_components/TransactionsTab";
@@ -37,8 +33,6 @@ const DashboardPage = () => {
     (state) => state.switchingToAccount
   );
   const notify = useNotificationStore((state) => state.notify);
-  const copiedId = useClipboardStore((state) => state.copiedId);
-  const copyToClipboard = useClipboardStore((state) => state.copyToClipboard);
 
   const { fetchActiveAccountBalances } = useBlockchain();
   const [refreshing, startRefreshing] = useTransition();
@@ -128,76 +122,15 @@ const DashboardPage = () => {
         className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5"
         {...fadeUpAnimation({ delay: 0.05 })}
       >
-        {networkAccounts.map(([networkKey, { address, balance }]) => {
-          const network = networkKey as Network;
-          const networkConfig = NETWORKS[network];
-          const parsedBalance = parseBalance(balance);
-          const isCopied = copiedId === address;
-
-          const networkDisplayName = `${networkConfig.name}${
-            networkMode === "testnet" ? ` ${networkConfig.testnetName}` : ""
-          }`;
-
-          return (
-            <div
-              key={`${network}-card`}
-              className="w-full relative flex items-center justify-between rounded-3xl bg-primary px-5 py-6"
-              aria-label={`${networkDisplayName} Card`}
-            >
-              <div className="flex items-center gap-2.5">
-                <span aria-hidden="true" className="shrink-0">
-                  <NetworkLogo network={network} size="md" />
-                </span>
-
-                <div className="flex flex-col items-start sm:gap-1">
-                  <h4 className="font-medium text-primary">
-                    {networkDisplayName}
-                  </h4>
-
-                  <Tooltip
-                    content={isCopied ? "Copied!" : "Copy Address"}
-                    position="bottom"
-                  >
-                    <div
-                      className="flex items-center gap-1.5 cursor-pointer hover:text-primary transition-all duration-200"
-                      onClick={() => copyToClipboard(address)}
-                      role="button"
-                      tabIndex={0}
-                      aria-label={`Copy ${network} address`}
-                    >
-                      <p className="leading-none">
-                        {getShortAddress(address, network)}
-                      </p>
-                      <CopyToggle
-                        hasCopied={isCopied}
-                        className="text-current"
-                        iconProps={{ className: "w-4" }}
-                      />
-                    </div>
-                  </Tooltip>
-                </div>
-              </div>
-
-              <Tooltip
-                content={
-                  parsedBalance.wasRounded
-                    ? `${parsedBalance.original} ${networkConfig.token}`
-                    : undefined
-                }
-                position="left"
-                delay={0}
-              >
-                <p className="text-md font-semibold leading-none cursor-default">
-                  {refreshing ? (
-                    <span className="h-5 w-20 rounded bg-secondary animate-shimmer" />
-                  ) : (
-                    `${parsedBalance.display} ${networkConfig.token}`
-                  )}
-                </p>
-              </Tooltip>
-            </div>
-          );
-        })}
+        {networkAccounts.map(([network, networkData]) => (
+          <NetworkCard
+            key={`${network}-card`}
+            isFor="dashboard"
+            network={network as Network}
+            refreshingBalance={refreshing}
+            {...networkData}
+          />
+        ))}
       </motion.div>
 
       <Tabs tabs={TABS} delay={{ list: 0.1, panel: 0.15 }} />
