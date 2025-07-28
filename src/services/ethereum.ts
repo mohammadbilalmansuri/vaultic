@@ -19,7 +19,7 @@ import type {
   SendTokensFunction,
   GetExplorerUrlFunction,
 } from "@/types";
-import { useWalletStore } from "@/stores";
+import { getWalletState } from "@/stores";
 import getRpcUrl from "@/utils/getRpcUrl";
 
 let ethereumProvider: JsonRpcProvider | null = null;
@@ -37,7 +37,7 @@ const getEthereumProvider = (): JsonRpcProvider => {
 // Creates and caches Alchemy SDK instance for enhanced APIs
 const getAlchemyInstance = (): Alchemy => {
   if (!alchemyInstance) {
-    const { networkMode } = useWalletStore.getState();
+    const { networkMode } = getWalletState();
     const alchemyNetwork =
       networkMode === "mainnet" ? Network.ETH_MAINNET : Network.ETH_SEPOLIA;
 
