@@ -1,13 +1,13 @@
 "use client";
 import { motion } from "motion/react";
-import { useWalletStore } from "@/stores";
+import { useWalletExists } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import { QuestionMark } from "@/components/icons";
 import { PageLayout } from "@/components/layouts";
 import { Button } from "@/components/ui";
 
 const NotFound = () => {
-  const walletExists = useWalletStore((state) => state.walletExists);
+  const walletExists = useWalletExists();
   const destination = walletExists ? "/dashboard" : "/";
   const label = walletExists ? "Dashboard" : "Home";
 
