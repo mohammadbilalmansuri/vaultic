@@ -1,13 +1,13 @@
 "use client";
 import { useEffect } from "react";
 import type { Children } from "@/types";
-import { useWalletStore } from "@/stores";
-import { useWallet } from "@/hooks";
+import { useWalletStatus } from "@/stores";
+import { useWalletAuth } from "@/hooks";
 import { Loading } from "@/components/shared";
 
 const WalletChecker = ({ children }: Children) => {
-  const { checkWalletExists } = useWallet();
-  const walletStatus = useWalletStore((state) => state.walletStatus);
+  const { checkWalletExists } = useWalletAuth();
+  const walletStatus = useWalletStatus();
 
   useEffect(() => {
     (async () => await checkWalletExists())();
