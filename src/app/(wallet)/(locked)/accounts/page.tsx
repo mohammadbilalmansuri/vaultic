@@ -1,22 +1,24 @@
 "use client";
 import { useTransition } from "react";
 import { motion } from "motion/react";
-import { useAccountsStore, useNotificationStore } from "@/stores";
+import {
+  useAccounts,
+  useActiveAccountIndex,
+  useNotificationActions,
+} from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import { useAccounts } from "@/hooks";
+import { useAccountManager } from "@/hooks";
 import { Wallet, Plus } from "@/components/icons";
 import { Loader, Tooltip } from "@/components/ui";
 import AccountCard from "./_components/AccountCard";
 
 const AccountsPage = () => {
-  const accounts = useAccountsStore((state) => state.accounts);
-  const activeAccountIndex = useAccountsStore(
-    (state) => state.activeAccountIndex
-  );
-  const notify = useNotificationStore((state) => state.notify);
+  const accounts = useAccounts();
+  const activeAccountIndex = useActiveAccountIndex();
+  const { notify } = useNotificationActions();
 
-  const { createAccount } = useAccounts();
+  const { createAccount } = useAccountManager();
   const [creating, startCreating] = useTransition();
 
   const accountEntries = Object.entries(accounts);
