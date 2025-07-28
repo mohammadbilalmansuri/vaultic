@@ -2,9 +2,9 @@
 import { useEffect, JSX } from "react";
 import { motion } from "motion/react";
 import type { SetupPath, SetupSetStep } from "@/types";
-import { useWalletStore, useNotificationStore } from "@/stores";
+import { useNotificationActions, useWalletActions } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
-import { useAccounts } from "@/hooks";
+import { useAccountManager } from "@/hooks";
 import { Logo } from "@/components/icons";
 import { IconProcessing } from "@/components/ui";
 
@@ -17,9 +17,9 @@ const SettingUpWallet = ({
   setStep: SetupSetStep;
   StepProgress: JSX.Element;
 }) => {
-  const { createAccount } = useAccounts();
-  const setWalletState = useWalletStore((state) => state.setWalletState);
-  const notify = useNotificationStore((state) => state.notify);
+  const { createAccount } = useAccountManager();
+  const { setWalletState } = useWalletActions();
+  const { notify } = useNotificationActions();
 
   useEffect(() => {
     (async () => {
