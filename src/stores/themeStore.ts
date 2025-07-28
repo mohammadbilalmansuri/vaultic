@@ -2,10 +2,17 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-interface ThemeStore {
+interface ThemeState {
   theme: "light" | "dark";
   isHydrated: boolean;
+}
+
+interface ThemeActions {
   toggleTheme: () => void;
+}
+
+interface ThemeStore extends ThemeState {
+  actions: ThemeActions;
 }
 
 /**
@@ -18,10 +25,10 @@ const useThemeStore = create<ThemeStore>()(
       theme: "dark",
       isHydrated: false,
 
-      toggleTheme: () =>
-        set({
-          theme: get().theme === "dark" ? "light" : "dark",
-        }),
+      actions: {
+        toggleTheme: () =>
+          set({ theme: get().theme === "dark" ? "light" : "dark" }),
+      },
     }),
     {
       name: "theme-storage",
@@ -33,4 +40,10 @@ const useThemeStore = create<ThemeStore>()(
   )
 );
 
-export default useThemeStore;
+export const useTheme = () => useThemeStore((state) => state.theme);
+
+export const useIsHydrated = () => useThemeStore((state) => state.isHydrated);
+
+export const useThemeActions = () => useThemeStore((state) => state.actions);
+
+export const getThemeState = () => useThemeStore.getState();
