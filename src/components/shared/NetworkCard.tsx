@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { NETWORKS } from "@/config";
-import { useClipboardStore, useWalletStore } from "@/stores";
+import { useClipboardActions, useCopiedId, useNetworkMode } from "@/stores";
 import { Network, NetworkAccount } from "@/types";
 import { CopyToggle, Modal, NetworkLogo, Tooltip, Button } from "../ui";
 import { Key } from "../icons";
@@ -22,9 +22,9 @@ const NetworkCard = ({
   balance,
   refreshingBalance,
 }: NetworkCardProps) => {
-  const networkMode = useWalletStore((state) => state.networkMode);
-  const copiedId = useClipboardStore((state) => state.copiedId);
-  const copyToClipboard = useClipboardStore((state) => state.copyToClipboard);
+  const copiedId = useCopiedId();
+  const networkMode = useNetworkMode();
+  const { copyToClipboard } = useClipboardActions();
 
   const [showingPrivateKey, setShowingPrivateKey] = useState(false);
 
