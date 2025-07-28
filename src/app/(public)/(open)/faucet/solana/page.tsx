@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { NETWORKS } from "@/config";
 import { FAUCET_PRESET_AMOUNTS } from "@/constants";
-import { useNotificationStore, useAccountsStore } from "@/stores";
+import { useAccounts, useNotificationActions } from "@/stores";
 import { requestSolanaAirdrop } from "@/services/solana";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
@@ -24,8 +24,8 @@ import {
 } from "@/components/ui";
 
 const SolanaFaucetPage = () => {
-  const accounts = useAccountsStore((state) => state.accounts);
-  const notify = useNotificationStore((state) => state.notify);
+  const accounts = useAccounts();
+  const { notify } = useNotificationActions();
   const [airdropping, startAirdropping] = useTransition();
 
   const accountsOptions = Object.entries(accounts).map(([key, { solana }]) => ({
