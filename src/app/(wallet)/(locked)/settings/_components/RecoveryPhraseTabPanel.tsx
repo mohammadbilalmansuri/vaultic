@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "motion/react";
 import type { TabPanelProps } from "@/types";
-import { useWalletStore } from "@/stores";
+import { useMnemonic } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import { MnemonicView } from "@/components/shared";
 
@@ -9,7 +9,7 @@ const RecoveryPhraseTabPanel = ({
   showInitialAnimation,
   initialAnimationDelay,
 }: TabPanelProps) => {
-  const mnemonic = useWalletStore((state) => state.mnemonic);
+  const mnemonic = useMnemonic();
 
   const animationProps = fadeUpAnimation({
     delay: showInitialAnimation ? initialAnimationDelay : undefined,
