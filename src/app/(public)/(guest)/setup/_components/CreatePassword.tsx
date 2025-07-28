@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IS_DEV, DEV_PASSWORD } from "@/config";
 import type { SetupSetStep } from "@/types";
-import { useWalletStore } from "@/stores";
+import { useWalletActions } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { CreatePasswordSchema, CreatePasswordForm } from "@/utils/validations";
@@ -18,7 +18,7 @@ const CreatePassword = ({
   setStep: SetupSetStep;
   StepProgress: JSX.Element;
 }) => {
-  const setWalletState = useWalletStore((state) => state.setWalletState);
+  const { setWalletState } = useWalletActions();
 
   const {
     register,
