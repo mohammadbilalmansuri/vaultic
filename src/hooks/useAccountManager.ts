@@ -1,8 +1,10 @@
 import type { Accounts } from "@/types";
 import {
-  useWalletStore,
-  useAccountsStore,
-  useNotificationStore,
+  getAccountsState,
+  getWalletState,
+  useAccountActions,
+  useNotificationActions,
+  useWalletActions,
 } from "@/stores";
 import deriveAccount from "@/services/deriveAccount";
 import useBlockchain from "./useBlockchain";
@@ -12,19 +14,20 @@ import useStorage from "./useStorage";
  * Hook for managing wallet accounts including creation, deletion, and switching.
  * Handles HD wallet derivation, index management, and account state persistence.
  */
-const useAccounts = () => {
+const useAccountManager = () => {
   const { fetchActiveAccountTransactions, refreshActiveAccount } =
     useBlockchain();
   const { saveWallet, updateWallet } = useStorage();
-  const { notify } = useNotificationStore.getState();
-  const { setWalletState } = useWalletStore.getState();
+
   const {
     addAccount,
     removeAccount,
     setAccounts,
     setActiveAccountIndex,
     setSwitchingToAccount,
-  } = useAccountsStore.getState();
+  } = useAccountActions();
+  const { setWalletState } = useWalletActions();
+  const { notify } = useNotificationActions();
 
   /**
    * Creates a new account by deriving from the next available HD wallet index.
@@ -33,7 +36,8 @@ const useAccounts = () => {
    */
   const createAccount = async (isInitialSetup = false): Promise<void> => {
     try {
-      const { mnemonic, indexes } = useWalletStore.getState();
+      const { indexes, mnemonic } = getWalletState();
+
       if (!mnemonic) throw new Error("Mnemonic not available");
 
       const inUseIndexes = new Set(indexes.inUse);
@@ -74,7 +78,8 @@ const useAccounts = () => {
    */
   const loadAccounts = async (): Promise<void> => {
     try {
-      const { mnemonic, indexes } = useWalletStore.getState();
+      const { indexes, mnemonic } = getWalletState();
+
       if (!mnemonic) throw new Error("Mnemonic not available");
 
       const accounts: Accounts = {};
@@ -99,8 +104,8 @@ const useAccounts = () => {
    */
   const deleteAccount = async (index: number): Promise<void> => {
     try {
-      const { indexes } = useWalletStore.getState();
-      const { activeAccountIndex } = useAccountsStore.getState();
+      const { indexes } = getWalletState();
+      const { activeAccountIndex } = getAccountsState();
 
       if (indexes.inUse.length <= 1) {
         throw new Error("Cannot delete the last remaining account");
@@ -136,15 +141,14 @@ const useAccounts = () => {
    * @param index - HD wallet derivation index to switch to
    */
   const switchActiveAccount = async (index: number): Promise<void> => {
-    const { activeAccountIndex, switchingToAccount } =
-      useAccountsStore.getState();
+    const { activeAccountIndex, switchingToAccount } = getAccountsState();
 
     if (switchingToAccount !== null || index === activeAccountIndex) return;
 
     setSwitchingToAccount(index);
 
     try {
-      const { indexes } = useWalletStore.getState();
+      const { indexes } = getWalletState();
 
       if (!indexes.inUse.includes(index)) {
         throw new Error(`Account index ${index} does not exist`);
@@ -170,4 +174,4 @@ const useAccounts = () => {
   };
 };
 
-export default useAccounts;
+export default useAccountManager;
