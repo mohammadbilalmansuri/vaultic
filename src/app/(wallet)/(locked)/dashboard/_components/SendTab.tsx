@@ -8,7 +8,12 @@ import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { DEFAULT_NETWORK } from "@/constants";
 import type { ReactNode, FormEvent } from "react";
 import type { Network, TabPanelProps } from "@/types";
-import { useAccountsStore, useWalletStore } from "@/stores";
+import {
+  useAccountActions,
+  useAccounts,
+  useActiveAccountIndex,
+  useNetworkMode,
+} from "@/stores";
 import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import getShortAddress from "@/utils/getShortAddress";
@@ -44,12 +49,10 @@ const SendTab = ({
   initialAnimationDelay,
   showInitialAnimation,
 }: TabPanelProps) => {
-  const networkMode = useWalletStore((state) => state.networkMode);
-  const accounts = useAccountsStore((state) => state.accounts);
-  const activeAccountIndex = useAccountsStore(
-    (state) => state.activeAccountIndex
-  );
-  const activeAccount = useAccountsStore((state) => state.getActiveAccount());
+  const networkMode = useNetworkMode();
+  const accounts = useAccounts();
+  const activeAccountIndex = useActiveAccountIndex();
+  const activeAccount = useAccountActions().getActiveAccount();
 
   const [step, setStep] = useState<SendStep>(1);
   const [network, setNetwork] = useState<Network>(DEFAULT_NETWORK);
