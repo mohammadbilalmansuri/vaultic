@@ -76,7 +76,7 @@ const TransactionsTabPanel = () => {
               disabled={id === network}
               onClick={() => handleNetworkChange(id as Network)}
               className={cn(
-                "leading-none py-2.5 px-3 rounded-lg transition-all duration-200 font-medium border",
+                "leading-none py-2.5 px-3 rounded-lg transition-colors duration-200 font-medium border",
                 id === network
                   ? "highlight-teal pointer-events-none"
                   : "highlight-zinc hover:bg-secondary"
@@ -142,7 +142,7 @@ const TransactionsTabPanel = () => {
                   return (
                     <tr
                       key={`${txn.network}-${txn.signature}`}
-                      className="h-12 border-t-1.5 hover:bg-primary transition-all duration-200"
+                      className="h-12 border-t-1.5 hover:bg-primary transition-colors duration-200"
                     >
                       {/* Txn Signature */}
                       <td className="px-4 whitespace-nowrap">

@@ -128,7 +128,7 @@ const NetworkCard = ({
             position="bottom"
           >
             <div
-              className="flex items-center gap-1.5 cursor-pointer hover:text-primary transition-all duration-200 sm:text-base text-15"
+              className="flex items-center gap-1.5 cursor-pointer hover:text-primary transition-colors duration-200 sm:text-base text-15"
               onClick={() => copyToClipboard(address)}
               role="button"
               tabIndex={0}

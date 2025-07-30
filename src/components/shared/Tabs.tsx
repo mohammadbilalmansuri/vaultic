@@ -95,7 +95,7 @@ const Tabs = ({
           <button
             type="button"
             onClick={() => handleScroll("left")}
-            className="p-1 bg-secondary hover:text-primary transition-all duration-200 rounded-full absolute left-1 z-10"
+            className="p-1 bg-secondary hover:text-primary transition-colors duration-200 rounded-full absolute left-1 z-10"
             aria-label="Scroll left"
           >
             <ArrowLeft className="size-5" />
@@ -106,7 +106,7 @@ const Tabs = ({
           <button
             type="button"
             onClick={() => handleScroll("right")}
-            className="p-1 bg-secondary hover:text-primary transition-all duration-200 rounded-full absolute right-1 z-10"
+            className="p-1 bg-secondary hover:text-primary transition-colors duration-200 rounded-full absolute right-1 z-10"
             aria-label="Scroll right"
           >
             <ArrowRight className="size-5" />
@@ -143,7 +143,7 @@ const Tabs = ({
                 disabled={isActive}
                 onClick={() => setActiveTabIndex(index)}
                 className={cn(
-                  "flex-1 relative shrink-0 px-3.5 py-3 flex items-center justify-center gap-2 rounded-xl transition-all duration-200 font-medium leading-none whitespace-nowrap",
+                  "flex-1 relative shrink-0 px-3.5 py-3 flex items-center justify-center gap-2 rounded-xl transition-colors duration-200 font-medium leading-none whitespace-nowrap",
                   isActive
                     ? "text-primary pointer-events-none"
                     : "hover:text-primary",

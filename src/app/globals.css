@@ -195,7 +195,7 @@
   }
 
   .input {
-    @apply w-full flex items-center sm:h-13 h-12 sm:p-4 p-3 outline-none transition-all duration-200 text-primary bg-input border border-default focus:border-focus rounded-2xl placeholder:text-zinc-500;
+    @apply w-full flex items-center sm:h-13 h-12 sm:p-4 p-3 outline-none transition-colors duration-200 text-primary bg-input border border-default focus:border-focus rounded-2xl placeholder:text-zinc-500;
   }
 
   .mnemonic-word-input {
@@ -224,7 +224,7 @@
   }
 
   .link {
-    @apply leading-none text-primary transition-all duration-200 border-b border-transparent hover:border-current;
+    @apply leading-none text-primary transition-colors duration-200 border-b border-transparent hover:border-current;
   }
 
   .highlight-yellow {
