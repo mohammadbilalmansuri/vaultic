@@ -15,6 +15,7 @@ import { useAccountManager, useStorage } from "@/hooks";
  */
 const useWalletAuth = () => {
   const router = useRouter();
+
   const { isWalletStored, loadWallet, removeWallet } = useStorage();
   const { loadAccounts } = useAccountManager();
 
