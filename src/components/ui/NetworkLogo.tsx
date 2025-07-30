@@ -4,13 +4,13 @@ import cn from "@/utils/cn";
 
 interface NetworkLogoProps {
   network: Network;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "lg";
   className?: string;
 }
 
 const NetworkLogo = ({
   network,
-  size = "md",
+  size = "sm",
   className = "",
 }: NetworkLogoProps) => {
   const { name, icon: Icon } = NETWORKS[network];
@@ -20,16 +20,15 @@ const NetworkLogo = ({
       className={cn(
         "bg-white dark:bg-black flex items-center justify-center shrink-0",
         {
-          "size-7 rounded-lg": size === "sm",
-          "sm:size-10 size-9 rounded-xl": size === "md",
-          "sm:size-14 size-12 rounded-2xl": size === "lg",
+          "sm:size-10 size-8 sm:rounded-xl rounded-lg": size === "sm",
+          "sm:size-14 size-12 sm:rounded-2xl rounded-xl": size === "lg",
         },
         className
       )}
       role="img"
       aria-label={`${name} network logo`}
     >
-      <Icon className={cn(network === "ethereum" ? "h-[65%]" : "h-[45%]")} />
+      <Icon className={cn(network === "ethereum" ? "h-3/5" : "h-2/5")} />
     </div>
   );
 };
