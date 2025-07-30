@@ -54,9 +54,6 @@ const SendTabPanel = ({
   const activeAccountIndex = useActiveAccountIndex();
   const activeAccount = useAccountActions().getActiveAccount();
 
-  const { sendTokensFromActiveAccount, isValidAddress } = useBlockchain();
-  const hasTabMounted = useMounted(1000);
-
   const [step, setStep] = useState<SendStep>(1);
   const [network, setNetwork] = useState<Network>(DEFAULT_NETWORK);
   const [sendStatus, setSendStatus] = useState<SendStatus>({
@@ -104,6 +101,7 @@ const SendTabPanel = ({
     defaultValues: { toAddress: "", amount: "" },
   });
 
+  const { sendTokensFromActiveAccount, isValidAddress } = useBlockchain();
   const { fileInputRef, triggerUpload, handleFileChange } = useAddressQRUpload({
     network,
     onAddressScanned: (address) =>
@@ -190,6 +188,8 @@ const SendTabPanel = ({
     }
   };
 
+  const hasTabMounted = useMounted(1000);
+
   const firstStepAnimationProps = hasTabMounted
     ? scaleUpAnimation({ duration: 0.15 })
     : fadeUpAnimation({
@@ -272,7 +272,7 @@ const SendTabPanel = ({
                 autoCapitalize="off"
                 inputMode="decimal"
                 spellCheck="false"
-                onInput={handleAmountInput}
+                // onInput={handleAmountInput}
               />
 
               <div className="absolute right-2.5 flex items-center gap-3">

@@ -34,7 +34,6 @@ const Tabs = ({
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const { panel: ActiveTabPanel } = tabs[activeTabIndex];
-  const hasMounted = useMounted(2000);
 
   const updateScrollButtons = () => {
     const el = listRef.current;
@@ -76,6 +75,8 @@ const Tabs = ({
       behavior: "smooth",
     });
   };
+
+  const hasMounted = useMounted(2000);
 
   if (!tabs.length) return null;
 
