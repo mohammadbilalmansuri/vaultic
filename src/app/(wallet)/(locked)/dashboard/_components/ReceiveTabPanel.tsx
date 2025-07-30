@@ -24,7 +24,7 @@ interface QRCodeData {
   qrCode: string;
 }
 
-const ReceiveTab = () => {
+const ReceiveTabPanel = () => {
   const activeAccount = useAccountActions().getActiveAccount();
   const activeAccountIndex = useActiveAccountIndex();
   const copiedId = useCopiedId();
@@ -174,4 +174,4 @@ const ReceiveTab = () => {
   );
 };
 
-export default ReceiveTab;
+export default ReceiveTabPanel;
