@@ -22,7 +22,7 @@ import { useBlockchain, useMounted } from "@/hooks";
 import { ListCross, ExternalLink, Refresh } from "@/components/icons";
 import { Tooltip, CopyToggle, Button, Loader } from "@/components/ui";
 
-const TransactionsTab = () => {
+const TransactionsTabPanel = () => {
   const transactions = useTransactions();
   const activeAccount = useAccountActions().getActiveAccount();
   const networkMode = useNetworkMode();
@@ -317,4 +317,4 @@ const TransactionsTab = () => {
   );
 };
 
-export default TransactionsTab;
+export default TransactionsTabPanel;
