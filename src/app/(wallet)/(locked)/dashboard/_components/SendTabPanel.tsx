@@ -45,7 +45,7 @@ const getStepProgress = (activeDot: number, backFn?: () => void) => (
   <StepProgress dots={3} activeDot={activeDot} back={backFn} />
 );
 
-const SendTab = ({
+const SendTabPanel = ({
   initialAnimationDelay,
   showInitialAnimation,
 }: TabPanelProps) => {
@@ -53,6 +53,9 @@ const SendTab = ({
   const accounts = useAccounts();
   const activeAccountIndex = useActiveAccountIndex();
   const activeAccount = useAccountActions().getActiveAccount();
+
+  const { sendTokensFromActiveAccount, isValidAddress } = useBlockchain();
+  const hasTabMounted = useMounted(1000);
 
   const [step, setStep] = useState<SendStep>(1);
   const [network, setNetwork] = useState<Network>(DEFAULT_NETWORK);
@@ -101,7 +104,6 @@ const SendTab = ({
     defaultValues: { toAddress: "", amount: "" },
   });
 
-  const { sendTokensFromActiveAccount, isValidAddress } = useBlockchain();
   const { fileInputRef, triggerUpload, handleFileChange } = useAddressQRUpload({
     network,
     onAddressScanned: (address) =>
@@ -187,8 +189,6 @@ const SendTab = ({
       setStep(4);
     }
   };
-
-  const hasTabMounted = useMounted(1000);
 
   const firstStepAnimationProps = hasTabMounted
     ? scaleUpAnimation({ duration: 0.15 })
@@ -459,4 +459,4 @@ const SendTab = ({
   );
 };
 
-export default SendTab;
+export default SendTabPanel;
