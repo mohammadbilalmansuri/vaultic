@@ -57,7 +57,7 @@ const AccountCard = ({
     <motion.div
       className={cn(
         "w-full relative rounded-3xl border-1.5 flex flex-col items-center gap-3 p-4",
-        { "pt-8.5": !hasMultipleAccounts }
+        { "pt-9": !hasMultipleAccounts }
       )}
       {...fadeUpAnimation({ delay: accountIndex * 0.05 })}
     >
@@ -70,7 +70,7 @@ const AccountCard = ({
           {isSwitching || !isActive ? (
             <Tooltip
               content={isSwitching ? "Switching..." : "Set as Active"}
-              position="left"
+              position="right"
             >
               <button
                 className={cn("icon-btn-bg hover:text-teal-500", {
