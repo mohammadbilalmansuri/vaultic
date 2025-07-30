@@ -15,14 +15,14 @@ import { useBlockchain } from "@/hooks";
 import { Send, QR, Clock, Refresh } from "@/components/icons";
 import { NetworkCard, Tabs } from "@/components/shared";
 import { Loader, Tooltip } from "@/components/ui";
-import SendTab from "./_components/SendTab";
-import ReceiveTab from "./_components/ReceiveTab";
-import TransactionsTab from "./_components/TransactionsTab";
+import SendTabPanel from "./_components/SendTabPanel";
+import ReceiveTabPanel from "./_components/ReceiveTabPanel";
+import TransactionsTabPanel from "./_components/TransactionsTabPanel";
 
 const TABS: TabsData = [
-  { label: "Send", icon: Send, panel: SendTab },
-  { label: "Receive", icon: QR, panel: ReceiveTab },
-  { label: "Transactions", icon: Clock, panel: TransactionsTab },
+  { label: "Send", icon: Send, panel: SendTabPanel },
+  { label: "Receive", icon: QR, panel: ReceiveTabPanel },
+  { label: "Transactions", icon: Clock, panel: TransactionsTabPanel },
 ];
 
 const DashboardPage = () => {
