@@ -218,7 +218,7 @@ const Sidebar = () => {
                     <Link
                       href={href}
                       className={cn(
-                        "p-2.25 rounded-xl flex items-center gap-2 relative transition-all duration-200",
+                        "p-2.25 rounded-xl flex items-center gap-2 relative transition-colors duration-200",
                         isActive
                           ? "bg-secondary text-primary pointer-events-none"
                           : "hover:bg-secondary hover:text-primary"

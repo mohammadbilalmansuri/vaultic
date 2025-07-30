@@ -39,7 +39,7 @@ const Accordion = ({
         className="sm:pl-5 pl-4 sm:pr-3 pr-2 py-3 w-full flex justify-between items-center gap-3 text-left group"
       >
         <span
-          className={cn("h4 transition-all duration-200", {
+          className={cn("h4 transition-colors duration-200", {
             "text-secondary group-hover:text-primary": !isOpen,
           })}
         >
@@ -48,7 +48,7 @@ const Accordion = ({
 
         <span className="icon-btn-bg group-hover:text-primary">
           <AngleDown
-            className={cn("transition-all duration-200", {
+            className={cn("transition-transform duration-200", {
               "rotate-180": isOpen,
             })}
           />

@@ -77,7 +77,7 @@ const RemoveWalletTabPanel = () => {
           <Link
             href="/help-and-support"
             target="_blank"
-            className="leading-none border-b border-current transition-all duration-200 hover:opacity-75 mt-1"
+            className="leading-none border-b border-current transition-opacity duration-200 hover:opacity-75 mt-1"
             aria-label="Learn about wallet recovery process in Help & Support Page (opens in new tab)"
           >
             Learn about recovery

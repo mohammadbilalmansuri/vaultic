@@ -40,7 +40,7 @@ const Select = <T,>({
     <div
       ref={outsideClickRef}
       className={cn(
-        "relative min-w-fit flex flex-col items-center rounded-2xl transition-all duration-200",
+        "relative min-w-fit flex flex-col items-center rounded-2xl transition-colors duration-200",
         {
           "hover:border-focus": !opened,
           "border-focus": opened && variant === "dropdown",
@@ -116,7 +116,7 @@ const Select = <T,>({
                       aria-selected={isSelected}
                       disabled={isSelected || selecting}
                       className={cn(
-                        "w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl transition-all duration-200",
+                        "w-full flex items-center justify-between gap-3 px-3 py-2 rounded-xl transition-colors duration-200",
                         isSelected
                           ? "bg-secondary text-primary pointer-events-none"
                           : "hover:bg-secondary hover:text-primary"
