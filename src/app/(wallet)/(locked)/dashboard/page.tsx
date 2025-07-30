@@ -36,7 +36,6 @@ const DashboardPage = () => {
   const [refreshing, startRefreshing] = useTransition();
 
   const accountNumber = activeAccountIndex + 1;
-  const accountLabel = `Account ${accountNumber}`;
 
   const handleBalanceRefresh = () => {
     startRefreshing(async () => {
@@ -71,23 +70,21 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="w-full max-w-screen-lg relative flex flex-col sm:gap-6 gap-5">
+    <div className="w-full max-w-screen-lg relative flex flex-col md:gap-6 gap-5">
       <motion.div
-        className="w-full relative flex items-center justify-between gap-4"
+        className="w-full relative flex items-center justify-between gap-3"
         {...fadeUpAnimation()}
       >
-        <div className="flex items-center gap-4">
-          <span
-            className="highlight-teal size-12 rounded-xl border flex items-center justify-center shrink-0 font-semibold uppercase text-xl"
-            aria-label={`${accountLabel} identifier`}
-          >
+        <div className="flex items-center sm:gap-3 gap-2.5">
+          <span className="highlight-teal sm:size-12 size-11 rounded-xl border hidden xs:flex items-center justify-center shrink-0 font-semibold uppercase text-xl">
             A{accountNumber}
           </span>
+
           <div>
-            <h1 className="text-xl font-semibold text-primary">
-              {accountLabel}
+            <h1 className="sm:text-xl text-lg font-semibold text-primary">
+              Account {accountNumber}
             </h1>
-            <p className="text-sm sm:text-base">
+            <p className="sm:text-base text-sm">
               {networkMode === "testnet"
                 ? "Safe to explore - these are test assets only"
                 : "Live network - real funds at stake"}
@@ -107,7 +104,7 @@ const DashboardPage = () => {
             onClick={handleBalanceRefresh}
             disabled={refreshing}
             aria-label={
-              refreshing ? "Refreshing balances..." : "Refresh account balances"
+              refreshing ? "Refreshing balances..." : "Refresh balances"
             }
           >
             {refreshing ? <Loader size="sm" /> : <Refresh />}
@@ -116,7 +113,7 @@ const DashboardPage = () => {
       </motion.div>
 
       <motion.div
-        className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5"
+        className="w-full grid md:grid-cols-2 md:gap-3 gap-2.5"
         {...fadeUpAnimation({ delay: 0.05 })}
       >
         {Object.entries(activeAccount).map(([network, networkData]) => (
