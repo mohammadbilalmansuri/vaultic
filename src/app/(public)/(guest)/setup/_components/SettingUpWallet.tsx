@@ -51,7 +51,7 @@ const SettingUpWallet = ({
     >
       {StepProgress}
 
-      <div className="w-full flex flex-col items-center xs:gap-6 gap-5 p-8">
+      <div className="w-full flex flex-col items-center xs:gap-6 gap-5 xs:p-8 p-6">
         <IconProcessing>
           <Logo className="xs:w-8 w-7 text-teal-500" />
         </IconProcessing>
@@ -62,7 +62,7 @@ const SettingUpWallet = ({
             : "Importing your wallet"}
         </h3>
 
-        <p className="-mt-2.5">
+        <p className="-mt-2">
           This only takes a few seconds. Please keep this tab open while we
           complete your setup.
         </p>
