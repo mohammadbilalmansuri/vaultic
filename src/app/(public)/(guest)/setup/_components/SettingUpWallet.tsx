@@ -53,7 +53,7 @@ const SettingUpWallet = ({
 
       <div className="w-full flex flex-col items-center xs:gap-6 gap-5 p-8">
         <IconProcessing>
-          <Logo className="w-8 text-teal-500" />
+          <Logo className="xs:w-8 w-7 text-teal-500" />
         </IconProcessing>
 
         <h3>

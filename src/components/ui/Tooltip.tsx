@@ -30,7 +30,7 @@ const Tooltip = ({
   position = "top",
   delay = 0.3,
   containerClassName = "",
-  tooltipClassName = "",
+  tooltipClassName = "whitespace-nowrap",
 }: TooltipProps) => {
   const tooltipId = useId();
   const [isVisible, setIsVisible] = useState(false);
@@ -75,7 +75,7 @@ const Tooltip = ({
           >
             <div
               className={cn(
-                "relative px-2 py-1.5 text-xs sm:text-sm font-medium text-zinc-200 leading-tight whitespace-nowrap text-center",
+                "relative z-50 px-2 py-1.5 text-xs sm:text-sm font-medium text-zinc-200 leading-tight text-center",
                 tooltipClassName
               )}
             >
