@@ -269,7 +269,7 @@ const SendTabPanel = ({
                   inputMode="decimal"
                   spellCheck="false"
                   onInput={handleAmountInput}
-                  className="pr-28"
+                  className="sm:pr-28 pr-26"
                 />
 
                 <div className="absolute sm:right-2.5 right-2 flex items-center sm:gap-3 gap-2.5">
