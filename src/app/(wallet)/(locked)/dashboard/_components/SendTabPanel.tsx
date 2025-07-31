@@ -66,19 +66,19 @@ const SendTabPanel = ({
   const networkBalance = parseBalance(activeAccount[network].balance, network);
 
   const networkOptions = Object.entries(activeAccount).map(
-    ([net, { balance }]) => {
-      const { name, token } = NETWORKS[net as Network];
-      return {
-        label: `${name} - ${parseBalance(balance).display} ${token}`,
-        value: net as Network,
-      };
+    ([key, { balance }]) => {
+      const value = key as Network;
+      const { name, token } = NETWORKS[value];
+      const displayBalance = parseBalance(balance, value).display;
+
+      return { label: `${name} - ${displayBalance} ${token}`, value };
     }
   );
 
   const accountOptions = Object.entries(accounts)
     .filter(([key]) => Number(key) !== activeAccountIndex)
     .map(([key, account]) => {
-      const address = account[network].address;
+      const { address } = account[network];
       return {
         label: `Account ${Number(key) + 1}`,
         value: address,
@@ -86,6 +86,8 @@ const SendTabPanel = ({
         shortValue: getShortAddress(address, network),
       };
     });
+
+  const { sendTokensFromActiveAccount, isValidAddress } = useBlockchain();
 
   const {
     register,
@@ -101,7 +103,6 @@ const SendTabPanel = ({
     defaultValues: { toAddress: "", amount: "" },
   });
 
-  const { sendTokensFromActiveAccount, isValidAddress } = useBlockchain();
   const { fileInputRef, triggerUpload, handleFileChange } = useAddressQRUpload({
     network,
     onAddressScanned: (address) =>
@@ -201,128 +202,129 @@ const SendTabPanel = ({
       {step === 1 && (
         <motion.div
           key="send-form-step"
-          className="w-full flex flex-col items-center gap-4"
+          className="w-full max-w-lg flex flex-col items-center md:gap-3 gap-2.5"
           {...firstStepAnimationProps}
         >
           <Select
             options={networkOptions}
             value={network}
             onChange={handleNetworkChange}
-            containerClassName="w-full max-w-lg"
           />
 
-          <form
-            onSubmit={handleSubmit(() => setStep(2))}
-            className="box max-w-lg sm:p-6 p-5 sm:gap-6 gap-5"
-          >
-            <NetworkLogo network={network} size="lg" />
+          <div className="box max-w-full sm:p-6 p-5 sm:gap-6 gap-5">
+            <NetworkLogo network={network} size="lg" className="mt-2" />
             <h2>Send {networkConfig.token}</h2>
 
-            <div className="w-full relative flex items-center gap-2">
-              {accountOptions.length > 0 ? (
-                <Combobox
-                  name="toAddress"
-                  control={control}
-                  options={accountOptions}
-                  placeholder={`Recipient's ${networkConfig.name} address`}
-                  autoComplete="off"
-                  autoCapitalize="off"
-                  spellCheck="false"
-                />
-              ) : (
-                <Input
-                  {...register("toAddress")}
-                  placeholder={`Recipient's ${networkConfig.name} address`}
-                  autoComplete="off"
-                  autoCapitalize="off"
-                  spellCheck="false"
-                />
-              )}
+            <form
+              onSubmit={handleSubmit(() => setStep(2))}
+              className="w-full flex flex-col sm:gap-4 gap-3"
+            >
+              <div className="w-full relative flex items-center sm:gap-2 gap-1.5">
+                {accountOptions.length > 0 ? (
+                  <Combobox
+                    name="toAddress"
+                    control={control}
+                    options={accountOptions}
+                    placeholder={`Recipient's ${networkConfig.name} address`}
+                    autoComplete="off"
+                    autoCapitalize="off"
+                    spellCheck="false"
+                  />
+                ) : (
+                  <Input
+                    {...register("toAddress")}
+                    placeholder={`Recipient's ${networkConfig.name} address`}
+                    autoComplete="off"
+                    autoCapitalize="off"
+                    spellCheck="false"
+                  />
+                )}
 
-              <Tooltip
-                content={`Upload ${networkConfig.name} Address QR Code`}
-                position="left"
-              >
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="absolute -z-10 size-0 hidden pointer-events-none opacity-0 overflow-hidden"
-                />
+                <Tooltip content="Upload QR Code" position="left">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="absolute -z-10 size-0 hidden pointer-events-none opacity-0 overflow-hidden"
+                  />
 
-                <button
-                  type="button"
-                  onClick={({ currentTarget }) => {
-                    triggerUpload();
-                    currentTarget.blur();
-                  }}
-                  className="flex items-center justify-center size-13 hover:text-primary bg-input border rounded-2xl transition-all duration-200"
-                >
-                  <QR className="w-6" />
-                </button>
-              </Tooltip>
-            </div>
-
-            <div className="w-full relative flex items-center">
-              <Input
-                {...register("amount")}
-                placeholder="Amount"
-                autoComplete="off"
-                autoCapitalize="off"
-                inputMode="decimal"
-                spellCheck="false"
-                // onInput={handleAmountInput}
-              />
-
-              <div className="absolute right-2.5 flex items-center gap-3">
-                <span className="font-medium">{networkConfig.token}</span>
-                <Tooltip
-                  content="Set to Max Transferable Amount"
-                  position="left"
-                  containerClassName="max-w-sm"
-                >
                   <button
                     type="button"
-                    onClick={handleMaxAmount}
-                    className="bg-primary p-2 leading-none text-primary rounded-lg transition-colors duration-200 hover:bg-secondary"
+                    className="flex items-center justify-center sm:size-13 size-12 p-3 hover:text-primary bg-input border rounded-2xl transition-colors duration-200"
+                    onClick={triggerUpload}
+                    aria-label="Upload QR Code"
                   >
-                    Max
+                    <QR className="sm:w-6 w-5.5" />
                   </button>
                 </Tooltip>
               </div>
-            </div>
 
-            <Button
-              type="submit"
-              disabled={!isValid}
-              className={cn("w-full mt-0.5", {
-                "opacity-60 pointer-events-none": !isValid,
-              })}
-            >
-              Next
-            </Button>
-            <FormError errors={errors} />
-          </form>
+              <div className="w-full relative flex items-center">
+                <Input
+                  {...register("amount")}
+                  placeholder="Amount"
+                  autoComplete="off"
+                  autoCapitalize="off"
+                  inputMode="decimal"
+                  spellCheck="false"
+                  onInput={handleAmountInput}
+                  className="pr-28"
+                />
+
+                <div className="absolute sm:right-2.5 right-2 flex items-center sm:gap-3 gap-2.5">
+                  <span className="font-medium">{networkConfig.token}</span>
+                  <Tooltip
+                    content="Set Max Amount"
+                    position="left"
+                    containerClassName="max-w-sm"
+                  >
+                    <button
+                      type="button"
+                      onClick={handleMaxAmount}
+                      className="bg-primary p-2 text-sm uppercase leading-none text-primary rounded-lg transition-colors duration-200 hover:bg-secondary"
+                    >
+                      Max
+                    </button>
+                  </Tooltip>
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                disabled={!isValid}
+                className={cn("w-full mt-0.5", {
+                  "opacity-60 pointer-events-none": !isValid,
+                })}
+              >
+                Next
+              </Button>
+              <FormError errors={errors} />
+            </form>
+          </div>
         </motion.div>
       )}
 
       {step === 2 && isValid && (
         <motion.div
           key="confirm-transaction-step"
-          className="box max-w-lg gap-0"
+          className="box max-w-lg"
           {...scaleUpAnimation({ duration: 0.15 })}
         >
           {getStepProgress(2, () => setStep(1))}
 
-          <div className="p-6 w-full flex flex-col items-center gap-4">
-            <h2 className="my-1">Confirm Transaction</h2>
+          <div className="w-full flex flex-col items-center sm:gap-4 gap-3 sm:p-6 p-5">
+            <h2>Confirm Transaction</h2>
 
-            <div className="w-full bg-primary flex flex-col gap-5 p-5 rounded-2xl">
+            <div className="w-full bg-primary flex flex-col gap-5 sm:p-5 p-4 rounded-2xl mt-1">
               {[
                 {
                   label: "Amount",
-                  value: `${getValues("amount")} ${networkConfig.token}`,
+                  value: (
+                    <>
+                      {getValues("amount")} {networkConfig.token}
+                    </>
+                  ),
                 },
                 {
                   label: "To",
@@ -331,44 +333,48 @@ const SendTabPanel = ({
                       content={getValues("toAddress")}
                       position="left"
                       delay={0}
-                      containerClassName="cursor-default text-primary"
+                      tooltipClassName="sm:w-auto xxs:w-50 w-40 sm:break-normal break-all"
                     >
-                      {getShortAddress(getValues("toAddress"), network)}
+                      <span>
+                        {getShortAddress(getValues("toAddress"), network)}
+                      </span>
                     </Tooltip>
                   ),
                 },
                 {
                   label: "Network",
-                  value: `${networkConfig.name}${
-                    networkMode === "testnet"
-                      ? ` ${networkConfig.testnetName}`
-                      : ""
-                  }`,
+                  value: (
+                    <>
+                      {networkConfig.name}
+                      {networkMode === "testnet" &&
+                        ` ${networkConfig.testnetName}`}
+                    </>
+                  ),
                 },
                 {
-                  label: "Estimated Network Fee",
-                  value: `Up to ${networkConfig.fee} ${networkConfig.token}`,
+                  label: "Network Fee",
+                  value: (
+                    <>
+                      Up to {networkConfig.fee} {networkConfig.token}
+                    </>
+                  ),
                 },
               ].map(({ label, value }) => (
                 <div
                   key={label}
-                  className="w-full flex justify-between items-center leading-none font-medium"
+                  className="w-full flex items-center justify-between text-left gap-2 flex-wrap leading-none xs:text-base text-15"
                 >
-                  <span>{label}</span>
-                  {typeof value === "object" ? (
-                    value
-                  ) : (
-                    <span className="text-primary">{value}</span>
-                  )}
+                  <h5>{label}</h5>
+                  <div className="text-primary">{value}</div>
                 </div>
               ))}
             </div>
 
-            <div className="w-full flex gap-4 mt-0.5">
-              <Button onClick={handleReset} variant="zinc" className="w-1/2">
+            <div className="w-full flex items-center sm:gap-4 gap-3 mt-0.5">
+              <Button onClick={handleReset} variant="zinc" className="flex-1">
                 Cancel
               </Button>
-              <Button onClick={handleSend} className="w-1/2">
+              <Button onClick={handleSend} className="flex-1">
                 Send
               </Button>
             </div>
@@ -379,21 +385,23 @@ const SendTabPanel = ({
       {step === 3 && (
         <motion.div
           key="sending-step"
-          className="box max-w-lg gap-0"
+          className="box max-w-lg"
           {...scaleUpAnimation({ duration: 0.15 })}
         >
           {getStepProgress(3)}
 
-          <div className="p-6 w-full flex flex-col items-center gap-4 text-center">
+          <div className="w-full flex flex-col items-center xs:gap-4 gap-3 xs:p-8 p-6">
             <IconProcessing>
               <networkConfig.icon
-                className={cn(network === "ethereum" ? "w-7" : "w-8.5")}
+                className={cn(
+                  network === "ethereum" ? "xs:w-6.5 w-6" : "xs:w-8 w-7"
+                )}
               />
             </IconProcessing>
             <h2 className="mt-2">
               Sending<span className="animate-pulse">...</span>
             </h2>
-            <div className="flex items-center gap-2.5 text-primary">
+            <div className="flex items-center justify-center gap-x-2.5 flex-wrap text-primary">
               <span>{`${getValues("amount")} ${networkConfig.token} `}</span>
               <span className="font-bold -mt-0.5 text-teal-500">&#8594;</span>
               <span>{getShortAddress(getValues("toAddress"), network)}</span>
@@ -409,31 +417,31 @@ const SendTabPanel = ({
       {step === 4 && (
         <motion.div
           key="send-result-step"
-          className="box max-w-lg p-6 pt-10"
+          className="box max-w-lg sm:gap-6 gap-5 sm:p-6 p-5"
           {...scaleUpAnimation({ duration: 0.15 })}
         >
           <div
             className={cn(
-              "size-16 rounded-3xl flex items-center justify-center border",
-              sendStatus.state !== "success"
+              "sm:size-14 size-12 sm:rounded-2xl rounded-xl flex items-center justify-center border mt-2",
+              sendStatus.state === "success"
                 ? "highlight-teal"
                 : "highlight-rose"
             )}
           >
             {sendStatus.state === "success" ? (
-              <Check className="w-10" />
+              <Check className="sm:w-9 w-8" />
             ) : (
-              <Cancel className="w-10" />
+              <Cancel className="sm:w-9 w-8" />
             )}
           </div>
 
-          <h2 className="mt-2">
+          <h2>
             {sendStatus.state === "success"
               ? "Transaction Successful"
               : "Transaction Failed"}
           </h2>
 
-          <div>{sendStatus.message}</div>
+          <div className="-mt-2.5">{sendStatus.message}</div>
 
           {sendStatus.state === "success" && (
             <Link
@@ -444,13 +452,17 @@ const SendTabPanel = ({
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-1 text-teal-500 leading-none border-b border-transparent hover:border-current transition-colors duration-200"
+              className="link text-teal-500 -mt-1"
             >
               View Transaction
             </Link>
           )}
 
-          <Button onClick={handleReset} variant="zinc" className="w-full mt-3">
+          <Button
+            onClick={handleReset}
+            variant="zinc"
+            className="w-full mt-0.5"
+          >
             {sendStatus.state === "success" ? "Done" : "Try Again"}
           </Button>
         </motion.div>
