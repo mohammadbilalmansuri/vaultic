@@ -37,7 +37,7 @@ const NetworkCard = ({
   const shortAddress = getShortAddress(address, network);
   const privateKeyId = `${network}-private-key`;
 
-  const renderDashboardBalance = () => {
+  const renderBalanceForDashboard = () => {
     if (isFor !== "dashboard") return null;
 
     const { wasRounded, display, original } = parseBalance(balance, network);
@@ -48,9 +48,17 @@ const NetworkCard = ({
         position="left"
         delay={0}
       >
-        <p className="font-medium leading-none cursor-default break-all text-right">
+        <p
+          className="font-medium leading-none cursor-default break-all text-right"
+          aria-label={
+            refreshingBalance ? "Refreshing" : `Balance for ${name} network`
+          }
+        >
           {refreshingBalance ? (
-            <span className="h-5 w-20 rounded bg-secondary animate-shimmer" />
+            <span
+              className="h-5 w-20 rounded bg-secondary animate-shimmer"
+              aria-hidden="true"
+            />
           ) : (
             `${display} ${token}`
           )}
@@ -59,63 +67,73 @@ const NetworkCard = ({
     );
   };
 
-  const renderPrivateKeyButton = () => {
+  const renderPrivateKeyForAccounts = () => {
     if (isFor !== "accounts") return null;
 
     return (
-      <Tooltip content="Show Private Key" position="left">
-        <button
-          type="button"
-          className="icon-btn-bg -mr-1.5"
-          onClick={() => setShowingPrivateKey(true)}
-          aria-label="Show Private Key"
-        >
-          <Key />
-        </button>
-      </Tooltip>
-    );
-  };
+      <>
+        <Tooltip content="Show Private Key" position="left">
+          <button
+            type="button"
+            className="icon-btn-bg -mr-1.5"
+            onClick={() => setShowingPrivateKey(true)}
+            aria-label={`Show private key for ${name} network`}
+          >
+            <Key />
+          </button>
+        </Tooltip>
 
-  const renderPrivateKeyModal = () => {
-    if (isFor !== "accounts" || !privateKey) return null;
-
-    return (
-      <Modal
-        isOpen={showingPrivateKey}
-        onClose={() => setShowingPrivateKey(false)}
-        className="gap-4"
-      >
-        <h2 className="text-primary text-lg font-medium">
-          Private Key • {name}
-        </h2>
-        <p className="highlight-yellow border rounded-2xl p-3">
-          Never share your private key. Anyone with access to it can control
-          your funds.
-        </p>
-        <div className="bg-input border rounded-2xl">
-          <p className="text-primary p-4 pb-3.5 break-all">{privateKey}</p>
-          <CopyToggle
-            className="w-full justify-center p-3 border-t"
-            labels={{ copied: "Copied", copy: "Copy" }}
-            hasCopied={copiedId === privateKeyId}
-            onClick={() => copyToClipboard(privateKey, privateKeyId)}
-          />
-        </div>
-        <Button
-          variant="zinc"
-          className="w-full"
-          onClick={() => setShowingPrivateKey(false)}
+        <Modal
+          isOpen={showingPrivateKey}
+          onClose={() => setShowingPrivateKey(false)}
+          className="gap-4"
         >
-          Close
-        </Button>
-      </Modal>
+          <h2 className="text-primary text-lg font-medium">
+            Private Key • {name}
+          </h2>
+          <p
+            className="highlight-yellow border rounded-2xl p-3"
+            role="alert"
+            aria-live="polite"
+          >
+            Never share your private key. Anyone with access to it can control
+            your funds.
+          </p>
+          <div className="bg-input border rounded-2xl">
+            <p
+              className="text-primary p-4 pb-3.5 break-all"
+              aria-label={`Private key for ${name} network`}
+              role="text"
+              tabIndex={0}
+            >
+              {privateKey}
+            </p>
+            <CopyToggle
+              className="w-full justify-center p-3 border-t"
+              labels={{ copied: "Copied!", copy: "Copy" }}
+              hasCopied={copiedId === privateKeyId}
+              onClick={() => copyToClipboard(privateKey, privateKeyId)}
+              aria-label={`Copy private key for ${name} network`}
+            />
+          </div>
+          <Button
+            variant="zinc"
+            className="w-full"
+            onClick={() => setShowingPrivateKey(false)}
+            aria-label="Close private key dialog"
+          >
+            Close
+          </Button>
+        </Modal>
+      </>
     );
   };
 
   return (
     <div
       className="w-full relative flex items-center justify-between gap-4 rounded-2xl bg-primary sm:p-4 p-3"
-      aria-label={`${name} Card`}
+      aria-label={`${name} network card`}
+      role="region"
     >
       <div className="flex items-center gap-2.5 py-1">
         <NetworkLogo network={network} size="sm" />
@@ -145,14 +163,9 @@ const NetworkCard = ({
         </div>
       </div>
 
-      {isFor === "accounts" ? (
-        <>
-          {renderPrivateKeyButton()}
-          {renderPrivateKeyModal()}
-        </>
-      ) : (
-        renderDashboardBalance()
-      )}
+      {isFor === "dashboard"
+        ? renderBalanceForDashboard()
+        : renderPrivateKeyForAccounts()}
     </div>
   );
 };
