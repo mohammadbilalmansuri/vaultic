@@ -204,6 +204,8 @@ const SendTabPanel = ({
           key="send-form-step"
           className="w-full max-w-lg flex flex-col items-center md:gap-3 gap-2.5"
           {...firstStepAnimationProps}
+          aria-label="Send tokens form"
+          role="region"
         >
           <Select
             options={networkOptions}
@@ -253,7 +255,7 @@ const SendTabPanel = ({
                     type="button"
                     className="flex items-center justify-center sm:size-13 size-12 p-3 hover:text-primary bg-input border rounded-2xl transition-colors duration-200"
                     onClick={triggerUpload}
-                    aria-label="Upload QR Code"
+                    aria-label="Upload QR code to scan recipient address"
                   >
                     <QR className="sm:w-6 w-5.5" />
                   </button>
@@ -283,6 +285,7 @@ const SendTabPanel = ({
                       type="button"
                       onClick={handleMaxAmount}
                       className="bg-primary p-2 text-sm uppercase leading-none text-primary rounded-lg transition-colors duration-200 hover:bg-secondary"
+                      aria-label="Set maximum amount"
                     >
                       Max
                     </button>
@@ -296,6 +299,7 @@ const SendTabPanel = ({
                 className={cn("w-full mt-0.5", {
                   "opacity-60 pointer-events-none": !isValid,
                 })}
+                aria-label="Proceed to transaction confirmation"
               >
                 Next
               </Button>
@@ -310,6 +314,8 @@ const SendTabPanel = ({
           key="confirm-transaction-step"
           className="box max-w-lg"
           {...scaleUpAnimation({ duration: 0.15 })}
+          aria-label="Transaction confirmation"
+          role="region"
         >
           {getStepProgress(2, () => setStep(1))}
 
@@ -371,10 +377,19 @@ const SendTabPanel = ({
             </div>
 
             <div className="w-full flex items-center sm:gap-4 gap-3 mt-0.5">
-              <Button onClick={handleReset} variant="zinc" className="flex-1">
+              <Button
+                onClick={handleReset}
+                variant="zinc"
+                className="flex-1"
+                aria-label="Cancel transaction and return to form"
+              >
                 Cancel
               </Button>
-              <Button onClick={handleSend} className="flex-1">
+              <Button
+                onClick={handleSend}
+                className="flex-1"
+                aria-label="Confirm and send transaction"
+              >
                 Send
               </Button>
             </div>
@@ -387,6 +402,9 @@ const SendTabPanel = ({
           key="sending-step"
           className="box max-w-lg"
           {...scaleUpAnimation({ duration: 0.15 })}
+          aria-label="Transaction in progress"
+          aria-live="polite"
+          role="status"
         >
           {getStepProgress(3)}
 
@@ -399,11 +417,19 @@ const SendTabPanel = ({
               />
             </IconProcessing>
             <h2 className="mt-2">
-              Sending<span className="animate-pulse">...</span>
+              Sending
+              <span className="animate-pulse" aria-hidden="true">
+                ...
+              </span>
             </h2>
             <div className="flex items-center justify-center gap-x-2.5 flex-wrap text-primary">
               <span>{`${getValues("amount")} ${networkConfig.token} `}</span>
-              <span className="font-bold -mt-0.5 text-teal-500">&#8594;</span>
+              <span
+                className="font-bold -mt-0.5 text-teal-500"
+                aria-hidden="true"
+              >
+                &#8594;
+              </span>
               <span>{getShortAddress(getValues("toAddress"), network)}</span>
             </div>
             <p className="text-sm max-w-sm">
@@ -419,6 +445,8 @@ const SendTabPanel = ({
           key="send-result-step"
           className="box max-w-lg sm:gap-6 gap-5 sm:p-6 p-5"
           {...scaleUpAnimation({ duration: 0.15 })}
+          aria-label="Transaction result"
+          role="region"
         >
           <div
             className={cn(
@@ -427,11 +455,15 @@ const SendTabPanel = ({
                 ? "highlight-teal"
                 : "highlight-rose"
             )}
+            role="img"
+            aria-label={`Transaction ${
+              sendStatus.state === "success" ? "successful" : "failed"
+            }`}
           >
             {sendStatus.state === "success" ? (
-              <Check className="sm:w-9 w-8" />
+              <Check className="sm:w-9 w-8" aria-hidden="true" />
             ) : (
-              <Cancel className="sm:w-9 w-8" />
+              <Cancel className="sm:w-9 w-8" aria-hidden="true" />
             )}
           </div>
 
@@ -441,7 +473,9 @@ const SendTabPanel = ({
               : "Transaction Failed"}
           </h2>
 
-          <div className="-mt-2.5">{sendStatus.message}</div>
+          <div className="-mt-2.5" role="status">
+            {sendStatus.message}
+          </div>
 
           {sendStatus.state === "success" && (
             <Link
@@ -453,6 +487,7 @@ const SendTabPanel = ({
               target="_blank"
               rel="noopener noreferrer"
               className="link text-teal-500 -mt-1"
+              aria-label="View transaction details on blockchain explorer (opens in new tab)"
             >
               View Transaction
             </Link>
@@ -462,6 +497,11 @@ const SendTabPanel = ({
             onClick={handleReset}
             variant="zinc"
             className="w-full mt-0.5"
+            aria-label={
+              sendStatus.state === "success"
+                ? "Return to Send Form"
+                : "Try sending transaction again"
+            }
           >
             {sendStatus.state === "success" ? "Done" : "Try Again"}
           </Button>
