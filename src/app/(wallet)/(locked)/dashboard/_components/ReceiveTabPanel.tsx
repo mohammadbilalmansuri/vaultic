@@ -69,21 +69,32 @@ const ReceiveTabPanel = () => {
       <motion.div
         {...fadeUpAnimation()}
         className="box p-8 xs:gap-6 gap-5"
-        aria-label="QR Code Generation Error"
+        aria-live="polite"
         role="alert"
       >
-        <Error className="text-rose-500 icon-lg" strokeWidth={1.5} />
+        <Error
+          className="text-rose-500 icon-lg"
+          strokeWidth={1.5}
+          aria-hidden="true"
+        />
         <p>{error}</p>
       </motion.div>
     );
   }
 
   return (
-    <div className="w-full flex flex-col items-center md:gap-7 gap-6 text-center">
-      <div className="w-full grid sm:grid-cols-2 md:gap-6 gap-5">
+    <div
+      className="w-full flex flex-col items-center md:gap-7 gap-6 text-center"
+      role="region"
+    >
+      <div
+        className="w-full grid sm:grid-cols-2 md:gap-6 gap-5"
+        aria-label="Wallet addresses and QR codes"
+      >
         {qrDataList
           ? qrDataList.map(({ network, address, qrCode }, index) => {
               const networkName = NETWORKS[network].name;
+
               return (
                 <motion.div
                   key={`${network}-address-card`}
@@ -95,7 +106,10 @@ const ReceiveTabPanel = () => {
                       {networkName} Address
                     </h4>
 
-                    <div className="flex items-center gap-2">
+                    <div
+                      className="flex items-center gap-2"
+                      aria-label="QR code actions"
+                    >
                       <Tooltip content="Download QR Code" position="left">
                         <button
                           type="button"
@@ -107,7 +121,7 @@ const ReceiveTabPanel = () => {
                               successMessage: `${networkName} QR code downloaded successfully`,
                             })
                           }
-                          aria-label="Download QR Code"
+                          aria-label={`Download ${network} QR code`}
                         >
                           <Download />
                         </button>
@@ -125,7 +139,7 @@ const ReceiveTabPanel = () => {
                               text: `Use this QR code to send funds to my ${networkName} wallet.`,
                             })
                           }
-                          aria-label="Share QR Code"
+                          aria-label={`Share ${network} QR code`}
                         >
                           <Share />
                         </button>
@@ -136,11 +150,11 @@ const ReceiveTabPanel = () => {
                   <div className="w-full flex flex-col items-center md:gap-6 gap-5 md:p-6 p-5">
                     <Image
                       src={qrCode}
-                      alt={`${networkName} QR Code`}
                       width={200}
                       height={200}
                       className="size-40 rounded-lg mt-px"
                       loading="lazy"
+                      alt={`QR code for ${network} address`}
                     />
 
                     <div className="w-full bg-input border rounded-2xl text-center">
@@ -163,7 +177,7 @@ const ReceiveTabPanel = () => {
               <div
                 key={`qr-placeholder-${index}`}
                 className="h-100 rounded-3xl bg-primary animate-shimmer"
-                aria-hidden="true"
+                aria-hidden={true}
               />
             ))}
       </div>
@@ -174,7 +188,10 @@ const ReceiveTabPanel = () => {
           network.
         </motion.p>
       ) : (
-        <p className="w-3/4 h-5 animate-shimmer bg-primary rounded-md" />
+        <div
+          className="w-3/4 h-5 animate-shimmer bg-primary rounded-md"
+          aria-hidden={true}
+        />
       )}
     </div>
   );
