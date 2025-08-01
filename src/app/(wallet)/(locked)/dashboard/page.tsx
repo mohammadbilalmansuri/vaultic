@@ -60,6 +60,7 @@ const DashboardPage = () => {
         className="flex flex-col items-center justify-center gap-8 text-center flex-1"
         role="status"
         aria-live="polite"
+        aria-label={`Switching to Account ${switchingToAccount + 1}`}
       >
         <Loader />
         <p className="sm:text-lg">
@@ -70,13 +71,20 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="w-full max-w-screen-lg relative flex flex-col md:gap-6 gap-5">
+    <div
+      className="w-full max-w-screen-lg relative flex flex-col md:gap-6 gap-5"
+      aria-label={`Account ${accountNumber} dashboard`}
+      role="region"
+    >
       <motion.div
         className="w-full relative flex items-center justify-between gap-3"
         {...fadeUpAnimation()}
       >
         <div className="flex items-center sm:gap-3 gap-2.5">
-          <span className="highlight-teal sm:size-12 size-11 rounded-xl border hidden xs:flex items-center justify-center shrink-0 font-semibold uppercase text-xl">
+          <span
+            className="highlight-teal sm:size-12 size-11 rounded-xl border hidden xs:flex items-center justify-center shrink-0 font-semibold uppercase text-xl"
+            aria-hidden="true"
+          >
             A{accountNumber}
           </span>
 
@@ -115,6 +123,8 @@ const DashboardPage = () => {
       <motion.div
         className="w-full grid md:grid-cols-2 md:gap-3 gap-2.5"
         {...fadeUpAnimation({ delay: 0.05 })}
+        aria-label="Network cards"
+        role="region"
       >
         {Object.entries(activeAccount).map(([network, networkData]) => (
           <NetworkCard
