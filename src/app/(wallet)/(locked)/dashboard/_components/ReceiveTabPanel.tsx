@@ -42,13 +42,11 @@ const ReceiveTabPanel = () => {
           Object.entries(activeAccount).map(
             async ([networkKey, { address }]) => {
               const network = networkKey as Network;
+              const { svgUrlForQR } = NETWORKS[network];
 
               let qrCode = qrCache.get(address);
               if (!qrCode) {
-                qrCode = await generateQRCode(
-                  address,
-                  NETWORKS[network].svgUrlForQR
-                );
+                qrCode = await generateQRCode(address, svgUrlForQR);
                 qrCache.set(address, qrCode);
               }
 
@@ -68,7 +66,12 @@ const ReceiveTabPanel = () => {
 
   if (error) {
     return (
-      <motion.div className="box p-8 gap-6" {...fadeUpAnimation()}>
+      <motion.div
+        {...fadeUpAnimation()}
+        className="box p-8 xs:gap-6 gap-5"
+        aria-label="QR Code Generation Error"
+        role="alert"
+      >
         <Error className="text-rose-500 icon-lg" strokeWidth={1.5} />
         <p>{error}</p>
       </motion.div>
@@ -76,34 +79,35 @@ const ReceiveTabPanel = () => {
   }
 
   return (
-    <div className="w-full flex flex-col items-center gap-8 text-center">
-      <div className="w-full grid sm:grid-cols-2 grid-cols-1 md:gap-6 gap-5">
+    <div className="w-full flex flex-col items-center md:gap-7 gap-6 text-center">
+      <div className="w-full grid sm:grid-cols-2 md:gap-6 gap-5">
         {qrDataList
           ? qrDataList.map(({ network, address, qrCode }, index) => {
               const networkName = NETWORKS[network].name;
               return (
                 <motion.div
                   key={`${network}-address-card`}
-                  className="col-span-1 sm:max-w-full max-w-md rounded-3xl border-1.5"
+                  className="w-full sm:max-w-full max-w-md mx-auto rounded-3xl border-1.5"
                   {...fadeUpAnimation({ delay: index * 0.05 })}
                 >
-                  <div className="w-full flex items-center justify-between border-b-1.5 px-4 py-3">
-                    <h4 className="text-lg font-medium text-primary">
+                  <div className="w-full flex items-center justify-between border-b-1.5 p-2.5 pl-4">
+                    <h4 className="sm:text-lg text-md font-medium text-primary leading-none text-left">
                       {networkName} Address
                     </h4>
 
-                    <div className="flex items-center gap-5">
+                    <div className="flex items-center gap-2">
                       <Tooltip content="Download QR Code" position="left">
                         <button
-                          className="icon-btn"
-                          onClick={({ currentTarget }) => {
-                            downloadFile({
+                          type="button"
+                          className="icon-btn-bg-sm"
+                          onClick={async () =>
+                            await downloadFile({
                               file: qrCode,
                               fileName: `${network}-${address}-qr-code.png`,
                               successMessage: `${networkName} QR code downloaded successfully`,
-                            });
-                            currentTarget.blur();
-                          }}
+                            })
+                          }
+                          aria-label="Download QR Code"
                         >
                           <Download />
                         </button>
@@ -111,16 +115,17 @@ const ReceiveTabPanel = () => {
 
                       <Tooltip content="Share QR Code" position="left">
                         <button
-                          className="icon-btn"
-                          onClick={async ({ currentTarget }) => {
+                          type="button"
+                          className="icon-btn-bg-sm"
+                          onClick={async () =>
                             await shareFile({
                               file: qrCode,
                               fileName: `${network}-${address}-qr-code.png`,
                               title: `${networkName} QR Code`,
                               text: `Use this QR code to send funds to my ${networkName} wallet.`,
-                            });
-                            currentTarget.blur();
-                          }}
+                            })
+                          }
+                          aria-label="Share QR Code"
                         >
                           <Share />
                         </button>
@@ -128,18 +133,18 @@ const ReceiveTabPanel = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-center gap-6 p-6">
+                  <div className="w-full flex flex-col items-center md:gap-6 gap-5 md:p-6 p-5">
                     <Image
                       src={qrCode}
                       alt={`${networkName} QR Code`}
                       width={200}
                       height={200}
-                      className="size-40 rounded-lg"
+                      className="size-40 rounded-lg mt-px"
                       loading="lazy"
                     />
 
-                    <div className="w-full bg-input border rounded-2xl">
-                      <p className="text-primary pt-4 pb-3 px-8 break-all">
+                    <div className="w-full bg-input border rounded-2xl text-center">
+                      <p className="text-primary pt-4 pb-3.5 lg:px-8 md:px-6 px-4 break-all">
                         {address}
                       </p>
 
@@ -157,7 +162,8 @@ const ReceiveTabPanel = () => {
           : Array.from({ length: 2 }).map((_, index) => (
               <div
                 key={`qr-placeholder-${index}`}
-                className="col-span-1 h-96 rounded-3xl bg-primary animate-shimmer"
+                className="h-100 rounded-3xl bg-primary animate-shimmer"
+                aria-hidden="true"
               />
             ))}
       </div>
