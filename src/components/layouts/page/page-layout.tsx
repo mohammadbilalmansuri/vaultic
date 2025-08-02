@@ -1,6 +1,6 @@
 import type { Children } from "@/types";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "./header";
+import Footer from "./footer";
 
 const PageLayout = ({ children }: Children) => {
   return (

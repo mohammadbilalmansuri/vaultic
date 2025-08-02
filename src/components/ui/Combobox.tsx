@@ -8,7 +8,7 @@ import type { Icon } from "@/types";
 import cn from "@/utils/cn";
 import { useOutsideClick } from "@/hooks";
 import { AngleDown, Check } from "../icons";
-import Input from "./Input";
+import Input from "./input";
 
 interface ComboboxProps<T extends FieldValues> {
   name: Path<T>;

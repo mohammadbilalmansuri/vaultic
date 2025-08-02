@@ -6,9 +6,9 @@ import {
   useNotificationActions,
   useWalletActions,
 } from "@/stores";
-import deriveAccount from "@/services/deriveAccount";
-import useBlockchain from "./useBlockchain";
-import useStorage from "./useStorage";
+import deriveAccount from "@/services/derive-account";
+import useBlockchain from "./use-blockchain";
+import useStorage from "./use-storage";
 
 /**
  * Hook for managing wallet accounts including creation, deletion, and switching.

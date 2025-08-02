@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import cn from "@/utils/cn";
 import { useOutsideClick } from "@/hooks";
 import { ChevronsUpDown, Check } from "../icons";
-import { Loader } from "../ui";
+import { Loader } from ".";
 
 interface SelectProps<T> {
   options: Array<{

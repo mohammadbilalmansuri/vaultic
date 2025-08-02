@@ -6,10 +6,10 @@ import { useWalletAuth } from "@/hooks";
 import { Lock, Setting } from "@/components/icons";
 import { Tabs } from "@/components/shared";
 import { Tooltip } from "@/components/ui";
-import RecoveryPhraseTabPanel from "./_components/RecoveryPhraseTabPanel";
-import TestnetModeTabPanel from "./_components/TestnetModeTabPanel";
-import ChangePasswordTabPanel from "./_components/ChangePasswordTabPanel";
-import RemoveWalletTabPanel from "./_components/RemoveWalletTabPanel";
+import RecoveryPhraseTabPanel from "./_components/recovery-phrase-tab-panel";
+import TestnetModeTabPanel from "./_components/testnet-mode-tab-panel";
+import ChangePasswordTabPanel from "./_components/change-password-tab-panel";
+import RemoveWalletTabPanel from "./_components/remove-wallet-tab-panel";
 
 const TABS: TabsData = [
   { label: "Recovery Phrase", panel: RecoveryPhraseTabPanel },

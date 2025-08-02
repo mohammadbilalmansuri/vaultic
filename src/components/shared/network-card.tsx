@@ -3,8 +3,8 @@ import { useState } from "react";
 import { NETWORKS } from "@/config";
 import { Network, NetworkAccount } from "@/types";
 import { useClipboardActions, useCopiedId, useNetworkMode } from "@/stores";
-import getShortAddress from "@/utils/getShortAddress";
-import parseBalance from "@/utils/parseBalance";
+import getShortAddress from "@/utils/get-short-address";
+import parseBalance from "@/utils/parse-balance";
 import { Key } from "../icons";
 import { CopyToggle, Modal, NetworkLogo, Tooltip, Button } from "../ui";
 

@@ -11,7 +11,7 @@ import cn from "@/utils/cn";
 import { useAccountManager } from "@/hooks";
 import { Wallet, Plus } from "@/components/icons";
 import { Loader, Tooltip } from "@/components/ui";
-import AccountCard from "./_components/AccountCard";
+import AccountCard from "./_components/account-card";
 
 const AccountsPage = () => {
   const accounts = useAccounts();

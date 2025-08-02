@@ -26,7 +26,7 @@ const Tabs = ({
   buttonClassName = "",
   panelClassName = "",
 }: TabsProps) => {
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [activeTabIndex, setActiveTabIndex] = useState(2);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 

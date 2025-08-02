@@ -28,7 +28,7 @@ import {
   AlignLeft,
 } from "@/components/icons";
 import { Button, ThemeSwitcher, Select, Tooltip } from "@/components/ui";
-import TestnetStatus from "./TestnetStatus";
+import TestnetStatus from "./testnet-status";
 
 type SidebarState = "close" | "collapse" | "open";
 

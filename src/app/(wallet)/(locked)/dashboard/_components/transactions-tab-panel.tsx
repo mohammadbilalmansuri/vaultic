@@ -1,5 +1,5 @@
 "use client";
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
@@ -15,10 +15,10 @@ import {
 } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import getShortAddress from "@/utils/getShortAddress";
-import parseBalance from "@/utils/parseBalance";
-import parseTimestamp from "@/utils/parseTimestamp";
-import { useBlockchain, useMounted } from "@/hooks";
+import getShortAddress from "@/utils/get-short-address";
+import parseBalance from "@/utils/parse-balance";
+import parseTimestamp from "@/utils/parse-timestamp";
+import { useBlockchain } from "@/hooks";
 import { ListCross, ExternalLink, Refresh } from "@/components/icons";
 import { Tooltip, CopyToggle, Button, Loader } from "@/components/ui";
 
@@ -31,9 +31,10 @@ const TransactionsTabPanel = () => {
   const { notify } = useNotificationActions();
 
   const { fetchActiveAccountTransactions } = useBlockchain();
-  const [refreshing, startRefreshing] = useTransition();
 
+  const [refreshing, startRefreshing] = useTransition();
   const [network, setNetwork] = useState<Network>(DEFAULT_NETWORK);
+
   const networkTransactions = transactions[network];
   const networkConfig = NETWORKS[network];
   const networkGetExplorerUrl = NETWORK_FUNCTIONS[network].getExplorerUrl;
@@ -55,32 +56,26 @@ const TransactionsTabPanel = () => {
     });
   };
 
-  const handleNetworkChange = (newNetwork: Network) => {
-    if (newNetwork === network) return;
-    setNetwork(newNetwork);
-  };
-
-  const hasTabMounted = useMounted(1000);
-
   return (
-    <div className="w-full relative flex flex-col items-center gap-3">
+    <div className="w-full relative flex flex-col items-center gap-4">
       <motion.div
-        className="w-full relative flex items-center justify-between gap-3"
+        className="w-full relative flex items-center justify-between gap-4"
         {...fadeUpAnimation()}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center sm:gap-3 gap-2">
           {Object.values(NETWORKS).map(({ id, name }) => (
             <button
               key={`${id}-button`}
               type="button"
-              disabled={id === network}
-              onClick={() => handleNetworkChange(id as Network)}
               className={cn(
-                "leading-none py-2.5 px-3 rounded-lg transition-colors duration-200 font-medium border",
+                "leading-none sm:h-10 h-9 sm:px-3 px-2.5 py-2 rounded-xl transition-colors duration-200 font-medium border",
                 id === network
                   ? "highlight-teal pointer-events-none"
                   : "highlight-zinc hover:bg-secondary"
               )}
+              onClick={() => setNetwork(id as Network)}
+              disabled={id === network}
+              aria-label={`View ${id} transactions`}
             >
               {name}
             </button>
@@ -92,11 +87,13 @@ const TransactionsTabPanel = () => {
           position="left"
         >
           <button
+            type="button"
             className={cn("icon-btn-bg", {
-              "cursor-default bg-secondary": refreshing,
+              "bg-secondary pointer-events-none": refreshing,
             })}
             onClick={handleRefresh}
             disabled={refreshing}
+            aria-label="Refresh Transactions"
           >
             {refreshing ? <Loader size="sm" /> : <Refresh />}
           </button>
@@ -104,9 +101,9 @@ const TransactionsTabPanel = () => {
       </motion.div>
 
       <motion.div
-        className="w-full relative border-1.5 rounded-2xl overflow-hidden"
+        className="w-full relative border-1.5 rounded-3xl overflow-hidden"
         key={`transactions-table-${network}`}
-        {...fadeUpAnimation({ delay: !hasTabMounted ? 0.1 : undefined })}
+        {...fadeUpAnimation()}
       >
         {networkTransactions.length > 0 ? (
           <div className="w-full relative overflow-x-auto">
@@ -124,7 +121,7 @@ const TransactionsTabPanel = () => {
                   ].map((header) => (
                     <th
                       key={`${network}-${header}`}
-                      className="px-4 text-primary font-semibold whitespace-nowrap"
+                      className="px-4 text-primary font-medium whitespace-nowrap"
                     >
                       {header}
                     </th>
@@ -274,10 +271,11 @@ const TransactionsTabPanel = () => {
             </table>
           </div>
         ) : (
-          <div className="h-60 w-full flex items-center justify-center text-center gap-3">
-            <ListCross className="icon-lg text-yellow-500" />
+          <div className="h-60 p-4 w-full flex flex-col items-center justify-center gap-3 text-center">
+            <ListCross className="icon-lg text-yellow-500" strokeWidth={1.5} />
             <p className="text-md max-w-60">
-              No transactions found for this {network} address.
+              No transactions found for this
+              <span className="lowercase"> {networkConfig.name} </span>address.
             </p>
           </div>
         )}
@@ -285,9 +283,9 @@ const TransactionsTabPanel = () => {
 
       {networkTransactions.length === 10 && (
         <motion.div
-          className="w-full max-w-2xl flex flex-col items-center gap-5 py-4 text-center"
+          className="w-full max-w-2xl flex flex-col items-center gap-5 pt-2 pb-4 text-center"
           key={`explorer-section-${network}`}
-          {...fadeUpAnimation({ delay: !hasTabMounted ? 0.2 : 0.1 })}
+          {...fadeUpAnimation()}
         >
           <p>
             Showing your 10 most recent transactions. For your complete
@@ -307,6 +305,7 @@ const TransactionsTabPanel = () => {
             target="_blank"
             rel="noopener noreferrer"
             variant="zinc"
+            aria-label="View Complete Transaction History"
           >
             <ExternalLink className="w-4.5" />
             <span>View Complete History</span>

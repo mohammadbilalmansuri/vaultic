@@ -23,7 +23,7 @@ import type {
   GetExplorerUrlFunction,
   RequestAirdropFunction,
 } from "@/types";
-import getRpcUrl from "@/utils/getRpcUrl";
+import getRpcUrl from "@/utils/get-rpc-url";
 
 let solanaConnection: Connection | null = null;
 

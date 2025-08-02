@@ -1,2 +1,2 @@
-export { default as PageLayout } from "./page/PageLayout";
-export { default as DashboardLayout } from "./dashboard/DashboardLayout";
+export { default as PageLayout } from "./page/page-layout";
+export { default as DashboardLayout } from "./dashboard/dashboard-layout";
