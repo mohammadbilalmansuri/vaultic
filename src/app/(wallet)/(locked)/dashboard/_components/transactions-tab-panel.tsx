@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
