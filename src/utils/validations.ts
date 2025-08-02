@@ -1,4 +1,4 @@
-import * as z from "zod";
+import { z } from "zod";
 import BigNumber from "bignumber.js";
 import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { FAUCET_PRESET_AMOUNTS } from "@/constants";
@@ -66,9 +66,7 @@ export const ChangePasswordSchema = z
  */
 export const SolanaAirdropSchema = z.object({
   address: AddressSchema("solana"),
-  amount: z.enum(FAUCET_PRESET_AMOUNTS as [string, ...string[]], {
-    errorMap: () => ({ message: "Please select an amount" }),
-  }),
+  amount: z.enum(FAUCET_PRESET_AMOUNTS, { message: "Please select an amount" }),
 });
 
 /**
