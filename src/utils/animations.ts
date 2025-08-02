@@ -1,4 +1,4 @@
-import type { MotionProps, Easing } from "motion/react";
+import type { MotionProps, Easing, Transition } from "motion/react";
 import type { TooltipPosition } from "@/types";
 
 interface BaseAnimationConfig {
@@ -127,7 +127,7 @@ export const tooltipSlideAnimation = (
 
   const hidden = { scale: 0.9, opacity: 0 };
   const visible = { scale: 1, opacity: 1 };
-  const transition = { duration: 0.15, ease: "easeOut" };
+  const transition: Transition = { duration: 0.15, ease: "easeOut" };
 
   return {
     initial: { ...hidden, ...initialOffset, transition },
