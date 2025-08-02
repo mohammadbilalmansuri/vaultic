@@ -2,7 +2,7 @@
 import { useState } from "react";
 import type { InputHTMLAttributes, Ref } from "react";
 import cn from "@/utils/cn";
-import EyeToggle from "./EyeToggle";
+import EyeToggle from "./eye-toggle";
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   ref: Ref<HTMLInputElement>;

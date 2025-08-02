@@ -1,5 +1,5 @@
-export { default as Loading } from "./Loading";
-export { default as MnemonicView } from "./MnemonicView";
-export { default as NetworkCard } from "./NetworkCard";
-export { default as StepProgress } from "./StepProgress";
-export { default as Tabs } from "./Tabs";
+export { default as Loading } from "./loading";
+export { default as MnemonicView } from "./mnemonic-view";
+export { default as NetworkCard } from "./network-card";
+export { default as StepProgress } from "./step-progress";
+export { default as Tabs } from "./tabs";

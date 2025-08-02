@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getNotificationState } from "./notificationStore";
+import { getNotificationState } from "./notification-store";
 
 interface ClipboardState {
   copiedId: string | null;

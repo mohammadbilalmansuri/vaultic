@@ -1,9 +1,9 @@
 "use client";
 import NextTopLoader from "nextjs-toploader";
 import type { Children } from "@/types";
-import NotificationProvider from "./NotificationProvider";
-import ThemeProvider from "./ThemeProvider";
-import WalletChecker from "./WalletChecker";
+import NotificationProvider from "./providers/notification-provider";
+import ThemeProvider from "./providers/theme-provider";
+import WalletChecker from "./providers/wallet-checker";
 
 const Providers = ({ children }: Children) => {
   return (

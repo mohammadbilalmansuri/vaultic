@@ -1,3 +1,3 @@
-export { default as Providers } from "./providers/Providers";
-export { default as OfflineView } from "./OfflineView";
-export { default as UnlockForm } from "./UnlockForm";
+export { default as Providers } from "./providers";
+export { default as OfflineView } from "./offline-view";
+export { default as UnlockForm } from "./unlock-form";

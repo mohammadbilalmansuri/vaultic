@@ -83,23 +83,20 @@ const ReceiveTabPanel = () => {
   }
 
   return (
-    <div
-      className="w-full flex flex-col items-center md:gap-7 gap-6 text-center"
-      role="region"
-    >
+    <div className="w-full flex flex-col items-center md:gap-7 gap-6 text-center">
       <div
         className="w-full grid sm:grid-cols-2 md:gap-6 gap-5"
         aria-label="Wallet addresses and QR codes"
       >
         {qrDataList
-          ? qrDataList.map(({ network, address, qrCode }, index) => {
+          ? qrDataList.map(({ network, address, qrCode }) => {
               const networkName = NETWORKS[network].name;
 
               return (
                 <motion.div
                   key={`${network}-address-card`}
                   className="w-full sm:max-w-full max-w-md mx-auto rounded-3xl border-1.5"
-                  {...fadeUpAnimation({ delay: index * 0.05 })}
+                  {...fadeUpAnimation()}
                 >
                   <div className="w-full flex items-center justify-between border-b-1.5 p-2.5 pl-4">
                     <h4 className="sm:text-lg text-md font-medium text-primary leading-none text-left">
@@ -183,7 +180,7 @@ const ReceiveTabPanel = () => {
       </div>
 
       {qrDataList ? (
-        <motion.p {...fadeUpAnimation({ delay: 0.1 })}>
+        <motion.p {...fadeUpAnimation()}>
           Use these QR codes or addresses to receive tokens on each supported
           network.
         </motion.p>

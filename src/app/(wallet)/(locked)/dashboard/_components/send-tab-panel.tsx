@@ -16,8 +16,8 @@ import {
 } from "@/stores";
 import { fadeUpAnimation, scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import getShortAddress from "@/utils/getShortAddress";
-import parseBalance from "@/utils/parseBalance";
+import getShortAddress from "@/utils/get-short-address";
+import parseBalance from "@/utils/parse-balance";
 import { SendForm, SendSchema } from "@/utils/validations";
 import { useBlockchain, useMounted, useAddressQRUpload } from "@/hooks";
 import { Check, Cancel, QR } from "@/components/icons";

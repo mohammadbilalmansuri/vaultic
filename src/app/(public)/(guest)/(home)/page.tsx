@@ -1,9 +1,9 @@
 "use client";
-import HeroSection from "./_components/HeroSection";
-import FeaturesSection from "./_components/FeaturesSection";
-import HowItWorksSection from "./_components/HowItWorksSection";
-import TestnetSection from "./_components/TestnetSection";
-import FAQSection from "./_components/FAQSection";
+import HeroSection from "./_components/hero-section";
+import FeaturesSection from "./_components/features-sction";
+import HowItWorksSection from "./_components/how-it-works-section";
+import TestnetSection from "./_components/testnet-section";
+import FAQSection from "./_components/faq-section";
 
 const HomePage = () => {
   return (

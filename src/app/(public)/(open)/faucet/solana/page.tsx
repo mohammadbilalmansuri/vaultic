@@ -10,7 +10,7 @@ import { useAccounts, useNotificationActions } from "@/stores";
 import { requestSolanaAirdrop } from "@/services/solana";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
-import getShortAddress from "@/utils/getShortAddress";
+import getShortAddress from "@/utils/get-short-address";
 import { SolanaAirdropSchema, SolanaAirdropForm } from "@/utils/validations";
 import { Solana } from "@/components/icons";
 import {
