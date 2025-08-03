@@ -339,7 +339,7 @@ const SendTabPanel = ({
                       content={getValues("toAddress")}
                       position="left"
                       delay={0}
-                      tooltipClassName="sm:w-auto xxs:w-50 w-40 sm:break-normal break-all"
+                      tooltipClassName="xs:w-auto w-40 xs:whitespace-nowrap whitespace-break-spaces xs:break-normal break-all"
                     >
                       <span>
                         {getShortAddress(getValues("toAddress"), network)}
