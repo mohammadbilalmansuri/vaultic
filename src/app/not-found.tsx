@@ -6,7 +6,7 @@ import { QuestionMark } from "@/components/icons";
 import { PageLayout } from "@/components/layouts";
 import { Button } from "@/components/ui";
 
-const NotFound = () => {
+export default function NotFound() {
   const walletExists = useWalletExists();
   const destination = walletExists ? "/dashboard" : "/";
   const label = walletExists ? "Dashboard" : "Home";
@@ -41,6 +41,4 @@ const NotFound = () => {
       </div>
     </PageLayout>
   );
-};
-
-export default NotFound;
+}
