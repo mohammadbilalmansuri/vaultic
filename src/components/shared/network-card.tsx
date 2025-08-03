@@ -49,14 +49,14 @@ const NetworkCard = ({
         delay={0}
       >
         <p
-          className="font-medium leading-none cursor-default break-all text-right"
+          className="font-medium leading-none cursor-default break-all text-right xs:text-base text-15"
           aria-label={
             refreshingBalance ? "Refreshing" : `Balance for ${name} network`
           }
         >
           {refreshingBalance ? (
             <span
-              className="h-5 w-20 rounded bg-secondary animate-shimmer"
+              className="h-5 xxs:w-20 w-15 rounded bg-secondary animate-shimmer"
               aria-hidden="true"
             />
           ) : (
@@ -138,7 +138,7 @@ const NetworkCard = ({
       <div className="flex items-center gap-2.5 py-1">
         <NetworkLogo network={network} size="sm" />
         <div className="flex flex-col items-start gap-1">
-          <h4 className="font-medium text-primary leading-none text-nowrap">
+          <h4 className="font-medium text-primary leading-none text-nowrap xs:text-base text-15">
             {displayName}
           </h4>
           <Tooltip
@@ -146,7 +146,7 @@ const NetworkCard = ({
             position="bottom"
           >
             <div
-              className="flex items-center gap-1.5 cursor-pointer hover:text-primary transition-colors duration-200 sm:text-base text-15"
+              className="flex items-center gap-1.5 cursor-pointer hover:text-primary transition-colors duration-200 sm:text-base text-sm"
               onClick={() => copyToClipboard(address)}
               role="button"
               tabIndex={0}
