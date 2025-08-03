@@ -14,33 +14,6 @@ export const metadata: Metadata = {
   },
   description:
     "Vaultic is a secure, browser-native crypto wallet for Solana and Ethereum. Generate and manage multiple accounts from a single recovery phrase — fully encrypted, open source, and under your complete control.",
-  metadataBase: new URL("https://vaulticwallet.vercel.app"),
-  alternates: { canonical: "/" },
-  openGraph: {
-    title: "Vaultic - The Wallet That Lives in Your Browser",
-    description:
-      "Secure, browser-native crypto wallet for Solana and Ethereum. Open source, encrypted, and fully under your control.",
-    url: "https://vaulticwallet.vercel.app",
-    siteName: "Vaultic",
-    type: "website",
-  },
-  twitter: {
-    card: "summary",
-    title: "Vaultic - The Wallet That Lives in Your Browser",
-    description:
-      "Secure, browser-native crypto wallet for Solana and Ethereum. Open source, encrypted, and fully under your control.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
   icons: [{ url: "/favicon.svg", rel: "icon", type: "image/svg+xml" }],
   keywords: [
     "vaultic",
@@ -57,7 +30,6 @@ export const metadata: Metadata = {
     "multi-chain wallet",
     "hd wallet",
   ],
-  category: "technology",
   authors: [
     {
       name: "Mohammad Bilal Mansuri",
