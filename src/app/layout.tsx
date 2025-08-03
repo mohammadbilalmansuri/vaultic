@@ -8,35 +8,61 @@ import "./globals.css";
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Vaultic - The Wallet That Lives in Your Browser",
+  title: {
+    default: "Vaultic - The Wallet That Lives in Your Browser",
+    template: "%s | Vaultic",
+  },
   description:
     "Vaultic is a secure, browser-native crypto wallet for Solana and Ethereum. Generate and manage multiple accounts from a single recovery phrase — fully encrypted, open source, and under your complete control.",
-  icons: [
-    {
-      url: "/favicon.svg",
-      rel: "icon",
-      type: "image/svg+xml",
+  metadataBase: new URL("https://vaulticwallet.vercel.app"),
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Vaultic - The Wallet That Lives in Your Browser",
+    description:
+      "Secure, browser-native crypto wallet for Solana and Ethereum. Open source, encrypted, and fully under your control.",
+    url: "https://vaulticwallet.vercel.app",
+    siteName: "Vaultic",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Vaultic - The Wallet That Lives in Your Browser",
+    description:
+      "Secure, browser-native crypto wallet for Solana and Ethereum. Open source, encrypted, and fully under your control.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
-  ],
+  },
+  icons: [{ url: "/favicon.svg", rel: "icon", type: "image/svg+xml" }],
   keywords: [
     "vaultic",
     "vaultic wallet",
-    "vaultic web wallet",
-    "vaultic web3 wallet",
-    "vaultic solana wallet",
-    "vaultic ethereum wallet",
-    "solana",
-    "ethereum",
-    "wallet",
-    "web3",
-    "cryptocurrency",
-    "blockchain",
     "crypto wallet",
-    "web wallet",
-    "web-based wallet",
     "web3 wallet",
     "solana wallet",
     "ethereum wallet",
+    "browser wallet",
+    "cryptocurrency",
+    "blockchain",
+    "secure wallet",
+    "open source wallet",
+    "multi-chain wallet",
+    "hd wallet",
+  ],
+  category: "technology",
+  authors: [
+    {
+      name: "Mohammad Bilal Mansuri",
+      url: "https://mohammadbilalmansuri.notion.site/Mohammad-Bilal-Mansuri-1ea674e76abb808c8afaf111891131d8",
+    },
   ],
 };
 
@@ -46,7 +72,7 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-const RootLayout = ({ children }: Children) => {
+export default function RootLayout({ children }: Children) {
   return (
     <html lang="en">
       <body className={cn(inter.variable, inter.className, "antialiased")}>
@@ -54,6 +80,4 @@ const RootLayout = ({ children }: Children) => {
       </body>
     </html>
   );
-};
-
-export default RootLayout;
+}
