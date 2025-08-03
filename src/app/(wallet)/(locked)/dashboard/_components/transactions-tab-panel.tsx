@@ -221,7 +221,11 @@ const TransactionsTabPanel = () => {
                           {txn.type !== "self" && (
                             <span>{txn.type === "in" ? "From" : "To"}</span>
                           )}
-                          <Tooltip content={addressToShow} delay={0}>
+                          <Tooltip
+                            content={addressToShow}
+                            delay={0}
+                            tooltipClassName="xs:w-auto w-40 xs:whitespace-nowrap whitespace-break-spaces xs:break-normal break-all"
+                          >
                             <Link
                               href={networkGetExplorerUrl(
                                 "address",
