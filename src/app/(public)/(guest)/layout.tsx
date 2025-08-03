@@ -10,7 +10,7 @@ import {
 import { PageLayout } from "@/components/layouts";
 import { Loading } from "@/components/shared";
 
-const GuestLayout = ({ children }: Children) => {
+export default function GuestLayout({ children }: Children) {
   const router = useRouter();
   const walletStatus = useWalletStatus();
   const suppressRedirect = useSuppressRedirect();
@@ -27,6 +27,4 @@ const GuestLayout = ({ children }: Children) => {
   }
 
   return <PageLayout>{children}</PageLayout>;
-};
-
-export default GuestLayout;
+}
