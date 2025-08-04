@@ -44,7 +44,7 @@ export const NOTIFICATION_ICONS: Record<
   error: { icon: Error, colorClassName: "text-rose-500" },
 } as const;
 
-export const ROOT_METADATA_KEYWORDS = [
+export const APP_METADATA_KEYWORDS = [
   "vaultic",
   "vaultic wallet",
   "crypto wallet",
