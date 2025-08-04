@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import type { Children } from "@/types";
+import { APP_METADATA_KEYWORDS } from "@/constants";
 import cn from "@/utils/cn";
 import { Providers } from "@/components/root";
 import "./globals.css";
@@ -12,21 +13,7 @@ export const metadata: Metadata = {
   description:
     "Vaultic is a secure, browser-native crypto wallet for Solana and Ethereum. Generate and manage multiple accounts from a single recovery phrase — fully encrypted, open source, and under your complete control.",
   icons: [{ url: "/favicon.svg", rel: "icon", type: "image/svg+xml" }],
-  keywords: [
-    "vaultic",
-    "vaultic wallet",
-    "crypto wallet",
-    "web3 wallet",
-    "solana wallet",
-    "ethereum wallet",
-    "browser wallet",
-    "cryptocurrency",
-    "blockchain",
-    "secure wallet",
-    "open source wallet",
-    "multi-chain wallet",
-    "hd wallet",
-  ],
+  keywords: APP_METADATA_KEYWORDS,
   authors: [
     {
       name: "Mohammad Bilal Mansuri",
