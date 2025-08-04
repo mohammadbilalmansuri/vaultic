@@ -49,8 +49,6 @@ const PresetSelect = <T extends FieldValues>({
             })}
             onClick={() => setOpened((prev) => !prev)}
             aria-expanded={opened}
-            aria-haspopup="listbox"
-            role="preset-select"
             aria-label={placeholder}
           >
             {value ? `${value} ${valueSuffix}` : placeholder}
