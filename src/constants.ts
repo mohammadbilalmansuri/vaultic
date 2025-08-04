@@ -43,3 +43,19 @@ export const NOTIFICATION_ICONS: Record<
   success: { icon: Success, colorClassName: "text-teal-500" },
   error: { icon: Error, colorClassName: "text-rose-500" },
 } as const;
+
+export const ROOT_METADATA_KEYWORDS = [
+  "vaultic",
+  "vaultic wallet",
+  "crypto wallet",
+  "web3 wallet",
+  "solana wallet",
+  "ethereum wallet",
+  "browser wallet",
+  "cryptocurrency",
+  "blockchain",
+  "secure wallet",
+  "open source wallet",
+  "multi-chain wallet",
+  "hd wallet",
+];
