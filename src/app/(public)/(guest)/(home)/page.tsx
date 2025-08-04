@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import HeroSection from "./_components/hero-section";
 import FeaturesSection from "./_components/features-sction";
 import HowItWorksSection from "./_components/how-it-works-section";
 import TestnetSection from "./_components/testnet-section";
 import FAQSection from "./_components/faq-section";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function HomePage() {
   return (
