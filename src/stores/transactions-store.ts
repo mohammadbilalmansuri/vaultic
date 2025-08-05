@@ -48,5 +48,3 @@ export const useTransactions = () =>
 
 export const useTransactionActions = () =>
   useTransactionsStore((state) => state.actions);
-
-export const getTransactionsState = () => useTransactionsStore.getState();
