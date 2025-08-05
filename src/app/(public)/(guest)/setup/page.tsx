@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SetupClient } from "./setup-client";
+import { SetupClient } from "./client";
 
 export const metadata: Metadata = {
   title: "Set Up Your Vaultic Wallet",
