@@ -3,11 +3,11 @@ import { useTransition } from "react";
 import { motion } from "motion/react";
 import type { Network, TabsData } from "@/types";
 import {
-  useNetworkMode,
+  useActiveAccount,
   useActiveAccountIndex,
-  useAccountActions,
-  useSwitchingToAccount,
+  useNetworkMode,
   useNotificationActions,
+  useSwitchingToAccount,
 } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
@@ -28,7 +28,7 @@ const TABS: TabsData = [
 export const DashboardClient = () => {
   const networkMode = useNetworkMode();
   const activeAccountIndex = useActiveAccountIndex();
-  const activeAccount = useAccountActions().getActiveAccount();
+  const activeAccount = useActiveAccount();
   const switchingToAccount = useSwitchingToAccount();
   const { notify } = useNotificationActions();
 
