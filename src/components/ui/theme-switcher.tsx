@@ -1,11 +1,11 @@
 "use client";
-import { useTheme, useThemeActions } from "@/stores";
+import { useTheme, useToggleTheme } from "@/stores";
 import cn from "@/utils/cn";
 import { Sun, Moon } from "../icons";
 
 const ThemeSwitcher = ({ className = "" }) => {
   const theme = useTheme();
-  const { toggleTheme } = useThemeActions();
+  const toggleTheme = useToggleTheme();
 
   const isDark = theme === "dark";
   const Icon = isDark ? Moon : Sun;
