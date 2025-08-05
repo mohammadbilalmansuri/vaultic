@@ -1,13 +1,8 @@
 "use client";
 import { motion } from "motion/react";
-import type { ReactNode } from "react";
+import type { Guide } from "@/types";
 import { fadeUpAnimation } from "@/utils/animations";
 import { useMotionInView } from "@/hooks";
-
-export interface Guide {
-  title: string;
-  content: ReactNode;
-}
 
 const GuideSection = ({ title, content }: Guide) => {
   const { ref, inView } = useMotionInView<HTMLDivElement>();
