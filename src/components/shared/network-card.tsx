@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { NETWORKS } from "@/config";
 import { Network, NetworkAccount } from "@/types";
-import { useClipboardActions, useCopiedId, useNetworkMode } from "@/stores";
+import { useCopiedId, useCopyToClipboard, useNetworkMode } from "@/stores";
 import getShortAddress from "@/utils/get-short-address";
 import parseBalance from "@/utils/parse-balance";
 import { Key } from "../icons";
@@ -24,7 +24,7 @@ const NetworkCard = ({
 }: NetworkCardProps) => {
   const copiedId = useCopiedId();
   const networkMode = useNetworkMode();
-  const { copyToClipboard } = useClipboardActions();
+  const copyToClipboard = useCopyToClipboard();
 
   const [showingPrivateKey, setShowingPrivateKey] = useState(false);
 
