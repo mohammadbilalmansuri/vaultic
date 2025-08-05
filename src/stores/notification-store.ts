@@ -69,4 +69,4 @@ export const useNotificationMessage = () =>
 export const useNotificationActions = () =>
   useNotificationStore((state) => state.actions);
 
-export const getNotificationState = () => useNotificationStore.getState();
+export const notify = useNotificationStore.getState().actions.notify;
