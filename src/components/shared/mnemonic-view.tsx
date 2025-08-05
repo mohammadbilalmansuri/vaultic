@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import cn from "@/utils/cn";
-import { useCopiedId, useClipboardActions } from "@/stores";
+import { useCopiedId, useCopyToClipboard } from "@/stores";
 import { CopyToggle, EyeToggle } from "../ui";
 
 interface MnemonicViewProps {
@@ -15,7 +15,7 @@ const MnemonicView = ({
   mnemonic,
   containerClassName = "w-full",
 }: MnemonicViewProps) => {
-  const { copyToClipboard } = useClipboardActions();
+  const copyToClipboard = useCopyToClipboard();
   const copiedId = useCopiedId();
   const [visible, setVisible] = useState(false);
 
