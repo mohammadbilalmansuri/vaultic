@@ -8,7 +8,7 @@ import {
   useAccountActions,
   useActiveAccountIndex,
   useCopiedId,
-  useClipboardActions,
+  useCopyToClipboard,
 } from "@/stores";
 import { generateQRCode } from "@/services/qr";
 import { fadeUpAnimation } from "@/utils/animations";
@@ -28,7 +28,7 @@ const ReceiveTabPanel = () => {
   const activeAccount = useAccountActions().getActiveAccount();
   const activeAccountIndex = useActiveAccountIndex();
   const copiedId = useCopiedId();
-  const { copyToClipboard } = useClipboardActions();
+  const copyToClipboard = useCopyToClipboard();
 
   const { downloadFile, shareFile } = useFileActions();
 

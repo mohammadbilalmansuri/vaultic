@@ -7,8 +7,8 @@ import { DEFAULT_NETWORK } from "@/constants";
 import type { Network } from "@/types";
 import {
   useAccountActions,
-  useClipboardActions,
   useCopiedId,
+  useCopyToClipboard,
   useNetworkMode,
   useNotificationActions,
   useTransactions,
@@ -27,7 +27,7 @@ const TransactionsTabPanel = () => {
   const activeAccount = useAccountActions().getActiveAccount();
   const networkMode = useNetworkMode();
   const copiedId = useCopiedId();
-  const { copyToClipboard } = useClipboardActions();
+  const copyToClipboard = useCopyToClipboard();
   const { notify } = useNotificationActions();
 
   const { fetchActiveAccountTransactions } = useBlockchain();
