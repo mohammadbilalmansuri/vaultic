@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FaucetClient } from "./faucet-client";
+import { FaucetClient } from "./client";
 
 export const metadata: Metadata = {
   title: "Vaultic Faucet – Free Ethereum & Solana Testnet Tokens",
