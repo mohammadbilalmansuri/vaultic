@@ -59,7 +59,7 @@ export const AccountsClient = () => {
               Accounts
             </h1>
             <p className="sm:text-base text-sm">
-              Add, remove, or switch accounts.
+              Create, remove, or switch accounts.
             </p>
           </div>
         </div>
