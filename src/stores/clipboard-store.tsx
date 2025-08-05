@@ -1,16 +1,9 @@
 import { create } from "zustand";
-import { getNotificationState } from "./notification-store";
+import { notify } from "./notification-store";
 
-interface ClipboardState {
+interface ClipboardStore {
   copiedId: string | null;
-}
-
-interface ClipboardActions {
   copyToClipboard: (text: string, id?: string) => Promise<void>;
-}
-
-interface ClipboardStore extends ClipboardState {
-  actions: ClipboardActions;
 }
 
 /**
@@ -24,55 +17,50 @@ interface ClipboardStore extends ClipboardState {
  * - Error handling with user notifications
  */
 const useClipboardStore = create<ClipboardStore>((set, get) => {
-  const { notify } = getNotificationState().actions;
   let timeoutRef: NodeJS.Timeout | null = null;
 
   return {
     copiedId: null,
 
-    actions: {
-      copyToClipboard: async (text: string, id?: string) => {
-        const { copiedId } = get();
-        const targetId = id || text;
+    copyToClipboard: async (text: string, id?: string) => {
+      const { copiedId } = get();
+      const targetId = id || text;
 
-        if (copiedId === targetId) return;
+      if (copiedId === targetId) return;
 
-        if (timeoutRef) {
-          clearTimeout(timeoutRef);
+      if (timeoutRef) {
+        clearTimeout(timeoutRef);
+        timeoutRef = null;
+      }
+
+      if (!navigator?.clipboard?.writeText) {
+        notify({
+          type: "error",
+          message: "Clipboard not supported in this browser",
+        });
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+        set({ copiedId: targetId });
+
+        timeoutRef = setTimeout(() => {
+          set({ copiedId: null });
           timeoutRef = null;
-        }
-
-        if (!navigator?.clipboard?.writeText) {
-          notify({
-            type: "error",
-            message: "Clipboard not supported in this browser",
-          });
-          return;
-        }
-
-        try {
-          await navigator.clipboard.writeText(text);
-          set({ copiedId: targetId });
-
-          timeoutRef = setTimeout(() => {
-            set({ copiedId: null });
-            timeoutRef = null;
-          }, 2000);
-        } catch (error) {
-          notify({
-            type: "error",
-            message: "Something went wrong while copying",
-          });
-          console.error("Failed to copy text:", error);
-        }
-      },
+        }, 2000);
+      } catch (error) {
+        notify({
+          type: "error",
+          message: "Something went wrong while copying",
+        });
+        console.error("Failed to copy text:", error);
+      }
     },
   };
 });
 
 export const useCopiedId = () => useClipboardStore((state) => state.copiedId);
 
-export const useClipboardActions = () =>
-  useClipboardStore((state) => state.actions);
-
-export const getClipboardState = () => useClipboardStore.getState();
+export const useCopyToClipboard = () =>
+  useClipboardStore((state) => state.copyToClipboard);
