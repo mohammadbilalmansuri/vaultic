@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { DashboardClient } from "./dashboard-client";
+import { DashboardClient } from "./client";
 
 export const metadata: Metadata = {
-  title: "Dashboard - Vaultic",
+  title: "Dashboard • Vaultic",
   description:
-    "Wallet dashboard for viewing balances, sending/receiving crypto, and managing transactions across networks.",
+    "Manage your active account — view balances, send and receive tokens, and track recent transactions across all supported networks.",
+  alternates: { canonical: "/dashboard" },
 };
 
 export default function DashboardPage() {
