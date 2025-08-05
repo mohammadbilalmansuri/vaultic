@@ -1,6 +1,14 @@
-"use client";
+import type { Metadata } from "next";
+import type { Guide } from "@/types";
 import HeroSection from "./_components/hero-section";
-import GuideSection, { type Guide } from "./_components/guide-section";
+import GuideSection from "./_components/guide-section";
+
+export const metadata: Metadata = {
+  title: "Help & Support | Vaultic",
+  description:
+    "Need help with Vaultic? Explore guides on wallet creation, recovery, testnets, security, and troubleshooting. Get support and learn how Vaultic works.",
+  alternates: { canonical: "/help-and-support" },
+};
 
 const GUIDES: Guide[] = [
   {
@@ -298,7 +306,7 @@ const GUIDES: Guide[] = [
   },
 ];
 
-const HelpAndSupportPage = () => {
+export default function HelpAndSupportPage() {
   return (
     <div className="w-full max-w-screen-lg relative flex-1 flex flex-col items-center lg:gap-16 md:gap-14 gap-12 sm:pt-3 pt-2 lg:pb-8 md:pb-6 sm:pb-4 pb-6">
       <HeroSection />
@@ -308,6 +316,4 @@ const HelpAndSupportPage = () => {
       ))}
     </div>
   );
-};
-
-export default HelpAndSupportPage;
+}
