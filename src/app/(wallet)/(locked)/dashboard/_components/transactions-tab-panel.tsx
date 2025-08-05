@@ -6,7 +6,7 @@ import { NETWORKS, NETWORK_FUNCTIONS } from "@/config";
 import { DEFAULT_NETWORK } from "@/constants";
 import type { Network } from "@/types";
 import {
-  useAccountActions,
+  useActiveAccount,
   useCopiedId,
   useCopyToClipboard,
   useNetworkMode,
@@ -24,7 +24,7 @@ import { Tooltip, CopyToggle, Button, Loader } from "@/components/ui";
 
 const TransactionsTabPanel = () => {
   const transactions = useTransactions();
-  const activeAccount = useAccountActions().getActiveAccount();
+  const activeAccount = useActiveAccount();
   const networkMode = useNetworkMode();
   const copiedId = useCopiedId();
   const copyToClipboard = useCopyToClipboard();

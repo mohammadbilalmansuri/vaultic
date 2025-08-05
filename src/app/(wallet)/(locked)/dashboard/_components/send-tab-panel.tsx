@@ -9,8 +9,8 @@ import { DEFAULT_NETWORK } from "@/constants";
 import type { ReactNode, FormEvent } from "react";
 import type { Network, TabPanelProps } from "@/types";
 import {
-  useAccountActions,
   useAccounts,
+  useActiveAccount,
   useActiveAccountIndex,
   useNetworkMode,
 } from "@/stores";
@@ -52,7 +52,7 @@ const SendTabPanel = ({
   const networkMode = useNetworkMode();
   const accounts = useAccounts();
   const activeAccountIndex = useActiveAccountIndex();
-  const activeAccount = useAccountActions().getActiveAccount();
+  const activeAccount = useActiveAccount();
 
   const [step, setStep] = useState<SendStep>(1);
   const [network, setNetwork] = useState<Network>(DEFAULT_NETWORK);

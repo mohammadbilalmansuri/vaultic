@@ -5,7 +5,7 @@ import Image from "next/image";
 import { NETWORKS } from "@/config";
 import type { Network } from "@/types";
 import {
-  useAccountActions,
+  useActiveAccount,
   useActiveAccountIndex,
   useCopiedId,
   useCopyToClipboard,
@@ -25,7 +25,7 @@ interface QRCodeData {
 }
 
 const ReceiveTabPanel = () => {
-  const activeAccount = useAccountActions().getActiveAccount();
+  const activeAccount = useActiveAccount();
   const activeAccountIndex = useActiveAccountIndex();
   const copiedId = useCopiedId();
   const copyToClipboard = useCopyToClipboard();
