@@ -3,6 +3,15 @@ import { notify } from "./notification-store";
 
 interface ClipboardStore {
   copiedId: string | null;
+
+  /**
+   * Copies the given text to the clipboard and updates copied state.
+   * If `id` is provided, it is used as the identifier for copied status;
+   * otherwise, `text` is used as fallback ID.
+   *
+   * @param text Text to be copied to the clipboard.
+   * @param id Optional ID to associate with the copy action.
+   */
   copyToClipboard: (text: string, id?: string) => Promise<void>;
 }
 
@@ -10,11 +19,9 @@ interface ClipboardStore {
  * Global clipboard store for managing copy operations across the application.
  *
  * Features:
- * - Global state management - only one item copied at a time
- * - Auto-resets copied state after 2 seconds
- * - Prevents race conditions between multiple copy buttons
- * - Flexible ID system - use custom ID or fallback to text
- * - Error handling with user notifications
+ * - Global copied state with auto-reset after 2 seconds
+ * - Custom ID support for copy tracking
+ * - Handles browser API limitations and user notifications
  */
 const useClipboardStore = create<ClipboardStore>((set, get) => {
   let timeoutRef: NodeJS.Timeout | null = null;
@@ -60,7 +67,12 @@ const useClipboardStore = create<ClipboardStore>((set, get) => {
   };
 });
 
+/** Returns the currently copied item's ID (or `null` if none). */
 export const useCopiedId = () => useClipboardStore((state) => state.copiedId);
 
+/**
+ * Provides the copy-to-clipboard function.
+ * Use inside components to copy text and show feedback.
+ */
 export const useCopyToClipboard = () =>
   useClipboardStore((state) => state.copyToClipboard);
