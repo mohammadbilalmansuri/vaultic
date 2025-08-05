@@ -75,6 +75,9 @@ export const useActiveAccountIndex = () =>
 export const useSwitchingToAccount = () =>
   useAccountsStore((state) => state.switchingToAccount);
 
+export const useActiveAccount = () =>
+  useAccountsStore((state) => state.actions.getActiveAccount());
+
 export const useAccountActions = () =>
   useAccountsStore((state) => state.actions);
 
