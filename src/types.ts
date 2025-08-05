@@ -134,6 +134,13 @@ export type SetupSetPath = Dispatch<SetStateAction<SetupPath>>;
 
 export type SetupSetStep = Dispatch<SetStateAction<SetupStep>>;
 
+// Help and Support Types
+
+export interface Guide {
+  title: string;
+  content: ReactNode;
+}
+
 // UI and Component Types
 
 export type TooltipPosition = "top" | "bottom" | "left" | "right";
