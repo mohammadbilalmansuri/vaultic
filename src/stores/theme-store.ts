@@ -2,39 +2,41 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-interface ThemeState {
-  theme: "light" | "dark";
+export type Theme = "light" | "dark";
+
+interface ThemeStore {
+  theme: Theme;
   isHydrated: boolean;
-}
-
-interface ThemeActions {
   toggleTheme: () => void;
-}
-
-interface ThemeStore extends ThemeState {
-  actions: ThemeActions;
+  setTheme: (theme: Theme) => void;
 }
 
 /**
- * Theme store for managing light/dark mode with localStorage persistence.
- * Automatically hydrates from localStorage on initialization.
+ * Zustand store instance for theme management with persistence.
  */
 const useThemeStore = create<ThemeStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       theme: "dark",
       isHydrated: false,
-
-      actions: {
-        toggleTheme: () =>
-          set({ theme: get().theme === "dark" ? "light" : "dark" }),
-      },
+      toggleTheme: () =>
+        set((state) => ({
+          theme: state.theme === "dark" ? "light" : "dark",
+        })),
+      setTheme: (theme) => set({ theme }),
     }),
     {
       name: "theme-storage",
       storage: createJSONStorage(() => localStorage),
       onRehydrateStorage: () => (state) => {
-        if (state) state.isHydrated = true;
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+
+        if (state) {
+          state.setTheme(prefersDark ? "dark" : "light");
+          state.isHydrated = true;
+        }
       },
     }
   )
@@ -44,6 +46,4 @@ export const useTheme = () => useThemeStore((state) => state.theme);
 
 export const useIsHydrated = () => useThemeStore((state) => state.isHydrated);
 
-export const useThemeActions = () => useThemeStore((state) => state.actions);
-
-export const getThemeState = () => useThemeStore.getState();
+export const useToggleTheme = () => useThemeStore((state) => state.toggleTheme);
