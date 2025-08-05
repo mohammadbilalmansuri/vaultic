@@ -74,7 +74,6 @@ export const DashboardClient = () => {
     <div
       className="w-full max-w-screen-lg relative flex flex-col md:gap-6 gap-5"
       aria-label={`Account ${accountNumber} dashboard`}
-      role="region"
     >
       <motion.div
         className="w-full relative flex items-center justify-between gap-3"
