@@ -50,9 +50,7 @@ const NetworkCard = ({
       >
         <p
           className="font-medium leading-none cursor-default break-all text-right xs:text-base text-15"
-          aria-label={
-            refreshingBalance ? "Refreshing" : `Balance for ${name} network`
-          }
+          aria-label={`Balance for ${name} network`}
         >
           {refreshingBalance ? (
             <span

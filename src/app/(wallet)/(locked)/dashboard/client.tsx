@@ -110,9 +110,7 @@ export const DashboardClient = () => {
             })}
             onClick={handleBalanceRefresh}
             disabled={refreshing}
-            aria-label={
-              refreshing ? "Refreshing balances..." : "Refresh balances"
-            }
+            aria-label="Refresh balances"
           >
             {refreshing ? <Loader size="sm" /> : <Refresh />}
           </button>

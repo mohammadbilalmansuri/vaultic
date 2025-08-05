@@ -100,9 +100,7 @@ const TransactionsTabPanel = () => {
             })}
             onClick={handleRefresh}
             disabled={refreshing}
-            aria-label={
-              refreshing ? "Refreshing transactions" : "Refresh transactions"
-            }
+            aria-label="Refresh transactions"
           >
             {refreshing ? <Loader size="sm" /> : <Refresh />}
           </button>
