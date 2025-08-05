@@ -77,7 +77,11 @@ export const AccountsClient = () => {
             disabled={creating}
             aria-label="Create New Account"
           >
-            {creating ? <Loader size="sm" /> : <Plus className="w-7" />}
+            {creating ? (
+              <Loader size="sm" />
+            ) : (
+              <Plus className="sm:w-7 w-6.5" />
+            )}
           </button>
         </Tooltip>
       </motion.div>
