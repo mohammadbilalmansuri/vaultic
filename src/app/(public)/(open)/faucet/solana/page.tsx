@@ -3,7 +3,7 @@ import { APP_METADATA_KEYWORDS } from "@/constants";
 import { SolanaFaucetClient } from "./client";
 
 export const metadata: Metadata = {
-  title: "Solana Devnet Faucet | Vaultic",
+  title: "Solana Devnet Faucet • Vaultic",
   description:
     "Get free SOL tokens on Solana Devnet for testing and development. Request up to 5 SOL every 8 hours per address. Fast and reliable faucet with backup options.",
   alternates: { canonical: "/faucet/solana" },

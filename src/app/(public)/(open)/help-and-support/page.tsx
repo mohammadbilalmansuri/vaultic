@@ -4,7 +4,7 @@ import HeroSection from "./_components/hero-section";
 import GuideSection from "./_components/guide-section";
 
 export const metadata: Metadata = {
-  title: "Help & Support | Vaultic",
+  title: "Help & Support • Vaultic",
   description:
     "Need help with Vaultic? Explore guides on wallet creation, recovery, testnets, security, and troubleshooting. Get support and learn how Vaultic works.",
   alternates: { canonical: "/help-and-support" },
