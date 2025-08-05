@@ -8,9 +8,8 @@ const ThemeProvider = ({ children }: Children) => {
   const isHydrated = useIsHydrated();
 
   useEffect(() => {
-    if (isHydrated) {
-      document.documentElement.className = theme;
-    }
+    if (!isHydrated) return;
+    document.documentElement.className = theme;
   }, [isHydrated, theme]);
 
   if (!isHydrated) return null;
