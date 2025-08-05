@@ -62,7 +62,11 @@ const TransactionsTabPanel = () => {
         className="w-full relative flex items-center justify-between gap-4"
         {...fadeUpAnimation()}
       >
-        <div className="flex items-center sm:gap-3 gap-2">
+        <div
+          className="flex items-center sm:gap-3 gap-2"
+          role="tablist"
+          aria-label="Network selection"
+        >
           {Object.values(NETWORKS).map(({ id, name }) => (
             <button
               key={`${id}-button`}
@@ -75,7 +79,10 @@ const TransactionsTabPanel = () => {
               )}
               onClick={() => setNetwork(id as Network)}
               disabled={id === network}
-              aria-label={`View ${id} transactions`}
+              role="tab"
+              aria-selected={id === network}
+              aria-controls={`transactions-panel-${id}`}
+              aria-label={`View ${name} transactions`}
             >
               {name}
             </button>
@@ -93,7 +100,9 @@ const TransactionsTabPanel = () => {
             })}
             onClick={handleRefresh}
             disabled={refreshing}
-            aria-label="Refresh Transactions"
+            aria-label={
+              refreshing ? "Refreshing transactions" : "Refresh transactions"
+            }
           >
             {refreshing ? <Loader size="sm" /> : <Refresh />}
           </button>
@@ -103,13 +112,21 @@ const TransactionsTabPanel = () => {
       <motion.div
         className="w-full relative border-1.5 rounded-3xl overflow-hidden"
         key={`transactions-table-${network}`}
+        id={`transactions-panel-${network}`}
+        role="tabpanel"
+        aria-labelledby={`${network}-button`}
         {...fadeUpAnimation()}
       >
         {networkTransactions.length > 0 ? (
           <div className="w-full relative overflow-x-auto">
-            <table className="w-full relative text-sm text-left">
+            <table
+              className="w-full relative text-sm text-left"
+              role="table"
+              aria-label={`${networkConfig.name} transactions`}
+              aria-rowcount={networkTransactions.length + 1}
+            >
               <thead>
-                <tr className="h-12">
+                <tr className="h-12" role="row">
                   {[
                     networkConfig.txnSignatureLabel,
                     "Block",
@@ -122,6 +139,9 @@ const TransactionsTabPanel = () => {
                     <th
                       key={`${network}-${header}`}
                       className="px-4 text-primary font-medium whitespace-nowrap"
+                      role="columnheader"
+                      scope="col"
+                      aria-sort="none"
                     >
                       {header}
                     </th>
@@ -129,7 +149,7 @@ const TransactionsTabPanel = () => {
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody role="rowgroup">
                 {networkTransactions.map((txn, index) => {
                   const { utc, age } = parseTimestamp(txn.timestamp);
                   const addressToShow = txn.type === "in" ? txn.from : txn.to;
@@ -140,9 +160,11 @@ const TransactionsTabPanel = () => {
                     <tr
                       key={`${txn.network}-${txn.signature}`}
                       className="h-12 border-t-1.5 hover:bg-primary transition-colors duration-200"
+                      role="row"
+                      aria-rowindex={index + 2}
                     >
                       {/* Txn Signature */}
-                      <td className="px-4 whitespace-nowrap">
+                      <td className="px-4 whitespace-nowrap" role="gridcell">
                         <div className="flex items-center gap-px">
                           <Tooltip content="View Txn On Explorer" delay={0}>
                             <Link
@@ -154,6 +176,7 @@ const TransactionsTabPanel = () => {
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-teal-500 truncate max-w-40"
+                              aria-label={`View transaction "${txn.signature}" on explorer`}
                             >
                               {txn.signature}
                             </Link>
@@ -177,7 +200,7 @@ const TransactionsTabPanel = () => {
                       </td>
 
                       {/* Block Number */}
-                      <td className="px-4 whitespace-nowrap">
+                      <td className="px-4 whitespace-nowrap" role="gridcell">
                         <Link
                           href={networkGetExplorerUrl(
                             "block",
@@ -187,20 +210,21 @@ const TransactionsTabPanel = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-teal-500"
+                          aria-label={`View block "${txn.block}" on explorer`}
                         >
                           {txn.block}
                         </Link>
                       </td>
 
                       {/* Timestamp */}
-                      <td className="px-4 whitespace-nowrap">
+                      <td className="px-4 whitespace-nowrap" role="gridcell">
                         <Tooltip content={age} delay={0}>
                           <span className="cursor-default">{utc}</span>
                         </Tooltip>
                       </td>
 
                       {/* Type */}
-                      <td className="px-4 whitespace-nowrap">
+                      <td className="px-4 whitespace-nowrap" role="gridcell">
                         <span
                           className={cn(
                             "w-11 h-6.5 pt-px flex items-center justify-center text-xs font-semibold rounded-lg uppercase tracking-wide border select-none",
@@ -216,7 +240,7 @@ const TransactionsTabPanel = () => {
                       </td>
 
                       {/* From/To Address */}
-                      <td className="px-4 whitespace-nowrap">
+                      <td className="px-4 whitespace-nowrap" role="gridcell">
                         <div className="flex items-center gap-1.5">
                           {txn.type !== "self" && (
                             <span>{txn.type === "in" ? "From" : "To"}</span>
@@ -235,6 +259,7 @@ const TransactionsTabPanel = () => {
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-teal-500"
+                              aria-label={`View address "${addressToShow}" on explorer.`}
                             >
                               {getShortAddress(addressToShow, txn.network)}
                             </Link>
@@ -258,15 +283,17 @@ const TransactionsTabPanel = () => {
                       </td>
 
                       {/* Amount */}
-                      <td className="px-4 whitespace-nowrap text-primary">
-                        {`${parseBalance(txn.amount).original} ${
-                          networkConfig.token
-                        }`}
+                      <td className="px-4 whitespace-nowrap" role="gridcell">
+                        <span className="text-primary">
+                          {`${parseBalance(txn.amount).original} ${
+                            networkConfig.token
+                          }`}
+                        </span>
                       </td>
 
                       {/* Fee */}
-                      <td className="px-4 whitespace-nowrap text-[13px]">
-                        {txn.fee}
+                      <td className="px-4 whitespace-nowrap" role="gridcell">
+                        <span className="text-[13px]">{txn.fee}</span>
                       </td>
                     </tr>
                   );
@@ -275,8 +302,16 @@ const TransactionsTabPanel = () => {
             </table>
           </div>
         ) : (
-          <div className="h-60 p-4 w-full flex flex-col items-center justify-center gap-3 text-center">
-            <ListCross className="icon-lg text-yellow-500" strokeWidth={1.5} />
+          <div
+            className="h-60 p-4 w-full flex flex-col items-center justify-center gap-3 text-center"
+            role="status"
+            aria-live="polite"
+          >
+            <ListCross
+              className="icon-lg text-yellow-500"
+              strokeWidth={1.5}
+              aria-hidden="true"
+            />
             <p className="text-md max-w-60">
               No transactions found for this
               <span className="lowercase"> {networkConfig.name} </span>address.
@@ -309,9 +344,9 @@ const TransactionsTabPanel = () => {
             target="_blank"
             rel="noopener noreferrer"
             variant="zinc"
-            aria-label="View Complete Transaction History"
+            aria-label={`View complete transaction history for ${networkConfig.name} address on explorer`}
           >
-            <ExternalLink className="w-4.5" />
+            <ExternalLink className="w-4.5" aria-hidden="true" />
             <span>View Complete History</span>
           </Button>
         </motion.div>
