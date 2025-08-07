@@ -153,11 +153,11 @@ const Tabs = ({
                 {Icon && (
                   <Icon className="size-5 shrink-0" aria-hidden="true" />
                 )}
-                <span>{label}</span>
+                <span className="relative z-1">{label}</span>
                 {isActive && (
                   <motion.div
                     layoutId="activeTabIndicator"
-                    className="absolute inset-0 z-[-1] bg-secondary rounded-xl"
+                    className="absolute z-0 inset-0 bg-secondary rounded-xl"
                     transition={{ type: "spring", stiffness: 300, damping: 25 }}
                   />
                 )}
