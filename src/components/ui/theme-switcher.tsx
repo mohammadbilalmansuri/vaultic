@@ -1,15 +1,16 @@
 "use client";
-import { useTheme, useToggleTheme } from "@/stores";
+import { useTheme } from "next-themes";
 import cn from "@/utils/cn";
 import { Sun, Moon } from "../icons";
 
 const ThemeSwitcher = ({ className = "" }) => {
-  const theme = useTheme();
-  const toggleTheme = useToggleTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
-  const isDark = theme === "dark";
+  const isDark = resolvedTheme === "dark";
   const Icon = isDark ? Moon : Sun;
   const label = isDark ? "Switch to light mode" : "Switch to dark mode";
+
+  const toggleTheme = () => setTheme(isDark ? "light" : "dark");
 
   return (
     <button
