@@ -151,7 +151,10 @@ const Tabs = ({
                 )}
               >
                 {Icon && (
-                  <Icon className="size-5 shrink-0" aria-hidden="true" />
+                  <Icon
+                    className="size-5 shrink-0 relative z-1"
+                    aria-hidden="true"
+                  />
                 )}
                 <span className="relative z-1">{label}</span>
                 {isActive && (
