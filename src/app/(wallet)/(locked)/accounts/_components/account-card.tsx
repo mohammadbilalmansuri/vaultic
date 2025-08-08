@@ -53,6 +53,10 @@ const AccountCard = ({
     }
   };
 
+  const closeRemovalModal = () => {
+    if (!isRemovingAccount) setRemovalState("idle");
+  };
+
   return (
     <motion.div
       className={cn(
@@ -122,8 +126,8 @@ const AccountCard = ({
       </div>
 
       <Modal
-        isOpen={isConfirmingRemoval}
-        onClose={() => setRemovalState("idle")}
+        isOpen={removalState !== "idle"}
+        onClose={closeRemovalModal}
         className="gap-4"
       >
         <h2 className="xs:text-xl text-lg font-medium text-primary leading-none">
@@ -146,8 +150,11 @@ const AccountCard = ({
         <div className="w-full flex items-center xs:gap-3 gap-2 mt-2">
           <Button
             variant="zinc"
-            className="flex-1"
-            onClick={() => setRemovalState("idle")}
+            className={cn("flex-1", {
+              "pointer-events-none": isRemovingAccount,
+            })}
+            onClick={closeRemovalModal}
+            disabled={isRemovingAccount}
             aria-label="Cancel removal"
           >
             Cancel
