@@ -18,7 +18,7 @@ const NetworkLogo = ({
   return (
     <div
       className={cn(
-        "bg-white dark:bg-black flex items-center justify-center shrink-0",
+        "bg-white dark:bg-black flex items-center justify-center shrink-0 border dark:border-0",
         {
           "sm:size-10 size-8 sm:rounded-xl rounded-lg": size === "sm",
           "sm:size-14 size-12 sm:rounded-2xl rounded-xl": size === "lg",
