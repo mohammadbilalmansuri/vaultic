@@ -318,16 +318,16 @@ const TransactionsTabPanel = () => {
         )}
       </motion.div>
 
-      {networkTransactions.length === 10 && (
+      {networkTransactions.length >= 10 && (
         <motion.div
           className="w-full max-w-2xl flex flex-col items-center gap-5 pt-2 pb-4 text-center"
           key={`explorer-section-${network}`}
           {...fadeUpAnimation()}
         >
           <p>
-            Showing your 10 most recent transactions. For your complete
-            transaction history and detailed analytics, explore your address on
-            the {networkConfig.name}
+            Showing your {networkTransactions.length} most recent transactions.
+            For your complete transaction history and detailed analytics,
+            explore your address on the {networkConfig.name}
             {networkMode === "testnet" ? ` ${networkConfig.testnetName} ` : " "}
             explorer.
           </p>
