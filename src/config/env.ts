@@ -1,7 +1,3 @@
-export const IS_DEV = process.env.NODE_ENV === "development";
-
-export const DEV_PASSWORD = process.env.NEXT_PUBLIC_DEV_PASSWORD!;
-
 export const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY!;
 
 export const INDEXED_DB = {
