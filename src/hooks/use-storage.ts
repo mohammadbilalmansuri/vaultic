@@ -5,6 +5,7 @@ import {
   useTransactionActions,
   useWalletActions,
 } from "@/stores";
+import { NETWORK_FUNCTIONS } from "@/config";
 import {
   getWalletData,
   saveWalletData,
@@ -171,6 +172,11 @@ const useStorage = () => {
   const removeWallet = async (): Promise<void> => {
     try {
       await clearWalletData();
+
+      for (const { resetConnection } of Object.values(NETWORK_FUNCTIONS)) {
+        resetConnection();
+      }
+
       await Promise.all([clearWallet(), clearAccounts(), clearTransactions()]);
     } catch (error) {
       console.error("Error removing wallet:", error);
