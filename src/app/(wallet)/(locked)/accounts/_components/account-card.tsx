@@ -35,6 +35,7 @@ const AccountCard = ({
   const isSwitching = switchingToAccount === accountIndex;
   const isConfirmingRemoval = removalState === "confirming";
   const isRemovingAccount = removalState === "removing";
+  const accountNumber = accountIndex + 1;
 
   const handleAccountRemove = async () => {
     if (!isConfirmingRemoval) return;
@@ -44,7 +45,7 @@ const AccountCard = ({
       await deleteAccount(accountIndex);
       notify({
         type: "success",
-        message: `Account ${accountIndex + 1} removed.`,
+        message: `Account ${accountNumber} removed.`,
       });
     } catch {
       notify({ type: "error", message: "Failed to remove account" });
@@ -64,10 +65,11 @@ const AccountCard = ({
         { "md:pt-9 pt-8": !hasMultipleAccounts }
       )}
       {...fadeUpAnimation({ delay: accountIndex * 0.05 })}
+      aria-label={`Account ${accountNumber} Details`}
     >
-      <div className="text-primary md:text-base text-15 uppercase font-medium leading-[0.8] md:h-9 h-8 md:p-2.5 p-2 flex items-center justify-center border-1.5 rounded-lg absolute md:-top-4.5 -top-4 bg-default whitespace-normal">
-        Account {accountIndex + 1}
-      </div>
+      <h3 className="text-primary md:text-base text-15 uppercase font-medium leading-[0.8] md:h-9 h-8 md:p-2.5 p-2 flex items-center justify-center border-1.5 rounded-lg absolute md:-top-4.5 -top-4 bg-default whitespace-normal">
+        Account {accountNumber}
+      </h3>
 
       {hasMultipleAccounts && (
         <div className="w-full flex items-center justify-between gap-4 -mt-1">
@@ -82,13 +84,16 @@ const AccountCard = ({
                 })}
                 onClick={() => switchActiveAccount(accountIndex)}
                 disabled={isSwitching}
-                aria-label="Switch to this account"
+                aria-label={`Set Account ${accountNumber} as Active`}
               >
                 {isSwitching ? <Loader size="sm" /> : <Check className="w-6" />}
               </button>
             </Tooltip>
           ) : (
-            <span className="highlight-teal border text-sm font-medium leading-none uppercase sm:p-2 p-1.75 rounded-lg select-none cursor-default">
+            <span
+              className="highlight-teal border text-sm font-medium leading-none uppercase sm:p-2 p-1.75 rounded-lg select-none cursor-default"
+              aria-label={`Account ${accountNumber} is active`}
+            >
               Active
             </span>
           )}
@@ -106,7 +111,9 @@ const AccountCard = ({
                   prev === "confirming" ? "idle" : "confirming"
                 )
               }
-              aria-label="Remove Account"
+              aria-label={`${
+                isConfirmingRemoval ? "Cancel removal of" : "Remove"
+              } account ${accountNumber}`}
             >
               {isConfirmingRemoval ? <Cancel /> : <Trash />}
             </button>
@@ -131,7 +138,7 @@ const AccountCard = ({
         className="gap-4"
       >
         <h2 className="xs:text-xl text-lg font-medium text-primary leading-none">
-          Remove Account {accountIndex + 1}
+          Remove Account {accountNumber}
         </h2>
         <div className="w-full flex flex-col text-center gap-1.5">
           <p>
@@ -164,7 +171,8 @@ const AccountCard = ({
             className="flex-1"
             onClick={handleAccountRemove}
             disabled={isRemovingAccount}
-            aria-label="Confirm removal"
+            aria-label={`Confirm removal of account ${accountNumber}`}
+            aria-busy={isRemovingAccount || undefined}
           >
             {isRemovingAccount ? (
               <Loader size="sm" color="current" />
