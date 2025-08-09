@@ -16,7 +16,7 @@ const AddressSchema = (network: Network) => {
   return z
     .string()
     .trim()
-    .min(1, "")
+    .min(1, "Address is required")
     .refine(
       (value) => NETWORK_FUNCTIONS[network].isValidAddress(value),
       `Invalid ${NETWORKS[network].name} address`
@@ -87,7 +87,7 @@ export const SendSchema = (network: Network, availableBalance: string) => {
         } catch {
           return false;
         }
-      }, "")
+      }, "Invalid amount")
       .refine((value) => {
         try {
           return new BigNumber(value).isLessThanOrEqualTo(
