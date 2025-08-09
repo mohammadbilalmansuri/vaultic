@@ -76,7 +76,8 @@ const Tabs = ({
     });
   };
 
-  const hasMounted = useMounted(2000);
+  const listMounted = useMounted(100);
+  const panelMounted = useMounted(1000);
 
   if (!tabs.length) return null;
 
@@ -159,9 +160,14 @@ const Tabs = ({
                 <span className="relative z-1">{label}</span>
                 {isActive && (
                   <motion.div
-                    layoutId="activeTabIndicator"
                     className="absolute z-0 inset-0 bg-secondary rounded-xl"
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    layoutId="active-tab-indicator"
+                    initial={false}
+                    transition={
+                      listMounted
+                        ? { type: "spring", stiffness: 300, damping: 25 }
+                        : { duration: 0 }
+                    }
                   />
                 )}
               </button>
@@ -181,7 +187,7 @@ const Tabs = ({
       >
         <ActiveTabPanel
           initialAnimationDelay={delay?.panel}
-          showInitialAnimation={!hasMounted}
+          showInitialAnimation={!panelMounted}
         />
       </div>
     </div>
