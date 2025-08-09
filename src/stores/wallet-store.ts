@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { IS_DEV } from "@/config";
 import type { Indexes, NetworkMode, WalletStatus } from "@/types";
 
 interface WalletState {
@@ -40,7 +39,7 @@ const getDefaultState = (): WalletState => ({
   password: "",
   mnemonic: "",
   indexes: { inUse: [], deleted: [] },
-  networkMode: IS_DEV ? "testnet" : "mainnet",
+  networkMode: "mainnet",
 });
 
 /* Zustand store hook for wallet state and actions. */

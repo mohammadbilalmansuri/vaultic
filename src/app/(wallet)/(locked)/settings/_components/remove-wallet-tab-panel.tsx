@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DEV_PASSWORD, IS_DEV } from "@/config";
 import { getWalletState, useNotificationActions } from "@/stores";
 import { fadeUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
@@ -29,7 +28,7 @@ const RemoveWalletTabPanel = () => {
   } = useForm<VerifyPasswordForm>({
     resolver: zodResolver(VerifyPasswordSchema),
     mode: "onChange",
-    defaultValues: { password: IS_DEV ? DEV_PASSWORD : "" },
+    defaultValues: { password: "" },
   });
 
   const handleRemove = ({ password }: VerifyPasswordForm) => {

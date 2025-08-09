@@ -3,7 +3,6 @@ import { JSX } from "react";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IS_DEV, DEV_PASSWORD } from "@/config";
 import type { SetupSetStep } from "@/types";
 import { useWalletActions } from "@/stores";
 import { scaleUpAnimation } from "@/utils/animations";
@@ -27,10 +26,7 @@ const CreatePassword = ({
   } = useForm<CreatePasswordForm>({
     resolver: zodResolver(CreatePasswordSchema),
     mode: "onChange",
-    defaultValues: {
-      password: IS_DEV ? DEV_PASSWORD : "",
-      confirmPassword: IS_DEV ? DEV_PASSWORD : "",
-    },
+    defaultValues: { password: "", confirmPassword: "" },
   });
 
   const handleCreatePassword = ({ password }: CreatePasswordForm) => {

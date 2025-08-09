@@ -4,7 +4,6 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IS_DEV, DEV_PASSWORD } from "@/config";
 import { scaleUpAnimation } from "@/utils/animations";
 import cn from "@/utils/cn";
 import { VerifyPasswordSchema, VerifyPasswordForm } from "@/utils/validations";
@@ -22,7 +21,7 @@ const UnlockForm = () => {
   } = useForm<VerifyPasswordForm>({
     resolver: zodResolver(VerifyPasswordSchema),
     mode: "onChange",
-    defaultValues: { password: IS_DEV ? DEV_PASSWORD : "" },
+    defaultValues: { password: "" },
   });
 
   const [unlocking, startUnlocking] = useTransition();
