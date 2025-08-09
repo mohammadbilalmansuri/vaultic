@@ -61,11 +61,11 @@ const AccountCard = ({
     <motion.div
       className={cn(
         "w-full relative rounded-3xl border-1.5 flex flex-col items-center gap-3 p-4",
-        { "pt-9": !hasMultipleAccounts }
+        { "md:pt-9 pt-8": !hasMultipleAccounts }
       )}
       {...fadeUpAnimation({ delay: accountIndex * 0.05 })}
     >
-      <div className="text-primary uppercase font-medium leading-[0.8] h-9 p-2.5 flex items-center justify-center border-1.5 rounded-lg absolute -top-4.5 bg-default whitespace-normal">
+      <div className="text-primary md:text-base text-15 uppercase font-medium leading-[0.8] md:h-9 h-8 md:p-2.5 p-2 flex items-center justify-center border-1.5 rounded-lg absolute md:-top-4.5 -top-4 bg-default whitespace-normal">
         Account {accountIndex + 1}
       </div>
 
@@ -88,7 +88,7 @@ const AccountCard = ({
               </button>
             </Tooltip>
           ) : (
-            <span className="highlight-teal border text-sm font-medium leading-none uppercase p-2 rounded-lg">
+            <span className="highlight-teal border text-sm font-medium leading-none uppercase sm:p-2 p-1.75 rounded-lg select-none cursor-default">
               Active
             </span>
           )}
@@ -114,7 +114,7 @@ const AccountCard = ({
         </div>
       )}
 
-      <div className="w-full relative grid sm:grid-cols-2 gap-4">
+      <div className="w-full relative grid sm:grid-cols-2 md:gap-4 gap-3">
         {Object.entries(account).map(([network, networkData]) => (
           <NetworkCard
             key={`${accountIndex}-${network}-card`}
