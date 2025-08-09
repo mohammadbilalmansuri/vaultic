@@ -450,7 +450,7 @@ const SendTabPanel = ({
         >
           <div
             className={cn(
-              "sm:size-14 size-12 sm:rounded-2xl rounded-xl flex items-center justify-center border mt-2",
+              "rounded-full xs:size-20 size-18 flex items-center justify-center border mt-2",
               sendStatus.state === "success"
                 ? "highlight-teal"
                 : "highlight-rose"
@@ -461,9 +461,9 @@ const SendTabPanel = ({
             }`}
           >
             {sendStatus.state === "success" ? (
-              <Check className="sm:w-9 w-8" aria-hidden="true" />
+              <Check className="xs:w-10 w-9" aria-hidden="true" />
             ) : (
-              <Cancel className="sm:w-9 w-8" aria-hidden="true" />
+              <Cancel className="xs:w-10 w-9" aria-hidden="true" />
             )}
           </div>
 
