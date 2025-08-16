@@ -12,10 +12,10 @@ const Footer = () => {
         <p className="sm:text-right text-center">
           Built by&nbsp;
           <Link
-            href="https://www.linkedin.com/in/mohammadbilalmansuri"
+            href="https://mohammadbilalmansuri.notion.site/portfolio"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Mohammad Bilal Mansuri's LinkedIn Profile"
+            aria-label="Mohammad Bilal Mansuri's Portfolio"
             className="link"
           >
             Mohammad Bilal Mansuri

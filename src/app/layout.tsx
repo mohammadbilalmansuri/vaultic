@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "Mohammad Bilal Mansuri",
-      url: "https://mohammadbilalmansuri.notion.site/Mohammad-Bilal-Mansuri-1ea674e76abb808c8afaf111891131d8",
+      url: "https://mohammadbilalmansuri.notion.site/portfolio",
     },
   ],
 };
