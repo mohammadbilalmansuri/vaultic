@@ -24,7 +24,9 @@ const HeroSection = () => {
       </p>
       <Button
         as="link"
-        href="/setup"
+        href="https://github.com/mohammadbilalmansuri/vaultic/issues"
+        target="_blank"
+        rel="noopener noreferrer"
         aria-label="Open GitHub Issue"
         className="gap-2"
       >
