@@ -82,7 +82,7 @@ export const usePassword = () => useWalletStore((state) => state.password);
 /**
  * Returns the mnemonic phrase used for wallet generation or recovery.
  *
- * ⚠️ Sensitive — handle with care.
+ * Sensitive - handle with care.
  */
 export const useMnemonic = () => useWalletStore((state) => state.mnemonic);
 

@@ -1,6 +1,6 @@
 # Vaultic - The Wallet That Lives in Your Browser
 
-Vaultic is a secure, browser-native crypto wallet for Solana and Ethereum. Generate and manage multiple accounts from a single recovery phrase — fully encrypted, open source, and under your complete control.
+Vaultic is a secure, browser-native crypto wallet for Solana and Ethereum. Generate and manage multiple accounts from a single recovery phrase - fully encrypted, open source, and under your complete control.
 
 ## Tech Stack
 

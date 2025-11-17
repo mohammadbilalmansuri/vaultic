@@ -12,7 +12,7 @@ const CONTENTS = [
     paragraphs: (
       <>
         <p>
-          Explore Vaultic with full functionality — safely and risk-free.
+          Explore Vaultic with full functionality - safely and risk-free.
           Testnet Mode creates a mirror of your real wallet using Solana Devnet
           and Ethereum Sepolia, so you can test, learn, and experiment without
           touching real assets.
@@ -30,13 +30,13 @@ const CONTENTS = [
     paragraphs: (
       <>
         <p>
-          Get free test tokens — no wallet setup needed. Claim SOL (Devnet) and
+          Get free test tokens - no wallet setup needed. Claim SOL (Devnet) and
           ETH (Sepolia) to try transactions, test dApps, or just explore how
           blockchain works.
         </p>
         <p>
           Vaultic includes a built-in Solana faucet and a trusted link to the
-          official Sepolia one. Open to everyone — developers, testers, and
+          official Sepolia one. Open to everyone - developers, testers, and
           curious beginners alike.
         </p>
       </>

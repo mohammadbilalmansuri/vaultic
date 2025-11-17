@@ -24,7 +24,7 @@ const HeroSection = () => {
       <p className="md:text-lg sm:text-md text-base md:max-w-3xl sm:-mt-2 -mt-1.5 mb-1">
         Vaultic is a secure, browser-native crypto wallet for Solana and
         Ethereum. Generate and manage multiple accounts from a single recovery
-        phrase — fully encrypted, open source, and under your complete control.
+        phrase - fully encrypted, open source, and under your complete control.
       </p>
 
       <Button

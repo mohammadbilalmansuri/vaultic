@@ -44,7 +44,7 @@ export const ForgotPasswordClient = () => {
 
       <div className="w-full flex flex-col sm:gap-3 gap-2.5 -mt-2.5 -mb-1.5">
         <p>
-          We understand — it happens. For your security, we cannot recover your
+          We understand - it happens. For your security, we cannot recover your
           password. Your original password is required to decrypt your recovery
           phrase and access your wallet.
         </p>

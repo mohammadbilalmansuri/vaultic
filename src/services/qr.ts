@@ -83,7 +83,7 @@ export const generateQRCode = async (
         const result = jsQR(imageData.data, canvas.width, canvas.height);
 
         if (!result || result.data.trim() !== text.trim()) {
-          console.warn("QR validation failed — falling back to base QR.");
+          console.warn("QR validation failed - falling back to base QR.");
           return resolve(baseQR);
         }
 
