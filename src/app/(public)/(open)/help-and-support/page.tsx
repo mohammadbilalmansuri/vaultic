@@ -17,7 +17,7 @@ const GUIDES: Guide[] = [
       <>
         <p>
           When you create a Vaultic wallet, the app generates a 12-word recovery
-          phrase based on the BIP-39 standard. This phrase is your master key —
+          phrase based on the BIP-39 standard. This phrase is your master key -
           from it, Vaultic derives a series of accounts using hierarchical
           deterministic (HD) wallet architecture, similar to how
           professional-grade wallets work.
@@ -31,12 +31,12 @@ const GUIDES: Guide[] = [
         <p>
           Every account supports multiple blockchain networks. For example,
           &quot;Account 1&quot; will have both an Ethereum address and a Solana
-          address — each derived using the same index but through different
+          address - each derived using the same index but through different
           derivation paths.
         </p>
         <p>
-          This design ensures that your entire wallet — across all supported
-          blockchains — remains recoverable and predictable using just your
+          This design ensures that your entire wallet - across all supported
+          blockchains - remains recoverable and predictable using just your
           12-word phrase.
         </p>
       </>
@@ -48,8 +48,8 @@ const GUIDES: Guide[] = [
       <>
         <p>
           Vaultic is a fully client-side wallet, meaning all your sensitive data
-          stays on your device. Nothing — including your recovery phrase,
-          accounts, or transactions — is ever sent to a server.
+          stays on your device. Nothing - including your recovery phrase,
+          accounts, or transactions - is ever sent to a server.
         </p>
         <p>
           Your 12-word recovery phrase is encrypted using AES-GCM 256-bit
@@ -63,7 +63,7 @@ const GUIDES: Guide[] = [
           password is required solely to decrypt your recovery phrase.
         </p>
         <p>
-          Private keys are not saved anywhere — they are derived on-demand from
+          Private keys are not saved anywhere - they are derived on-demand from
           your encrypted recovery phrase. This keeps your storage lightweight
           and your keys secure.
         </p>
@@ -76,7 +76,7 @@ const GUIDES: Guide[] = [
       <>
         <p>
           Your recovery phrase is your ultimate key to the wallet. Anyone who
-          has it can access all of your funds and accounts — permanently.
+          has it can access all of your funds and accounts - permanently.
         </p>
         <p>
           Never share this phrase. Never store it digitally or online. Write it
@@ -103,7 +103,7 @@ const GUIDES: Guide[] = [
         <p>
           Vaultic will automatically restore your first account (index 0). If
           you had created more accounts previously, you can restore them by
-          adding accounts manually in order — just like before.
+          adding accounts manually in order - just like before.
         </p>
         <p className="italic">
           Tip: If you don’t see your expected balances, try adding more accounts
@@ -118,7 +118,7 @@ const GUIDES: Guide[] = [
     content: (
       <>
         <p>
-          If you forget your password, Vaultic cannot recover it — and for good
+          If you forget your password, Vaultic cannot recover it - and for good
           reason. Your plain text password is the only way to decrypt your
           recovery phrase and unlock your accounts.
         </p>
@@ -129,8 +129,8 @@ const GUIDES: Guide[] = [
           12-word recovery phrase and set a new password.
         </p>
         <p>
-          This process ensures that only someone with your recovery phrase — and
-          a new password — can regain access. Even if someone gains access to
+          This process ensures that only someone with your recovery phrase - and
+          a new password - can regain access. Even if someone gains access to
           your device, your accounts remain safe without your actual password.
         </p>
       </>
@@ -142,12 +142,12 @@ const GUIDES: Guide[] = [
       <>
         <p>
           When you delete an account in Vaultic, it’s removed only from the
-          interface — not the blockchain. The address still exists and may still
+          interface - not the blockchain. The address still exists and may still
           hold funds.
         </p>
         <p>
           Vaultic does not reuse deleted indexes. For example, if you delete
-          Account 3 (index 2), the next new account will be index 3 — not 2
+          Account 3 (index 2), the next new account will be index 3 - not 2
           again.
         </p>
         <p>
@@ -188,7 +188,7 @@ const GUIDES: Guide[] = [
         </p>
         <p>
           You can request test ETH or SOL through Vaultic’s built-in faucet for
-          Solana and a trusted faucet link for Ethereum — perfect for trying out
+          Solana and a trusted faucet link for Ethereum - perfect for trying out
           transfers or smart contract interactions.
         </p>
         <p>
@@ -213,7 +213,7 @@ const GUIDES: Guide[] = [
           (usually 0.0001 ETH or 0.00008 SOL).
         </p>
         <p>
-          Vaultic doesn&apos;t charge anything extra — these fees go directly to
+          Vaultic doesn&apos;t charge anything extra - these fees go directly to
           the network and may vary depending on traffic.
         </p>
       </>
@@ -259,7 +259,7 @@ const GUIDES: Guide[] = [
         </p>
         <p>
           The Send form includes a “Max” button that automatically fills in the
-          maximum safe amount — helping you send with confidence.
+          maximum safe amount - helping you send with confidence.
         </p>
       </>
     ),
@@ -290,7 +290,7 @@ const GUIDES: Guide[] = [
       <>
         <p>
           Even though Vaultic doesn’t expose or store private keys directly,
-          every blockchain address is ultimately controlled by one — derived
+          every blockchain address is ultimately controlled by one - derived
           from your recovery phrase.
         </p>
         <p>

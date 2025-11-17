@@ -142,7 +142,7 @@ const AccountCard = ({
         </h2>
         <div className="w-full flex flex-col text-center gap-1.5">
           <p>
-            Removing this account only deletes it from Vaultic — it still exists
+            Removing this account only deletes it from Vaultic - it still exists
             on the blockchain and may hold funds.
           </p>
           <p>

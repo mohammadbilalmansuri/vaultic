@@ -19,17 +19,17 @@ const FAQs = [
   {
     question: "Do I need to back up anything other than the recovery phrase?",
     answer:
-      "No. Your 12-word recovery phrase is all you need. Vaultic derives everything from it — no extra backup, no cloud sync, no server storage.",
+      "No. Your 12-word recovery phrase is all you need. Vaultic derives everything from it - no extra backup, no cloud sync, no server storage.",
   },
   {
     question: "Can I recover accounts I deleted or removed?",
     answer:
-      "Yes. Vaultic uses a deterministic index system. As long as you have your recovery phrase, you can re-derive any account — even if it was removed from the interface.",
+      "Yes. Vaultic uses a deterministic index system. As long as you have your recovery phrase, you can re-derive any account - even if it was removed from the interface.",
   },
   {
     question: "Can I use Vaultic on different browsers or devices?",
     answer:
-      "Yes. Your wallet is fully portable. Just open Vaultic and import your recovery phrase on any browser or device — no installs or syncs required.",
+      "Yes. Your wallet is fully portable. Just open Vaultic and import your recovery phrase on any browser or device - no installs or syncs required.",
   },
   {
     question: "Is Vaultic compatible with MetaMask or Phantom wallets?",

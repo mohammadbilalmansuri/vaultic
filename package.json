@@ -2,7 +2,7 @@
   "name": "vaultic",
   "version": "1.0.0",
   "private": true,
-  "description": "Vaultic is a secure, browser-based crypto wallet for Solana and Ethereum. Create and manage multiple wallets using a single mnemonic phrase. Send and receive assets on both testnet and mainnet. Your data stays encrypted in your browser — no servers, no tracking, no compromises.",
+  "description": "Vaultic is a secure, browser-based crypto wallet for Solana and Ethereum. Create and manage multiple wallets using a single mnemonic phrase. Send and receive assets on both testnet and mainnet. Your data stays encrypted in your browser - no servers, no tracking, no compromises.",
   "keywords": [
     "vaultic",
     "vaultic wallet",

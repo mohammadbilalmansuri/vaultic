@@ -16,19 +16,19 @@ const FEATURES = [
     icon: ShieldTick,
     title: "Fully Encrypted, Fully Local",
     description:
-      "Vaultic runs entirely in your browser. Your recovery phrase and wallets are encrypted using AES-GCM and never leave your device — ever.",
+      "Vaultic runs entirely in your browser. Your recovery phrase and wallets are encrypted using AES-GCM and never leave your device - ever.",
   },
   {
     icon: Wallet,
     title: "One Phrase. Infinite Possibilities.",
     description:
-      "Generate multiple Solana and Ethereum accounts from a single seed phrase. No need to manage multiple wallets — everything stays in sync.",
+      "Generate multiple Solana and Ethereum accounts from a single seed phrase. No need to manage multiple wallets - everything stays in sync.",
   },
   {
     icon: Send,
     title: "Frictionless ETH & SOL Transfers",
     description:
-      "Send and receive assets on mainnet and testnet instantly. No browser extensions, no network configs — just type, confirm, and go.",
+      "Send and receive assets on mainnet and testnet instantly. No browser extensions, no network configs - just type, confirm, and go.",
   },
   {
     icon: WalletMoney,
@@ -40,7 +40,7 @@ const FEATURES = [
     icon: WalletRecovery,
     title: "Recoverable Anywhere",
     description:
-      "Your recovery phrase is all you need. Re-import your wallets on any device — Vaultic will regenerate every account deterministically.",
+      "Your recovery phrase is all you need. Re-import your wallets on any device - Vaultic will regenerate every account deterministically.",
   },
   {
     icon: Code,
