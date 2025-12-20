@@ -57,7 +57,7 @@ const SettingUpWallet = ({
         </IconProcessing>
 
         <h3>
-          {path !== "create"
+          {path === "create"
             ? "Setting up your new wallet"
             : "Importing your wallet"}
         </h3>
