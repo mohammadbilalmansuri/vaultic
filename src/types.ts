@@ -85,28 +85,28 @@ export type FetchBalanceFunction = (address: string) => Promise<string>;
 
 export type DeriveNetworkAccountFunction = (
   seed: Buffer,
-  index: number
+  index: number,
 ) => Promise<NetworkAccount>;
 
 export type FetchTransactionsFunction = (
-  address: string
+  address: string,
 ) => Promise<Transaction[]>;
 
 export type SendTokensFunction = (
   fromPrivateKey: string,
   toAddress: string,
-  amount: string
+  amount: string,
 ) => Promise<Transaction>;
 
 export type GetExplorerUrlFunction = (
   type: "tx" | "address" | "block",
   networkMode: NetworkMode,
-  value: string
+  value: string,
 ) => string;
 
 export type RequestAirdropFunction = (
   toAddress: string,
-  amount: string
+  amount: string,
 ) => Promise<string>;
 
 export type NetworkFunctions = Readonly<

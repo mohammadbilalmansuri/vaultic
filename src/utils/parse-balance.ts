@@ -26,7 +26,7 @@ function parseBalance(balance: string, network?: undefined): ParsedBalanceBase;
 
 function parseBalance(
   balance: string,
-  network?: Network
+  network?: Network,
 ): ParsedBalanceBase | ParsedBalanceWithMax {
   const bn = new BigNumber(balance.trim());
 

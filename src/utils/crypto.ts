@@ -21,7 +21,7 @@ const fromBase64 = (b64: string) =>
   new Uint8Array(
     atob(b64)
       .split("")
-      .map((c) => c.charCodeAt(0))
+      .map((c) => c.charCodeAt(0)),
   );
 
 /**
@@ -37,7 +37,7 @@ export const hashPassword = async (password: string): Promise<string> => {
       textEncoder.encode(password),
       { name: "PBKDF2" },
       false,
-      ["deriveBits"]
+      ["deriveBits"],
     );
 
     const derivedKey = await cryptoLib.deriveBits(
@@ -48,7 +48,7 @@ export const hashPassword = async (password: string): Promise<string> => {
         hash: "SHA-256",
       },
       keyMaterial,
-      256
+      256,
     );
 
     return `${toHex(salt)}:${toHex(new Uint8Array(derivedKey))}`;
@@ -66,7 +66,7 @@ export const hashPassword = async (password: string): Promise<string> => {
  */
 export const verifyPassword = async (
   password: string,
-  storedHash: string
+  storedHash: string,
 ): Promise<boolean> => {
   try {
     const [saltHex, hashHex] = storedHash.split(":");
@@ -77,7 +77,7 @@ export const verifyPassword = async (
       textEncoder.encode(password),
       { name: "PBKDF2" },
       false,
-      ["deriveBits"]
+      ["deriveBits"],
     );
 
     const derivedKey = await cryptoLib.deriveBits(
@@ -88,7 +88,7 @@ export const verifyPassword = async (
         hash: "SHA-256",
       },
       keyMaterial,
-      256
+      256,
     );
 
     const computedHex = toHex(new Uint8Array(derivedKey));
@@ -107,7 +107,7 @@ export const verifyPassword = async (
  */
 export const encryptMnemonic = async (
   mnemonic: string,
-  password: string
+  password: string,
 ): Promise<string> => {
   try {
     const salt = crypto.getRandomValues(new Uint8Array(16));
@@ -118,7 +118,7 @@ export const encryptMnemonic = async (
       textEncoder.encode(password),
       { name: "PBKDF2" },
       false,
-      ["deriveKey"]
+      ["deriveKey"],
     );
 
     const key = await cryptoLib.deriveKey(
@@ -131,17 +131,17 @@ export const encryptMnemonic = async (
       keyMaterial,
       { name: "AES-GCM", length: 256 },
       false,
-      ["encrypt"]
+      ["encrypt"],
     );
 
     const encrypted = await cryptoLib.encrypt(
       { name: "AES-GCM", iv },
       key,
-      textEncoder.encode(mnemonic)
+      textEncoder.encode(mnemonic),
     );
 
     return `${toBase64(salt)}:${toBase64(iv)}:${toBase64(
-      new Uint8Array(encrypted)
+      new Uint8Array(encrypted),
     )}`;
   } catch (error) {
     console.error("Error encrypting mnemonic:", error);
@@ -157,7 +157,7 @@ export const encryptMnemonic = async (
  */
 export const decryptMnemonic = async (
   encryptedMnemonic: string,
-  password: string
+  password: string,
 ): Promise<string> => {
   try {
     const [saltB64, ivB64, cipherB64] = encryptedMnemonic.split(":");
@@ -171,7 +171,7 @@ export const decryptMnemonic = async (
       textEncoder.encode(password),
       { name: "PBKDF2" },
       false,
-      ["deriveKey"]
+      ["deriveKey"],
     );
 
     const key = await cryptoLib.deriveKey(
@@ -184,13 +184,13 @@ export const decryptMnemonic = async (
       keyMaterial,
       { name: "AES-GCM", length: 256 },
       false,
-      ["decrypt"]
+      ["decrypt"],
     );
 
     const decrypted = await cryptoLib.decrypt(
       { name: "AES-GCM", iv },
       key,
-      encryptedData
+      encryptedData,
     );
 
     return textDecoder.decode(decrypted);

@@ -11,7 +11,7 @@ import type { Network } from "@/types";
 const getShortAddress = (
   address: string,
   network?: Network,
-  chars = 4
+  chars = 4,
 ): string => {
   if (!address || address.length <= chars * 2 + 2) return address;
   const prefixLength = network ? NETWORKS[network].addressPrefixLength : 0;

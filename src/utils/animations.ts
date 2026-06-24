@@ -111,7 +111,7 @@ export const fadeInAnimation = ({
  */
 export const tooltipSlideAnimation = (
   position: TooltipPosition,
-  delay = 0
+  delay = 0,
 ): MotionProps => {
   const offset = 8;
 
