@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, JSX } from "react";
+import { useState, JSX } from "react";
 import { motion } from "motion/react";
 import { generateMnemonic } from "bip39";
 import type { SetupSetStep } from "@/types";
@@ -18,12 +18,7 @@ const ShowRecoveryPhrase = ({
 }) => {
   const { setWalletState } = useWalletActions();
   const [saved, setSaved] = useState(false);
-  const [mnemonic, setMnemonic] = useState<string>("");
-
-  useEffect(() => {
-    const newMnemonic = generateMnemonic();
-    setMnemonic(newMnemonic);
-  }, []);
+  const [mnemonic] = useState<string>(() => generateMnemonic());
 
   const handleContinue = () => {
     setWalletState({ mnemonic });
