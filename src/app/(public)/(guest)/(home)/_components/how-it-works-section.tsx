@@ -12,7 +12,7 @@ const STEPS = [
   {
     title: "Encrypt Locally",
     description:
-      "Your recovery phrase is encrypted using your password with AES-GCM, and stored in your browser’s IndexedDB. Nothing ever leaves your device - not even for backup.",
+      "Your recovery phrase is encrypted using your password with AES-GCM, and stored in your browser&apos;s IndexedDB. Nothing ever leaves your device - not even for backup.",
   },
   {
     title: "Start Transacting",

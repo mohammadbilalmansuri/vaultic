@@ -53,7 +53,7 @@ const GUIDES: Guide[] = [
         </p>
         <p>
           Your 12-word recovery phrase is encrypted using AES-GCM 256-bit
-          encryption and securely stored in your browser’s IndexedDB. This
+          encryption and securely stored in your browser&apos;s IndexedDB. This
           encryption is only accessible with your password, keeping your wallet
           safe from unauthorized access.
         </p>
@@ -85,7 +85,7 @@ const GUIDES: Guide[] = [
         </p>
         <p>
           Vaultic cannot revoke, reset, or recover this phrase. It&apos;s the
-          cornerstone of your wallet’s security and ownership.
+          cornerstone of your wallet&apos;s security and ownership.
         </p>
       </>
     ),
@@ -106,9 +106,9 @@ const GUIDES: Guide[] = [
           adding accounts manually in order - just like before.
         </p>
         <p className="italic">
-          Tip: If you don’t see your expected balances, try adding more accounts
-          using the same recovery phrase. Funds remain tied to their original
-          index.
+          Tip: If you don&apos;t see your expected balances, try adding more
+          accounts using the same recovery phrase. Funds remain tied to their
+          original index.
         </p>
       </>
     ),
@@ -141,7 +141,7 @@ const GUIDES: Guide[] = [
     content: (
       <>
         <p>
-          When you delete an account in Vaultic, it’s removed only from the
+          When you delete an account in Vaultic, it&apos;s removed only from the
           interface - not the blockchain. The address still exists and may still
           hold funds.
         </p>
@@ -187,9 +187,9 @@ const GUIDES: Guide[] = [
           allowing you to explore features using free, fake tokens.
         </p>
         <p>
-          You can request test ETH or SOL through Vaultic’s built-in faucet for
-          Solana and a trusted faucet link for Ethereum - perfect for trying out
-          transfers or smart contract interactions.
+          You can request test ETH or SOL through Vaultic&apos;s built-in faucet
+          for Solana and a trusted faucet link for Ethereum - perfect for trying
+          out transfers or smart contract interactions.
         </p>
         <p>
           These tokens have no real value and are safe for experimentation. Just
@@ -250,16 +250,16 @@ const GUIDES: Guide[] = [
         </p>
         <p>
           On Ethereum, the app subtracts the estimated gas fee from your total
-          balance, ensuring the transaction doesn’t fail due to insufficient
-          funds.
+          balance, ensuring the transaction doesn&apos;t fail due to
+          insufficient funds.
         </p>
         <p>
           On Solana, Vaultic subtracts the network fee and any required
           rent-exempt minimum (especially when sending to new accounts).
         </p>
         <p>
-          The Send form includes a “Max” button that automatically fills in the
-          maximum safe amount - helping you send with confidence.
+          The Send form includes a &quot;Max&quot; button that automatically
+          fills in the maximum safe amount - helping you send with confidence.
         </p>
       </>
     ),
@@ -278,8 +278,8 @@ const GUIDES: Guide[] = [
           consistent across devices.
         </p>
         <p>
-          If you only have a private key, you’ll need to use another wallet that
-          supports key-based imports.
+          If you only have a private key, you&apos;ll need to use another wallet
+          that supports key-based imports.
         </p>
       </>
     ),
@@ -289,9 +289,9 @@ const GUIDES: Guide[] = [
     content: (
       <>
         <p>
-          Even though Vaultic doesn’t expose or store private keys directly,
-          every blockchain address is ultimately controlled by one - derived
-          from your recovery phrase.
+          Even though Vaultic doesn&apos;t expose or store private keys
+          directly, every blockchain address is ultimately controlled by one -
+          derived from your recovery phrase.
         </p>
         <p>
           If you ever use wallets that reveal private keys, treat them like

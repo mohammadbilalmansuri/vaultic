@@ -62,7 +62,7 @@ const AccountCard = ({
     <motion.div
       className={cn(
         "w-full relative rounded-3xl border-1.5 flex flex-col items-center gap-3 p-4",
-        { "md:pt-9 pt-8": !hasMultipleAccounts }
+        { "md:pt-9 pt-8": !hasMultipleAccounts },
       )}
       {...fadeUpAnimation({ delay: accountIndex * 0.05 })}
       aria-label={`Account ${accountNumber} Details`}
@@ -108,7 +108,7 @@ const AccountCard = ({
               })}
               onClick={() =>
                 setRemovalState((prev) =>
-                  prev === "confirming" ? "idle" : "confirming"
+                  prev === "confirming" ? "idle" : "confirming",
                 )
               }
               aria-label={`${

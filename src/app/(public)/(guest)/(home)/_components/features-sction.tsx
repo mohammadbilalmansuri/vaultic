@@ -46,7 +46,7 @@ const FEATURES = [
     icon: Code,
     title: "100% Open Source & Auditable",
     description:
-      "Every line of Vaultic is public and verifiable. Whether you’re a dev or a security expert, you’re welcome to inspect, fork, and improve it.",
+      "Every line of Vaultic is public and verifiable. Whether you&apos;re a dev or a security expert, you&apos;re welcome to inspect, fork, and improve it.",
   },
 ];
 
@@ -65,7 +65,7 @@ const FeaturesSection = () => {
         {...fadeUpAnimation({ inView, delay: 0.05 })}
       >
         Everything You Need.{" "}
-        <span className="text-nowrap">Nothing You Don’t.</span>
+        <span className="text-nowrap">Nothing You Don&apos;t.</span>
       </motion.h2>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 md:gap-5 gap-4">

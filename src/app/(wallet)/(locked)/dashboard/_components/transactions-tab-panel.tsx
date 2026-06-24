@@ -75,7 +75,7 @@ const TransactionsTabPanel = () => {
                 "leading-none sm:h-10 h-9 sm:px-3 px-2.5 py-2 rounded-xl transition-colors duration-200 font-medium border",
                 id === network
                   ? "highlight-teal pointer-events-none"
-                  : "highlight-zinc hover:bg-secondary"
+                  : "highlight-zinc hover:bg-secondary",
               )}
               onClick={() => setNetwork(id as Network)}
               disabled={id === network}
@@ -169,7 +169,7 @@ const TransactionsTabPanel = () => {
                               href={networkGetExplorerUrl(
                                 "tx",
                                 networkMode,
-                                txn.signature
+                                txn.signature,
                               )}
                               target="_blank"
                               rel="noopener noreferrer"
@@ -203,7 +203,7 @@ const TransactionsTabPanel = () => {
                           href={networkGetExplorerUrl(
                             "block",
                             networkMode,
-                            txn.block
+                            txn.block,
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -230,7 +230,7 @@ const TransactionsTabPanel = () => {
                               "highlight-teal": txn.type === "in",
                               "highlight-yellow": txn.type === "out",
                               "highlight-zinc": txn.type === "self",
-                            }
+                            },
                           )}
                         >
                           {txn.type}
@@ -252,7 +252,7 @@ const TransactionsTabPanel = () => {
                               href={networkGetExplorerUrl(
                                 "address",
                                 networkMode,
-                                addressToShow
+                                addressToShow,
                               )}
                               target="_blank"
                               rel="noopener noreferrer"
@@ -337,7 +337,7 @@ const TransactionsTabPanel = () => {
             href={networkGetExplorerUrl(
               "address",
               networkMode,
-              activeAccount[network].address
+              activeAccount[network].address,
             )}
             target="_blank"
             rel="noopener noreferrer"

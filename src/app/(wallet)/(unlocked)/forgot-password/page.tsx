@@ -4,7 +4,7 @@ import { ForgotPasswordClient } from "./client";
 export const metadata: Metadata = {
   title: "Forgot Password • Vaultic",
   description:
-    "Reset your Vaultic wallet by re-importing it using your recovery phrase. Securely restore access if you’ve forgotten your password.",
+    "Reset your Vaultic wallet by re-importing it using your recovery phrase. Securely restore access if you&apos;ve forgotten your password.",
   alternates: { canonical: "/forgot-password" },
 };
 

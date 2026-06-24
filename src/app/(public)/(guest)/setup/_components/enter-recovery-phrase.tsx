@@ -44,7 +44,7 @@ const EnterRecoveryPhrase = ({
   } = useForm<EnterMnemonicForm>({
     mode: "onChange",
     defaultValues: Object.fromEntries(
-      Array.from({ length: 12 }, (_, i) => [`word${i + 1}`, ""])
+      Array.from({ length: 12 }, (_, i) => [`word${i + 1}`, ""]),
     ),
   });
 
@@ -55,8 +55,10 @@ const EnterRecoveryPhrase = ({
     const newValues = Object.fromEntries(
       Array.from({ length: 24 }, (_, i) => [
         `word${i + 1}`,
-        i < newLength ? words?.[i] ?? currentValues[`word${i + 1}`] ?? "" : "",
-      ])
+        i < newLength
+          ? (words?.[i] ?? currentValues[`word${i + 1}`] ?? "")
+          : "",
+      ]),
     );
 
     reset(newValues);
@@ -82,7 +84,7 @@ const EnterRecoveryPhrase = ({
 
   const handleContinue = (data: EnterMnemonicForm) => {
     const phrase = Array.from({ length: mnemonicLength }, (_, i) =>
-      (data[`word${i + 1}`] || "").trim()
+      (data[`word${i + 1}`] || "").trim(),
     ).join(" ");
 
     if (!validateMnemonic(phrase)) {

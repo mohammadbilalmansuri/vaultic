@@ -53,7 +53,7 @@ export const SolanaFaucetClient = () => {
         notify({
           type: "success",
           message: `Airdrop complete - ${amount} SOL sent to ${getShortAddress(
-            address
+            address,
           )}.`,
         });
         reset();

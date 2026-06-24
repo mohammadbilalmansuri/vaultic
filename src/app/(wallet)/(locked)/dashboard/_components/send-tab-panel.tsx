@@ -72,7 +72,7 @@ const SendTabPanel = ({
       const displayBalance = parseBalance(balance, value).display;
 
       return { label: `${name} - ${displayBalance} ${token}`, value };
-    }
+    },
   );
 
   const accountOptions = Object.entries(accounts)
@@ -152,7 +152,7 @@ const SendTabPanel = ({
         setSendStatus({
           state: "error",
           message:
-            "It looks like you’re trying to send tokens to your own wallet. We’ve cancelled the transaction to save you from unnecessary network fees.",
+            "It looks like you&apos;re trying to send tokens to your own wallet. We&apos;ve cancelled the transaction to save you from unnecessary network fees.",
           signature: "",
         });
         return;
@@ -412,7 +412,7 @@ const SendTabPanel = ({
             <IconProcessing>
               <networkConfig.icon
                 className={cn(
-                  network === "ethereum" ? "xs:w-6.5 w-6" : "xs:w-8 w-7"
+                  network === "ethereum" ? "xs:w-6.5 w-6" : "xs:w-8 w-7",
                 )}
               />
             </IconProcessing>
@@ -453,7 +453,7 @@ const SendTabPanel = ({
               "rounded-full xs:size-20 size-18 flex items-center justify-center border mt-2",
               sendStatus.state === "success"
                 ? "highlight-teal"
-                : "highlight-rose"
+                : "highlight-rose",
             )}
             role="img"
             aria-label={`Transaction ${
@@ -482,7 +482,7 @@ const SendTabPanel = ({
               href={NETWORK_FUNCTIONS[network].getExplorerUrl(
                 "tx",
                 networkMode,
-                sendStatus.signature
+                sendStatus.signature,
               )}
               target="_blank"
               rel="noopener noreferrer"

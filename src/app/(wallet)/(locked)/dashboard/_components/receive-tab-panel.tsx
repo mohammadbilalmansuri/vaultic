@@ -51,13 +51,13 @@ const ReceiveTabPanel = () => {
               }
 
               return { network, address, qrCode };
-            }
-          )
+            },
+          ),
         );
         setQrDataList(entries);
       } catch {
         setError(
-          "We couldn’t generate your QR codes right now. Please refresh the page or contact support if the issue continues."
+          "We couldn&apos;t generate your QR codes right now. Please refresh the page or contact support if the issue continues.",
         );
       }
     })();

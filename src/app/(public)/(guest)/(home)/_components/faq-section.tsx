@@ -14,7 +14,7 @@ const FAQs = [
   {
     question: "Will I lose my wallet if I clear browser data?",
     answer:
-      "Clearing browser data will delete your local Vaultic storage. However, you can restore your wallet anytime using the recovery phrase. That’s why backing it up is essential.",
+      "Clearing browser data will delete your local Vaultic storage. However, you can restore your wallet anytime using the recovery phrase. That&apos;s why backing it up is essential.",
   },
   {
     question: "Do I need to back up anything other than the recovery phrase?",

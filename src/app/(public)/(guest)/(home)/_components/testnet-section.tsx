@@ -18,7 +18,7 @@ const CONTENTS = [
           touching real assets.
         </p>
         <p>
-          No setup. No configuration. Just switch instantly. It’s ideal for
+          No setup. No configuration. Just switch instantly. It&apos;s ideal for
           learning, debugging, or trial runs before going live.
         </p>
       </>

@@ -42,9 +42,9 @@ const ShowRecoveryPhrase = ({
       <div className="w-full flex flex-col items-center xs:gap-6 gap-5 xs:p-6 p-5">
         <h1>Your Recovery Phrase</h1>
         <p className="-mt-2.5">
-          This phrase is your only backup. If you lose it, we can’t help you
-          recover your wallet. Store it somewhere safe and never share it with
-          anyone.
+          This phrase is your only backup. If you lose it, we can&apos;t help
+          you recover your wallet. Store it somewhere safe and never share it
+          with anyone.
         </p>
 
         <MnemonicView mnemonic={mnemonic} />

@@ -47,8 +47,8 @@ const CreatePassword = ({
         <h1>Create Password</h1>
         <p className="-mt-2.5">
           Your password must be at least 8 characters and is used to unlock
-          Vaultic on this device. It can’t be recovered or reset, so make sure
-          to remember it and keep it secure.
+          Vaultic on this device. It can&apos;t be recovered or reset, so make
+          sure to remember it and keep it secure.
         </p>
         <form
           onSubmit={handleSubmit(handleCreatePassword)}
