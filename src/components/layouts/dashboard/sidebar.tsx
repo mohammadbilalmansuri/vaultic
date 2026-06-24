@@ -85,7 +85,7 @@ const Sidebar = () => {
 
   const sidebarOutsideClickRef = useOutsideClick<HTMLDivElement>(
     closeSidebar,
-    isOpenedOnSmallScreen
+    isOpenedOnSmallScreen,
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -148,7 +148,7 @@ const Sidebar = () => {
           ref={isOpenedOnSmallScreen ? sidebarOutsideClickRef : null}
           className={cn(
             "size-full bg-default flex flex-col justify-between gap-4 border-r-1.5 px-3 pt-3 pb-4",
-            { "cursor-e-resize group/collapsed": isCollapsed && !isAnimating }
+            { "cursor-e-resize group/collapsed": isCollapsed && !isAnimating },
           )}
           onClick={isCollapsed ? handleCollapsedSidebarClick : undefined}
         >
@@ -221,7 +221,7 @@ const Sidebar = () => {
                         "p-2.25 rounded-xl flex items-center gap-2 relative transition-colors duration-200",
                         isActive
                           ? "bg-secondary text-primary pointer-events-none"
-                          : "hover:bg-secondary hover:text-primary"
+                          : "hover:bg-secondary hover:text-primary",
                       )}
                       onClick={isOpenedOnSmallScreen ? closeSidebar : undefined}
                       aria-label={name}
