@@ -61,8 +61,8 @@ const useBlockchain = () => {
             console.error(`Failed to fetch balance for ${network}:`, error);
             return [network, { address, privateKey, balance }];
           }
-        }
-      )
+        },
+      ),
     );
 
     updateActiveAccount(Object.fromEntries(updatedEntries));
@@ -89,7 +89,7 @@ const useBlockchain = () => {
           console.error(`Failed to fetch transactions for ${network}:`, error);
           return [network, []];
         }
-      })
+      }),
     );
 
     setTransactions(Object.fromEntries(transactionEntries));
@@ -122,7 +122,7 @@ const useBlockchain = () => {
       const transaction = await sendTokens(
         networkAccount.privateKey,
         toAddress,
-        amount
+        amount,
       );
 
       const totalDeduct = new BigNumber(amount).plus(transaction.fee);

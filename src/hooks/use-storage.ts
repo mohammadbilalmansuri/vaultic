@@ -82,13 +82,13 @@ const useStorage = () => {
 
       const passwordValid = await verifyPassword(
         password,
-        wallet.hashedPassword
+        wallet.hashedPassword,
       );
       if (!passwordValid) throw new Error("Incorrect password");
 
       const decryptedMnemonic = await decryptMnemonic(
         wallet.encryptedMnemonic,
-        password
+        password,
       );
 
       setWalletState({
@@ -135,7 +135,7 @@ const useStorage = () => {
    */
   const updatePassword = async (
     currentPassword: string,
-    newPassword: string
+    newPassword: string,
   ): Promise<void> => {
     try {
       const { mnemonic, password } = getWalletState();

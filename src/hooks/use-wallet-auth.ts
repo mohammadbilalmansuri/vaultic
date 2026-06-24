@@ -70,7 +70,7 @@ const useWalletAuth = () => {
    */
   const unlockWallet = async (
     { password }: VerifyPasswordForm,
-    setError: UseFormSetError<VerifyPasswordForm>
+    setError: UseFormSetError<VerifyPasswordForm>,
   ) => {
     try {
       await loadWallet(password);

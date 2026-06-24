@@ -15,7 +15,7 @@ import type { UseInViewOptions } from "motion/react";
  *   - `inView`: A boolean indicating if the element is currently in view.
  */
 const useMotionInView = <T extends Element = HTMLElement>(
-  options?: Partial<UseInViewOptions>
+  options?: Partial<UseInViewOptions>,
 ): {
   ref: RefObject<T | null>;
   inView: boolean;

@@ -12,7 +12,7 @@ import type { RefObject } from "react";
  */
 const useOutsideClick = <T extends Element = HTMLElement>(
   handler: (event: MouseEvent | TouchEvent) => void,
-  enabled = true
+  enabled = true,
 ): RefObject<T | null> => {
   const ref = useRef<T>(null);
 
