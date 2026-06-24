@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
@@ -88,14 +88,19 @@ const Sidebar = () => {
     isOpenedOnSmallScreen,
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(closeSidebar, [pathname]);
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    if (isOpenedOnSmallScreen) {
+      setSidebarState("close");
+    }
+  }
 
-  useEffect(() => {
-    if (sidebarState === sidebarDefaultState) return;
-    toggleSidebar(sidebarDefaultState);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLargeScreen]);
+  const [prevIsLargeScreen, setPrevIsLargeScreen] = useState(isLargeScreen);
+  if (isLargeScreen !== prevIsLargeScreen) {
+    setPrevIsLargeScreen(isLargeScreen);
+    setSidebarState(sidebarDefaultState);
+  }
 
   return (
     <div className="flex lg:flex-row flex-col">
