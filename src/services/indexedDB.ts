@@ -33,7 +33,7 @@ const openDB = (): Promise<IDBDatabase> => {
 // Wraps database operations in a transaction with error handling
 const withTransaction = async <T>(
   mode: IDBTransactionMode,
-  callback: (store: IDBObjectStore) => IDBRequest<T>
+  callback: (store: IDBObjectStore) => IDBRequest<T>,
 ): Promise<T> => {
   const db = await openDB();
 
@@ -55,7 +55,7 @@ const withTransaction = async <T>(
  */
 export const saveWalletData = async (
   id: string,
-  value: StoredWalletData
+  value: StoredWalletData,
 ): Promise<void> => {
   await withTransaction("readwrite", (store) => store.put({ id, value }));
 };
@@ -66,7 +66,7 @@ export const saveWalletData = async (
  * @returns Stored wallet data or null if not found
  */
 export const getWalletData = async (
-  id: string
+  id: string,
 ): Promise<StoredWalletData | null> => {
   const result = await withTransaction("readonly", (store) => store.get(id));
   return result?.value ?? null;

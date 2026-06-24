@@ -52,7 +52,7 @@ const getAlchemyInstance = (): Alchemy => {
 // Calculates transaction fee from gas used and gas price
 const getEthereumTransactionFee = (
   gasUsed: bigint,
-  gasPrice: bigint
+  gasPrice: bigint,
 ): string => {
   return formatEther(gasUsed * gasPrice);
 };
@@ -99,7 +99,7 @@ export const fetchEthereumBalance: FetchBalanceFunction = async (address) => {
  */
 export const deriveEthereumAccount: DeriveNetworkAccountFunction = async (
   seed,
-  index
+  index,
 ) => {
   if (!seed?.length) throw new Error("Seed cannot be empty");
   if (index < 0 || !Number.isInteger(index)) {
@@ -120,7 +120,7 @@ export const deriveEthereumAccount: DeriveNetworkAccountFunction = async (
  * @returns Array of formatted transaction objects
  */
 export const fetchEthereumTransactions: FetchTransactionsFunction = async (
-  address
+  address,
 ) => {
   if (!isValidEthereumAddress(address)) {
     throw new Error("Invalid Ethereum address");
@@ -149,7 +149,7 @@ export const fetchEthereumTransactions: FetchTransactionsFunction = async (
     .sort(
       (a, b) =>
         new Date(b.metadata!.blockTimestamp).getTime() -
-        new Date(a.metadata!.blockTimestamp).getTime()
+        new Date(a.metadata!.blockTimestamp).getTime(),
     )
     .slice(0, TRANSACTION_LIMIT);
 
@@ -171,7 +171,7 @@ export const fetchEthereumTransactions: FetchTransactionsFunction = async (
           amount: txDetails.value ? formatEther(txDetails.value) : "0",
           fee: getEthereumTransactionFee(
             receipt.gasUsed,
-            receipt.gasPrice ?? txDetails.gasPrice ?? 0n
+            receipt.gasPrice ?? txDetails.gasPrice ?? 0n,
           ),
           timestamp: new Date(metadata.blockTimestamp).getTime(),
           block: receipt.blockNumber.toString(),
@@ -180,14 +180,14 @@ export const fetchEthereumTransactions: FetchTransactionsFunction = async (
             from.toLowerCase() === to.toLowerCase()
               ? "self"
               : from.toLowerCase() === address.toLowerCase()
-              ? "out"
-              : "in",
+                ? "out"
+                : "in",
         };
       } catch (err) {
         console.warn(`Error processing Ethereum txn ${hash}:`, err);
         return null;
       }
-    })
+    }),
   );
 
   return transactions
@@ -205,7 +205,7 @@ export const fetchEthereumTransactions: FetchTransactionsFunction = async (
 export const sendEthereum: SendTokensFunction = async (
   fromPrivateKey,
   toAddress,
-  amount
+  amount,
 ) => {
   if (!isValidEthereumAddress(toAddress)) {
     throw new Error("Invalid recipient address");
@@ -233,7 +233,7 @@ export const sendEthereum: SendTokensFunction = async (
     amount,
     fee: getEthereumTransactionFee(
       receipt.gasUsed,
-      receipt.gasPrice ?? txn.gasPrice ?? 0n
+      receipt.gasPrice ?? txn.gasPrice ?? 0n,
     ),
     block: receipt.blockNumber.toString(),
     status: receipt.status === 1 ? "success" : "failed",
@@ -251,7 +251,7 @@ export const sendEthereum: SendTokensFunction = async (
 export const getEthereumExplorerUrl: GetExplorerUrlFunction = (
   type,
   networkMode,
-  value
+  value,
 ) => {
   return `https://${
     networkMode === "testnet" ? "sepolia." : ""

@@ -10,7 +10,7 @@ import type { Account } from "@/types";
  */
 const deriveAccount = async (
   mnemonic: string,
-  index: number
+  index: number,
 ): Promise<Account> => {
   const seed = await mnemonicToSeed(mnemonic);
 
@@ -19,11 +19,11 @@ const deriveAccount = async (
       async ([network, { deriveNetworkAccount }]) => {
         const { address, privateKey, balance } = await deriveNetworkAccount(
           seed,
-          index
+          index,
         );
         return [network, { address, privateKey, balance }] as const;
-      }
-    )
+      },
+    ),
   );
 
   return Object.fromEntries(accountEntries) as Account;

@@ -29,7 +29,7 @@ const createCanvas = (): {
  */
 export const generateQRCode = async (
   text: string,
-  logoSvgUrl?: string
+  logoSvgUrl?: string,
 ): Promise<string> => {
   const baseQR = await QRCode.toDataURL(text, QR_CONFIG);
 

@@ -64,7 +64,7 @@ const convertSolToLamports = (sol: string): number => {
   const parsed = new BigNumber(sol);
   if (parsed.isNaN() || parsed.isNegative() || parsed.isZero()) {
     throw new Error(
-      "Invalid SOL amount - must be a positive number greater than zero"
+      "Invalid SOL amount - must be a positive number greater than zero",
     );
   }
 
@@ -127,7 +127,7 @@ export const fetchSolanaBalance: FetchBalanceFunction = async (address) => {
  */
 export const deriveSolanaAccount: DeriveNetworkAccountFunction = async (
   seed,
-  index
+  index,
 ) => {
   if (!seed?.length) throw new Error("Seed cannot be empty");
 
@@ -152,7 +152,7 @@ export const deriveSolanaAccount: DeriveNetworkAccountFunction = async (
  * @returns Array of formatted transaction objects
  */
 export const fetchSolanaTransactions: FetchTransactionsFunction = async (
-  address
+  address,
 ) => {
   const pubkey = validateAndGetSolanaPublicKey(address);
   const connection = getSolanaConnection();
@@ -177,7 +177,7 @@ export const fetchSolanaTransactions: FetchTransactionsFunction = async (
             "program" in ix &&
             ix.program === "system" &&
             "parsed" in ix &&
-            ix.parsed?.type === "transfer"
+            ix.parsed?.type === "transfer",
         );
 
         if (!instruction || !("parsed" in instruction)) return null;
@@ -203,7 +203,7 @@ export const fetchSolanaTransactions: FetchTransactionsFunction = async (
         console.warn(`Failed to process transaction ${signature}:`, err);
         return null;
       }
-    })
+    }),
   );
 
   return transactions
@@ -221,7 +221,7 @@ export const fetchSolanaTransactions: FetchTransactionsFunction = async (
 export const sendSolana: SendTokensFunction = async (
   fromPrivateKey,
   toAddress,
-  amount
+  amount,
 ) => {
   const toPubkey = validateAndGetSolanaPublicKey(toAddress);
   const lamports = convertSolToLamports(amount);
@@ -233,7 +233,7 @@ export const sendSolana: SendTokensFunction = async (
       fromPubkey: fromKeypair.publicKey,
       toPubkey,
       lamports,
-    })
+    }),
   );
 
   transaction.feePayer = fromKeypair.publicKey;
@@ -245,7 +245,7 @@ export const sendSolana: SendTokensFunction = async (
     connection,
     transaction,
     [fromKeypair],
-    { maxRetries: 3, commitment: DEFAULT_COMMITMENT }
+    { maxRetries: 3, commitment: DEFAULT_COMMITMENT },
   );
 
   const txDetails = await connection.getTransaction(signature, {
@@ -282,7 +282,7 @@ export const sendSolana: SendTokensFunction = async (
 export const getSolanaExplorerUrl: GetExplorerUrlFunction = (
   type,
   networkMode,
-  value
+  value,
 ) => {
   return `https://solscan.io/${type}/${value}${
     networkMode === "testnet" ? "?cluster=devnet" : ""
@@ -297,7 +297,7 @@ export const getSolanaExplorerUrl: GetExplorerUrlFunction = (
  */
 export const requestSolanaAirdrop: RequestAirdropFunction = async (
   toAddress,
-  amount
+  amount,
 ) => {
   const pubkey = validateAndGetSolanaPublicKey(toAddress);
   const lamports = convertSolToLamports(amount);
